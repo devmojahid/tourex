@@ -285,7 +285,7 @@ function randomNumber($length = 10)
 }
 
 
-function getTranslatedSlides(object $content, string $key)
+function getTranslatedSlides(?object $content, string $key): array
 {
     if (!$content) {
         return [];
@@ -317,3 +317,4 @@ function getTranslatedSlides(object $content, string $key)
     // Fallback to English/default
     return $defaultValues;
 }
+
