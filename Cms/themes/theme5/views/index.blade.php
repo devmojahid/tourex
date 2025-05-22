@@ -7,4 +7,7 @@
     {{-- destination section --}}
     @include('theme::components.destination')
 
+    {{-- banner section --}}
+    @include('theme::components.banner')
+
 @endsection
