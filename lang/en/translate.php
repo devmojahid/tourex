@@ -1317,4 +1317,10 @@ return array(
     'Want to see our Recent News & Updates?' => 'Want to see our Recent News & Updates?',
     'Click here to View More' => 'Click here to View More',
     'Reading time' => 'Reading time',
+    'Destinations:' => 'Destinations:',
+    'Where are you going . . .' => 'Where are you going . . .',
+    'Check in:' => 'Check in:',
+    'Check Out:' => 'Check Out:',
+    'Add Guests' => 'Add Guests',
+    'Guest:' => 'Guest:',
 );
