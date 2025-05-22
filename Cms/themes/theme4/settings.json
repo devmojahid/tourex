@@ -2,7 +2,7 @@
     "theme4_hero": {
         "builder": true,
         "name": "Theme4 Hero Section",
-        "theme": "theme3",
+        "theme": "theme4",
         "order": 1,
         "page": "home",
         "content": {
@@ -30,7 +30,7 @@
     "theme4_tour_package": {
         "builder": true,
         "name": "Theme4 Tour Package",
-        "theme": "theme3",
+        "theme": "theme4",
         "order": 2,
         "page": "home",
         "content": {
@@ -63,7 +63,7 @@
     "theme4_why_choose": {
         "builder": true,
         "name": "Theme4 Why Choose Section",
-        "theme": "theme3",
+        "theme": "theme4",
         "order": 6,
         "page": "home",
         "content": {
@@ -128,7 +128,7 @@
     "theme4_destination": {
         "builder": true,
         "name": "Theme4 Destination Section",
-        "theme": "theme3",
+        "theme": "theme4",
         "order": 7,
         "page": "home",
         "content": {
@@ -149,7 +149,7 @@
     "theme4_work_process": {
         "builder": true,
         "name": "Theme4 Work Process Section",
-        "theme": "theme3",
+        "theme": "theme4",
         "order": 8,
         "page": "home",
         "content": {
@@ -206,6 +206,70 @@
                         "label": "Slide Icon",
                         "help": "Icon for this slide (45x45px recommended)",
                         "size": "45x45px"
+                    }
+                }
+            }
+        }
+    },
+    "theme4_pricing": {
+        "builder": true,
+        "name": "Theme4 Pricing Section",
+        "theme": "theme4",
+        "order": 9,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            }
+        }
+    },
+    "theme4_counter": {
+        "builder": true,
+        "name": "Theme4 Counter Section",
+        "theme": "theme4",
+        "order": 10,
+        "page": "home",
+        "content": {
+            "slides": {
+                "type": "repeater",
+                "label": "Counter Items",
+                "min": 1,
+                "max": 6,
+                "sortable": true,
+                "fields": {
+                    "icon": {
+                        "type": "image",
+                        "label": "Counter Icon",
+                        "help": "Icon for this slide (80x80px recommended)",
+                        "size": "80x80px",
+                        "required": true
+                    },
+                    "title": {
+                        "type": "text",
+                        "label": "Counter Title",
+                        "help": "Title for this slide",
+                        "required": true
+                    },
+                    "number": {
+                        "type": "number",
+                        "label": "Counter Number",
+                        "help": "Number for this slide",
+                        "required": true
+                    },
+                    "number_suffix": {
+                        "type": "text",
+                        "label": "Counter Number Suffix",
+                        "help": "Number suffix for this slide",
+                        "required": true
                     }
                 }
             }

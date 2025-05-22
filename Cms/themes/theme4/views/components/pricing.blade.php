@@ -1,3 +1,8 @@
+
+@php
+    $theme4_pricing = getContent('theme4_pricing.content', true);
+@endphp
+
 <!-- tg-pricing-area-start -->
 <div class="tg-pricing-area tg-pricing-su-wrap pb-100 pt-130 p-relative z-index-1">
     <img class="tg-pricing-su-shape d-none d-md-block p-absolute" src="{{ asset('frontend/assets/img/shape/tower.png') }}" alt="">
@@ -7,10 +12,11 @@
             <div class="col-lg-12">
                 <div class="tg-pricing-section-title-wrap text-center mb-40">
                     <h5 class="tg-section-su-subtitle su-subtitle-2 mb-15 wow fadeInUp" data-wow-delay=".4s"
-                        data-wow-duration=".9s">Popular packages</h5>
+                        data-wow-duration=".9s">{{ getTranslatedValue($theme4_pricing, 'sub_title') }}</h5>
                     <h2 class="tg-section-su-title text-capitalize wow fadeInUp mb-15" data-wow-delay=".5s"
-                        data-wow-duration=".9s">Popular Travel Destinations<br>
-                        Available Worldwide</h2>
+                        data-wow-duration=".9s">
+                        {!! strip_tags(clean(getTranslatedValue($theme4_pricing, 'title')), '<br>') !!}
+                    </h2>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">

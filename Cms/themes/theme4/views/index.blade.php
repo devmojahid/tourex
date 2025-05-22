@@ -18,5 +18,8 @@
     {{-- pricing section --}}
     @include('theme::components.pricing')
 
+    {{-- counter section --}}
+    @include('theme::components.counter')
+
 
 @endsection
