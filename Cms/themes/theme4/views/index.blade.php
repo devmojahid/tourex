@@ -9,5 +9,8 @@
     {{-- why choose section --}}
     @include('theme::components.why-choose')
 
+    {{-- destination section --}}
+    @include('theme::components.destination')
+
 
 @endsection

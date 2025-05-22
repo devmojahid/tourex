@@ -124,5 +124,26 @@
                 "size": "510x585px"
             }
         }
+    },
+    "theme4_destination": {
+        "builder": true,
+        "name": "Theme4 Destination Section",
+        "theme": "theme3",
+        "order": 7,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            }
+        }
     }
 }
