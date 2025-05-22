@@ -52,7 +52,7 @@
                                                 <div class="col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label class="crancy__item-label">{{ __('translate.Description') }}</label>
-                                                        <textarea class="crancy__item-input" name="description" rows="3">{{ old('description', $serviceType->translation->description ?? $serviceType->description) }}</textarea>
+                                                        <textarea class="crancy__item-input crancy__item-textarea summernote" name="description" rows="3">{!! clean(html_decode(old('description', $serviceType->translation->description ?? $serviceType->description))) !!}</textarea>
                                                         @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                                                     </div>
                                                 </div>
@@ -135,6 +135,7 @@
 @endsection
 
 @push('js_section')
+    <script src="{{ asset('global/tinymce/js/tinymce/tinymce.min.js') }}"></script>
     <script>
         (function($) {
             "use strict"
@@ -144,6 +145,17 @@
                     let slug = inputValue.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
                     $("#slug").val(slug);
                 })
+            });
+            tinymce.init({
+                selector: '.summernote',
+                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                tinycomments_mode: 'embedded',
+                tinycomments_author: 'Author name',
+                mergetags_list: [
+                    { value: 'First.Name', title: 'First Name' },
+                    { value: 'Email', title: 'Email' },
+                ]
             });
         })(jQuery);
     </script>

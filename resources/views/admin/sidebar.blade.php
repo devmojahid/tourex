@@ -22,6 +22,8 @@
                         </span>
                         <span class="menu-bar__name">{{ __('translate.Dashboard') }}</span></span></a>
             </li>
+            
+            @include('tourbooking::admin.sidebar')
             <li class="{{ Route::is('admin.earning-and-revenue') ? 'active' : '' }}"><a class="collapsed"
                     href="{{ route('admin.earning-and-revenue') }}"><span class="menu-bar__text">
                         <span class="crancy-menu-icon crancy-svg-icon__v1">
