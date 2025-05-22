@@ -1,8 +1,8 @@
 @php
-    $theme2_cta = getContent('theme2_cta.content', true);
+    $theme3_cta = getContent('theme3_cta.content', true);
 @endphp
 
-@if (!empty($theme2_cta))
+@if (!empty($theme3_cta))
     <!-- tg-cta-area-start -->
     <div class="tg-cta-area-area tg-cta-space z-index-9 p-relative">
         <div class="container">
@@ -13,26 +13,26 @@
                         <div class="row align-items-end">
                             <div class="col-lg-3 d-none d-lg-block">
                                 <div class="tg-cta-thumb pt-50 ml-60">
-                                    <img src="{{ asset(getSingleImage($theme2_cta, 'image')) }}" alt="">
+                                    <img src="{{ asset(getSingleImage($theme3_cta, 'image')) }}" alt="">
                                 </div>
                             </div>
                             <div class="col-lg-5 col-md-6">
                                 <div class="tg-cta-content">
                                     <h5 class="tg-section-subtitle text-white mb-10">
-                                        {{ getTranslatedValue($theme2_cta, 'sub_title') }}</h5>
+                                        {{ getTranslatedValue($theme3_cta, 'sub_title') }}</h5>
                                     <h2 class="mb-15 tg-cta-title text-white text-capitalize">
-                                        {!! strip_tags(clean(getTranslatedValue($theme2_cta, 'title')), '<br>') !!}
+                                        {!! strip_tags(clean(getTranslatedValue($theme3_cta, 'title')), '<br>') !!}
                                     </h2>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-6">
                                 <div class="tg-cta-apps">
                                     <a target="_blank" class="mb-20 d-inline-block mr-5"
-                                        href="{{ getTranslatedValue($theme2_cta, 'google_play_link') }}">
+                                        href="{{ getTranslatedValue($theme3_cta, 'google_play_link') }}">
                                         <img src="{{ asset('frontend/assets/img/shape/google.png') }}" alt="">
                                     </a>
                                     <a target="_blank" class="mb-20 d-inline-block"
-                                        href="{{ getTranslatedValue($theme2_cta, 'apple_store_link') }}"><img
+                                        href="{{ getTranslatedValue($theme3_cta, 'apple_store_link') }}"><img
                                             src="{{ asset('frontend/assets/img/shape/app.png') }}" alt="">
                                     </a>
                                 </div>
