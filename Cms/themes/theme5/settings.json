@@ -185,5 +185,48 @@
                 }
             }
         }
+    },
+    "theme5_counter": {
+        "builder": true,
+        "name": "Theme5 Counter Section",
+        "theme": "theme5",
+        "order": 5,
+        "page": "home",
+        "content": {
+            "slides": {
+                "type": "repeater",
+                "label": "Counter Items",
+                "min": 1,
+                "max": 6,
+                "sortable": true,
+                "fields": {
+                    "icon": {
+                        "type": "image",
+                        "label": "Counter Icon",
+                        "help": "Icon for this slide (70x70px recommended)",
+                        "size": "70x70px",
+                        "required": true
+                    },
+                    "title": {
+                        "type": "text",
+                        "label": "Counter Title",
+                        "help": "Title for this slide",
+                        "required": true
+                    },
+                    "number": {
+                        "type": "number",
+                        "label": "Counter Number",
+                        "help": "Number for this slide",
+                        "required": true
+                    },
+                    "number_suffix": {
+                        "type": "text",
+                        "label": "Counter Number Suffix",
+                        "help": "Number suffix for this slide",
+                        "required": true
+                    }
+                }
+            }
+        }
     }
 }
