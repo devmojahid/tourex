@@ -15,5 +15,8 @@
     {{-- work process section --}}
     @include('theme::components.work-process')
 
+    {{-- pricing section --}}
+    @include('theme::components.pricing')
+
 
 @endsection
