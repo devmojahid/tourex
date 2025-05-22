@@ -19,4 +19,7 @@
     {{-- tour package section --}}
     @include('theme::components.tour-package')
 
+    {{-- ads section --}}
+    @include('theme::components.ads')
+
 @endsection

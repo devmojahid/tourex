@@ -4,7 +4,7 @@
 
 <!-- tg-listing-area-start -->
 <div class="tg-listing-area pt-140 pb-105 p-relative z-index-9">
-    <img class="tg-listing-3-shape d-none d-xl-block" src="assets/img/banner/banner-2/shape.png" alt="">
+    <img class="tg-listing-3-shape d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/tree.png') }}" alt="">
     <div class="container">
         <div class="row align-items-end">
             <div class="col-lg-9">
