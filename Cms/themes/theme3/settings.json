@@ -329,5 +329,31 @@
                 "default": "1"
             }
         }
+    },
+    "theme3_blog": {
+        "builder": true,
+        "name": "Theme3 Blog Section",
+        "theme": "theme1",
+        "order": 8,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "description": {
+                "type": "textarea",
+                "label": "Button Text",
+                "help": "Brief description below the heading"
+            }
+        }
     }
 }
