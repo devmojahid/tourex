@@ -16,4 +16,7 @@
     {{-- counter section --}}
     @include('theme::components.counter')
 
+    {{-- tour package section --}}
+    @include('theme::components.tour-package')
+
 @endsection
