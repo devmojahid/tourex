@@ -7,8 +7,8 @@
 
 <!-- tg-testimonial-area-start -->
 <div class="tg-testimonial-area tg-grey-bg pt-100 pb-115 p-relative z-index-1">
-    <img class="tg-testimonial-3-shape p-absolute d-none d-xl-block" src="assets/img/testimonial/clock.png" alt="">
-    <img class="tg-testimonial-2-shape-1 p-absolute d-none d-lg-block" src="assets/img/testimonial/shape.png"
+    <img class="tg-testimonial-3-shape p-absolute d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/pillar.png') }}" alt="">
+    <img class="tg-testimonial-2-shape-1 p-absolute d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/parasut.png') }}"
         alt="">
     <div class="container">
         <div class="row">
