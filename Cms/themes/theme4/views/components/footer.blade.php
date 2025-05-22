@@ -1,6 +1,6 @@
 <!-- footer-area-start -->
     <footer>
-        <div class="tg-footer-area tg-footer-su-wrapper tg-footer-su-2-wrapper pt-130 include-bg" data-background="assets/img/footer/footer-3.jpg">
+        <div class="tg-footer-area tg-footer-su-wrapper tg-footer-su-2-wrapper pt-130 include-bg" data-background="{{ asset('frontend/assets/img/shape/home-1-footer-bg.jpeg') }}">
            <div class="container">
                 <div class="tg-footer-top mb-45">
                     <div class="row">
