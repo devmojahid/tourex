@@ -274,5 +274,42 @@
                 }
             }
         }
+    },
+    "theme4_cta": {
+        "builder": true,
+        "name": "Theme 4 CTA Section",
+        "theme": "theme4",
+        "order": 11,
+        "page": "home",
+        "content": {
+            "image": {
+                "type": "image",
+                "label": "Call to Action Image",
+                "help": "Call to action image (520x370px recommended)",
+                "size": "520x370px"
+            },
+            "sub_title": {
+                "type": "text",
+                "label": "Call to Action Subtitle",
+                "required": true,
+                "help": "Call to action subtitle"
+            },
+            "title": {
+                "type": "text",
+                "label": "Call to Action Title",
+                "help": "Call to action title",
+                "required": true
+            },
+            "apple_store_link": {
+                "type": "text",
+                "label": "Apple Store Link",
+                "help": "Apple store link"
+            },
+            "google_play_link": {
+                "type": "text",
+                "label": "Google Play Link",
+                "help": "Google play link"
+            }
+        }
     }
 }
