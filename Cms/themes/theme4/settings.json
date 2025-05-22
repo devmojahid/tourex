@@ -311,5 +311,31 @@
                 "help": "Google play link"
             }
         }
+    },
+    "theme4_testimonial": {
+        "builder": true,
+        "name": "Theme4 Testimonial Section",
+        "theme": "theme4",
+        "order": 12,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "description": {
+                "type": "textarea",
+                "label": "Button Text",
+                "help": "Brief description below the heading"
+            }
+        }
     }
 }
