@@ -59,5 +59,70 @@
                 "help": "Url to display on the button"
             }
         }
+    },
+    "theme4_why_choose": {
+        "builder": true,
+        "name": "Theme4 Why Choose Section",
+        "theme": "theme3",
+        "order": 6,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "description": {
+                "type": "textarea",
+                "label": "Description",
+                "help": "Description with HTML formatting"
+            },
+            "slides": {
+                "type": "repeater",
+                "label": "Slider Items",
+                "min": 1,
+                "max": 6,
+                "sortable": true,
+                "fields": {
+                    "title": {
+                        "type": "text",
+                        "label": "Slide Title",
+                        "help": "Title for this slide",
+                        "required": true
+                    },
+                    "short_description": {
+                        "type": "text",
+                        "label": "Slide Short Description",
+                        "help": "Short Description for this slide",
+                        "required": true
+                    },
+                    "icon": {
+                        "type": "image",
+                        "label": "Slide Icon",
+                        "help": "Icon for this slide (65x65px recommended)",
+                        "size": "65x65px"
+                    }
+                }
+            },
+            "left_side_image": {
+                "type": "image",
+                "label": "Left Side Image",
+                "help": "Left image (280x290px recommended)",
+                "size": "280x290px"
+            },
+            "right_side_image": {
+                "type": "image",
+                "label": "Right Side Image",
+                "help": "Right image (510x585px recommended)",
+                "size": "510x585px"
+            }
+        }
     }
 }
