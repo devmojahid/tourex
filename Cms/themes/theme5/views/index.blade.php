@@ -10,4 +10,7 @@
     {{-- banner section --}}
     @include('theme::components.banner')
 
+    {{-- why choose section --}}
+    @include('theme::components.why-choose')
+
 @endsection
