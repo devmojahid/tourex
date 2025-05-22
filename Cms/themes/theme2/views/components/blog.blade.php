@@ -12,8 +12,10 @@
 
 <!-- blog-area-start -->
 <div class="tg-blog-area tg-blog-space-2 pt-130 p-relative z-index-1">
-    <img class="tg-blog-2-shape p-absolute d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/stadium.png') }}" alt="">
-    <img class="tg-blog-2-shape-1 p-absolute d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/book.png') }}" alt="">
+    <img class="tg-blog-2-shape p-absolute d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/stadium.png') }}"
+        alt="">
+    <img class="tg-blog-2-shape-1 p-absolute d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/book.png') }}"
+        alt="">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">

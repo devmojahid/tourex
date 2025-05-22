@@ -27,5 +27,8 @@
     {{-- testimonial section --}}
     @include('theme::components.testimonial')
 
+    {{-- blog section --}}
+    @include('theme::components.blog')
+
 
 @endsection

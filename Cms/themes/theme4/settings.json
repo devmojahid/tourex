@@ -337,5 +337,31 @@
                 "help": "Brief description below the heading"
             }
         }
+    },
+    "theme4_blog": {
+        "builder": true,
+        "name": "Theme4 Blog Section",
+        "theme": "theme4",
+        "order": 13,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "description": {
+                "type": "textarea",
+                "label": "Button Text",
+                "help": "Brief description below the heading"
+            }
+        }
     }
 }
