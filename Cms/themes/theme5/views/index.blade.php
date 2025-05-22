@@ -28,4 +28,7 @@
     {{-- blog section --}}
     @include('theme::components.blog')
 
+    {{-- cta section --}}
+    @include('theme::components.cta')
+
 @endsection
