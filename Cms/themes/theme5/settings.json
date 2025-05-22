@@ -295,17 +295,54 @@
                         "help": "Description for this slide",
                         "required": true
                     },
-                     "button_text": {
+                    "button_text": {
                         "type": "text",
                         "label": "Button Text",
                         "help": "Text to display on the button"
                     },
-                     "button_url": {
+                    "button_url": {
                         "type": "text",
                         "label": "Button Url",
                         "help": "Url to display on the button"
                     }
                 }
+            }
+        }
+    },
+    "theme5_testimonial": {
+        "builder": true,
+        "name": "Theme5 Testimonial Section",
+        "theme": "theme5",
+        "order": 8,
+        "page": "home",
+        "content": {
+            "show_pagination": {
+                "type": "radio",
+                "label": "Show Pagination",
+                "required": true,
+                "options": {
+                    "1": "Yes",
+                    "0": "No"
+                },
+                "inline": true,
+                "default": "1"
+            },
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "description": {
+                "type": "textarea",
+                "label": "Button Text",
+                "help": "Brief description below the heading"
             }
         }
     }

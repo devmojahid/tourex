@@ -22,4 +22,7 @@
     {{-- ads section --}}
     @include('theme::components.ads')
 
+    {{-- testimonial section --}}
+    @include('theme::components.testimonial')
+
 @endsection
