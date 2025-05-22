@@ -64,7 +64,7 @@
         "builder": true,
         "name": "Theme4 Why Choose Section",
         "theme": "theme4",
-        "order": 6,
+        "order": 3,
         "page": "home",
         "content": {
             "sub_title": {
@@ -129,7 +129,7 @@
         "builder": true,
         "name": "Theme4 Destination Section",
         "theme": "theme4",
-        "order": 7,
+        "order": 4,
         "page": "home",
         "content": {
             "sub_title": {
@@ -150,7 +150,7 @@
         "builder": true,
         "name": "Theme4 Work Process Section",
         "theme": "theme4",
-        "order": 8,
+        "order": 5,
         "page": "home",
         "content": {
             "sub_title": {
@@ -215,7 +215,7 @@
         "builder": true,
         "name": "Theme4 Pricing Section",
         "theme": "theme4",
-        "order": 9,
+        "order": 6,
         "page": "home",
         "content": {
             "sub_title": {
@@ -236,7 +236,7 @@
         "builder": true,
         "name": "Theme4 Counter Section",
         "theme": "theme4",
-        "order": 10,
+        "order": 7,
         "page": "home",
         "content": {
             "slides": {
@@ -279,7 +279,7 @@
         "builder": true,
         "name": "Theme 4 CTA Section",
         "theme": "theme4",
-        "order": 11,
+        "order": 8,
         "page": "home",
         "content": {
             "image": {
@@ -316,7 +316,7 @@
         "builder": true,
         "name": "Theme4 Testimonial Section",
         "theme": "theme4",
-        "order": 12,
+        "order": 9,
         "page": "home",
         "content": {
             "sub_title": {
@@ -342,7 +342,7 @@
         "builder": true,
         "name": "Theme4 Blog Section",
         "theme": "theme4",
-        "order": 13,
+        "order": 10,
         "page": "home",
         "content": {
             "sub_title": {
