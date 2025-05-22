@@ -12,5 +12,8 @@
     {{-- destination section --}}
     @include('theme::components.destination')
 
+    {{-- work process section --}}
+    @include('theme::components.work-process')
+
 
 @endsection
