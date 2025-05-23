@@ -1,34 +1,33 @@
 @php
     use Modules\Testimonial\App\Models\Testimonial;
 
-    $theme4_testimonial = getContent('theme4_testimonial.content', true);
+    $theme5_testimonial = getContent('theme5_testimonial.content', true);
     $testimonials = Testimonial::with('translate')->where('status', 'active')->latest()->get();
 @endphp
 
 <!-- tg-testimonial-area-start -->
-<div class="tg-testimonial-area tg-testimonial-su-2 pt-130 pb-100">
+<div class="tg-testimonial-area tg-grey-bg pt-100 pb-115 p-relative z-index-1">
+    <img class="tg-testimonial-3-shape p-absolute d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/pillar.png') }}" alt="">
+    <img class="tg-testimonial-2-shape-1 p-absolute d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/parasut.png') }}"
+        alt="">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-7 col-lg-8 col-md-8">
-                <div class="tg-location-section-title text-center mb-40">
-                    <h5 class="tg-section-su-subtitle su-subtitle-2 mb-20 wow fadeInUp" data-wow-delay=".4s"
-                        data-wow-duration=".9s">
-                        {{ getTranslatedValue($theme4_testimonial, 'sub_title') }}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tg-location-section-title text-center mb-30">
+                    <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
+                        {{ getTranslatedValue($theme5_testimonial, 'sub_title') }}
                     </h5>
-                    <h2 class="tg-section-su-title text-capitalize wow fadeInUp mb-15" data-wow-delay=".5s"
-                        data-wow-duration=".9s">
-                        {{ getTranslatedValue($theme4_testimonial, 'title') }}
+                    <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
+                        {!! strip_tags(clean(getTranslatedValue($theme5_testimonial, 'title')), '<br>') !!}
                     </h2>
-                    <p class="tg-section-su-para tg-section-su-para-2 mb-0">
-                        {!! strip_tags(clean(getTranslatedValue($theme4_testimonial, 'description')), '<br>') !!}
+                    <p class="text-capitalize wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">
+                        {!! strip_tags(clean(getTranslatedValue($theme5_testimonial, 'description')), '<br>') !!}
                     </p>
                 </div>
             </div>
-        </div>
-        @if ($testimonials->count() > 0)
-            <div class="row">
-                <div class="swiper-container tg-testimonial-slider fix">
-                    <div class="swiper-wrapper">
+            @if ($testimonials->count() > 0)
+                <div class="swiper-container tg-testimonial-slider p-relative fix">
+                    <div class="swiper-wrapper mb-40">
                         @foreach ($testimonials as $key => $testimonial)
                             <div class="swiper-slide">
                                 <div class="tg-testimonial-item mb-30">
@@ -72,9 +71,12 @@
                             </div>
                         @endforeach
                     </div>
+                    @if (getTranslatedValue($theme5_testimonial, 'show_pagination') == '1')
+                        <div class="tg-testimonial-2-pagination swiper-pagination"></div>
+                    @endif
                 </div>
-            </div>
-        @endif
+            @endif
+        </div>
     </div>
 </div>
 <!-- tg-testimonial-area-end -->
@@ -83,7 +85,7 @@
     <style>
         .tg-ratting-star span i {
             color: #ded9ce;
-            font-size: 18px;
+            font-size: 14px;
         }
 
         .tg-ratting-star span.active i {

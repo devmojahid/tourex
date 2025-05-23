@@ -1,143 +1,101 @@
 @php
-    $theme4_destination = getContent('theme4_destination.content', true);
+    $theme5_destination = getContent('theme5_destination.content', true);
 @endphp
 
 <!-- tg-location-area-start -->
-<div class="tg-location-area tg-location-su-2-wrap fix pt-120 pb-90 p-relative">
+<div class="tg-location-area p-relative pb-125 pt-135">
+    <img class="tg-location-shape shape-3 d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/tower.png') }}"
+        alt="shape">
+    <img class="tg-testimonial-2-shape-1 p-absolute d-none d-lg-block"
+        src="{{ asset('frontend/assets/img/shape/parasut.png') }}" alt="">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="tg-location-section-title-wrap text-center mb-40">
-                    <h5 class="tg-section-su-subtitle su-subtitle-2 mb-15 wow fadeInUp" data-wow-delay=".4s"
-                        data-wow-duration=".9s">
-                        {{ getTranslatedValue($theme4_destination, 'sub_title') }}
+        <div class="row align-items-end">
+            <div class="col-lg-9">
+                <div class="tg-location-section-title mb-40">
+                    <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
+                        {{ getTranslatedValue($theme5_destination, 'sub_title') }}
                     </h5>
-                    <h2 class="tg-section-su-title text-capitalize wow fadeInUp mb-15" data-wow-delay=".5s"
-                        data-wow-duration=".9s">
-                        {{ getTranslatedValue($theme4_destination, 'title') }}
+                    <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
+                        {!! strip_tags(clean(getTranslatedValue($theme5_destination, 'title')), '<br>') !!}
                     </h2>
                 </div>
             </div>
+            <div class="col-lg-3">
+                <div class="tg-location-3-btn text-end wow fadeInUp mb-40" data-wow-delay=".6s" data-wow-duration=".9s">
+                    <a href="{{ getTranslatedValue($theme5_destination, 'button_url') }}"
+                        class="tg-btn tg-btn-gray tg-btn-switch-animation">
+                        <span class="d-flex align-items-center justify-content-center">
+                            <span class="btn-text">{{ getTranslatedValue($theme5_destination, 'button_text') }}</span>
+                            <span class="btn-icon ml-5">
+                                <svg width="21" height="16" viewBox="0 0 21 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M1.0017 8.00001H19.9514M19.9514 8.00001L12.9766 1.02515M19.9514 8.00001L12.9766 14.9749"
+                                        stroke="currentColor" stroke-width="1.77778" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <span class="btn-icon ml-5">
+                                <svg width="21" height="16" viewBox="0 0 21 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M1.0017 8.00001H19.9514M19.9514 8.00001L12.9766 1.02515M19.9514 8.00001L12.9766 14.9749"
+                                        stroke="currentColor" stroke-width="1.77778" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                        </span>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="row gx-30">
-            <div class="col-xl-3 col-lg-4 col-md-6 mb-30">
-                <div class="tg-location-3-wrap tg-location-su-wrap p-relative tg-round-25 wow fadeInUp"
-                    data-wow-delay=".3s" data-wow-duration=".9s">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".9s">
+                <div class="tg-location-3-wrap p-relative mb-30 tg-round-25">
                     <div class="tg-location-thumb tg-round-25">
-                        <img class="w-100 tg-round-25" src="assets/img/location/su/destination.jpg" alt="location">
+                        <img class="w-100 tg-round-25" src="assets/img/location/location-2/thumb.jpg" alt="location">
                     </div>
-                    <div class="tg-location-content tg-location-su-content">
-                        <div class="content">
-                            <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">New York City</a></h3>
-                        </div>
-                        <a class="icons" href="tour-grid-1.html">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
+                    <div class="tg-location-content text-center">
+                        <span class="tg-location-time">05 Tours</span>
+                        <h3 class="tg-location-title mb-0"><a href="map-listing.html">New york City</a></h3>
                     </div>
+                    <div class="tg-location-border"></div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 mb-30">
-                <div class="tg-location-3-wrap tg-location-su-wrap p-relative tg-round-25 wow fadeInUp"
-                    data-wow-delay=".4s" data-wow-duration=".9s">
+            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
+                <div class="tg-location-3-wrap p-relative mb-30 tg-round-25">
                     <div class="tg-location-thumb tg-round-25">
-                        <img class="w-100 tg-round-25" src="assets/img/location/su/destination-2.jpg" alt="location">
+                        <img class="w-100 tg-round-25" src="assets/img/location/location-2/thumb-2.jpg" alt="location">
                     </div>
-                    <div class="tg-location-content tg-location-su-content">
-                        <div class="content">
-                            <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">Australia</a></h3>
-                        </div>
-                        <a class="icons" href="tour-grid-1.html">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
+                    <div class="tg-location-content text-center">
+                        <span class="tg-location-time">12 Tours</span>
+                        <h3 class="tg-location-title mb-0"><a href="map-listing.html">Australia City</a></h3>
                     </div>
+                    <div class="tg-location-border"></div>
                 </div>
             </div>
-            <div class="col-xl-6 col-lg-4 col-md-6 mb-30">
-                <div class="tg-location-3-wrap  tg-location-su-wrap  p-relative tg-round-25 wow fadeInUp"
-                    data-wow-delay=".5s" data-wow-duration=".9s">
+            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
+                <div class="tg-location-3-wrap p-relative mb-30 tg-round-25">
                     <div class="tg-location-thumb tg-round-25">
-                        <img class="w-100 tg-round-25" src="assets/img/location/su/destination-3.jpg" alt="location">
+                        <img class="w-100 tg-round-25" src="assets/img/location/location-2/thumb-3.jpg" alt="location">
                     </div>
-                    <div class="tg-location-content tg-location-su-content">
-                        <div class="content">
-                            <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">California City</a></h3>
-                        </div>
-                        <a class="icons" href="tour-grid-1.html">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
+                    <div class="tg-location-content text-center">
+                        <span class="tg-location-time">06 Tours</span>
+                        <h3 class="tg-location-title mb-0"><a href="map-listing.html">Switzerland City</a></h3>
                     </div>
+                    <div class="tg-location-border"></div>
                 </div>
             </div>
-            <div class="col-xl-6 col-lg-4 col-md-6 mb-30">
-                <div class="tg-location-3-wrap  tg-location-su-wrap  p-relative tg-round-25 wow fadeInUp"
-                    data-wow-delay=".6s" data-wow-duration=".9s">
+            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">
+                <div class="tg-location-3-wrap p-relative mb-30 tg-round-25">
                     <div class="tg-location-thumb tg-round-25">
-                        <img class="w-100 tg-round-25" src="assets/img/location/su/destination-4.jpg" alt="location">
+                        <img class="w-100 tg-round-25" src="assets/img/location/location-2/thumb-4.jpg" alt="location">
                     </div>
-                    <div class="tg-location-content tg-location-su-content">
-                        <div class="content">
-                            <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">Japan</a></h3>
-                        </div>
-                        <a class="icons" href="tour-grid-1.html">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
+                    <div class="tg-location-content text-center">
+                        <span class="tg-location-time">08 Tours</span>
+                        <h3 class="tg-location-title mb-0"><a href="map-listing.html">Germany City </a></h3>
                     </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 mb-30">
-                <div class="tg-location-3-wrap tg-location-su-wrap p-relative tg-round-25 wow fadeInUp"
-                    data-wow-delay=".7s" data-wow-duration=".9s">
-                    <div class="tg-location-thumb tg-round-25">
-                        <img class="w-100 tg-round-25" src="assets/img/location/su/destination-5.jpg" alt="location">
-                    </div>
-                    <div class="tg-location-content tg-location-su-content">
-                        <div class="content">
-                            <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">Spain City</a></h3>
-                        </div>
-                        <a class="icons" href="tour-grid-1.html">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 mb-30">
-                <div class="tg-location-3-wrap tg-location-su-wrap p-relative tg-round-25 wow fadeInUp"
-                    data-wow-delay=".8s" data-wow-duration=".9s">
-                    <div class="tg-location-thumb tg-round-25">
-                        <img class="w-100 tg-round-25" src="assets/img/location/su/destination-6.jpg" alt="location">
-                    </div>
-                    <div class="tg-location-content tg-location-su-content">
-                        <div class="content">
-                            <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">Paris</a></h3>
-                        </div>
-                        <a class="icons" href="tour-grid-1.html">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                    </div>
+                    <div class="tg-location-border"></div>
                 </div>
             </div>
         </div>
