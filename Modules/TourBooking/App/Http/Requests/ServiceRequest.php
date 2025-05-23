@@ -17,6 +17,41 @@ class ServiceRequest extends FormRequest
         return true;
     }
 
+       /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        // Convert textarea strings to arrays for fields that need it
+        $textareaFields = ['included', 'excluded'];
+        
+        foreach ($textareaFields as $field) {
+            if ($this->has($field) && is_string($this->input($field))) {
+                $this->merge([
+                    $field => $this->convertTextareaToArray($this->input($field))
+                ]);
+            }
+        }
+    }
+
+       /**
+     * Convert textarea content to array (one item per line)
+     */
+    private function convertTextareaToArray($text): array
+    {
+        if (empty($text)) {
+            return [];
+        }
+        
+        // Split by new lines, trim whitespace, and remove empty lines
+        return array_filter(
+            array_map('trim', preg_split('/\r\n|\r|\n/', $text)),
+            function($item) {
+                return !empty($item);
+            }
+        );
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -41,7 +76,9 @@ class ServiceRequest extends FormRequest
             'deposit_required' => 'nullable|boolean',
             'deposit_percentage' => 'nullable|integer|min:0|max:100',
             'included' => 'nullable|array',
+            'included.*' => 'string|max:255', // Validate each item in the array
             'excluded' => 'nullable|array',
+            'excluded.*' => 'string|max:255', // Validate each item in the array
             'duration' => 'nullable|string|max:100',
             'group_size' => 'nullable|string|max:100',
             'languages' => 'nullable|array',
@@ -102,6 +139,12 @@ class ServiceRequest extends FormRequest
             'email.email' => trans('translate.Invalid email format'),
             'video_url.url' => trans('translate.Invalid URL format'),
             'website.url' => trans('translate.Invalid URL format'),
+            'included.array' => 'The included field must contain valid items.',
+            'excluded.array' => 'The excluded field must contain valid items.',
+            'included.*.string' => 'Each included item must be text.',
+            'excluded.*.string' => 'Each excluded item must be text.',
+            'included.*.max' => 'Each included item cannot exceed 255 characters.',
+            'excluded.*.max' => 'Each excluded item cannot exceed 255 characters.',
         ];
     }
 } 
