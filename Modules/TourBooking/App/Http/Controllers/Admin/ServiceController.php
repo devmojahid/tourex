@@ -699,4 +699,16 @@ final class ServiceController extends Controller
     {
         return $this->getByType('activities');
     }
+
+    /**
+     * Show media management for a service.
+     */
+    public function showMedia(Service $service): View
+    {
+        $service->load(['media' => function ($query) {
+            $query->orderBy('display_order')->orderBy('created_at', 'desc');
+        }]);
+        
+        return view('tourbooking::admin.services.media', compact('service'));
+    }
 } 

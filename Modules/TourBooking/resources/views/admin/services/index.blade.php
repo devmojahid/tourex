@@ -152,6 +152,9 @@
                                                                 <li><a class="dropdown-item"
                                                                         href="{{ route('admin.tourbooking.services.availability', $service->id) }}">{{ __('translate.Availability') }}</a>
                                                                 </li>
+                                                                <li><a class="dropdown-item"
+                                                                        href="{{ route('admin.tourbooking.services.media', $service->id) }}">{{ __('translate.Media Gallery') }}</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </td>

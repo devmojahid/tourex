@@ -49,6 +49,7 @@ Route::group(['as'=> 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mid
     Route::post('services/{service}/media', [ServiceController::class, 'storeMedia'])->name('services.media.store');
     Route::delete('services/media/{media}', [ServiceController::class, 'deleteMedia'])->name('services.media.destroy');
     Route::post('services/media/{media}/set-thumbnail', [ServiceController::class, 'setThumbnail'])->name('services.media.set-thumbnail');
+    Route::get('services/{service}/media', [ServiceController::class, 'showMedia'])->name('services.media');
     
     // Itineraries
     Route::get('services/{service}/itineraries', [ServiceController::class, 'showItineraries'])->name('services.itineraries');

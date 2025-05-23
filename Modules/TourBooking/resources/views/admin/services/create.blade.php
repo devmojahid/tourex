@@ -721,6 +721,10 @@
                                     </div>
 
                                     <div class="col-12 mg-top-30">
+                                        <div class="alert alert-info">
+                                            <i class="fa fa-info-circle"></i>
+                                            {{ __('translate.After creating the service, you can upload images and videos from the Media Gallery section.') }}
+                                        </div>
                                         <button class="crancy-btn"
                                             type="submit">{{ __('translate.Create Service') }}</button>
                                     </div>

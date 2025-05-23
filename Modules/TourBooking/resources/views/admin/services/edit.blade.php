@@ -796,6 +796,12 @@
                                     </div>
 
                                     <div class="col-12 mg-top-30">
+                                        <div class="alert alert-info">
+                                            <i class="fa fa-info-circle"></i>
+                                            {{ __('translate.Manage service images and videos in the') }}
+                                            <a href="{{ route('admin.tourbooking.services.media', $service->id) }}"
+                                                class="alert-link">{{ __('translate.Media Gallery') }}</a>
+                                        </div>
                                         <button class="crancy-btn"
                                             type="submit">{{ __('translate.Update Service') }}</button>
                                     </div>
