@@ -103,7 +103,7 @@ final class ServiceController extends Controller
         $notify_message = trans('translate.Created successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         
-        return redirect()->route('admin.tourbooking.services.edit', $service->id)->with($notify_message);
+        return redirect()->route('admin.tourbooking.services.edit', ['service' => $service->id, 'lang_code' => admin_lang()])->with($notify_message); 
     }
 
     /**
@@ -116,6 +116,7 @@ final class ServiceController extends Controller
         return view('tourbooking::admin.services.show', compact('service'));
     }
 
+   
     /**
      * Show the form for editing the specified service.
      */
@@ -138,12 +139,43 @@ final class ServiceController extends Controller
             'locale' => $lang_code
         ])->first();
         
+        // Convert JSON fields back to newline-separated strings for textarea display
+        $jsonFields = ['included', 'excluded', 'amenities', 'facilities', 'rules', 'safety'];
+        
+        foreach ($jsonFields as $field) {
+            // Check translation first, then service
+            $value = $translation->$field ?? $service->$field ?? null;
+            
+            if ($value) {
+                if (is_array($value)) {
+                    // Already an array, convert to newline-separated string
+                    if ($translation && isset($translation->$field)) {
+                        $translation->$field = implode("\n", $value);
+                    } else {
+                        $service->$field = implode("\n", $value);
+                    }
+                } elseif (is_string($value)) {
+                    // Try to decode JSON
+                    $decoded = json_decode($value, true);
+                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                        // Convert array back to newline-separated string
+                        if ($translation && isset($translation->$field)) {
+                            $translation->$field = implode("\n", $decoded);
+                        } else {
+                            $service->$field = implode("\n", $decoded);
+                        }
+                    }
+                    // If it's already a plain string, leave it as is
+                }
+            }
+        }
+        
         $serviceTypes = $this->serviceTypeRepository->getActive();
         
         return view('tourbooking::admin.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code'));
     }
 
-    /**
+   /**
      * Update the specified service in storage.
      */
     public function update(ServiceRequest $request, Service $service): RedirectResponse
@@ -153,11 +185,25 @@ final class ServiceController extends Controller
         
         // Handle main service update only if we're editing in the admin language
         if ($lang_code === admin_lang()) {
-            // Handle JSON fields
+            // Handle JSON fields - convert newline-separated strings to arrays
             $jsonFields = ['included', 'excluded', 'languages', 'amenities', 'facilities', 'rules', 'safety', 'social_links'];
             foreach ($jsonFields as $field) {
-                if (isset($data[$field]) && is_array($data[$field])) {
-                    $data[$field] = json_encode($data[$field]);
+                if (isset($data[$field])) {
+                    if (is_string($data[$field])) {
+                        // Check if it's already valid JSON
+                        $decoded = json_decode($data[$field], true);
+                        if (json_last_error() !== JSON_ERROR_NONE) {
+                            // Not JSON, treat as newline-separated string
+                            $lines = array_filter(
+                                array_map('trim', explode("\n", $data[$field])),
+                                function($line) { return $line !== ''; }
+                            );
+                            $data[$field] = json_encode(array_values($lines));
+                        }
+                        // If it's already valid JSON, keep it as is
+                    } elseif (is_array($data[$field])) {
+                        $data[$field] = json_encode($data[$field]);
+                    }
                 }
             }
             
@@ -185,7 +231,23 @@ final class ServiceController extends Controller
         $translationJsonFields = ['included', 'excluded', 'amenities', 'facilities', 'rules', 'safety', 'cancellation_policy'];
         foreach ($translationJsonFields as $field) {
             if (isset($data[$field])) {
-                $translationData[$field] = $data[$field];
+                if (is_string($data[$field])) {
+                    // Check if it's already valid JSON
+                    $decoded = json_decode($data[$field], true);
+                    if (json_last_error() !== JSON_ERROR_NONE) {
+                        // Not JSON, treat as newline-separated string
+                        $lines = array_filter(
+                            array_map('trim', explode("\n", $data[$field])),
+                            function($line) { return $line !== ''; }
+                        );
+                        $translationData[$field] = json_encode(array_values($lines));
+                    } else {
+                        // Already valid JSON, use as is
+                        $translationData[$field] = $data[$field];
+                    }
+                } else {
+                    $translationData[$field] = $data[$field];
+                }
             }
         }
         
@@ -196,7 +258,6 @@ final class ServiceController extends Controller
         
         return back()->with($notify_message);
     }
-
     /**
      * Remove the specified service from storage.
      */

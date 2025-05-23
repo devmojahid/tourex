@@ -1379,4 +1379,6 @@ return array(
     "Create Service Type" => "Create Service Type",
     "Service Type List" => "Service Type List",
     "Edit Service Type" => "Edit Service Type",
+    "Edit Service" => "Edit Service",
+    "Update Service" => "Update Service",
 );

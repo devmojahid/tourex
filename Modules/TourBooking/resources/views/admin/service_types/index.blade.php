@@ -17,7 +17,8 @@
                         <div class="crancy-dsinner">
                             <div class="crancy-table crancy-table--v3 mg-top-30">
                                 <div class="crancy-customer-filter">
-                                    <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
+                                    <div
+                                        class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
                                         <div
                                             class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
                                             <div class="create_new_btn_inline_box">
@@ -35,17 +36,23 @@
                                     <table class="crancy-table__main crancy-table__main-v3  no-footer" id="dataTable">
                                         <thead class="crancy-table__head">
                                             <tr>
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Icon/Image') }}</th>
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Name') }}</th>
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Services Count') }}</th>
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Featured') }}</th>
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Status') }}</th>
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Action') }}</th>
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
+                                                    {{ __('translate.Icon/Image') }}</th>
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
+                                                    {{ __('translate.Name') }}</th>
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
+                                                    {{ __('translate.Services Count') }}</th>
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
+                                                    {{ __('translate.Featured') }}</th>
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
+                                                    {{ __('translate.Status') }}</th>
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
+                                                    {{ __('translate.Action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody class="crancy-table__body">
                                             @foreach ($serviceTypes as $serviceType)
-                                            <tr class="odd">
+                                                <tr class="odd">
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($serviceType->image)
                                                             <img src="{{ asset('storage/' . $serviceType->image) }}"
@@ -58,9 +65,11 @@
                                                             <i class="fa fa-cubes" style="font-size: 24px;"></i>
                                                         @endif
                                                     </td>
-                                                    <td class="crancy-table__column-2 crancy-table__data-2">{{ $serviceType->translation->name ?? $serviceType->name }}
+                                                    <td class="crancy-table__column-2 crancy-table__data-2">
+                                                        {{ $serviceType->translation->name ?? $serviceType->name }}
                                                     </td>
-                                                    <td class="crancy-table__column-2 crancy-table__data-2">{{ $serviceType->services->count() }}</td>
+                                                    <td class="crancy-table__column-2 crancy-table__data-2">
+                                                        {{ $serviceType->services->count() }}</td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($serviceType->is_featured)
                                                             <span
@@ -80,21 +89,21 @@
                                                         @endif
                                                     </td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                            <a href="{{ route('admin.tourbooking.service-types.edit', ['service_type' => $serviceType->id, 'lang_code' => admin_lang()]) }}"
-                                                                class="crancy-action__btn crancy-action__edit crancy-btn"><i
-                                                                    class="fa fa-edit"></i>
-                                                                    {{ __('translate.Edit') }}
-                                                                </a>
-                                                            <a href="{{ route('admin.tourbooking.service-types.show', $serviceType->id) }}"
-                                                                class="crancy-action__btn crancy-action__view crancy-btn"><i
-                                                                    class="fa fa-eye"></i>
-                                                                </a>
+                                                        <a href="{{ route('admin.tourbooking.service-types.edit', ['service_type' => $serviceType->id, 'lang_code' => admin_lang()]) }}"
+                                                            class="crancy-action__btn crancy-action__edit crancy-btn"><i
+                                                                class="fa fa-edit"></i>
+                                                            {{ __('translate.Edit') }}
+                                                        </a>
+                                                        <a href="{{ route('admin.tourbooking.service-types.show', $serviceType->id) }}"
+                                                            class="crancy-action__btn crancy-action__view crancy-btn"><i
+                                                                class="fa fa-eye"></i>
+                                                        </a>
 
-                                                            <a href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#deleteModal{{ $serviceType->id }}"
-                                                                class="crancy-action__btn crancy-action__delete crancy-btn delete_danger_btn"><i
-                                                                    class="fa fa-trash"></i>
-                                                                </a>
+                                                        <a href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#deleteModal{{ $serviceType->id }}"
+                                                            class="crancy-action__btn crancy-action__delete crancy-btn delete_danger_btn"><i
+                                                                class="fa fa-trash"></i>
+                                                        </a>
                                                     </td>
 
                                                     <!-- Delete Modal -->

@@ -1,11 +1,11 @@
 @extends('admin.master_layout')
 @section('title')
-    <title>{{ __('translate.Create Service') }}</title>
+    <title>{{ __('translate.Edit Service') }}</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Create Service') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Tour Booking') }} >> {{ __('translate.Create Service') }}</p>
+    <h3 class="crancy-header__title m-0">{{ __('translate.Edit Service') }}</h3>
+    <p class="crancy-header__text">{{ __('translate.Tour Booking') }} >> {{ __('translate.Edit Service') }}</p>
 @endsection
 
 @push('style_section')
@@ -80,18 +80,86 @@
     </style>
 @endpush
 
-
-
 @section('body-content')
+    <!-- crancy Dashboard -->
+    <section class="crancy-adashboard crancy-show">
+        <div class="container container__bscreen">
+            <div class="row">
+                <div class="col-12">
+                    <div class="crancy-body">
+                        <!-- Dashboard Inner -->
+                        <div class="crancy-dsinner">
+                            <div class="row">
+                                <div class="col-12 mg-top-30">
+                                    <!-- Product Card -->
+                                    <div class="crancy-product-card translation_main_box">
+
+                                        <div class="crancy-customer-filter">
+                                            <div
+                                                class="crancy-customer-filter__single crancy-customer-filter__single--csearch">
+                                                <div class="crancy-header__form crancy-header__form--customer">
+                                                    <h4 class="crancy-product-card__title">
+                                                        {{ __('translate.Switch to language translation') }}</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="translation_box">
+                                            <ul>
+                                                @foreach ($language_list as $language)
+                                                    <li><a
+                                                            href="{{ route('admin.tourbooking.services.edit', ['service' => $service->id, 'lang_code' => $language->lang_code]) }}">
+                                                            @if (request()->get('lang_code') == $language->lang_code)
+                                                                <i class="fas fa-eye"></i>
+                                                            @else
+                                                                <i class="fas fa-edit"></i>
+                                                            @endif
+
+                                                            {{ $language->lang_name }}
+                                                        </a></li>
+                                                @endforeach
+                                            </ul>
+
+                                            <div class="alert alert-secondary" role="alert">
+
+                                                @php
+                                                    $edited_language = $language_list
+                                                        ->where('lang_code', request()->get('lang_code'))
+                                                        ->first();
+                                                @endphp
+
+                                                <p>{{ __('translate.Your editing mode') }} :
+                                                    <b>{{ isset($edited_language) ? $edited_language->lang_name : 'Default' }}</b>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- End Product Card -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Dashboard Inner -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End crancy Dashboard -->
     <section class="crancy-adashboard crancy-show">
         <div class="container container__bscreen">
             <div class="row">
                 <div class="col-12">
                     <div class="crancy-body">
                         <div class="crancy-dsinner">
-                            <form action="{{ route('admin.tourbooking.services.store') }}" method="POST"
-                                enctype="multipart/form-data">
+                            <form
+                                action="{{ route('admin.tourbooking.services.update', ['service' => $service->id, 'lang_code' => $lang_code]) }}"
+                                method="POST" enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT')
+                                <input type="hidden" name="translate_id" value="{{ $translation->id ?? '' }}">
+                                <input type="hidden" name="lang_code" value="{{ $lang_code }}">
+
                                 <div class="row">
                                     <div class="col-12 mg-top-30">
                                         <div class="crancy-product-card">
@@ -109,7 +177,9 @@
                                                         <label class="crancy__item-label">{{ __('translate.Title') }}
                                                             *</label>
                                                         <input class="crancy__item-input" type="text" name="title"
-                                                            id="title" value="{{ old('title') }}" required>
+                                                            id="title"
+                                                            value="{{ old('title', $translation->title ?? $service->title) }}"
+                                                            required>
                                                         @error('title')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -121,7 +191,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Slug') }}</label>
                                                         <input class="crancy__item-input" type="text" name="slug"
-                                                            id="slug" value="{{ old('slug') }}">
+                                                            id="slug" value="{{ old('slug', $service->slug) }}">
                                                         @error('slug')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -138,7 +208,7 @@
                                                             </option>
                                                             @foreach ($serviceTypes as $type)
                                                                 <option value="{{ $type->id }}"
-                                                                    {{ old('service_type_id') == $type->id ? 'selected' : '' }}>
+                                                                    {{ old('service_type_id', $service->service_type_id) == $type->id ? 'selected' : '' }}>
                                                                     {{ $type->name }}
                                                                 </option>
                                                             @endforeach
@@ -154,7 +224,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Location') }}</label>
                                                         <input class="crancy__item-input" type="text" name="location"
-                                                            value="{{ old('location') }}">
+                                                            value="{{ old('location', $service->location) }}">
                                                         @error('location')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -166,7 +236,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Duration') }}</label>
                                                         <input class="crancy__item-input" type="text" name="duration"
-                                                            value="{{ old('duration') }}"
+                                                            value="{{ old('duration', $service->duration) }}"
                                                             placeholder="e.g. 3 hours, 2 days">
                                                         @error('duration')
                                                             <span class="text-danger">{{ $message }}</span>
@@ -179,7 +249,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Group Size') }}</label>
                                                         <input class="crancy__item-input" type="text" name="group_size"
-                                                            value="{{ old('group_size') }}"
+                                                            value="{{ old('group_size', $service->group_size) }}"
                                                             placeholder="e.g. Up to 10 people">
                                                         @error('group_size')
                                                             <span class="text-danger">{{ $message }}</span>
@@ -191,7 +261,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Short Description') }}</label>
-                                                        <textarea class="crancy__item-input summernote" name="short_description" rows="3">{{ old('short_description') }}</textarea>
+                                                        <textarea class="crancy__item-input summernote" name="short_description" rows="3">{{ old('short_description', $translation->short_description ?? $service->short_description) }}</textarea>
                                                         @error('short_description')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -202,7 +272,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Description') }}</label>
-                                                        <textarea class="crancy__item-input summernote" name="description" rows="6">{{ old('description') }}</textarea>
+                                                        <textarea class="crancy__item-input summernote" name="description" rows="6">{{ old('description', $translation->description ?? $service->description) }}</textarea>
                                                         @error('description')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -216,8 +286,8 @@
                                                         <div
                                                             class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
                                                             <label class="crancy__item-switch">
-                                                                <input name="status" type="checkbox" checked
-                                                                    value="1">
+                                                                <input name="status" type="checkbox" value="1"
+                                                                    {{ old('status', $service->status) ? 'checked' : '' }}>
                                                                 <span
                                                                     class="crancy__item-switch--slide crancy__item-switch--round"></span>
                                                             </label>
@@ -241,7 +311,7 @@
                                                         <div class="crancy__item-form--currency">
                                                             <input class="crancy__item-input" type="number"
                                                                 step="0.01" name="price_per_person"
-                                                                value="{{ old('price_per_person') }}">
+                                                                value="{{ old('price_per_person', $service->price_per_person) }}">
                                                             <div class="crancy__currency-icon">
                                                                 <span>{{ config('settings.currency_icon', '$') }}</span>
                                                             </div>
@@ -259,7 +329,7 @@
                                                         <div class="crancy__item-form--currency">
                                                             <input class="crancy__item-input" type="number"
                                                                 step="0.01" name="full_price"
-                                                                value="{{ old('full_price') }}">
+                                                                value="{{ old('full_price', $service->full_price) }}">
                                                             <div class="crancy__currency-icon">
                                                                 <span>{{ config('settings.currency_icon', '$') }}</span>
                                                             </div>
@@ -277,7 +347,7 @@
                                                         <div class="crancy__item-form--currency">
                                                             <input class="crancy__item-input" type="number"
                                                                 step="0.01" name="discount_price"
-                                                                value="{{ old('discount_price') }}">
+                                                                value="{{ old('discount_price', $service->discount_price) }}">
                                                             <div class="crancy__currency-icon">
                                                                 <span>{{ config('settings.currency_icon', '$') }}</span>
                                                             </div>
@@ -295,7 +365,7 @@
                                                         <div class="crancy__item-form--currency">
                                                             <input class="crancy__item-input" type="number"
                                                                 step="0.01" name="child_price"
-                                                                value="{{ old('child_price') }}">
+                                                                value="{{ old('child_price', $service->child_price) }}">
                                                             <div class="crancy__currency-icon">
                                                                 <span>{{ config('settings.currency_icon', '$') }}</span>
                                                             </div>
@@ -313,7 +383,7 @@
                                                         <div class="crancy__item-form--currency">
                                                             <input class="crancy__item-input" type="number"
                                                                 step="0.01" name="infant_price"
-                                                                value="{{ old('infant_price') }}">
+                                                                value="{{ old('infant_price', $service->infant_price) }}">
                                                             <div class="crancy__currency-icon">
                                                                 <span>{{ config('settings.currency_icon', '$') }}</span>
                                                             </div>
@@ -331,7 +401,7 @@
                                                         <div class="crancy__item-form--currency">
                                                             <input class="crancy__item-input" type="number"
                                                                 step="0.01" name="security_deposit"
-                                                                value="{{ old('security_deposit') }}">
+                                                                value="{{ old('security_deposit', $service->security_deposit) }}">
                                                             <div class="crancy__currency-icon">
                                                                 <span>{{ config('settings.currency_icon', '$') }}</span>
                                                             </div>
@@ -350,8 +420,8 @@
                                                             class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
                                                             <label class="crancy__item-switch">
                                                                 <input name="deposit_required" type="checkbox"
-                                                                    {{ old('deposit_required') ? 'checked' : '' }}
-                                                                    value="1">
+                                                                    value="1"
+                                                                    {{ old('deposit_required', $service->deposit_required) ? 'checked' : '' }}>
                                                                 <span
                                                                     class="crancy__item-switch--slide crancy__item-switch--round"></span>
                                                             </label>
@@ -366,7 +436,7 @@
                                                         <div class="crancy__item-form--currency">
                                                             <input class="crancy__item-input" type="number"
                                                                 min="0" max="100" name="deposit_percentage"
-                                                                value="{{ old('deposit_percentage') }}">
+                                                                value="{{ old('deposit_percentage', $service->deposit_percentage) }}">
                                                             <div class="crancy__currency-icon">
                                                                 <span>%</span>
                                                             </div>
@@ -391,7 +461,8 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Check-in Time') }}</label>
                                                         <input class="crancy__item-input" type="text"
-                                                            name="check_in_time" value="{{ old('check_in_time') }}"
+                                                            name="check_in_time"
+                                                            value="{{ old('check_in_time', $service->check_in_time) }}"
                                                             placeholder="e.g. 14:00">
                                                         @error('check_in_time')
                                                             <span class="text-danger">{{ $message }}</span>
@@ -404,7 +475,8 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Check-out Time') }}</label>
                                                         <input class="crancy__item-input" type="text"
-                                                            name="check_out_time" value="{{ old('check_out_time') }}"
+                                                            name="check_out_time"
+                                                            value="{{ old('check_out_time', $service->check_out_time) }}"
                                                             placeholder="e.g. 10:00">
                                                         @error('check_out_time')
                                                             <span class="text-danger">{{ $message }}</span>
@@ -417,7 +489,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Ticket') }}</label>
                                                         <input class="crancy__item-input" type="text" name="ticket"
-                                                            value="{{ old('ticket') }}"
+                                                            value="{{ old('ticket', $service->ticket) }}"
                                                             placeholder="e.g. Mobile Voucher or Printed Ticket">
                                                         @error('ticket')
                                                             <span class="text-danger">{{ $message }}</span>
@@ -430,7 +502,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Video URL') }}</label>
                                                         <input class="crancy__item-input" type="url" name="video_url"
-                                                            value="{{ old('video_url') }}"
+                                                            value="{{ old('video_url', $service->video_url) }}"
                                                             placeholder="YouTube or Vimeo URL">
                                                         @error('video_url')
                                                             <span class="text-danger">{{ $message }}</span>
@@ -444,32 +516,33 @@
                                                             class="crancy__item-label">{{ __('translate.Languages') }}</label>
                                                         <select class="crancy__item-input select2" name="languages[]"
                                                             multiple>
+                                                            @php $languages = old('languages', json_decode($service->languages ?? '[]')); @endphp
                                                             <option value="English"
-                                                                {{ old('languages') && in_array('English', old('languages')) ? 'selected' : '' }}>
+                                                                {{ in_array('English', $languages ?? []) ? 'selected' : '' }}>
                                                                 English</option>
                                                             <option value="Spanish"
-                                                                {{ old('languages') && in_array('Spanish', old('languages')) ? 'selected' : '' }}>
+                                                                {{ in_array('Spanish', $languages ?? []) ? 'selected' : '' }}>
                                                                 Spanish</option>
                                                             <option value="French"
-                                                                {{ old('languages') && in_array('French', old('languages')) ? 'selected' : '' }}>
+                                                                {{ in_array('French', $languages ?? []) ? 'selected' : '' }}>
                                                                 French</option>
                                                             <option value="German"
-                                                                {{ old('languages') && in_array('German', old('languages')) ? 'selected' : '' }}>
+                                                                {{ in_array('German', $languages ?? []) ? 'selected' : '' }}>
                                                                 German</option>
                                                             <option value="Italian"
-                                                                {{ old('languages') && in_array('Italian', old('languages')) ? 'selected' : '' }}>
+                                                                {{ in_array('Italian', $languages ?? []) ? 'selected' : '' }}>
                                                                 Italian</option>
                                                             <option value="Chinese"
-                                                                {{ old('languages') && in_array('Chinese', old('languages')) ? 'selected' : '' }}>
+                                                                {{ in_array('Chinese', $languages ?? []) ? 'selected' : '' }}>
                                                                 Chinese</option>
                                                             <option value="Japanese"
-                                                                {{ old('languages') && in_array('Japanese', old('languages')) ? 'selected' : '' }}>
+                                                                {{ in_array('Japanese', $languages ?? []) ? 'selected' : '' }}>
                                                                 Japanese</option>
                                                             <option value="Arabic"
-                                                                {{ old('languages') && in_array('Arabic', old('languages')) ? 'selected' : '' }}>
+                                                                {{ in_array('Arabic', $languages ?? []) ? 'selected' : '' }}>
                                                                 Arabic</option>
                                                             <option value="Russian"
-                                                                {{ old('languages') && in_array('Russian', old('languages')) ? 'selected' : '' }}>
+                                                                {{ in_array('Russian', $languages ?? []) ? 'selected' : '' }}>
                                                                 Russian</option>
                                                         </select>
                                                     </div>
@@ -481,35 +554,36 @@
                                                             class="crancy__item-label">{{ __('translate.Amenities') }}</label>
                                                         <select class="crancy__item-input select2" name="amenities[]"
                                                             multiple>
+                                                            @php $amenities = old('amenities', json_decode($translation->amenities ?? $service->amenities ?? '[]')); @endphp
                                                             <option value="Free WiFi"
-                                                                {{ old('amenities') && in_array('Free WiFi', old('amenities')) ? 'selected' : '' }}>
+                                                                {{ in_array('Free WiFi', $amenities ?? []) ? 'selected' : '' }}>
                                                                 Free WiFi</option>
                                                             <option value="Air Conditioning"
-                                                                {{ old('amenities') && in_array('Air Conditioning', old('amenities')) ? 'selected' : '' }}>
+                                                                {{ in_array('Air Conditioning', $amenities ?? []) ? 'selected' : '' }}>
                                                                 Air Conditioning</option>
                                                             <option value="Parking"
-                                                                {{ old('amenities') && in_array('Parking', old('amenities')) ? 'selected' : '' }}>
+                                                                {{ in_array('Parking', $amenities ?? []) ? 'selected' : '' }}>
                                                                 Parking</option>
                                                             <option value="Restaurant"
-                                                                {{ old('amenities') && in_array('Restaurant', old('amenities')) ? 'selected' : '' }}>
+                                                                {{ in_array('Restaurant', $amenities ?? []) ? 'selected' : '' }}>
                                                                 Restaurant</option>
                                                             <option value="Bar"
-                                                                {{ old('amenities') && in_array('Bar', old('amenities')) ? 'selected' : '' }}>
+                                                                {{ in_array('Bar', $amenities ?? []) ? 'selected' : '' }}>
                                                                 Bar</option>
                                                             <option value="Swimming Pool"
-                                                                {{ old('amenities') && in_array('Swimming Pool', old('amenities')) ? 'selected' : '' }}>
+                                                                {{ in_array('Swimming Pool', $amenities ?? []) ? 'selected' : '' }}>
                                                                 Swimming Pool</option>
                                                             <option value="Spa"
-                                                                {{ old('amenities') && in_array('Spa', old('amenities')) ? 'selected' : '' }}>
+                                                                {{ in_array('Spa', $amenities ?? []) ? 'selected' : '' }}>
                                                                 Spa</option>
                                                             <option value="Fitness Center"
-                                                                {{ old('amenities') && in_array('Fitness Center', old('amenities')) ? 'selected' : '' }}>
+                                                                {{ in_array('Fitness Center', $amenities ?? []) ? 'selected' : '' }}>
                                                                 Fitness Center</option>
                                                             <option value="Family Friendly"
-                                                                {{ old('amenities') && in_array('Family Friendly', old('amenities')) ? 'selected' : '' }}>
+                                                                {{ in_array('Family Friendly', $amenities ?? []) ? 'selected' : '' }}>
                                                                 Family Friendly</option>
                                                             <option value="Pet Friendly"
-                                                                {{ old('amenities') && in_array('Pet Friendly', old('amenities')) ? 'selected' : '' }}>
+                                                                {{ in_array('Pet Friendly', $amenities ?? []) ? 'selected' : '' }}>
                                                                 Pet Friendly</option>
                                                         </select>
                                                     </div>
@@ -519,7 +593,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.What is included') }}</label>
-                                                        <textarea name="included" rows="30" placeholder="One item per line">{{ old('included') }}</textarea>
+                                                        <textarea name="included" rows="30" placeholder="One item per line">{{ old('included', $translation->included ?? $service->included) }}</textarea>
                                                     </div>
                                                 </div>
 
@@ -527,7 +601,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.What is excluded') }}</label>
-                                                        <textarea name="excluded" rows="30" placeholder="One item per line">{{ old('excluded') }}</textarea>
+                                                        <textarea name="excluded" rows="30" placeholder="One item per line">{{ old('excluded', $translation->excluded ?? $service->excluded) }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -544,7 +618,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Address') }}</label>
-                                                        <textarea class="" name="address" rows="40">{{ old('address') }}</textarea>
+                                                        <textarea class="" name="address" rows="40">{{ old('address', $service->address) }}</textarea>
                                                         @error('address')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -558,7 +632,8 @@
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <input class="crancy__item-input" type="text"
-                                                                    name="latitude" value="{{ old('latitude') }}"
+                                                                    name="latitude"
+                                                                    value="{{ old('latitude', $service->latitude) }}"
                                                                     placeholder="Latitude">
                                                                 @error('latitude')
                                                                     <span class="text-danger">{{ $message }}</span>
@@ -566,7 +641,8 @@
                                                             </div>
                                                             <div class="col-6">
                                                                 <input class="crancy__item-input" type="text"
-                                                                    name="longitude" value="{{ old('longitude') }}"
+                                                                    name="longitude"
+                                                                    value="{{ old('longitude', $service->longitude) }}"
                                                                     placeholder="Longitude">
                                                                 @error('longitude')
                                                                     <span class="text-danger">{{ $message }}</span>
@@ -581,7 +657,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Email') }}</label>
                                                         <input class="crancy__item-input" type="email" name="email"
-                                                            value="{{ old('email') }}">
+                                                            value="{{ old('email', $service->email) }}">
                                                         @error('email')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -593,7 +669,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Phone') }}</label>
                                                         <input class="crancy__item-input" type="text" name="phone"
-                                                            value="{{ old('phone') }}">
+                                                            value="{{ old('phone', $service->phone) }}">
                                                         @error('phone')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -605,7 +681,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Website') }}</label>
                                                         <input class="crancy__item-input" type="url" name="website"
-                                                            value="{{ old('website') }}">
+                                                            value="{{ old('website', $service->website) }}">
                                                         @error('website')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -626,7 +702,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.SEO Title') }}</label>
                                                         <input class="crancy__item-input" type="text" name="seo_title"
-                                                            value="{{ old('seo_title') }}">
+                                                            value="{{ old('seo_title', $translation->seo_title ?? $service->seo_title) }}">
                                                         @error('seo_title')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -637,7 +713,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.SEO Description') }}</label>
-                                                        <textarea class="crancy__item-input summernote" name="seo_description" rows="3">{{ old('seo_description') }}</textarea>
+                                                        <textarea class="crancy__item-input summernote" name="seo_description" rows="3">{{ old('seo_description', $translation->seo_description ?? $service->seo_description) }}</textarea>
                                                         @error('seo_description')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -649,7 +725,8 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.SEO Keywords') }}</label>
                                                         <input class="crancy__item-input" type="text"
-                                                            name="seo_keywords" value="{{ old('seo_keywords') }}"
+                                                            name="seo_keywords"
+                                                            value="{{ old('seo_keywords', $translation->seo_keywords ?? $service->seo_keywords) }}"
                                                             placeholder="Comma separated keywords">
                                                         @error('seo_keywords')
                                                             <span class="text-danger">{{ $message }}</span>
@@ -673,9 +750,8 @@
                                                         <div
                                                             class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
                                                             <label class="crancy__item-switch">
-                                                                <input name="is_featured" type="checkbox"
-                                                                    {{ old('is_featured') ? 'checked' : '' }}
-                                                                    value="1">
+                                                                <input name="is_featured" type="checkbox" value="1"
+                                                                    {{ old('is_featured', $service->is_featured) ? 'checked' : '' }}>
                                                                 <span
                                                                     class="crancy__item-switch--slide crancy__item-switch--round"></span>
                                                             </label>
@@ -690,9 +766,8 @@
                                                         <div
                                                             class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
                                                             <label class="crancy__item-switch">
-                                                                <input name="is_popular" type="checkbox"
-                                                                    {{ old('is_popular') ? 'checked' : '' }}
-                                                                    value="1">
+                                                                <input name="is_popular" type="checkbox" value="1"
+                                                                    {{ old('is_popular', $service->is_popular) ? 'checked' : '' }}>
                                                                 <span
                                                                     class="crancy__item-switch--slide crancy__item-switch--round"></span>
                                                             </label>
@@ -708,8 +783,8 @@
                                                             class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
                                                             <label class="crancy__item-switch">
                                                                 <input name="show_on_homepage" type="checkbox"
-                                                                    {{ old('show_on_homepage') ? 'checked' : '' }}
-                                                                    value="1">
+                                                                    value="1"
+                                                                    {{ old('show_on_homepage', $service->show_on_homepage) ? 'checked' : '' }}>
                                                                 <span
                                                                     class="crancy__item-switch--slide crancy__item-switch--round"></span>
                                                             </label>
@@ -722,7 +797,7 @@
 
                                     <div class="col-12 mg-top-30">
                                         <button class="crancy-btn"
-                                            type="submit">{{ __('translate.Create Service') }}</button>
+                                            type="submit">{{ __('translate.Update Service') }}</button>
                                     </div>
                                 </div>
                             </form>
