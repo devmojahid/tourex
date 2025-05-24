@@ -1,123 +1,43 @@
 @php
-    $theme6_tour_package = getContent('theme6_tour_package.content', true);
+    $theme7_tour_package = getContent('theme7_tour_package.content', true);
 @endphp
 
 <!-- tg-listing-area-start -->
-<div class="tg-listing-area pt-110 pb-115 p-relative z-index-9">
-    <img class="tg-listing-3-shape tg-listing-4-shape d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/tree.png') }}"
-        alt="">
+<div class="tg-listing-area pt-135 pb-105 tg-grey-bg">
     <div class="container">
         <div class="row align-items-end">
             <div class="col-lg-9">
                 <div class="tg-location-section-title mb-40">
                     <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
-                        {{ getTranslatedValue($theme6_tour_package, 'sub_title') }}
+                        {{ getTranslatedValue($theme7_tour_package, 'sub_title') }}
                     </h5>
                     <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
-                        {!! strip_tags(clean(getTranslatedValue($theme6_tour_package, 'title')), '<br>') !!}
+                        {!! strip_tags(clean(getTranslatedValue($theme7_tour_package, 'title')), '<br>') !!}
                     </h2>
                 </div>
             </div>
-            <div class="col-lg-3">
-                <div class="tg-location-3-btn text-end wow fadeInUp mb-40" data-wow-delay=".6s" data-wow-duration=".9s">
-                    <a href="{{ getTranslatedValue($theme6_tour_package, 'button_url') }}"
-                        class="tg-btn tg-btn-gray tg-btn-switch-animation">
-                        <span class="d-flex align-items-center justify-content-center">
-                            <span class="btn-text">{{ getTranslatedValue($theme6_tour_package, 'button_text') }}</span>
-                            <span class="btn-icon ml-5">
-                                <svg width="21" height="16" viewBox="0 0 21 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M1.0017 8.00001H19.9514M19.9514 8.00001L12.9766 1.02515M19.9514 8.00001L12.9766 14.9749"
-                                        stroke="currentColor" stroke-width="1.77778" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </span>
-                            <span class="btn-icon ml-5">
-                                <svg width="21" height="16" viewBox="0 0 21 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M1.0017 8.00001H19.9514M19.9514 8.00001L12.9766 1.02515M19.9514 8.00001L12.9766 14.9749"
-                                        stroke="currentColor" stroke-width="1.77778" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </span>
-                        </span>
-                    </a>
+            @if (getTranslatedValue($theme7_tour_package, 'show_navigation') == '1')
+                <div class="col-lg-3">
+                    <div class="tg-listing-5-slider-navigation text-end mb-50 wow fadeInUp" data-wow-delay=".4s"
+                        data-wow-duration="1s">
+                        <button class="tg-listing-5-slide-prev"><i class="fa-solid fa-arrow-left-long"></i></button>
+                        <button class="tg-listing-5-slide-next"><i class="fa-solid fa-arrow-right-long"></i></button>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="swiper-container tg-listing-slider p-relative fix">
-                    <div class="swiper-wrapper mb-35">
+                <div class="swiper-container tg-listing-slider-2 p-relative fix">
+                    <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
+                            <div class="tg-listing-card-item tg-listing-5-card-item mb-25">
                                 <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                    <a href="tour-grid-1.html">
-                                        <img class="tg-card-border w-100" src="assets/img/listing/listing-4/thumb-2.jpg"
-                                            alt="listing">
-                                        <span class="tg-listing-item-price-discount shape">New</span>
-                                    </a>
-                                    <div class="tg-listing-2-price">
-                                        <span class="new">$230</span>
-                                        <span class="shift">/night</span>
-                                    </div>
-                                </div>
-                                <div class="tg-listing-card-content p-relative">
-                                    <h4 class="tg-listing-card-title mb-5"><a href="tour-grid-1.html">Two Hour Walking
-                                            Tour of Manhattan</a></h4>
-                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                        <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        51 Dekor Land, Thailand
-                                    </span>
-                                    <div class="tg-listing-card-review mb-10">
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                    </div>
-                                    <div class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                        <a class="tg-listing-avai-btn" href="#">Check Availability</a>
-                                        <div class="tg-listing-item-wishlist">
-                                            <a href="#">
-                                                <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                                <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                    <a href="tour-grid-1.html">
-                                        <img class="tg-card-border w-100" src="assets/img/listing/listing-4/thumb.jpg"
-                                            alt="listing">
-                                        <span class="tg-listing-item-price-discount shape-3">
+                                    <a href="tour-details.html">
+                                        <img class="tg-card-border w-100"
+                                            src="assets/img/listing/listing-5/listing-1.jpg" alt="listing">
+                                        <span class="tg-listing-item-price-discount shape">Open</span>
+                                        <span class="tg-listing-item-price-discount offer-btm shape-3">
                                             <svg width="12" height="14" viewBox="0 0 12 14" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -127,18 +47,50 @@
                                             </svg>
                                             Featured
                                         </span>
-                                        <span class="tg-listing-item-price-discount offer-btm shape-2">% Offer</span>
+                                        <span
+                                            class="tg-listing-item-price-discount offer-btm-2 shape-4">Recommended</span>
                                     </a>
+                                    <div class="tg-listing-item-wishlist">
+                                        <a href="#">
+                                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </div>
                                     <div class="tg-listing-2-price">
-                                        <del>$299</del>
-                                        <span class="new">$180</span>
-                                        <span class="shift">/night</span>
+                                        <span>
+                                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M13.9144 9.57143C14.3877 9.57143 14.7715 9.18764 14.7715 8.71429C14.7715 8.24093 14.3877 7.85714 13.9144 7.85714M13.9144 9.57143H13.0287C12.0818 9.57143 12.2611 10.4286 11.3144 10.4286C10.3675 10.4286 10.5469 9.57143 9.60014 9.57143C8.65321 9.57143 8.83257 10.4286 7.88586 10.4286C6.93893 10.4286 7.11829 9.57143 6.17157 9.57143C5.22464 9.57143 5.404 10.4286 4.45729 10.4286C3.51036 10.4286 3.66121 9.57143 2.71429 9.57143H1.85714M13.9144 9.57143C13.9144 11.4651 12.3507 13 10.4573 13H5.31443C4.28221 13 3.34814 12.544 2.71171 11.8223C2.18071 11.2199 1.85714 10.4329 1.85714 9.57143M1.85714 9.57143C1.38379 9.57143 1 9.18764 1 8.71429C1 8.24093 1.38379 7.85714 1.85714 7.85714M1.85714 7.85714H13.9144M1.85714 7.85714C1.38379 7.85714 1 7.47336 1 7C1 6.52664 1.38379 6.14286 1.85714 6.14286M13.9144 7.85714C14.3877 7.85714 14.7715 7.47336 14.7715 7C14.7715 6.52664 14.3877 6.14286 13.9144 6.14286M1.85714 6.14286H13.9144M1.85714 6.14286C1.85714 4.85843 2.16936 3.85364 2.71171 3.0865C3.76793 1.59207 5.69607 1 7.88586 1C11.1994 1 13.9144 2.35579 13.9144 6.14286"
+                                                    stroke="#560CE3" stroke-width="0.8" stroke-miterlimit="13.3333"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                        <span class="text">Americano</span>
                                     </div>
                                 </div>
                                 <div class="tg-listing-card-content p-relative">
-                                    <h4 class="tg-listing-card-title mb-5"><a href="tour-grid-1.html">American Parks
-                                            Trail end Rapid City Express</a></h4>
-                                    <span class="tg-listing-card-duration-map d-inline-block">
+                                    <h4 class="tg-listing-card-title mb-5"><a href="tour-details.html">Italiano Torero
+                                            Restaurant & Bar menu</a></h4>
+                                    <div class="tg-listing-card-review mb-5">
+                                        <span class="tg-listing-rating-icon"><i
+                                                class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="tg-listing-rating-icon"><i
+                                                class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="tg-listing-rating-icon"><i
+                                                class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="tg-listing-rating-icon"><i
+                                                class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="tg-listing-rating-icon"><i
+                                                class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
+                                    </div>
+                                    <span class="tg-listing-card-duration-map d-inline-block mb-10">
                                         <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -152,66 +104,52 @@
                                         </svg>
                                         51 Dekor Land, Thailand
                                     </span>
-                                    <div class="tg-listing-card-review mb-10">
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                    </div>
                                     <div class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                        <a class="tg-listing-avai-btn" href="#">Check Availability</a>
-                                        <div class="tg-listing-item-wishlist">
-                                            <a href="#">
-                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                        stroke="currentColor" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
+                                        <a class="tg-listing-avai-btn" href="tour-details.html">View Details</a>
+                                        <div class="tg-listing-card-price d-flex align-items-center">
+                                            <span class="form mr-5">From</span>
+                                            <span class="price">$19</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="swiper-slide">
-                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
+                            <div class="tg-listing-card-item tg-listing-5-card-item mb-25">
                                 <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                    <a href="tour-grid-1.html">
+                                    <a href="tour-details.html">
                                         <img class="tg-card-border w-100"
-                                            src="assets/img/listing/listing-4/thumb-3.jpg" alt="listing">
+                                            src="assets/img/listing/listing-5/listing-2.jpg" alt="listing">
+                                        <span class="tg-listing-item-price-discount closed shape">Close</span>
                                     </a>
+                                    <div class="tg-listing-item-wishlist">
+                                        <a href="#">
+                                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </div>
                                     <div class="tg-listing-2-price">
-                                        <span class="new">$190</span>
-                                        <span class="shift">/night</span>
+                                        <span>
+                                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M4.22105 5.89798C3.396 7.05673 2.91053 8.47291 2.91053 10.0003C2.91053 10.6658 2.37093 11.2052 1.70526 11.2052C1.03959 11.2052 0.5 10.6658 0.5 10.0003C0.5 8.71826 0.751361 7.4739 1.24734 6.30187C1.72588 5.17047 2.41098 4.15461 3.28321 3.28262C4.15564 2.41044 5.17178 1.72554 6.3035 1.24713C7.47586 0.751489 8.72057 0.5 10.0029 0.5C10.6686 0.5 11.2082 1.03944 11.2082 1.70492C11.2082 2.37041 10.6686 2.90985 10.0029 2.90985C8.47417 2.90985 7.05679 3.39598 5.89732 4.22159M2.30983 6.75118C1.87431 7.78052 1.65348 8.87367 1.65348 10.0007M6.75361 2.30858C5.75927 2.72912 4.86622 3.33099 4.09926 4.09774M6.55489 12.0103V12.0101M9.16385 12.5987L9.16366 12.5989M4.46266 11.538L2.30032 11.0501M12.6063 9.1807C12.3302 9.42347 11.9678 9.57072 11.5711 9.57072C10.705 9.57072 10.0027 8.86857 10.0027 8.00253C10.0027 7.13669 10.705 6.43454 11.5711 6.43454C11.7202 6.43454 11.8645 6.45535 12.0011 6.4942M12.6063 9.1807L12.0011 6.4942M12.6063 9.1807L13.492 13.112C13.5432 13.3387 13.3404 13.5412 13.1138 13.4901L9.16378 12.5987M12.0011 6.4942L11.0557 2.29737M9.16378 12.5987C9.43893 12.3161 9.60842 11.9304 9.60842 11.5049C9.60842 10.931 9.29996 10.429 8.83966 10.1559C8.60555 10.0168 8.33218 9.93695 8.03999 9.93695C7.1737 9.93695 6.47156 10.6389 6.47156 11.5049C6.47156 11.6817 6.5007 11.8516 6.55482 12.0101M9.16378 12.5987L6.55482 12.0101M6.55482 12.0101L6.40475 11.9762V11.9764C6.332 12.0874 6.20632 12.1607 6.06359 12.1607C5.9508 12.1607 5.8489 12.2063 5.77516 12.2802C5.70122 12.3539 5.65563 12.4558 5.65563 12.5686V12.9037C5.65563 13.2331 5.38861 13.5 5.05914 13.5C4.89441 13.5 4.74534 13.4332 4.6375 13.3254C4.52946 13.2174 4.46285 13.0684 4.46285 12.9037V10.7657C4.46285 10.2481 4.04299 9.82855 3.5252 9.82855H3.02228M8.52475 6.95573C8.52475 7.82157 7.8226 8.52372 6.95632 8.52372C6.09004 8.52372 5.38789 7.82157 5.38789 6.95573C5.38789 6.08969 6.09004 5.38754 6.95632 5.38754C7.8226 5.38754 8.52475 6.08969 8.52475 6.95573ZM10.3867 4.83838L9.89332 5.33164C9.81938 5.40556 9.69945 5.40556 9.6255 5.33164L9.1321 4.83838C9.05816 4.76446 9.05816 4.64456 9.1321 4.57064L9.6255 4.07737C9.69945 4.00345 9.81938 4.00345 9.89332 4.07737L10.3867 4.57064C10.4607 4.64456 10.4607 4.76446 10.3867 4.83838ZM12.0751 11.2078V11.8883C12.0751 11.9904 11.9923 12.0732 11.8902 12.0732H11.2095C11.1074 12.0732 11.0247 11.9904 11.0247 11.8883V11.2078C11.0247 11.1057 11.1074 11.0231 11.2095 11.0231H11.8902C11.9923 11.0231 12.0751 11.1057 12.0751 11.2078Z"
+                                                    stroke="#560CE3" stroke-width="0.6" stroke-miterlimit="13.3333"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                        <span class="text">Italian</span>
                                     </div>
                                 </div>
                                 <div class="tg-listing-card-content p-relative">
-                                    <h4 class="tg-listing-card-title mb-5"><a href="tour-grid-1.html">Modern Stefano
-                                            La Piazze Wergeland</a></h4>
-                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                        <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        51 Dekor Land, Thailand
-                                    </span>
-                                    <div class="tg-listing-card-review mb-10">
+                                    <h4 class="tg-listing-card-title mb-5"><a href="tour-details.html">The Most Cool
+                                            Cafe in Houston Lane</a></h4>
+                                    <div class="tg-listing-card-review mb-5">
                                         <span class="tg-listing-rating-icon"><i
                                                 class="fa-sharp fa-solid fa-star"></i></span>
                                         <span class="tg-listing-rating-icon"><i
@@ -224,53 +162,69 @@
                                                 class="fa-sharp fa-solid fa-star"></i></span>
                                         <span class="tg-listing-rating-percent">(5 Reviews)</span>
                                     </div>
+                                    <span class="tg-listing-card-duration-map d-inline-block mb-10">
+                                        <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
+                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
+                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        Rome City, Italy
+                                    </span>
                                     <div class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                        <a class="tg-listing-avai-btn" href="#">Check Availability</a>
-                                        <div class="tg-listing-item-wishlist">
-                                            <a href="#">
-                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                        stroke="currentColor" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
+                                        <a class="tg-listing-avai-btn" href="tour-details.html">View Details</a>
+                                        <div class="tg-listing-card-price d-flex align-items-center">
+                                            <span class="form mr-5">From</span>
+                                            <span class="price">$14</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="swiper-slide">
-                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
+                            <div class="tg-listing-card-item tg-listing-5-card-item mb-25">
                                 <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                    <a href="tour-grid-1.html">
+                                    <a href="tour-details.html">
                                         <img class="tg-card-border w-100"
-                                            src="assets/img/listing/listing-4/thumb-4.jpg" alt="listing">
+                                            src="assets/img/listing/listing-5/listing-3.jpg" alt="listing">
+                                        <span class="tg-listing-item-price-discount shape">Open</span>
+                                        <span
+                                            class="tg-listing-item-price-discount offer-btm shape-4">Recommended</span>
                                     </a>
+                                    <div class="tg-listing-item-wishlist">
+                                        <a href="#">
+                                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </div>
                                     <div class="tg-listing-2-price">
-                                        <span class="new">$180</span>
-                                        <span class="shift">/night</span>
+                                        <span>
+                                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M1.20809 9.7132C1.16415 11.1545 1.93103 12.9404 4.01197 12.8251C4.01197 12.8251 5.82227 14.263 8.46172 12.9412C8.46172 12.9412 11.2319 13.0106 12.0606 10.4366C12.0606 10.4366 14.3071 10.6453 14.8524 8.51176C15.8506 7.45073 15.3953 5.80153 14.6511 5.10709M0.886482 6.44112C1.57522 6.45965 1.79378 7.20088 2.31402 7.75419C2.579 8.03597 3.20433 7.97747 3.61291 8.16125C4.41738 8.52297 4.45883 8.91785 4.78678 9.01242C5.44947 9.20352 5.24881 10.363 5.21483 10.5368M2.74343 3.99779C3.08474 4.00388 3.43127 4.2586 3.75763 4.58303M5.99983 6.05917C6.09201 6.08427 6.17604 6.11133 6.24625 6.14302C7.05072 6.50474 6.84553 6.80723 7.3225 7.14312C7.89347 7.54506 7.70186 8.48227 7.66744 8.62998M5.69702 1.87815C6.40252 1.88181 6.53796 2.57869 7.0634 3.1376C7.32839 3.41937 8.37271 3.55587 8.78129 3.73966C9.58577 4.10138 9.44852 4.39193 9.92549 4.72757C10.5019 5.13341 10.3791 6.07257 10.3588 6.20493M9.73004 0.636743C10.4573 0.89536 10.3345 1.62661 10.8602 2.18552C11.1252 2.46729 11.5888 2.68228 11.9326 2.98258C12.5559 3.52687 12.3 3.78451 12.7769 4.12015C13.3244 4.50552 13.1133 5.25602 13.0557 5.42762M15.0176 4.6096C14.8357 4.98887 14.5105 5.27405 14.0425 5.38715C12.8327 5.67989 11.6325 4.8609 9.28771 7.09144C7.78793 8.51786 5.75636 10.6541 4.42644 10.831C2.50698 11.086 1.0457 10.4135 0.609491 8.11786C0.173055 5.822 3.48857 3.10884 5.29886 2.08851C7.10938 1.06818 9.27956 0.685493 10.2503 0.558013C12.93 0.205796 14.5166 1.51741 15.0176 2.86923C15.2492 3.4942 15.249 4.12771 15.0176 4.6096Z"
+                                                    stroke="#560CE3" stroke-width="0.603568"
+                                                    stroke-miterlimit="30.568" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                        <span class="text">Japanese</span>
                                     </div>
                                 </div>
                                 <div class="tg-listing-card-content p-relative">
-                                    <h4 class="tg-listing-card-title mb-5"><a href="tour-grid-1.html">American Parks
-                                            Trail end Rapid City Express</a></h4>
-                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                        <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        51 Dekor Land, Thailand
-                                    </span>
-                                    <div class="tg-listing-card-review mb-10">
+                                    <h4 class="tg-listing-card-title mb-5"><a href="tour-details.html">Northend Leoat
+                                            Japanese Cuisine</a></h4>
+                                    <div class="tg-listing-card-review mb-5">
                                         <span class="tg-listing-rating-icon"><i
                                                 class="fa-sharp fa-solid fa-star"></i></span>
                                         <span class="tg-listing-rating-icon"><i
@@ -283,55 +237,82 @@
                                                 class="fa-sharp fa-solid fa-star"></i></span>
                                         <span class="tg-listing-rating-percent">(5 Reviews)</span>
                                     </div>
+                                    <span class="tg-listing-card-duration-map d-inline-block mb-10">
+                                        <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
+                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
+                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        Switzerland city
+                                    </span>
                                     <div class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                        <a class="tg-listing-avai-btn" href="#">Check Availability</a>
-                                        <div class="tg-listing-item-wishlist">
-                                            <a href="#">
-                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                        stroke="currentColor" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
+                                        <a class="tg-listing-avai-btn" href="tour-details.html">View Details</a>
+                                        <div class="tg-listing-card-price d-flex align-items-center">
+                                            <span class="form mr-5">From</span>
+                                            <span class="price">$17</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="swiper-slide">
-                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
+                            <div class="tg-listing-card-item tg-listing-5-card-item mb-25">
                                 <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                    <a href="tour-grid-1.html">
+                                    <a href="tour-details.html">
                                         <img class="tg-card-border w-100"
-                                            src="assets/img/listing/listing-4/thumb-5.jpg" alt="listing">
-                                        <span class="tg-listing-item-price-discount shape-2">% Offer</span>
+                                            src="assets/img/listing/listing-5/listing-4.jpg" alt="listing">
+                                        <span class="tg-listing-item-price-discount shape">Open</span>
                                     </a>
+                                    <div class="tg-listing-item-wishlist">
+                                        <a href="#">
+                                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </div>
                                     <div class="tg-listing-2-price">
-                                        <del>$299</del>
-                                        <span class="new">$230</span>
-                                        <span class="shift">/night</span>
+                                        <span>
+                                            <svg width="18" height="14" viewBox="0 0 18 14" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <mask id="path-1-inside-1_2244_1305" fill="white">
+                                                    <path
+                                                        d="M16.9573 7.63966C16.855 7.51495 16.7022 7.44265 16.5406 7.44265H15.5757C15.259 7.07671 14.9777 6.68142 14.7355 6.26244C14.3396 5.58046 13.9651 4.93542 13.3233 4.59191C12.461 4.12589 11.493 4.3349 11.0699 4.30554C10.9341 4.20324 10.8066 4.09116 10.6878 3.9696C10.5998 3.88498 10.5293 3.80668 10.4621 3.73248C10.2319 3.45717 9.94303 3.23679 9.61657 3.08776C9.67782 3.04514 9.7356 2.99778 9.78927 2.946C10.6875 2.04774 10.4713 0.678729 10.4627 0.620635C10.4438 0.507287 10.3547 0.418251 10.2414 0.399307C10.183 0.389835 8.81335 0.173559 7.91572 1.07276C7.8731 1.11823 7.83363 1.16653 7.79764 1.21737C7.76133 1.16653 7.72186 1.11823 7.67892 1.07276C6.78067 0.174506 5.41197 0.390782 5.35356 0.399307C5.2399 0.418251 5.15086 0.507287 5.13223 0.62095C5.12244 0.678729 4.9068 2.049 5.80569 2.946C5.87704 3.01577 5.95598 3.07766 6.04122 3.12975H6.03901C5.84421 3.23994 5.6614 3.37002 5.49406 3.51873C5.14076 3.84331 4.84713 4.22724 4.62675 4.65316C3.96655 4.8988 2.66542 5.46806 2.2174 7.44265H1.45301C1.29136 7.44265 1.13854 7.51495 1.03625 7.63998C0.93395 7.76469 0.892905 7.92887 0.924478 8.08737L1.07161 8.82145C1.60583 11.4629 3.92488 13.3639 6.61964 13.3699H11.3739C14.069 13.3639 16.3877 11.4629 16.922 8.82145L17.0691 8.08705C17.1007 7.92887 17.0596 7.76469 16.9573 7.63966ZM10.2866 4.3308C10.4649 4.53097 10.6771 4.69799 10.9136 4.82428C11.2868 4.93037 12.2716 4.63579 13.0672 5.06677C13.5755 5.33829 13.9121 5.91861 14.2765 6.54628C14.4586 6.85665 14.6591 7.15596 14.877 7.44265H14.1909C14.0602 7.24247 13.9326 7.02809 13.8098 6.81623C13.4903 6.26402 13.1881 5.74212 12.813 5.54005C12.4121 5.37145 11.9729 5.31367 11.5419 5.37366C11.2615 5.40649 10.9774 5.38818 10.7033 5.31967C10.4132 5.17885 10.1533 4.9831 9.93798 4.74283C9.88778 4.69483 9.83663 4.64558 9.78517 4.59727C9.89473 4.47887 10.0352 4.39299 10.1906 4.34942C10.2259 4.34216 10.254 4.33743 10.2866 4.3308ZM6.81445 6.27223C6.85234 6.20466 6.88896 6.13741 6.92496 6.06795C6.97516 5.9726 7.0241 5.88104 7.07556 5.79642C7.36224 6.01743 7.63504 6.25581 7.89204 6.51029C8.23272 6.84497 8.59518 7.15628 8.97721 7.44265H8.11495C7.90941 7.26426 7.71081 7.07892 7.52232 6.90085L7.50211 6.88222C7.22143 6.61827 6.99315 6.40863 6.81445 6.27223ZM7.31362 7.44265H5.10445C5.28221 7.29299 5.49122 7.18501 5.71634 7.1266C5.97776 7.04956 6.22308 6.92674 6.44126 6.76319C6.46146 6.74614 6.4782 6.72499 6.49714 6.70636C6.67395 6.84339 6.94358 7.09503 7.1365 7.27562L7.15512 7.29299C7.20564 7.34193 7.26058 7.39276 7.31362 7.44265ZM8.2624 6.11815C7.99308 5.86367 7.73291 5.61993 7.48759 5.43144C7.68366 5.39481 7.88383 5.38597 8.08243 5.40428C8.13642 5.40681 8.18851 5.40839 8.24156 5.40997C8.43478 5.51889 8.60749 5.66097 8.75115 5.82989C9.13697 6.26023 9.61057 6.6028 10.1401 6.83486C11.2331 7.239 11.792 6.67763 12.2008 7.29078C12.2277 7.33845 12.2577 7.39118 12.2861 7.4417H10.8681C10.4934 7.4537 10.1192 7.39908 9.76338 7.28004C9.27779 7.07482 8.73852 6.56649 8.2624 6.11815ZM10.3279 6.33064C9.87168 6.12257 9.46375 5.82168 9.13002 5.44722C9.07982 5.39765 9.03183 5.35061 8.98479 5.30514C9.14771 5.22968 9.29484 5.1236 9.41829 4.99289C9.46565 5.0374 9.51364 5.08318 9.56353 5.13118C9.82969 5.42512 10.1533 5.6616 10.5142 5.8261C10.8555 5.92335 11.2123 5.95302 11.5649 5.91293C11.899 5.86525 12.24 5.90061 12.5573 6.01586C12.7979 6.14531 13.0751 6.62395 13.3431 7.08713C13.4117 7.2049 13.4814 7.32488 13.5525 7.44359H12.9175C12.826 7.30309 12.7433 7.16038 12.6624 7.0142C12.132 6.05185 11.3307 6.70099 10.3279 6.33064ZM9.86852 3.89382C9.60299 4.02075 9.37124 4.20924 9.19254 4.44351L9.19096 4.44541L9.18844 4.4473V4.4492C8.84176 4.8467 8.7543 4.89469 8.10674 4.86691C7.1747 4.8246 6.89023 4.97836 6.44883 5.81758C6.36169 6.01585 6.24077 6.1974 6.09111 6.354C5.92093 6.4724 5.73275 6.56239 5.53353 6.61985C5.15149 6.75782 4.6498 6.94158 4.50361 7.44265H3.91351C4.18314 6.53523 4.8225 6.30128 5.3463 6.11247C5.46659 6.07458 5.58373 6.02722 5.69676 5.97165C5.73023 5.95271 5.75896 5.92682 5.78169 5.89588C5.85147 5.78948 5.9143 5.67897 5.9705 5.56499C6.11416 5.25273 6.31528 4.97015 6.56313 4.73177C6.64301 4.65852 6.73078 4.59443 6.82519 4.54139C7.22869 4.34753 7.67924 4.27333 8.12347 4.32764C8.2987 4.36142 8.47962 4.34058 8.64254 4.26797C8.79567 4.15209 9.10066 3.79089 9.38893 3.57588C9.5651 3.65513 9.72707 3.76248 9.86852 3.89382ZM8.29618 1.4529C8.71294 1.08192 9.25727 0.887112 9.81485 0.909845C9.86347 0.909845 9.90862 0.909845 9.94935 0.913002C10.0011 1.51384 9.80664 2.10994 9.41071 2.56491C9.0994 2.8617 8.61002 2.8617 8.2987 2.56491C7.9915 2.25833 7.99023 1.76074 8.29618 1.4529ZM5.64403 0.913002L5.6453 0.914265C6.24613 0.862169 6.84255 1.05666 7.2972 1.4529C7.60346 1.76043 7.60346 2.2577 7.2972 2.56491C6.98589 2.8617 6.49651 2.8617 6.1852 2.56491C5.78832 2.11026 5.5932 1.51415 5.64403 0.913002ZM4.90491 5.12549C4.9671 5.10276 5.01857 5.05824 5.05014 5.00015C5.24779 4.59506 5.51869 4.22976 5.84863 3.92255C5.98692 3.79879 6.13815 3.69049 6.29981 3.59925C7.0724 3.22226 7.95708 3.14459 8.78335 3.38139C8.66559 3.49221 8.4171 3.74543 8.36311 3.79626C8.29839 3.79626 8.21693 3.79153 8.14494 3.78742C7.60125 3.72775 7.05188 3.82563 6.56218 4.06937C6.43305 4.14199 6.31244 4.22881 6.20319 4.3289C5.90546 4.61085 5.66392 4.94679 5.4909 5.3184C5.45396 5.3926 5.41008 5.47122 5.38008 5.52426C5.31283 5.5511 5.20864 5.58804 5.16633 5.60319C4.59865 5.80747 3.66976 6.14436 3.35593 7.44075H2.76898C2.99757 6.33317 3.81942 5.44249 4.90491 5.12549ZM16.3934 8.71599C15.9104 11.1058 13.8123 12.8259 11.3739 12.8309H6.61964C4.18125 12.8259 2.08321 11.1058 1.60014 8.71599L1.45301 7.98128H16.5406L16.3934 8.71599Z" />
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M6.88902 12.0226C6.88902 12.1717 6.76841 12.2923 6.6197 12.2923C4.53114 12.292 2.70747 10.8791 2.18525 8.85712C2.15684 8.7624 2.18273 8.66011 2.25219 8.59001C2.32165 8.51992 2.42395 8.4934 2.51867 8.52118C2.61339 8.54865 2.68569 8.62601 2.70653 8.72231C3.16718 10.5068 4.77678 11.7533 6.6197 11.7533C6.76841 11.7533 6.88902 11.8739 6.88902 12.0226Z" />
+                                                </mask>
+                                                <path
+                                                    d="M16.9573 7.63966C16.855 7.51495 16.7022 7.44265 16.5406 7.44265H15.5757C15.259 7.07671 14.9777 6.68142 14.7355 6.26244C14.3396 5.58046 13.9651 4.93542 13.3233 4.59191C12.461 4.12589 11.493 4.3349 11.0699 4.30554C10.9341 4.20324 10.8066 4.09116 10.6878 3.9696C10.5998 3.88498 10.5293 3.80668 10.4621 3.73248C10.2319 3.45717 9.94303 3.23679 9.61657 3.08776C9.67782 3.04514 9.7356 2.99778 9.78927 2.946C10.6875 2.04774 10.4713 0.678729 10.4627 0.620635C10.4438 0.507287 10.3547 0.418251 10.2414 0.399307C10.183 0.389835 8.81335 0.173559 7.91572 1.07276C7.8731 1.11823 7.83363 1.16653 7.79764 1.21737C7.76133 1.16653 7.72186 1.11823 7.67892 1.07276C6.78067 0.174506 5.41197 0.390782 5.35356 0.399307C5.2399 0.418251 5.15086 0.507287 5.13223 0.62095C5.12244 0.678729 4.9068 2.049 5.80569 2.946C5.87704 3.01577 5.95598 3.07766 6.04122 3.12975H6.03901C5.84421 3.23994 5.6614 3.37002 5.49406 3.51873C5.14076 3.84331 4.84713 4.22724 4.62675 4.65316C3.96655 4.8988 2.66542 5.46806 2.2174 7.44265H1.45301C1.29136 7.44265 1.13854 7.51495 1.03625 7.63998C0.93395 7.76469 0.892905 7.92887 0.924478 8.08737L1.07161 8.82145C1.60583 11.4629 3.92488 13.3639 6.61964 13.3699H11.3739C14.069 13.3639 16.3877 11.4629 16.922 8.82145L17.0691 8.08705C17.1007 7.92887 17.0596 7.76469 16.9573 7.63966ZM10.2866 4.3308C10.4649 4.53097 10.6771 4.69799 10.9136 4.82428C11.2868 4.93037 12.2716 4.63579 13.0672 5.06677C13.5755 5.33829 13.9121 5.91861 14.2765 6.54628C14.4586 6.85665 14.6591 7.15596 14.877 7.44265H14.1909C14.0602 7.24247 13.9326 7.02809 13.8098 6.81623C13.4903 6.26402 13.1881 5.74212 12.813 5.54005C12.4121 5.37145 11.9729 5.31367 11.5419 5.37366C11.2615 5.40649 10.9774 5.38818 10.7033 5.31967C10.4132 5.17885 10.1533 4.9831 9.93798 4.74283C9.88778 4.69483 9.83663 4.64558 9.78517 4.59727C9.89473 4.47887 10.0352 4.39299 10.1906 4.34942C10.2259 4.34216 10.254 4.33743 10.2866 4.3308ZM6.81445 6.27223C6.85234 6.20466 6.88896 6.13741 6.92496 6.06795C6.97516 5.9726 7.0241 5.88104 7.07556 5.79642C7.36224 6.01743 7.63504 6.25581 7.89204 6.51029C8.23272 6.84497 8.59518 7.15628 8.97721 7.44265H8.11495C7.90941 7.26426 7.71081 7.07892 7.52232 6.90085L7.50211 6.88222C7.22143 6.61827 6.99315 6.40863 6.81445 6.27223ZM7.31362 7.44265H5.10445C5.28221 7.29299 5.49122 7.18501 5.71634 7.1266C5.97776 7.04956 6.22308 6.92674 6.44126 6.76319C6.46146 6.74614 6.4782 6.72499 6.49714 6.70636C6.67395 6.84339 6.94358 7.09503 7.1365 7.27562L7.15512 7.29299C7.20564 7.34193 7.26058 7.39276 7.31362 7.44265ZM8.2624 6.11815C7.99308 5.86367 7.73291 5.61993 7.48759 5.43144C7.68366 5.39481 7.88383 5.38597 8.08243 5.40428C8.13642 5.40681 8.18851 5.40839 8.24156 5.40997C8.43478 5.51889 8.60749 5.66097 8.75115 5.82989C9.13697 6.26023 9.61057 6.6028 10.1401 6.83486C11.2331 7.239 11.792 6.67763 12.2008 7.29078C12.2277 7.33845 12.2577 7.39118 12.2861 7.4417H10.8681C10.4934 7.4537 10.1192 7.39908 9.76338 7.28004C9.27779 7.07482 8.73852 6.56649 8.2624 6.11815ZM10.3279 6.33064C9.87168 6.12257 9.46375 5.82168 9.13002 5.44722C9.07982 5.39765 9.03183 5.35061 8.98479 5.30514C9.14771 5.22968 9.29484 5.1236 9.41829 4.99289C9.46565 5.0374 9.51364 5.08318 9.56353 5.13118C9.82969 5.42512 10.1533 5.6616 10.5142 5.8261C10.8555 5.92335 11.2123 5.95302 11.5649 5.91293C11.899 5.86525 12.24 5.90061 12.5573 6.01586C12.7979 6.14531 13.0751 6.62395 13.3431 7.08713C13.4117 7.2049 13.4814 7.32488 13.5525 7.44359H12.9175C12.826 7.30309 12.7433 7.16038 12.6624 7.0142C12.132 6.05185 11.3307 6.70099 10.3279 6.33064ZM9.86852 3.89382C9.60299 4.02075 9.37124 4.20924 9.19254 4.44351L9.19096 4.44541L9.18844 4.4473V4.4492C8.84176 4.8467 8.7543 4.89469 8.10674 4.86691C7.1747 4.8246 6.89023 4.97836 6.44883 5.81758C6.36169 6.01585 6.24077 6.1974 6.09111 6.354C5.92093 6.4724 5.73275 6.56239 5.53353 6.61985C5.15149 6.75782 4.6498 6.94158 4.50361 7.44265H3.91351C4.18314 6.53523 4.8225 6.30128 5.3463 6.11247C5.46659 6.07458 5.58373 6.02722 5.69676 5.97165C5.73023 5.95271 5.75896 5.92682 5.78169 5.89588C5.85147 5.78948 5.9143 5.67897 5.9705 5.56499C6.11416 5.25273 6.31528 4.97015 6.56313 4.73177C6.64301 4.65852 6.73078 4.59443 6.82519 4.54139C7.22869 4.34753 7.67924 4.27333 8.12347 4.32764C8.2987 4.36142 8.47962 4.34058 8.64254 4.26797C8.79567 4.15209 9.10066 3.79089 9.38893 3.57588C9.5651 3.65513 9.72707 3.76248 9.86852 3.89382ZM8.29618 1.4529C8.71294 1.08192 9.25727 0.887112 9.81485 0.909845C9.86347 0.909845 9.90862 0.909845 9.94935 0.913002C10.0011 1.51384 9.80664 2.10994 9.41071 2.56491C9.0994 2.8617 8.61002 2.8617 8.2987 2.56491C7.9915 2.25833 7.99023 1.76074 8.29618 1.4529ZM5.64403 0.913002L5.6453 0.914265C6.24613 0.862169 6.84255 1.05666 7.2972 1.4529C7.60346 1.76043 7.60346 2.2577 7.2972 2.56491C6.98589 2.8617 6.49651 2.8617 6.1852 2.56491C5.78832 2.11026 5.5932 1.51415 5.64403 0.913002ZM4.90491 5.12549C4.9671 5.10276 5.01857 5.05824 5.05014 5.00015C5.24779 4.59506 5.51869 4.22976 5.84863 3.92255C5.98692 3.79879 6.13815 3.69049 6.29981 3.59925C7.0724 3.22226 7.95708 3.14459 8.78335 3.38139C8.66559 3.49221 8.4171 3.74543 8.36311 3.79626C8.29839 3.79626 8.21693 3.79153 8.14494 3.78742C7.60125 3.72775 7.05188 3.82563 6.56218 4.06937C6.43305 4.14199 6.31244 4.22881 6.20319 4.3289C5.90546 4.61085 5.66392 4.94679 5.4909 5.3184C5.45396 5.3926 5.41008 5.47122 5.38008 5.52426C5.31283 5.5511 5.20864 5.58804 5.16633 5.60319C4.59865 5.80747 3.66976 6.14436 3.35593 7.44075H2.76898C2.99757 6.33317 3.81942 5.44249 4.90491 5.12549ZM16.3934 8.71599C15.9104 11.1058 13.8123 12.8259 11.3739 12.8309H6.61964C4.18125 12.8259 2.08321 11.1058 1.60014 8.71599L1.45301 7.98128H16.5406L16.3934 8.71599Z"
+                                                    fill="#560CE3" />
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M6.88902 12.0226C6.88902 12.1717 6.76841 12.2923 6.6197 12.2923C4.53114 12.292 2.70747 10.8791 2.18525 8.85712C2.15684 8.7624 2.18273 8.66011 2.25219 8.59001C2.32165 8.51992 2.42395 8.4934 2.51867 8.52118C2.61339 8.54865 2.68569 8.62601 2.70653 8.72231C3.16718 10.5068 4.77678 11.7533 6.6197 11.7533C6.76841 11.7533 6.88902 11.8739 6.88902 12.0226Z"
+                                                    fill="#560CE3" />
+                                                <path
+                                                    d="M16.9573 7.63966C16.855 7.51495 16.7022 7.44265 16.5406 7.44265H15.5757C15.259 7.07671 14.9777 6.68142 14.7355 6.26244C14.3396 5.58046 13.9651 4.93542 13.3233 4.59191C12.461 4.12589 11.493 4.3349 11.0699 4.30554C10.9341 4.20324 10.8066 4.09116 10.6878 3.9696C10.5998 3.88498 10.5293 3.80668 10.4621 3.73248C10.2319 3.45717 9.94303 3.23679 9.61657 3.08776C9.67782 3.04514 9.7356 2.99778 9.78927 2.946C10.6875 2.04774 10.4713 0.678729 10.4627 0.620635C10.4438 0.507287 10.3547 0.418251 10.2414 0.399307C10.183 0.389835 8.81335 0.173559 7.91572 1.07276C7.8731 1.11823 7.83363 1.16653 7.79764 1.21737C7.76133 1.16653 7.72186 1.11823 7.67892 1.07276C6.78067 0.174506 5.41197 0.390782 5.35356 0.399307C5.2399 0.418251 5.15086 0.507287 5.13223 0.62095C5.12244 0.678729 4.9068 2.049 5.80569 2.946C5.87704 3.01577 5.95598 3.07766 6.04122 3.12975H6.03901C5.84421 3.23994 5.6614 3.37002 5.49406 3.51873C5.14076 3.84331 4.84713 4.22724 4.62675 4.65316C3.96655 4.8988 2.66542 5.46806 2.2174 7.44265H1.45301C1.29136 7.44265 1.13854 7.51495 1.03625 7.63998C0.93395 7.76469 0.892905 7.92887 0.924478 8.08737L1.07161 8.82145C1.60583 11.4629 3.92488 13.3639 6.61964 13.3699H11.3739C14.069 13.3639 16.3877 11.4629 16.922 8.82145L17.0691 8.08705C17.1007 7.92887 17.0596 7.76469 16.9573 7.63966ZM10.2866 4.3308C10.4649 4.53097 10.6771 4.69799 10.9136 4.82428C11.2868 4.93037 12.2716 4.63579 13.0672 5.06677C13.5755 5.33829 13.9121 5.91861 14.2765 6.54628C14.4586 6.85665 14.6591 7.15596 14.877 7.44265H14.1909C14.0602 7.24247 13.9326 7.02809 13.8098 6.81623C13.4903 6.26402 13.1881 5.74212 12.813 5.54005C12.4121 5.37145 11.9729 5.31367 11.5419 5.37366C11.2615 5.40649 10.9774 5.38818 10.7033 5.31967C10.4132 5.17885 10.1533 4.9831 9.93798 4.74283C9.88778 4.69483 9.83663 4.64558 9.78517 4.59727C9.89473 4.47887 10.0352 4.39299 10.1906 4.34942C10.2259 4.34216 10.254 4.33743 10.2866 4.3308ZM6.81445 6.27223C6.85234 6.20466 6.88896 6.13741 6.92496 6.06795C6.97516 5.9726 7.0241 5.88104 7.07556 5.79642C7.36224 6.01743 7.63504 6.25581 7.89204 6.51029C8.23272 6.84497 8.59518 7.15628 8.97721 7.44265H8.11495C7.90941 7.26426 7.71081 7.07892 7.52232 6.90085L7.50211 6.88222C7.22143 6.61827 6.99315 6.40863 6.81445 6.27223ZM7.31362 7.44265H5.10445C5.28221 7.29299 5.49122 7.18501 5.71634 7.1266C5.97776 7.04956 6.22308 6.92674 6.44126 6.76319C6.46146 6.74614 6.4782 6.72499 6.49714 6.70636C6.67395 6.84339 6.94358 7.09503 7.1365 7.27562L7.15512 7.29299C7.20564 7.34193 7.26058 7.39276 7.31362 7.44265ZM8.2624 6.11815C7.99308 5.86367 7.73291 5.61993 7.48759 5.43144C7.68366 5.39481 7.88383 5.38597 8.08243 5.40428C8.13642 5.40681 8.18851 5.40839 8.24156 5.40997C8.43478 5.51889 8.60749 5.66097 8.75115 5.82989C9.13697 6.26023 9.61057 6.6028 10.1401 6.83486C11.2331 7.239 11.792 6.67763 12.2008 7.29078C12.2277 7.33845 12.2577 7.39118 12.2861 7.4417H10.8681C10.4934 7.4537 10.1192 7.39908 9.76338 7.28004C9.27779 7.07482 8.73852 6.56649 8.2624 6.11815ZM10.3279 6.33064C9.87168 6.12257 9.46375 5.82168 9.13002 5.44722C9.07982 5.39765 9.03183 5.35061 8.98479 5.30514C9.14771 5.22968 9.29484 5.1236 9.41829 4.99289C9.46565 5.0374 9.51364 5.08318 9.56353 5.13118C9.82969 5.42512 10.1533 5.6616 10.5142 5.8261C10.8555 5.92335 11.2123 5.95302 11.5649 5.91293C11.899 5.86525 12.24 5.90061 12.5573 6.01586C12.7979 6.14531 13.0751 6.62395 13.3431 7.08713C13.4117 7.2049 13.4814 7.32488 13.5525 7.44359H12.9175C12.826 7.30309 12.7433 7.16038 12.6624 7.0142C12.132 6.05185 11.3307 6.70099 10.3279 6.33064ZM9.86852 3.89382C9.60299 4.02075 9.37124 4.20924 9.19254 4.44351L9.19096 4.44541L9.18844 4.4473V4.4492C8.84176 4.8467 8.7543 4.89469 8.10674 4.86691C7.1747 4.8246 6.89023 4.97836 6.44883 5.81758C6.36169 6.01585 6.24077 6.1974 6.09111 6.354C5.92093 6.4724 5.73275 6.56239 5.53353 6.61985C5.15149 6.75782 4.6498 6.94158 4.50361 7.44265H3.91351C4.18314 6.53523 4.8225 6.30128 5.3463 6.11247C5.46659 6.07458 5.58373 6.02722 5.69676 5.97165C5.73023 5.95271 5.75896 5.92682 5.78169 5.89588C5.85147 5.78948 5.9143 5.67897 5.9705 5.56499C6.11416 5.25273 6.31528 4.97015 6.56313 4.73177C6.64301 4.65852 6.73078 4.59443 6.82519 4.54139C7.22869 4.34753 7.67924 4.27333 8.12347 4.32764C8.2987 4.36142 8.47962 4.34058 8.64254 4.26797C8.79567 4.15209 9.10066 3.79089 9.38893 3.57588C9.5651 3.65513 9.72707 3.76248 9.86852 3.89382ZM8.29618 1.4529C8.71294 1.08192 9.25727 0.887112 9.81485 0.909845C9.86347 0.909845 9.90862 0.909845 9.94935 0.913002C10.0011 1.51384 9.80664 2.10994 9.41071 2.56491C9.0994 2.8617 8.61002 2.8617 8.2987 2.56491C7.9915 2.25833 7.99023 1.76074 8.29618 1.4529ZM5.64403 0.913002L5.6453 0.914265C6.24613 0.862169 6.84255 1.05666 7.2972 1.4529C7.60346 1.76043 7.60346 2.2577 7.2972 2.56491C6.98589 2.8617 6.49651 2.8617 6.1852 2.56491C5.78832 2.11026 5.5932 1.51415 5.64403 0.913002ZM4.90491 5.12549C4.9671 5.10276 5.01857 5.05824 5.05014 5.00015C5.24779 4.59506 5.51869 4.22976 5.84863 3.92255C5.98692 3.79879 6.13815 3.69049 6.29981 3.59925C7.0724 3.22226 7.95708 3.14459 8.78335 3.38139C8.66559 3.49221 8.4171 3.74543 8.36311 3.79626C8.29839 3.79626 8.21693 3.79153 8.14494 3.78742C7.60125 3.72775 7.05188 3.82563 6.56218 4.06937C6.43305 4.14199 6.31244 4.22881 6.20319 4.3289C5.90546 4.61085 5.66392 4.94679 5.4909 5.3184C5.45396 5.3926 5.41008 5.47122 5.38008 5.52426C5.31283 5.5511 5.20864 5.58804 5.16633 5.60319C4.59865 5.80747 3.66976 6.14436 3.35593 7.44075H2.76898C2.99757 6.33317 3.81942 5.44249 4.90491 5.12549ZM16.3934 8.71599C15.9104 11.1058 13.8123 12.8259 11.3739 12.8309H6.61964C4.18125 12.8259 2.08321 11.1058 1.60014 8.71599L1.45301 7.98128H16.5406L16.3934 8.71599Z"
+                                                    stroke="#560CE3" stroke-width="0.0631463"
+                                                    mask="url(#path-1-inside-1_2244_1305)" />
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M6.88902 12.0226C6.88902 12.1717 6.76841 12.2923 6.6197 12.2923C4.53114 12.292 2.70747 10.8791 2.18525 8.85712C2.15684 8.7624 2.18273 8.66011 2.25219 8.59001C2.32165 8.51992 2.42395 8.4934 2.51867 8.52118C2.61339 8.54865 2.68569 8.62601 2.70653 8.72231C3.16718 10.5068 4.77678 11.7533 6.6197 11.7533C6.76841 11.7533 6.88902 11.8739 6.88902 12.0226Z"
+                                                    stroke="#560CE3" stroke-width="0.0631463"
+                                                    mask="url(#path-1-inside-1_2244_1305)" />
+                                            </svg>
+                                        </span>
+                                        <span class="text">Mexican</span>
                                     </div>
                                 </div>
                                 <div class="tg-listing-card-content p-relative">
-                                    <h4 class="tg-listing-card-title mb-5"><a href="tour-grid-1.html">American Parks
-                                            Trail end Rapid City Express</a></h4>
-                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                        <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        51 Dekor Land, Thailand
-                                    </span>
-                                    <div class="tg-listing-card-review mb-10">
+                                    <h4 class="tg-listing-card-title mb-5"><a href="tour-details.html">Chapghor Modern
+                                            Food & Restaurant</a></h4>
+                                    <div class="tg-listing-card-review mb-5">
                                         <span class="tg-listing-rating-icon"><i
                                                 class="fa-sharp fa-solid fa-star"></i></span>
                                         <span class="tg-listing-rating-icon"><i
@@ -344,27 +325,106 @@
                                                 class="fa-sharp fa-solid fa-star"></i></span>
                                         <span class="tg-listing-rating-percent">(5 Reviews)</span>
                                     </div>
+                                    <span class="tg-listing-card-duration-map d-inline-block mb-10">
+                                        <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
+                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
+                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        Sydney, Australia
+                                    </span>
                                     <div class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                        <a class="tg-listing-avai-btn" href="#">Check Availability</a>
-                                        <div class="tg-listing-item-wishlist">
-                                            <a href="#">
-                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                        stroke="currentColor" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
+                                        <a class="tg-listing-avai-btn" href="tour-details.html">View Details</a>
+                                        <div class="tg-listing-card-price d-flex align-items-center">
+                                            <span class="form mr-5">From</span>
+                                            <span class="price">$11</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="tg-listing-card-item tg-listing-5-card-item mb-25">
+                                <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
+                                    <a href="tour-details.html">
+                                        <img class="tg-card-border w-100"
+                                            src="assets/img/listing/listing-5/listing-3.jpg" alt="listing">
+                                        <span class="tg-listing-item-price-discount shape">Open</span>
+                                        <span
+                                            class="tg-listing-item-price-discount offer-btm shape-4">Recommended</span>
+                                    </a>
+                                    <div class="tg-listing-item-wishlist">
+                                        <a href="#">
+                                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="tg-listing-2-price">
+                                        <span>
+                                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M1.20809 9.7132C1.16415 11.1545 1.93103 12.9404 4.01197 12.8251C4.01197 12.8251 5.82227 14.263 8.46172 12.9412C8.46172 12.9412 11.2319 13.0106 12.0606 10.4366C12.0606 10.4366 14.3071 10.6453 14.8524 8.51176C15.8506 7.45073 15.3953 5.80153 14.6511 5.10709M0.886482 6.44112C1.57522 6.45965 1.79378 7.20088 2.31402 7.75419C2.579 8.03597 3.20433 7.97747 3.61291 8.16125C4.41738 8.52297 4.45883 8.91785 4.78678 9.01242C5.44947 9.20352 5.24881 10.363 5.21483 10.5368M2.74343 3.99779C3.08474 4.00388 3.43127 4.2586 3.75763 4.58303M5.99983 6.05917C6.09201 6.08427 6.17604 6.11133 6.24625 6.14302C7.05072 6.50474 6.84553 6.80723 7.3225 7.14312C7.89347 7.54506 7.70186 8.48227 7.66744 8.62998M5.69702 1.87815C6.40252 1.88181 6.53796 2.57869 7.0634 3.1376C7.32839 3.41937 8.37271 3.55587 8.78129 3.73966C9.58577 4.10138 9.44852 4.39193 9.92549 4.72757C10.5019 5.13341 10.3791 6.07257 10.3588 6.20493M9.73004 0.636743C10.4573 0.89536 10.3345 1.62661 10.8602 2.18552C11.1252 2.46729 11.5888 2.68228 11.9326 2.98258C12.5559 3.52687 12.3 3.78451 12.7769 4.12015C13.3244 4.50552 13.1133 5.25602 13.0557 5.42762M15.0176 4.6096C14.8357 4.98887 14.5105 5.27405 14.0425 5.38715C12.8327 5.67989 11.6325 4.8609 9.28771 7.09144C7.78793 8.51786 5.75636 10.6541 4.42644 10.831C2.50698 11.086 1.0457 10.4135 0.609491 8.11786C0.173055 5.822 3.48857 3.10884 5.29886 2.08851C7.10938 1.06818 9.27956 0.685493 10.2503 0.558013C12.93 0.205796 14.5166 1.51741 15.0176 2.86923C15.2492 3.4942 15.249 4.12771 15.0176 4.6096Z"
+                                                    stroke="#560CE3" stroke-width="0.603568"
+                                                    stroke-miterlimit="30.568" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                        <span class="text">Japanese</span>
+                                    </div>
+                                </div>
+                                <div class="tg-listing-card-content p-relative">
+                                    <h4 class="tg-listing-card-title mb-5"><a href="tour-details.html">Northend Leoat
+                                            Japanese Cuisine</a></h4>
+                                    <div class="tg-listing-card-review mb-5">
+                                        <span class="tg-listing-rating-icon"><i
+                                                class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="tg-listing-rating-icon"><i
+                                                class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="tg-listing-rating-icon"><i
+                                                class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="tg-listing-rating-icon"><i
+                                                class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="tg-listing-rating-icon"><i
+                                                class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
+                                    </div>
+                                    <span class="tg-listing-card-duration-map d-inline-block mb-10">
+                                        <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
+                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
+                                                stroke="currentColor" stroke-width="1.15556" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        Switzerland city
+                                    </span>
+                                    <div class="tg-listing-avai d-flex align-items-center justify-content-between">
+                                        <a class="tg-listing-avai-btn" href="tour-details.html">View Details</a>
+                                        <div class="tg-listing-card-price d-flex align-items-center">
+                                            <span class="form mr-5">From</span>
+                                            <span class="price">$17</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @if (getTranslatedValue($theme6_tour_package, 'show_pagination') == '1')
-                        <div class="tg-listing-4-pagination swiper-pagination"></div>
-                    @endif
                 </div>
             </div>
         </div>
