@@ -18,7 +18,7 @@
                             @foreach ($partners as $key => $partner)
                                 <div class="swiper-slide">
                                     <div class="tg-brand-items">
-                                        <a href="{{ $partner?->url ?? '#' }}"><img src="{{ $partner?->logo }}"
+                                        <a href="{{ $partner?->link ?? '#' }}"><img src="{{ $partner?->logo }}"
                                                 alt="logo"></a>
                                     </div>
                                 </div>

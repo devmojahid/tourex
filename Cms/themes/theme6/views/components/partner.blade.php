@@ -4,12 +4,9 @@
     $partners = Partner::latest()->get();
 @endphp
 
-
 @if ($partners->count() > 0)
     <!-- brands-area-start -->
-    <div class="tg-brand-area tg-grey-bg pb-80 p-relative z-index-1">
-        <img class="tg-brand-shape" src="{{ asset('frontend/assets/img/shape/pyramid-2.png') }}" alt="">
-        <img class="tg-brand-shape-2" src="{{ asset('frontend/assets/img/shape/hill.png') }}" alt="">
+    <div class="tg-brand-area pb-115 z-index-1">
         <div class="container">
             <div class="row">
                 <div class="tg-brand-wrap">
