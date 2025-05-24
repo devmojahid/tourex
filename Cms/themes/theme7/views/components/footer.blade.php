@@ -1,8 +1,9 @@
 <!-- footer-area-start -->
 <footer>
-    <div class="tg-footer-area pt-130 include-bg" data-background="{{ asset('frontend/assets/img/shape/home-6-footer-bg.jpeg') }}">
+    <div class="tg-footer-area tg-footer-space include-bg"
+        data-background="{{ asset('frontend/assets/img/shape/home-1-footer-bg.jpeg') }}">
         <div class="container">
-            <div class="tg-footer-top pb-40">
+            <div class="tg-footer-top mb-40">
                 <div class="row">
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="tg-footer-widget mb-40">
