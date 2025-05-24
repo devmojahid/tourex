@@ -13,4 +13,7 @@
     {{-- banner section --}}
     @include('theme::components.banner')
 
+    {{-- counter section --}}
+    @include('theme::components.counter')
+
 @endsection

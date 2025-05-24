@@ -1,12 +1,12 @@
 @php
-    $theme6_counter = getContent('theme6_counter.content', true);
-    $translatedSlides = getTranslatedSlides($theme6_counter, 'slides');
+    $theme7_counter = getContent('theme7_counter.content', true);
+    $translatedSlides = getTranslatedSlides($theme7_counter, 'slides');
 @endphp
 
 @if (count($translatedSlides) > 0)
 
     <!-- tg-counter-area-start -->
-    <div class="tg-counter-area pb-90">
+    <div class="tg-counter-area tg-counter-5-border pb-65 pt-95">
         <div class="container">
             <div class="row">
                 @foreach ($translatedSlides as $key => $slide)
