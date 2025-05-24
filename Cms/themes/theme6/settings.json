@@ -416,5 +416,32 @@
                 "default": "1"
             }
         }
+    },
+    "theme6_blog": {
+        "builder": true,
+        "name": "Theme6 Blog Section",
+        "theme": "theme6",
+        "order": 11,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "description": {
+                "type": "textarea",
+                "label": "Description",
+                "required": true,
+                "help": "Description with HTML formatting"
+            }
+        }
     }
 }
