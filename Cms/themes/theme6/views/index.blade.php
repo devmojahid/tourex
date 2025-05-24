@@ -27,4 +27,7 @@
 
     {{-- counter section --}}
     @include('theme::components.counter')
+
+    {{-- cta section --}}
+    @include('theme::components.cta')
 @endsection

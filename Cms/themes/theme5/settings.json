@@ -376,7 +376,7 @@
      "theme5_cta": {
         "builder": true,
         "name": "Theme 5 CTA Section",
-        "theme": "theme4",
+        "theme": "theme5",
         "order": 10,
         "page": "home",
         "content": {

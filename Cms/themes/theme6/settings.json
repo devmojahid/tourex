@@ -360,5 +360,42 @@
                 }
             }
         }
+    },
+     "theme6_cta": {
+        "builder": true,
+        "name": "Theme 6 CTA Section",
+        "theme": "theme6",
+        "order": 9,
+        "page": "home",
+        "content": {
+            "image": {
+                "type": "image",
+                "label": "Call to Action Image",
+                "help": "Call to action image (395x356px recommended)",
+                "size": "395x356px"
+            },
+            "title": {
+                "type": "text",
+                "label": "Call to Action Title",
+                "help": "Call to action title",
+                "required": true
+            },
+            "short_description": {
+                "type": "textarea",
+                "label": "Call to Action Short Description",
+                "help": "Call to action short description",
+                "required": true
+            },
+            "apple_store_link": {
+                "type": "text",
+                "label": "Apple Store Link",
+                "help": "Apple store link"
+            },
+            "google_play_link": {
+                "type": "text",
+                "label": "Google Play Link",
+                "help": "Google play link"
+            }
+        }
     }
 }
