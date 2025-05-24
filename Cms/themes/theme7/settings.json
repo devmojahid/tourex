@@ -247,5 +247,36 @@
                 }
             }
         }
+    },
+    "theme7_destination": {
+        "builder": true,
+        "name": "Theme7 Destination Section",
+        "theme": "theme7",
+        "order": 7,
+        "page": "home",
+        "content": {
+            "show_navigation": {
+                "type": "radio",
+                "label": "Show Navigation",
+                "required": true,
+                "options": {
+                    "1": "Yes",
+                    "0": "No"
+                },
+                "default": "1"
+            },
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            }
+        }
     }
 }
