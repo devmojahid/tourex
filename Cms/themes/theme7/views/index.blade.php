@@ -22,4 +22,7 @@
     {{-- destination section --}}
     @include('theme::components.destination')
 
+    {{-- testimonial section --}}
+    @include('theme::components.testimonial')
+
 @endsection

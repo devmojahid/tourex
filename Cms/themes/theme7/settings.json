@@ -278,5 +278,24 @@
                 "help": "Main title with HTML formatting"
             }
         }
+    },
+    "theme7_testimonial": {
+        "builder": true,
+        "name": "Theme7 Testimonial Section",
+        "theme": "theme7",
+        "order": 8,
+        "page": "home",
+        "content": {
+            "show_navigation": {
+                "type": "radio",
+                "label": "Show Navigation",
+                "required": true,
+                "options": {
+                    "1": "Yes",
+                    "0": "No"
+                },
+                "default": "1"
+            }
+        }
     }
 }
