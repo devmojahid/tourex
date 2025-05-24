@@ -30,4 +30,7 @@
 
     {{-- cta section --}}
     @include('theme::components.cta')
+
+    {{-- testimonial section --}}
+    @include('theme::components.testimonial')
 @endsection

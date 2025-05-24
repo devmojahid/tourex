@@ -361,7 +361,7 @@
             }
         }
     },
-     "theme6_cta": {
+    "theme6_cta": {
         "builder": true,
         "name": "Theme 6 CTA Section",
         "theme": "theme6",
@@ -395,6 +395,25 @@
                 "type": "text",
                 "label": "Google Play Link",
                 "help": "Google play link"
+            }
+        }
+    },
+    "theme6_testimonial": {
+        "builder": true,
+        "name": "Theme6 Testimonial Section",
+        "theme": "theme6",
+        "order": 10,
+        "page": "home",
+        "content": {
+            "show_navigation": {
+                "type": "radio",
+                "label": "Show Navigation",
+                "required": true,
+                "options": {
+                    "1": "Yes",
+                    "0": "No"
+                },
+                "default": "1"
             }
         }
     }
