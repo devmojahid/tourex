@@ -21,4 +21,7 @@
 
     {{-- destination section --}}
     @include('theme::components.destination')
+
+    {{-- banner 2 section --}}
+    @include('theme::components.banner-two')
 @endsection

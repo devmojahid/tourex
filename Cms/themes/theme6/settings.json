@@ -313,8 +313,8 @@
             "background_image": {
                 "type": "image",
                 "label": "Background Image",
-                "help": "Background image for the section (1920x900px recommended)",
-                "size": "1920x900px"
+                "help": "Background image for the section (1920x1160px recommended)",
+                "size": "1920x1160px"
             }
         }
     }
