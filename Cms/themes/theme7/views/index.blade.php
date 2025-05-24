@@ -25,4 +25,7 @@
     {{-- testimonial section --}}
     @include('theme::components.testimonial')
 
+    {{-- partner section --}}
+    @include('theme::components.partner')
+
 @endsection
