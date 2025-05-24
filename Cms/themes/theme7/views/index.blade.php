@@ -10,4 +10,7 @@
     {{-- tour package section --}}
     @include('theme::components.tour-package')
 
+    {{-- banner section --}}
+    @include('theme::components.banner')
+
 @endsection

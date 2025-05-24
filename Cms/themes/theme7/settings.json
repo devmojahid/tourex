@@ -78,5 +78,45 @@
                 "help": "Main title with HTML formatting"
             }
         }
+    },
+    "theme7_banner": {
+        "builder": true,
+        "name": "Theme7 Banner Section",
+        "theme": "theme7",
+        "order": 4,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "button_text": {
+                "type": "text",
+                "label": "Button Text",
+                "required": true,
+                "help": "Text to display on the button"
+            },
+            "button_url": {
+                "type": "text",
+                "label": "Button Url",
+                "required": true,
+                "help": "Url to display on the button"
+            },
+            "background_image": {
+                "type": "image",
+                "label": "Hero Background Image",
+                "help": "Background image for this hero (1920x520px recommended)",
+                "size": "1920x520px",
+                "required": true
+            }
+        }
     }
 }
