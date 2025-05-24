@@ -16,4 +16,7 @@
     {{-- counter section --}}
     @include('theme::components.counter')
 
+    {{-- why choose section --}}
+    @include('theme::components.why-choose')
+
 @endsection
