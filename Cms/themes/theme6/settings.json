@@ -193,5 +193,54 @@
                 }
             }
         }
+    },
+     "theme6_banner": {
+        "builder": true,
+        "name": "Theme6 Banner Section",
+        "theme": "theme6",
+        "order": 5,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "right_side_title_1": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "right_side_title_2": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "button_text": {
+                "type": "text",
+                "label": "Button Text",
+                "help": "Text to display on the button"
+            },
+            "button_url": {
+                "type": "text",
+                "label": "Button URL",
+                "help": "URL for the button"
+            },
+            "background_image": {
+                "type": "image",
+                "label": "Background Image",
+                "help": "Background image for the section (806x250px recommended)",
+                "size": "806x250px"
+            }
+        }
     }
 }

@@ -15,4 +15,7 @@
 
     {{-- why choose section --}}
     @include('theme::components.why-choose')
+
+    {{-- banner section --}}
+    @include('theme::components.banner')
 @endsection
