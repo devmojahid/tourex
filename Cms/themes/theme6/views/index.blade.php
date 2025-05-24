@@ -12,4 +12,7 @@
 
     {{-- tour package section --}}
     @include('theme::components.tour-package')
+
+    {{-- why choose section --}}
+    @include('theme::components.why-choose')
 @endsection

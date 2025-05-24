@@ -116,5 +116,82 @@
                 "help": "Url to display on the button"
             }
         }
+    },
+    "theme6_why_choose": {
+        "builder": true,
+        "name": "Theme6 Why Choose Section",
+        "theme": "theme6",
+        "order": 4,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "description": {
+                "type": "textarea",
+                "label": "Description",
+                "help": "Description with HTML formatting"
+            },
+            "small_image": {
+                "type": "image",
+                "label": "Small Image",
+                "help": "Small Image (307x307px recommended)",
+                "size": "307x307px"
+            },
+            "big_image": {
+                "type": "image",
+                "label": "Big Image",
+                "help": "Big Image (420x500px recommended)",
+                "size": "420x500px"
+            },
+            "button_text": {
+                "type": "text",
+                "label": "Button Text",
+                "required": true,
+                "help": "Text to display on the button"
+            },
+            "button_url": {
+                "type": "text",
+                "label": "Button Url",
+                "required": true,
+                "help": "Url to display on the button"
+            },
+            "slides": {
+                "type": "repeater",
+                "label": "Slider Items",
+                "min": 1,
+                "max": 6,
+                "sortable": true,
+                "fields": {
+                    "title": {
+                        "type": "text",
+                        "label": "Slide Title",
+                        "help": "Title for this slide",
+                        "required": true
+                    },
+                    "short_description": {
+                        "type": "text",
+                        "label": "Slide Short Description",
+                        "help": "Short Description for this slide",
+                        "required": true
+                    },
+                    "icon": {
+                        "type": "image",
+                        "label": "Slide Icon",
+                        "help": "Icon for this slide (65x65px recommended)",
+                        "size": "65x65px"
+                    }
+                }
+            }
+        }
     }
 }
