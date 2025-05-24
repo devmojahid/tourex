@@ -24,4 +24,7 @@
 
     {{-- banner 2 section --}}
     @include('theme::components.banner-two')
+
+    {{-- counter section --}}
+    @include('theme::components.counter')
 @endsection

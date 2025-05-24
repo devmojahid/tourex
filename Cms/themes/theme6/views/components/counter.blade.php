@@ -1,16 +1,17 @@
 @php
-    $theme5_counter = getContent('theme5_counter.content', true);
-    $translatedSlides = getTranslatedSlides($theme5_counter, 'slides');
+    $theme6_counter = getContent('theme6_counter.content', true);
+    $translatedSlides = getTranslatedSlides($theme6_counter, 'slides');
 @endphp
 
 @if (count($translatedSlides) > 0)
+
     <!-- tg-counter-area-start -->
-    <div class="tg-counter-area pb-80 tg-grey-bg">
+    <div class="tg-counter-area pb-90">
         <div class="container">
             <div class="row">
                 @foreach ($translatedSlides as $key => $slide)
                     <div class="col-lg-3 col-md-6 col-sm-6  mb-30">
-                        <div class="tg-counter-item tg-counter-2-item d-flex align-items-center">
+                        <div class="tg-counter-item d-flex align-items-center">
                             <span class="tg-counter-icon d-inline-block mr-20">
                                 @isset($slide['icon'])
                                     <img src="{{ asset($slide['icon']) }}" alt="">
@@ -28,12 +29,14 @@
         </div>
     </div>
     <!-- tg-counter-area-end -->
+
 @endif
 
 @push('style_section')
     <style>
         .tg-counter-icon img {
-            width: 70px;
+            width: 75px;
+            min-width: 75px;
         }
     </style>
 @endpush
