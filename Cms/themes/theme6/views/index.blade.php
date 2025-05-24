@@ -9,4 +9,7 @@
 
     {{-- ads section --}}
     @include('theme::components.ads')
+
+    {{-- tour package section --}}
+    @include('theme::components.tour-package')
 @endsection
