@@ -1,14 +1,14 @@
 @php
-    $theme5_ads = getContent('theme5_ads.content', true);
-    $theme5_ads_slides = getTranslatedSlides($theme5_ads, 'slides');
+    $theme6_ads = getContent('theme6_ads.content', true);
+    $theme6_ads_slides = getTranslatedSlides($theme6_ads, 'slides');
 @endphp
 
-@if (count($theme5_ads_slides) > 0)
+@if (count($theme6_ads_slides) > 0)
     <!-- tg-ads-area-start -->
-    <div class="tg-ads-area tg-ads-space p-relative z-index-1">
+    <div class="tg-ads-area pt-90 p-relative z-index-1">
         <div class="container">
             <div class="row">
-                @foreach ($theme5_ads_slides as $key => $slide)
+                @foreach ($theme6_ads_slides as $key => $slide)
                     @if ($key == 0)
                         <div class="col-lg-4 col-md-6 mb-30">
                             <div class="tg-ads-wrap include-bg fix" data-background="{{ asset($slide['image']) }}">
@@ -124,6 +124,5 @@
             </div>
         </div>
     </div>
-    <span class="tg-banner-transparent-bg transparent-bg-2 d-none d-lg-block"></span>
     <!-- tg-ads-area-end -->
 @endif

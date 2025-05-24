@@ -26,5 +26,52 @@
                 "required": true
             }
         }
+    },
+    "theme6_ads": {
+        "builder": true,
+        "name": "Theme6 Ads Section",
+        "theme": "theme6",
+        "order": 2,
+        "page": "home",
+        "content": {
+            "slides": {
+                "type": "repeater",
+                "label": "Ads Items",
+                "min": 1,
+                "max": 6,
+                "sortable": true,
+                "fields": {
+                    "image": {
+                        "type": "image",
+                        "label": "Ads Image",
+                        "help": "Image for this ads (392x208px recommended)",
+                        "size": "392x208px",
+                        "required": true
+                    },
+                    "title": {
+                        "type": "text",
+                        "label": "Ads Title",
+                        "help": "Title for this ads",
+                        "required": true
+                    },
+                    "description": {
+                        "type": "textarea",
+                        "label": "Ads Description",
+                        "help": "Description for this slide",
+                        "required": true
+                    },
+                    "button_text": {
+                        "type": "text",
+                        "label": "Button Text",
+                        "help": "Text to display on the button"
+                    },
+                    "button_url": {
+                        "type": "text",
+                        "label": "Button Url",
+                        "help": "Url to display on the button"
+                    }
+                }
+            }
+        }
     }
 }

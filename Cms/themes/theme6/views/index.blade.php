@@ -6,4 +6,7 @@
 
     {{-- hero section --}}
     @include('theme::components.hero')
+
+    {{-- ads section --}}
+    @include('theme::components.ads')
 @endsection
