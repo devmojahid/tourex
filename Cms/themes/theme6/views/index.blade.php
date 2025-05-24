@@ -18,4 +18,7 @@
 
     {{-- banner section --}}
     @include('theme::components.banner')
+
+    {{-- destination section --}}
+    @include('theme::components.destination')
 @endsection
