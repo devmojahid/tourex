@@ -211,27 +211,6 @@
             }
         }
     },
-    "theme4_pricing": {
-        "builder": true,
-        "name": "Theme4 Pricing Section",
-        "theme": "theme4",
-        "order": 6,
-        "page": "home",
-        "content": {
-            "sub_title": {
-                "type": "text",
-                "label": "Sub Title",
-                "required": true,
-                "help": "Sub title with HTML formatting"
-            },
-            "title": {
-                "type": "text",
-                "label": "Main Title",
-                "required": true,
-                "help": "Main title with HTML formatting"
-            }
-        }
-    },
     "theme4_counter": {
         "builder": true,
         "name": "Theme4 Counter Section",

@@ -1088,7 +1088,7 @@
     },
     "about_page_what_we_do": {
         "name": "About Page What We Do Section",
-       "common": true,
+        "common": true,
         "order": 7,
         "page": "global",
         "content": {
@@ -1257,6 +1257,85 @@
                 "type": "text",
                 "label": "Google Play Link",
                 "help": "Google play link"
+            }
+        }
+    },
+    "pricing_heading_section": {
+        "builder": true,
+        "name": "Pricing Heading Section",
+        "common": true,
+        "order": 1,
+        "page": "pricing",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            }
+        }
+    },
+    "basic_package_plan": {
+        "name": "Basic Package Plan",
+        "common": true,
+        "order": 2,
+        "page": "pricing",
+        "content": {
+            "title": {
+                "type": "text",
+                "label": "Title",
+                "help": "Package title",
+                "required": true
+            },
+            "short_description": {
+                "type": "text",
+                "label": "Short Description",
+                "help": "Package short description",
+                "required": true
+            },
+            "price": {
+                "type": "number",
+                "label": "Price",
+                "help": "Price of the package",
+                "required": true
+            },
+            "time_period": {
+                "type": "text",
+                "label": "Time Period",
+                "help": "Time period of the package",
+                "required": true
+            },
+            "button_text": {
+                "type": "text",
+                "label": "Button Text",
+                "help": "Button text of the package",
+                "required": true
+            },
+            "button_url": {
+                "type": "text",
+                "label": "Button Url",
+                "help": "Button url of the package",
+                "required": true
+            },
+            "slides": {
+                "type": "repeater",
+                "label": "Package Items",
+                "min": 1,
+                "max": 10,
+                "sortable": true,
+                "fields": {
+                    "title": {
+                        "type": "text",
+                        "label": "Feature Title",
+                        "required": true
+                    }
+                }
             }
         }
     }
