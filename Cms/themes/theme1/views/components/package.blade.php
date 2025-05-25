@@ -1,16 +1,25 @@
+@php
+    $theme1_tour_package = getContent('theme1_tour_package.content', true);
+@endphp
+
 <!-- tg-listing-area-start -->
 <div class="tg-listing-area tg-grey-bg pt-140 pb-110 p-relative z-index-9">
-    <img class="tg-listing-shape d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/air-plane.png') }}" alt="air-plane">
-    <img class="tg-listing-shape-2 d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/pyramid.png') }}" alt="pyramid">
-    <img class="tg-listing-shape-3 d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/hill.png') }}" alt="hill">
+    <img class="tg-listing-shape d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/air-plane.png') }}"
+        alt="air-plane">
+    <img class="tg-listing-shape-2 d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/pyramid.png') }}"
+        alt="pyramid">
+    <img class="tg-listing-shape-3 d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/hill.png') }}"
+        alt="hill">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="tg-listing-section-title text-center mb-35">
-                    <h5 class="tg-section-subtitle wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".5s">Most
-                        Popular Tour Packages </h5>
-                    <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".6s">Something Amazing
-                        Waiting For you</h2>
+                    <h5 class="tg-section-subtitle wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".5s">
+                        {{ getTranslatedValue($theme1_tour_package, 'sub_title') }}
+                    </h5>
+                    <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".6s">
+                        {{ getTranslatedValue($theme1_tour_package, 'title') }}
+                    </h2>
                 </div>
             </div>
             <div class="col-lg-12">

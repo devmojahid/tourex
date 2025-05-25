@@ -87,7 +87,7 @@
         "builder": true,
         "name": "Theme1 About Us Section",
         "theme": "theme1",
-        "order": 3,
+        "order": 2,
         "page": "home",
         "content": {
             "sub_title": {
@@ -152,6 +152,27 @@
                 "help": "Image for the right bottom of section (180x137px recommended)",
                 "size": "180x137px",
                 "inline": true
+            }
+        }
+    },
+    "theme1_tour_package": {
+        "builder": true,
+        "name": "Theme1 Tour Package Section",
+        "theme": "theme1",
+        "order": 3,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
             }
         }
     },
@@ -279,6 +300,33 @@
                 "type": "text",
                 "label": "Youtube Video Link",
                 "help": "Youtube video link for the section"
+            }
+        }
+    },
+    "theme1_destination": {
+        "builder": true,
+        "name": "Theme1 Destination Section",
+        "theme": "theme1",
+        "order": 6,
+        "page": "home",
+        "content": {
+            "sub_title": {
+                "type": "text",
+                "label": "Sub Title",
+                "required": true,
+                "help": "Sub title with HTML formatting"
+            },
+            "title": {
+                "type": "text",
+                "label": "Main Title",
+                "required": true,
+                "help": "Main title with HTML formatting"
+            },
+            "description": {
+                "type": "textarea",
+                "label": "Description",
+                "required": true,
+                "help": "Brief description below the heading"
             }
         }
     },

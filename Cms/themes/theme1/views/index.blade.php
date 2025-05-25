@@ -18,8 +18,8 @@
     {{-- banner section --}}
     @include('theme::components.banner')
 
-    {{-- tour location section --}}
-    @include('theme::components.tour-location')
+    {{-- destination section --}}
+    @include('theme::components.destination')
 
     {{-- banner two section --}}
     @include('theme::components.banner-two')
