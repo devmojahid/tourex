@@ -28,4 +28,7 @@
     {{-- partner section --}}
     @include('theme::components.partner')
 
+    {{-- blog section --}}
+    @include('theme::components.blog')
+
 @endsection
