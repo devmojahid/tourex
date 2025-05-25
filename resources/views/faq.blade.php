@@ -60,8 +60,6 @@
     </div>
     <!-- tg-faq-area-end -->
 
-    {{-- {{ asset(getSingleImage($what_we_do, 'image')) }} --}}
-
     <!-- tg-cta-area-start -->
     <div class="tg-cta-area-area tg-cta-space pt-125 z-index-9 p-relative">
         <img class="tg-cta-price-shape d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/hill.png') }}" alt="">

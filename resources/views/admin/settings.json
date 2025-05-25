@@ -1225,7 +1225,7 @@
         }
     },
     "footer_cta": {
-        "name": "FAQ CTA",
+        "name": "CTA",
         "common": true,
         "order": 10,
         "page": "global",

@@ -1457,7 +1457,7 @@ return array(
     "No extra charges found" => "No extra charges found",
     "Mandatory" => "Mandatory",
     "Media Gallery" => "Media Gallery",
-    "Media Gallery for" => "Media Gallery for", 
+    "Media Gallery for" => "Media Gallery for",
     "Upload New Media" => "Upload New Media",
     "Media File" => "Media File",
     "Supported files: jpg, jpeg, png, gif, webp, mp4, avi, mov (Max: 10MB)" => "Supported files: jpg, jpeg, png, gif, webp, mp4, avi, mov (Max: 10MB)",
@@ -1471,4 +1471,5 @@ return array(
     "Are you sure you want to delete this media item?" => "Are you sure you want to delete this media item?",
     "This is the current thumbnail. If deleted, another image will be selected as thumbnail." => "This is the current thumbnail. If deleted, another image will be selected as thumbnail.",
     "No media found. Add your first media item using the form above." => "No media found. Add your first media item using the form above.",
+    "Pricing Plan" => "Pricing Plan"
 );
