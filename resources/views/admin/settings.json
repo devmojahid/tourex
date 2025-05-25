@@ -1338,5 +1338,121 @@
                 }
             }
         }
+    },
+    "standard_package_plan": {
+        "name": "Standard Package Plan",
+        "common": true,
+        "order": 3,
+        "page": "pricing",
+        "content": {
+            "title": {
+                "type": "text",
+                "label": "Title",
+                "help": "Package title",
+                "required": true
+            },
+            "short_description": {
+                "type": "text",
+                "label": "Short Description",
+                "help": "Package short description",
+                "required": true
+            },
+            "price": {
+                "type": "number",
+                "label": "Price",
+                "help": "Price of the package",
+                "required": true
+            },
+            "time_period": {
+                "type": "text",
+                "label": "Time Period",
+                "help": "Time period of the package",
+                "required": true
+            },
+            "button_text": {
+                "type": "text",
+                "label": "Button Text",
+                "help": "Button text of the package",
+                "required": true
+            },
+            "button_url": {
+                "type": "text",
+                "label": "Button Url",
+                "help": "Button url of the package",
+                "required": true
+            },
+            "slides": {
+                "type": "repeater",
+                "label": "Package Items",
+                "min": 1,
+                "max": 10,
+                "sortable": true,
+                "fields": {
+                    "title": {
+                        "type": "text",
+                        "label": "Feature Title",
+                        "required": true
+                    }
+                }
+            }
+        }
+    },
+    "cooperate_package_plan": {
+        "name": "Cooperate Package Plan",
+        "common": true,
+        "order": 4,
+        "page": "pricing",
+        "content": {
+            "title": {
+                "type": "text",
+                "label": "Title",
+                "help": "Package title",
+                "required": true
+            },
+            "short_description": {
+                "type": "text",
+                "label": "Short Description",
+                "help": "Package short description",
+                "required": true
+            },
+            "price": {
+                "type": "number",
+                "label": "Price",
+                "help": "Price of the package",
+                "required": true
+            },
+            "time_period": {
+                "type": "text",
+                "label": "Time Period",
+                "help": "Time period of the package",
+                "required": true
+            },
+            "button_text": {
+                "type": "text",
+                "label": "Button Text",
+                "help": "Button text of the package",
+                "required": true
+            },
+            "button_url": {
+                "type": "text",
+                "label": "Button Url",
+                "help": "Button url of the package",
+                "required": true
+            },
+            "slides": {
+                "type": "repeater",
+                "label": "Package Items",
+                "min": 1,
+                "max": 10,
+                "sortable": true,
+                "fields": {
+                    "title": {
+                        "type": "text",
+                        "label": "Feature Title",
+                        "required": true
+                    }
+                }
+            }
+        }
     }
 }
