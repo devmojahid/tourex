@@ -99,45 +99,12 @@
                                                                 class="fa fa-eye"></i>
                                                         </a>
 
-                                                        <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal{{ $serviceType->id }}"
+                                                        <a href="javascript:;"
+                                                            onclick="itemDeleteConfrimation({{ $serviceType->id }})"
                                                             class="crancy-action__btn crancy-action__delete crancy-btn delete_danger_btn"><i
                                                                 class="fa fa-trash"></i>
                                                         </a>
                                                     </td>
-
-                                                    <!-- Delete Modal -->
-                                                    <div class="modal fade" id="deleteModal{{ $serviceType->id }}"
-                                                        tabindex="-1" aria-labelledby="deleteModalLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="deleteModalLabel">
-                                                                        {{ __('translate.Confirm Delete') }}
-                                                                    </h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    {{ __('translate.Are you sure you want to delete this service type?') }}
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button"
-                                                                        class="crancy-btn crancy-btn__default"
-                                                                        data-bs-dismiss="modal">{{ __('translate.Cancel') }}</button>
-                                                                    <form
-                                                                        action="{{ route('admin.tourbooking.service-types.destroy', $serviceType->id) }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit"
-                                                                            class="crancy-btn crancy-btn__danger">{{ __('translate.Delete') }}</button>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -151,6 +118,33 @@
     </section>
 @endsection
 
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
+            </div>
+            <div class="modal-footer">
+                <form action="" id="item_delect_confirmation" class="delet_modal_form" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- @endsection --}}
+
 @push('js_section')
     <script>
         (function($) {
@@ -163,7 +157,15 @@
                     searching: true,
                     ordering: true,
                 });
+
+
+                function itemDeleteConfrimation(id) {
+                    $("#item_delect_confirmation").attr("action",
+                        '{{ url('admin/tourbooking/service-types/') }}' +
+                        "/" + id)
+                }
             });
+
         })(jQuery);
     </script>
 @endpush

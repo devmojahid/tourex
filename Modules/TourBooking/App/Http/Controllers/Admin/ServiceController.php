@@ -21,6 +21,7 @@ use Modules\TourBooking\App\Models\TourItinerary;
 use Modules\TourBooking\App\Repositories\ServiceRepository;
 use Modules\TourBooking\App\Repositories\ServiceTypeRepository;
 use Modules\Language\App\Models\Language;
+use Illuminate\Http\JsonResponse;
 
 final class ServiceController extends Controller
 {
@@ -569,9 +570,84 @@ final class ServiceController extends Controller
     
     /**
      * Store a new availability for a service.
+     *
+     * @return RedirectResponse|JsonResponse
      */
-    public function storeAvailability(Request $request, Service $service): RedirectResponse
+    public function storeAvailability(Request $request, Service $service): RedirectResponse|JsonResponse
     {
+        // Check if this is a bulk request with dates array (from AJAX)
+        if ($request->has('bulk') && $request->has('dates')) {
+            // Validate bulk data
+            $request->validate([
+                'dates' => 'required|array',
+                'dates.*' => 'date',
+                'start_time' => 'nullable|date_format:H:i',
+                'end_time' => 'nullable|date_format:H:i|after_or_equal:start_time',
+                'available_spots' => 'nullable|integer|min:1',
+                'special_price' => 'nullable|numeric|min:0',
+                'is_available' => 'boolean',
+                'notes' => 'nullable|string',
+            ]);
+            
+            $successCount = 0;
+            $errorCount = 0;
+            
+            foreach ($request->dates as $date) {
+                // Check for existing availability on this date
+                $existingAvailability = Availability::where('service_id', $service->id)
+                    ->where('date', $date)
+                    ->where('start_time', $request->start_time ? date('H:i:s', strtotime($request->start_time)) : null)
+                    ->first();
+                    
+                if ($existingAvailability) {
+                    $errorCount++;
+                    continue;
+                }
+                
+                Availability::create([
+                    'service_id' => $service->id,
+                    'date' => $date,
+                    'start_time' => $request->start_time,
+                    'end_time' => $request->end_time,
+                    'is_available' => $request->has('is_available'),
+                    'available_spots' => $request->available_spots,
+                    'special_price' => $request->special_price,
+                    'notes' => $request->notes,
+                ]);
+                
+                $successCount++;
+            }
+            
+            if ($request->ajax()) {
+                if ($errorCount > 0) {
+                    return response()->json([
+                        'success' => true,
+                        'message' => trans('translate.Created :success availabilities. :error already existed.', [
+                            'success' => $successCount,
+                            'error' => $errorCount
+                        ])
+                    ]);
+                }
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => trans('translate.Created :count availabilities successfully', [
+                        'count' => $successCount
+                    ])
+                ]);
+            }
+            
+            $notify_message = trans('translate.Created :success availabilities. :error already existed.', [
+                'success' => $successCount,
+                'error' => $errorCount
+            ]);
+            $notify_type = ($successCount > 0) ? 'success' : 'error';
+            $notify_message = array('message' => $notify_message, 'alert-type' => $notify_type);
+            
+            return back()->with($notify_message);
+        }
+        
+        // Single availability creation
         $request->validate([
             'date' => 'required|date',
             'start_time' => 'nullable|date_format:H:i',
@@ -589,7 +665,7 @@ final class ServiceController extends Controller
         // Check for existing availability on the same date
         $existingAvailability = Availability::where('service_id', $service->id)
             ->where('date', $request->date)
-            ->where('start_time', $request->start_time ?? null)
+            ->where('start_time', $request->start_time ? date('H:i:s', strtotime($request->start_time)) : null)
             ->first();
             
         if ($existingAvailability) {

@@ -87,21 +87,21 @@ Route::group(['as'=> 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mid
     Route::put('destinations/{destination}/status', [DestinationController::class, 'updateStatus'])->name('destinations.update-status');
     Route::put('destinations/{destination}/featured', [DestinationController::class, 'updateFeatured'])->name('destinations.update-featured');
     
-    // Coupons
-    Route::resource('coupons', CouponController::class);
+    // // Coupons
+    // Route::resource('coupons', CouponController::class);
     
-    // Reviews
-    Route::resource('reviews', ReviewController::class)->except(['create', 'store']);
-    Route::put('reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
-    Route::put('reviews/{review}/reject', [ReviewController::class, 'reject'])->name('reviews.reject');
+    // // Reviews
+    // Route::resource('reviews', ReviewController::class)->except(['create', 'store']);
+    // Route::put('reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
+    // Route::put('reviews/{review}/reject', [ReviewController::class, 'reject'])->name('reviews.reject');
     
-    // Reports
-    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-    Route::get('reports/bookings', [ReportController::class, 'bookings'])->name('reports.bookings');
-    Route::get('reports/revenue', [ReportController::class, 'revenue'])->name('reports.revenue');
-    Route::get('reports/services', [ReportController::class, 'services'])->name('reports.services');
-    Route::get('reports/popular-destinations', [ReportController::class, 'popularDestinations'])->name('reports.popular-destinations');
-    Route::get('reports/export/{type}', [ReportController::class, 'export'])->name('reports.export');
+    // // Reports
+    // Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    // Route::get('reports/bookings', [ReportController::class, 'bookings'])->name('reports.bookings');
+    // Route::get('reports/revenue', [ReportController::class, 'revenue'])->name('reports.revenue');
+    // Route::get('reports/services', [ReportController::class, 'services'])->name('reports.services');
+    // Route::get('reports/popular-destinations', [ReportController::class, 'popularDestinations'])->name('reports.popular-destinations');
+    // Route::get('reports/export/{type}', [ReportController::class, 'export'])->name('reports.export');
 });
 
 /*
@@ -109,6 +109,12 @@ Route::group(['as'=> 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mid
 | Front Routes
 |--------------------------------------------------------------------------
 */
+
+Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function(){
+
+    Route::get('tourbookings', [FrontServiceController::class, 'index'])->name('tourbooking');
+    Route::get('tourbookings/{slug}', [FrontServiceController::class, 'show'])->name('tourbooking.show');
+});
 
 Route::group(['as'=> 'front.tourbooking.', 'prefix' => 'tourbooking', 'middleware' => ['web']], function () {
     // Home/Search Page

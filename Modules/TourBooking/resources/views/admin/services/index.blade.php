@@ -132,7 +132,8 @@
                                                             href="javascript:;" data-bs-toggle="modal"
                                                             data-bs-target="#exampleModal"
                                                             class="crancy-btn delete_danger_btn"><i
-                                                                class="fas fa-trash"></i> </a>
+                                                                class="fas fa-trash"></i>
+                                                        </a>
 
                                                         <div class="dropdown" style="display: inline;">
                                                             <button class="crancy-action__btn" type="button"

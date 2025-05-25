@@ -58,7 +58,7 @@ final class ServiceTypeController extends Controller
         // Handle image if present
         if ($request->hasFile('image')) {
             $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             
             $imagePath = $request->file('image')->store('service-types', 'public');
@@ -107,7 +107,7 @@ final class ServiceTypeController extends Controller
         // Handle image if present
         if ($request->hasFile('image')) {
             $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             
             // Delete old image if exists

@@ -32,6 +32,9 @@ final class Destination extends Model
         'is_featured',
         'show_on_homepage',
         'ordering',
+        'meta_title',
+        'meta_keywords',
+        'meta_description',
     ];
 
     /**
