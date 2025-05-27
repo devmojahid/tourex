@@ -1480,6 +1480,9 @@ return array(
     "All Service Types" => "All Service Types",
     "Homepage" => "Homepage",
     "Services in this Category" => "Services in this Category",
+    "Extra charge added successfully" => "Extra charge added successfully",
+    "Extra charge updated successfully" => "Extra charge updated successfully",
+    
 
     "Pricing Plan" => "Pricing Plan",
     "Create a agency" => "Create a agency",

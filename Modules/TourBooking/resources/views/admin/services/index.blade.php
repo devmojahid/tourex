@@ -16,40 +16,14 @@
                     <div class="crancy-body">
                         <div class="crancy-dsinner">
                             <div class="crancy-table crancy-table--v3 mg-top-30">
+
                                 <div class="crancy-customer-filter">
                                     <div
                                         class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
                                         <h4 class="crancy-product-card__title">{{ __('translate.All Services') }}</h4>
                                         <div class="d-flex align-items-center gap-2">
-                                            <div class="dropdown">
-                                                <button class="crancy-btn dropdown-toggle" type="button"
-                                                    id="serviceTypeDropdown" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    {{ isset($serviceType) ? $serviceType->name : __('translate.Filter by Type') }}
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="serviceTypeDropdown">
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('admin.tourbooking.services.index') }}">{{ __('translate.All Types') }}</a>
-                                                    </li>
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('admin.tourbooking.services.tours') }}">{{ __('translate.Tours') }}</a>
-                                                    </li>
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('admin.tourbooking.services.hotels') }}">{{ __('translate.Hotels') }}</a>
-                                                    </li>
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('admin.tourbooking.services.restaurants') }}">{{ __('translate.Restaurants') }}</a>
-                                                    </li>
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('admin.tourbooking.services.rentals') }}">{{ __('translate.Rentals') }}</a>
-                                                    </li>
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('admin.tourbooking.services.activities') }}">{{ __('translate.Activities') }}</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <a href="{{ route('admin.tourbooking.services.create') }}"
-                                                class="crancy-btn"><i class="fa fa-plus"></i>
+                                            <a href="{{ route('admin.tourbooking.services.create') }}" class="crancy-btn"><i
+                                                    class="fa fa-plus"></i>
                                                 {{ __('translate.Add New Service') }}</a>
                                         </div>
                                     </div>
@@ -159,39 +133,6 @@
                                                             </ul>
                                                         </div>
                                                     </td>
-
-                                                    <!-- Delete Modal -->
-                                                    {{-- <div class="modal fade" id="deleteModal{{ $service->id }}"
-                                                        tabindex="-1" aria-labelledby="deleteModalLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="deleteModalLabel">
-                                                                        {{ __('translate.Confirm Delete') }}</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    {{ __('translate.Are you sure you want to delete this service?') }}
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button"
-                                                                        class="crancy-btn crancy-btn__default"
-                                                                        data-bs-dismiss="modal">{{ __('translate.Cancel') }}</button>
-                                                                    <form
-                                                                        action="{{ route('admin.tourbooking.services.destroy', $service->id) }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit"
-                                                                            class="crancy-btn crancy-btn__danger">{{ __('translate.Delete') }}</button>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div> --}}
                                                 </tr>
                                             @endforeach
                                         </tbody>
