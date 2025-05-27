@@ -1,17 +1,24 @@
+@php
+    $theme1_destination = getContent('theme1_destination.content', true);
+@endphp
+
 <!-- tg-location-area-start -->
 <div class="tg-location-area p-relative pb-40 tg-grey-bg pt-140">
-    <img class="tg-location-shape d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/tower.png') }}" alt="shape">
+    <img class="tg-location-shape d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/tower.png') }}"
+        alt="shape">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="tg-location-section-title text-center mb-30">
-                    <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">Next
-                        Adventure Destination</h5>
-                    <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">Popular
-                        Travel Destinations <br>Available Worldwide</h2>
-                    <p class="text-capitalize wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">Are you tired
-                        of the typical tourist destinations and looking<br>
-                        to step out of your comfort zonetravel</p>
+                    <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
+                        {{ getTranslatedValue($theme1_destination, 'sub_title') }}
+                    </h5>
+                    <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
+                        {!! strip_tags(clean(getTranslatedValue($theme1_destination, 'title')), '<br>') !!}
+                    </h2>
+                    <p class="text-capitalize wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">
+                        {!! strip_tags(clean(getTranslatedValue($theme1_destination, 'description')), '<br>') !!}
+                    </p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".9s">

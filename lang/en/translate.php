@@ -1457,7 +1457,7 @@ return array(
     "No extra charges found" => "No extra charges found",
     "Mandatory" => "Mandatory",
     "Media Gallery" => "Media Gallery",
-    "Media Gallery for" => "Media Gallery for", 
+    "Media Gallery for" => "Media Gallery for",
     "Upload New Media" => "Upload New Media",
     "Media File" => "Media File",
     "Supported files: jpg, jpeg, png, gif, webp, mp4, avi, mov (Max: 10MB)" => "Supported files: jpg, jpeg, png, gif, webp, mp4, avi, mov (Max: 10MB)",
@@ -1481,4 +1481,5 @@ return array(
     "Homepage" => "Homepage",
     "Services in this Category" => "Services in this Category",
     
+    "Pricing Plan" => "Pricing Plan"
 );

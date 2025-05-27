@@ -31,6 +31,7 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::post('/store-blog-comment/{id}', [HomeController::class, 'store_blog_comment'])->name('store-blog-comment');
 
     Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+    Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
 
     Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');
     Route::get('/terms-conditions', [HomeController::class, 'terms_conditions'])->name('terms-conditions');

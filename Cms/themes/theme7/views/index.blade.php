@@ -28,4 +28,10 @@
     {{-- partner section --}}
     @include('theme::components.partner')
 
+    {{-- blog section --}}
+    @include('theme::components.blog')
+
+    {{-- cta section --}}
+    @include('theme::components.cta')
+
 @endsection

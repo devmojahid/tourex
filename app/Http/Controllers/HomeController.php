@@ -258,6 +258,21 @@ class HomeController extends Controller
             'footer_cta' => $footer_cta
         ]);
     }
+    public function pricing()
+    {
+
+        $footer_cta = getContent('footer_cta.content', true);
+
+        $seo_setting = SeoSetting::where('id', 4)->first();
+
+        $breadcrumb_title = trans('translate.Pricing Plan');
+
+        return view('pricing', [
+            'seo_setting' => $seo_setting,
+            'breadcrumb_title' => $breadcrumb_title,
+            'footer_cta' => $footer_cta
+        ]);
+    }
 
     public function privacy_policy()
     {
