@@ -24,7 +24,7 @@
                                         <div class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
                                             <h4 class="crancy-product-card__title">{{ __('translate.Support Ticket') }}</h4>
 
-                                            <a href="{{ route('instructor.support-ticket.create') }}" class="crancy-btn "><span>
+                                            <a href="{{ route('agency.support-ticket.create') }}" class="crancy-btn "><span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
 																<path d="M8 1V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
 																<path d="M1 8H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -94,7 +94,7 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <a href="{{ route('instructor.support-ticket.show', $support_ticket->ticket_id) }}" class="crancy-btn"><i class="far fa-message"></i>{{ __('translate.Chat') }}</a>
+                                                        <a href="{{ route('agency.support-ticket.show', $support_ticket->ticket_id) }}" class="crancy-btn"><i class="far fa-message"></i>{{ __('translate.Chat') }}</a>
                                                     </td>
                                                 </tr>
                                             @endforeach

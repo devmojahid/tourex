@@ -80,7 +80,7 @@ class SupportTicketController extends Controller
 
         $notify_message = trans('translate.Ticket created successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-        return redirect()->route('instructor.support-ticket.show', $support_ticket->ticket_id)->with($notify_message);
+        return redirect()->route('agency.support-ticket.show', $support_ticket->ticket_id)->with($notify_message);
 
 
     }

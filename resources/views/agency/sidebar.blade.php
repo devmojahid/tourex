@@ -82,7 +82,7 @@
                 </a>
             </li>
 
-            <li class="{{ Route::is('instructor.teacher-supports') || Route::is('instructor.teacher-support') ? 'active' : '' }}"><a class="collapsed" href="{{ route('instructor.teacher-supports') }}">
+            <li class="{{ Route::is('agency.teacher-supports') || Route::is('agency.teacher-support') ? 'active' : '' }}"><a class="collapsed" href="{{ route('agency.teacher-supports') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,14 +94,14 @@
 
 
                     </span>
-                    <span class="menu-bar__name">{{ __('translate.Student Support') }}</span>
+                    <span class="menu-bar__name">{{ __('translate.User Support') }}</span>
                 </span>
 
                 </a>
             </li>
 
 
-            <li class="{{ Route::is('instructor.support-ticket.*') ? 'active' : '' }}"><a class="collapsed" href="{{ route('instructor.support-ticket.index') }}">
+            <li class="{{ Route::is('agency.support-ticket.*') ? 'active' : '' }}"><a class="collapsed" href="{{ route('agency.support-ticket.index') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -33,15 +33,15 @@ Route::group(['as' => 'user.', 'prefix' => 'user', 'middleware' => ['auth:web', 
 });
 
 
-Route::group(['as' => 'instructor.', 'prefix' => 'instructor', 'middleware' => ['auth:web', 'HtmlSpecialchars', 'MaintenanceMode']], function(){
+Route::group(['as' => 'agency.', 'prefix' => 'agency', 'middleware' => ['auth:web', 'HtmlSpecialchars', 'MaintenanceMode']], function(){
 
     Route::resource('support-ticket', InstructorSupportTicketController::class);
     Route::post('support-ticket-message/{id}', [InstructorSupportTicketController::class, 'support_ticket_message'])->name('support-ticket-message');
 
-    Route::get('teacher-supports', [InstructorCourseQueryController::class, 'index'])->name('teacher-supports');
-    Route::get('teacher-support/{id}', [InstructorCourseQueryController::class, 'show'])->name('teacher-support');
-    Route::post('teacher-support-message/{id}', [InstructorCourseQueryController::class, 'support_ticket_message'])->name('teacher-support-message');
-    Route::put('teacher-support-close/{id}', [InstructorCourseQueryController::class, 'close'])->name('teacher-support-close');
+    Route::get('agency-supports', [InstructorCourseQueryController::class, 'index'])->name('teacher-supports');
+    Route::get('agency-support/{id}', [InstructorCourseQueryController::class, 'show'])->name('teacher-support');
+    Route::post('agency-support-message/{id}', [InstructorCourseQueryController::class, 'support_ticket_message'])->name('teacher-support-message');
+    Route::put('agency-support-close/{id}', [InstructorCourseQueryController::class, 'close'])->name('teacher-support-close');
 
 });
 

@@ -17,7 +17,7 @@
                     <div class="crancy-body">
                         <!-- Dashboard Inner -->
                         <div class="crancy-dsinner">
-                            <form action="{{ route('instructor.support-ticket.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('agency.support-ticket.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="row">
@@ -27,7 +27,7 @@
                                             <div class="create_new_btn_inline_box">
                                                 <h4 class="crancy-product-card__title">{{ __('translate.Create Ticket') }}</h4>
 
-                                                <a href="{{ route('instructor.support-ticket.index') }}" class="crancy-btn "><i class="fa fa-list"></i> {{ __('translate.Ticket List') }}</a>
+                                                <a href="{{ route('agency.support-ticket.index') }}" class="crancy-btn "><i class="fa fa-list"></i> {{ __('translate.Ticket List') }}</a>
                                             </div>
 
                                             <div class="row mg-top-30">
