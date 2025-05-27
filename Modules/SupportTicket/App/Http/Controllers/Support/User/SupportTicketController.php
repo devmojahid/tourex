@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\SupportTicket\App\Http\Controllers\Support\Student;
+namespace Modules\SupportTicket\App\Http\Controllers\Support\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

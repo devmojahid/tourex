@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\SupportTicket\App\Http\Controllers\CourseQuery\Student\CourseQueryController as StudentCourseQueryController;
 use Modules\SupportTicket\App\Http\Controllers\CourseQuery\Instructor\CourseQueryController as InstructorCourseQueryController;
 use Modules\SupportTicket\App\Http\Controllers\Support\Admin\SupportTicketController as AdminSupportTicketController;
-use Modules\SupportTicket\App\Http\Controllers\Support\Student\SupportTicketController as StudentSupportTicketController;
+use Modules\SupportTicket\App\Http\Controllers\Support\User\SupportTicketController as UserSupportTicketController;
 use Modules\SupportTicket\App\Http\Controllers\Support\Instructor\SupportTicketController as InstructorSupportTicketController;
 
 /*
@@ -22,10 +22,10 @@ use Modules\SupportTicket\App\Http\Controllers\Support\Instructor\SupportTicketC
 
 
 
-Route::group(['as' => 'user.', 'prefix' => 'student', 'middleware' => ['auth:web', 'HtmlSpecialchars', 'MaintenanceMode']], function(){
+Route::group(['as' => 'user.', 'prefix' => 'user', 'middleware' => ['auth:web', 'HtmlSpecialchars', 'MaintenanceMode']], function(){
 
-    Route::resource('support-ticket', StudentSupportTicketController::class);
-    Route::post('support-ticket-message/{id}', [StudentSupportTicketController::class, 'support_ticket_message'])->name('support-ticket-message');
+    Route::resource('support-ticket', UserSupportTicketController::class);
+    Route::post('support-ticket-message/{id}', [UserSupportTicketController::class, 'support_ticket_message'])->name('support-ticket-message');
 
     Route::resource('teacher-support', StudentCourseQueryController::class);
     Route::post('teacher-support-message/{id}', [StudentCourseQueryController::class, 'support_ticket_message'])->name('teacher-support-message');
