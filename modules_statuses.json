@@ -19,7 +19,7 @@
     "Course": true,
     "Coupon": true,
     "Partner": true,
-    "CertificateBuilder": true,
+    "CertificateBuilder": false,
     "EventCalendar": true,
     "SupportTicket": true,
     "NoticeBoard": true,

@@ -22,7 +22,7 @@
                         </span>
                         <span class="menu-bar__name">{{ __('translate.Dashboard') }}</span></span></a>
             </li>
-            
+
             @include('tourbooking::admin.sidebar')
             <li class="{{ Route::is('admin.earning-and-revenue') ? 'active' : '' }}"><a class="collapsed"
                     href="{{ route('admin.earning-and-revenue') }}"><span class="menu-bar__text">
@@ -278,45 +278,69 @@
                 </a>
             </li>
 
-               <h4 class="admin-menu__title pt-2">{{ __('translate.Product & Review') }}</h4>
-            <li class="{{ Route::is('admin.orders') || Route::is('admin.order') || Route::is('admin.active-orders') || Route::is('admin.reject-orders') || Route::is('admin.delivered-orders') || Route::is('admin.complete-orders') || Route::is('admin.pending-payment-orders') ? 'active' : '' }}"><a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__order"><span class="menu-bar__text">
-                <span class="crancy-menu-icon crancy-svg-icon__v1">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.5 8H20.196C20.8208 8 21.1332 8 21.3619 8.10084C22.3736 8.5469 21.9213 9.67075 21.7511 10.4784C21.7205 10.6235 21.621 10.747 21.4816 10.8132C21.1491 10.971 20.8738 11.2102 20.6797 11.5M7.5 8H3.80397C3.17922 8 2.86684 8 2.63812 8.10084C1.6264 8.5469 2.07874 9.67075 2.24894 10.4784C2.27952 10.6235 2.37896 10.747 2.51841 10.8132C3.09673 11.0876 3.50177 11.6081 3.60807 12.2134L4.20066 15.5878C4.46138 17.0725 4.55052 19.1942 5.8516 20.2402C6.8062 21 8.18162 21 10.9325 21H13.0675C13.2156 21 12.5 21.0001 13 21" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"/>
-                <g clip-path="url(#clip0_8302_44)">
-                <path d="M14.8333 14.5H19.8333" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14.8333 17H21.5" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14.8333 19.5H19.2778" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </g>
-                <path d="M6.5 11L10 3M15 3L17.5 8" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"/>
-                <defs>
-                <clipPath id="clip0_8302_44">
-                <rect width="8.33333" height="8.33333" fill="white" transform="translate(14 12.8333)"/>
-                </clipPath>
-                </defs>
-                </svg>
+            <h4 class="admin-menu__title pt-2">{{ __('translate.Product & Review') }}</h4>
+            <li
+                class="{{ Route::is('admin.orders') || Route::is('admin.order') || Route::is('admin.active-orders') || Route::is('admin.reject-orders') || Route::is('admin.delivered-orders') || Route::is('admin.complete-orders') || Route::is('admin.pending-payment-orders') ? 'active' : '' }}">
+                <a href="#!" class="collapsed" data-bs-toggle="collapse"
+                    data-bs-target="#menu-item__order"><span class="menu-bar__text">
+                        <span class="crancy-menu-icon crancy-svg-icon__v1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.5 8H20.196C20.8208 8 21.1332 8 21.3619 8.10084C22.3736 8.5469 21.9213 9.67075 21.7511 10.4784C21.7205 10.6235 21.621 10.747 21.4816 10.8132C21.1491 10.971 20.8738 11.2102 20.6797 11.5M7.5 8H3.80397C3.17922 8 2.86684 8 2.63812 8.10084C1.6264 8.5469 2.07874 9.67075 2.24894 10.4784C2.27952 10.6235 2.37896 10.747 2.51841 10.8132C3.09673 11.0876 3.50177 11.6081 3.60807 12.2134L4.20066 15.5878C4.46138 17.0725 4.55052 19.1942 5.8516 20.2402C6.8062 21 8.18162 21 10.9325 21H13.0675C13.2156 21 12.5 21.0001 13 21"
+                                    stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" />
+                                <g clip-path="url(#clip0_8302_44)">
+                                    <path d="M14.8333 14.5H19.8333" stroke="currentcolor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.8333 17H21.5" stroke="currentcolor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.8333 19.5H19.2778" stroke="currentcolor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </g>
+                                <path d="M6.5 11L10 3M15 3L17.5 8" stroke="currentcolor" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <defs>
+                                    <clipPath id="clip0_8302_44">
+                                        <rect width="8.33333" height="8.33333" fill="white"
+                                            transform="translate(14 12.8333)" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
 
 
 
-                </span>
+                        </span>
 
-                <span class="menu-bar__name">{{ __('translate.Manage Order') }}</span></span> <span class="crancy__toggle"></span></a></span>
+                        <span class="menu-bar__name">{{ __('translate.Manage Order') }}</span></span> <span
+                        class="crancy__toggle"></span></a></span>
                 <!-- Dropdown Menu -->
-                <div class="collapse crancy__dropdown {{ Route::is('admin.orders') || Route::is('admin.order') || Route::is('admin.active-orders') || Route::is('admin.reject-orders') || Route::is('admin.delivered-orders') || Route::is('admin.complete-orders') || Route::is('admin.pending-payment-orders') ? 'show' : '' }}" id="menu-item__order"  data-bs-parent="#CrancyMenu">
+                <div class="collapse crancy__dropdown {{ Route::is('admin.orders') || Route::is('admin.order') || Route::is('admin.active-orders') || Route::is('admin.reject-orders') || Route::is('admin.delivered-orders') || Route::is('admin.complete-orders') || Route::is('admin.pending-payment-orders') ? 'show' : '' }}"
+                    id="menu-item__order" data-bs-parent="#CrancyMenu">
                     <ul class="menu-bar__one-dropdown">
 
 
-                        <li><a href="{{ route('admin.orders') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.All Orders') }}</span></span></a></li>
+                        <li><a href="{{ route('admin.orders') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.All Orders') }}</span></span></a></li>
 
-                        <li><a href="{{ route('admin.active-orders') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Active Orders') }}</span></span></a></li>
+                        <li><a href="{{ route('admin.active-orders') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Active Orders') }}</span></span></a>
+                        </li>
 
-                        <li><a href="{{ route('admin.reject-orders') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Rejected Orders') }}</span></span></a></li>
+                        <li><a href="{{ route('admin.reject-orders') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Rejected Orders') }}</span></span></a>
+                        </li>
 
-                        <li><a href="{{ route('admin.delivered-orders') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Delivered Orders') }}</span></span></a></li>
+                        <li><a href="{{ route('admin.delivered-orders') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Delivered Orders') }}</span></span></a>
+                        </li>
 
-                        <li><a href="{{ route('admin.complete-orders') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Complete Orders') }}</span></span></a></li>
+                        <li><a href="{{ route('admin.complete-orders') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Complete Orders') }}</span></span></a>
+                        </li>
 
-                        <li><a href="{{ route('admin.pending-payment-orders') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Pending Payment Order') }}</span></span></a></li>
+                        <li><a href="{{ route('admin.pending-payment-orders') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Pending Payment Order') }}</span></span></a>
+                        </li>
 
                     </ul>
                 </div>
@@ -324,27 +348,43 @@
 
 
 
-            <li class="{{ Route::is('admin.product.index') || Route::is('admin.product.create') || Route::is('admin.product.edit') || Route::is('admin.brand.*') || Route::is('admin.category.*') || Route::is('admin.sub-category.*') ? 'active' : '' }}" >
-                <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__ecommerce"><span class="menu-bar__text">
-            <span class="crancy-menu-icon crancy-svg-icon__v1">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M11.5 8H20.196C20.8208 8 21.1332 8 21.3619 8.10084C22.3736 8.5469 21.9213 9.67075 21.7511 10.4784C21.7205 10.6235 21.621 10.747 21.4816 10.8132C20.9033 11.0876 20.4982 11.6081 20.3919 12.2134L19.7993 15.5878C19.5386 17.0725 19.4495 19.1943 18.1484 20.2402C17.1938 21 15.8184 21 13.0675 21H10.9325C8.18162 21 6.8062 21 5.8516 20.2402C4.55052 19.1942 4.46138 17.0725 4.20066 15.5878L3.60807 12.2134C3.50177 11.6081 3.09673 11.0876 2.51841 10.8132C2.37896 10.747 2.27952 10.6235 2.24894 10.4784C2.07874 9.67075 1.6264 8.5469 2.63812 8.10084C2.86684 8 3.17922 8 3.80397 8H7.5" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M14 12H10" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M6.5 11L10 3M15 3L17.5 8" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"/>
-</svg>
+            <li
+                class="{{ Route::is('admin.product.index') || Route::is('admin.product.create') || Route::is('admin.product.edit') || Route::is('admin.brand.*') || Route::is('admin.category.*') || Route::is('admin.sub-category.*') ? 'active' : '' }}">
+                <a href="#!" class="collapsed" data-bs-toggle="collapse"
+                    data-bs-target="#menu-item__ecommerce"><span class="menu-bar__text">
+                        <span class="crancy-menu-icon crancy-svg-icon__v1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.5 8H20.196C20.8208 8 21.1332 8 21.3619 8.10084C22.3736 8.5469 21.9213 9.67075 21.7511 10.4784C21.7205 10.6235 21.621 10.747 21.4816 10.8132C20.9033 11.0876 20.4982 11.6081 20.3919 12.2134L19.7993 15.5878C19.5386 17.0725 19.4495 19.1943 18.1484 20.2402C17.1938 21 15.8184 21 13.0675 21H10.9325C8.18162 21 6.8062 21 5.8516 20.2402C4.55052 19.1942 4.46138 17.0725 4.20066 15.5878L3.60807 12.2134C3.50177 11.6081 3.09673 11.0876 2.51841 10.8132C2.37896 10.747 2.27952 10.6235 2.24894 10.4784C2.07874 9.67075 1.6264 8.5469 2.63812 8.10084C2.86684 8 3.17922 8 3.80397 8H7.5"
+                                    stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" />
+                                <path d="M14 12H10" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M6.5 11L10 3M15 3L17.5 8" stroke="currentcolor" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                            </svg>
 
-            </span>
+                        </span>
 
-                <span class="menu-bar__name">{{ __('translate.Manage Product') }}</span></span> <span class="crancy__toggle"></span></a></span>
-                <div class="collapse crancy__dropdown {{  Route::is('admin.product.index') || Route::is('admin.product.create') || Route::is('admin.product.edit') || Route::is('admin.brand.*') || Route::is('admin.category.*') || Route::is('admin.sub-category.*')  ? 'show' : '' }}" id="menu-item__ecommerce"  data-bs-parent="#CrancyMenu">
+                        <span class="menu-bar__name">{{ __('translate.Manage Product') }}</span></span> <span
+                        class="crancy__toggle"></span></a></span>
+                <div class="collapse crancy__dropdown {{ Route::is('admin.product.index') || Route::is('admin.product.create') || Route::is('admin.product.edit') || Route::is('admin.brand.*') || Route::is('admin.category.*') || Route::is('admin.sub-category.*') ? 'show' : '' }}"
+                    id="menu-item__ecommerce" data-bs-parent="#CrancyMenu">
                     <ul class="menu-bar__one-dropdown">
-                        <li><a href="{{ route('admin.product.create') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Create Product') }}</span></span></a></li>
+                        <li><a href="{{ route('admin.product.create') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Create Product') }}</span></span></a>
+                        </li>
 
-                        <li><a href="{{ route('admin.product.index') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Product List') }}</span></span></a></li>
+                        <li><a href="{{ route('admin.product.index') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Product List') }}</span></span></a>
+                        </li>
 
-                        <li><a href="{{ route('admin.category.index') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Category List') }}</span></span></a></li>
+                        <li><a href="{{ route('admin.category.index') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Category List') }}</span></span></a>
+                        </li>
 
-                        <li><a href="{{ route('admin.brand.index') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Brand List') }}</span></span></a></li>
+                        <li><a href="{{ route('admin.brand.index') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Brand List') }}</span></span></a></li>
 
                     </ul>
                 </div>
@@ -355,11 +395,20 @@
                 <a class="collapsed" href="{{ route('admin.product.review.list') }}">
                     <span class="menu-bar__text">
                         <span class="crancy-menu-icon crancy-svg-icon__v1">
-                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12.5 22H6.59087C5.04549 22 3.81631 21.248 2.71266 20.1966C0.453366 18.0441 4.1628 16.324 5.57757 15.4816C7.827 14.1422 10.4865 13.7109 13 14.1878" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M15.5 6.5C15.5 8.98528 13.4853 11 11 11C8.51472 11 6.5 8.98528 6.5 6.5C6.5 4.01472 8.51472 2 11 2C13.4853 2 15.5 4.01472 15.5 6.5Z" stroke="currentcolor" stroke-width="1.5"/>
-<path d="M18.6911 14.5777L19.395 15.9972C19.491 16.1947 19.7469 16.3843 19.9629 16.4206L21.2388 16.6343C22.0547 16.7714 22.2467 17.3682 21.6587 17.957L20.6668 18.9571C20.4989 19.1265 20.4069 19.4531 20.4589 19.687L20.7428 20.925C20.9668 21.9049 20.4509 22.284 19.591 21.7718L18.3951 21.0581C18.1791 20.929 17.8232 20.929 17.6032 21.0581L16.4073 21.7718C15.5514 22.284 15.0315 21.9009 15.2554 20.925L15.5394 19.687C15.5914 19.4531 15.4994 19.1265 15.3314 18.9571L14.3395 17.957C13.7556 17.3682 13.9436 16.7714 14.7595 16.6343L16.0353 16.4206C16.2473 16.3843 16.5033 16.1947 16.5993 15.9972L17.3032 14.5777C17.6872 13.8074 18.3111 13.8074 18.6911 14.5777Z" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12.5 22H6.59087C5.04549 22 3.81631 21.248 2.71266 20.1966C0.453366 18.0441 4.1628 16.324 5.57757 15.4816C7.827 14.1422 10.4865 13.7109 13 14.1878"
+                                    stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M15.5 6.5C15.5 8.98528 13.4853 11 11 11C8.51472 11 6.5 8.98528 6.5 6.5C6.5 4.01472 8.51472 2 11 2C13.4853 2 15.5 4.01472 15.5 6.5Z"
+                                    stroke="currentcolor" stroke-width="1.5" />
+                                <path
+                                    d="M18.6911 14.5777L19.395 15.9972C19.491 16.1947 19.7469 16.3843 19.9629 16.4206L21.2388 16.6343C22.0547 16.7714 22.2467 17.3682 21.6587 17.957L20.6668 18.9571C20.4989 19.1265 20.4069 19.4531 20.4589 19.687L20.7428 20.925C20.9668 21.9049 20.4509 22.284 19.591 21.7718L18.3951 21.0581C18.1791 20.929 17.8232 20.929 17.6032 21.0581L16.4073 21.7718C15.5514 22.284 15.0315 21.9009 15.2554 20.925L15.5394 19.687C15.5914 19.4531 15.4994 19.1265 15.3314 18.9571L14.3395 17.957C13.7556 17.3682 13.9436 16.7714 14.7595 16.6343L16.0353 16.4206C16.2473 16.3843 16.5033 16.1947 16.5993 15.9972L17.3032 14.5777C17.6872 13.8074 18.3111 13.8074 18.6911 14.5777Z"
+                                    stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
 
                         </span>
                         <span class="menu-bar__name">{{ __('translate.Review List') }}</span>
@@ -371,11 +420,19 @@
                 <a class="collapsed" href="{{ route('admin.shipping-method.index') }}">
                     <span class="menu-bar__text">
                         <span class="crancy-menu-icon crancy-svg-icon__v1">
-                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M19.5 17.5C19.5 18.8807 18.3807 20 17 20C15.6193 20 14.5 18.8807 14.5 17.5C14.5 16.1193 15.6193 15 17 15C18.3807 15 19.5 16.1193 19.5 17.5Z" stroke="currentcolor" stroke-width="1.5"/>
-<path d="M9.5 17.5C9.5 18.8807 8.38071 20 7 20C5.61929 20 4.5 18.8807 4.5 17.5C4.5 16.1193 5.61929 15 7 15C8.38071 15 9.5 16.1193 9.5 17.5Z" stroke="currentcolor" stroke-width="1.5"/>
-<path d="M14.5 17.5H9.5M15 15.5V7C15 5.58579 15 4.87868 14.5607 4.43934C14.1213 4 13.4142 4 12 4H5C3.58579 4 2.87868 4 2.43934 4.43934C2 4.87868 2 5.58579 2 7V15C2 15.9346 2 16.4019 2.20096 16.75C2.33261 16.978 2.52197 17.1674 2.75 17.299C3.09808 17.5 3.56538 17.5 4.5 17.5M15.5 6.5H17.3014C18.1311 6.5 18.5459 6.5 18.8898 6.6947C19.2336 6.8894 19.4471 7.2451 19.8739 7.95651L21.5725 10.7875C21.7849 11.1415 21.8911 11.3186 21.9456 11.5151C22 11.7116 22 11.918 22 12.331V15C22 15.9346 22 16.4019 21.799 16.75C21.6674 16.978 21.478 17.1674 21.25 17.299C20.9019 17.5 20.4346 17.5 19.5 17.5" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.5 17.5C19.5 18.8807 18.3807 20 17 20C15.6193 20 14.5 18.8807 14.5 17.5C14.5 16.1193 15.6193 15 17 15C18.3807 15 19.5 16.1193 19.5 17.5Z"
+                                    stroke="currentcolor" stroke-width="1.5" />
+                                <path
+                                    d="M9.5 17.5C9.5 18.8807 8.38071 20 7 20C5.61929 20 4.5 18.8807 4.5 17.5C4.5 16.1193 5.61929 15 7 15C8.38071 15 9.5 16.1193 9.5 17.5Z"
+                                    stroke="currentcolor" stroke-width="1.5" />
+                                <path
+                                    d="M14.5 17.5H9.5M15 15.5V7C15 5.58579 15 4.87868 14.5607 4.43934C14.1213 4 13.4142 4 12 4H5C3.58579 4 2.87868 4 2.43934 4.43934C2 4.87868 2 5.58579 2 7V15C2 15.9346 2 16.4019 2.20096 16.75C2.33261 16.978 2.52197 17.1674 2.75 17.299C3.09808 17.5 3.56538 17.5 4.5 17.5M15.5 6.5H17.3014C18.1311 6.5 18.5459 6.5 18.8898 6.6947C19.2336 6.8894 19.4471 7.2451 19.8739 7.95651L21.5725 10.7875C21.7849 11.1415 21.8911 11.3186 21.9456 11.5151C22 11.7116 22 11.918 22 12.331V15C22 15.9346 22 16.4019 21.799 16.75C21.6674 16.978 21.478 17.1674 21.25 17.299C20.9019 17.5 20.4346 17.5 19.5 17.5"
+                                    stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
 
                         </span>
                         <span class="menu-bar__name">{{ __('translate.Shipping') }}</span>
@@ -549,7 +606,8 @@
 
                         <li><a href="{{ route('admin.contact-us', ['lang_code' => admin_lang()]) }}"><span
                                     class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Contact Us') }}</span></span></a></li>
+                                        class="menu-bar__name">{{ __('translate.Contact Us') }}</span></span></a>
+                        </li>
 
                         <li><a href="{{ route('admin.terms-conditions', ['lang_code' => admin_lang()]) }}"><span
                                     class="menu-bar__text"><span
@@ -757,14 +815,9 @@
                         <span class="menu-bar__name">{{ __('translate.Website Setup') }}</span></span> <span
                         class="crancy__toggle"></span></a></span>
                 <!-- Dropdown Menu -->
-                <div class="collapse crancy__dropdown {{ Route::is('admin.certificatebuilder') || Route::is('admin.cookie-consent') || Route::is('admin.error-image') || Route::is('admin.login-image') || Route::is('admin.breadcrumb') || Route::is('admin.social-login') || Route::is('admin.default-avatar') || Route::is('admin.maintenance-mode') || Route::is('admin.admin-login-image') ? 'show' : '' }}"
+                <div class="collapse crancy__dropdown {{ Route::is('admin.cookie-consent') || Route::is('admin.error-image') || Route::is('admin.login-image') || Route::is('admin.breadcrumb') || Route::is('admin.social-login') || Route::is('admin.default-avatar') || Route::is('admin.maintenance-mode') || Route::is('admin.admin-login-image') ? 'show' : '' }}"
                     id="menu-item__apps" data-bs-parent="#CrancyMenu">
                     <ul class="menu-bar__one-dropdown">
-
-                        <li><a href="{{ route('admin.certificatebuilder') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Certificate Builder') }}</span></span></a>
-                        </li>
-
                         <li><a href="{{ route('admin.cookie-consent') }}"><span class="menu-bar__text"><span
                                         class="menu-bar__name">{{ __('translate.Cookie Consent') }}</span></span></a>
                         </li>

@@ -1471,4 +1471,14 @@ return array(
     "Are you sure you want to delete this media item?" => "Are you sure you want to delete this media item?",
     "This is the current thumbnail. If deleted, another image will be selected as thumbnail." => "This is the current thumbnail. If deleted, another image will be selected as thumbnail.",
     "No media found. Add your first media item using the form above." => "No media found. Add your first media item using the form above.",
+    "Service Type Details" => "Service Type Details",
+    "Service Type List" => "Service Type List",
+    "Edit Service Type" => "Edit Service Type",
+    "Create Service Type" => "Create Service Type",
+    "Service Type" => "Service Type",
+    "Service Types" => "Service Types",
+    "All Service Types" => "All Service Types",
+    "Homepage" => "Homepage",
+    "Services in this Category" => "Services in this Category",
+    
 );

@@ -1,3 +1,9 @@
+@php
+    $servicesTypes = \Modules\TourBooking\App\Models\ServiceType::where('status', true)
+        ->orderBy('display_order', 'asc')
+        ->pluck('name', 'slug');
+@endphp
+
 <h4 class="admin-menu__title pt-2">{{ __('translate.Booking Services') }}</h4>
 <li
     class="{{ Route::is('admin.tourbooking.services.index') || Route::is(' admin.tourbooking.service-types.index') || Route::is('admin.tourbooking.services.by-type') || Route::is('admin.tourbooking.services.tours') || Route::is('admin.tourbooking.services.hotels') || Route::is('admin.tourbooking.services.restaurants') || Route::is('admin.tourbooking.services.rentals') || Route::is('admin.tourbooking.services.activities') ? 'active' : '' }}">
@@ -24,17 +30,13 @@
             <li><a href="{{ route('admin.tourbooking.service-types.index') }}"><span class="menu-bar__text"><span
                             class="menu-bar__name">{{ __('translate.Booking Service Types') }}</span></span></a></li>
 
-            <li><a href="{{ route('admin.tourbooking.services.by-type', 'tours') }}"><span class="menu-bar__text"><span
-                            class="menu-bar__name">{{ __('translate.Tours') }}</span></span></a></li>
-
-            <li><a href="{{ route('admin.tourbooking.services.tours') }}"><span class="menu-bar__text"><span
-                            class="menu-bar__name">{{ __('translate.Tours') }}</span></span></a></li>
-
-            <li><a href="{{ route('admin.tourbooking.services.hotels') }}"><span class="menu-bar__text"><span
-                            class="menu-bar__name">{{ __('translate.Hotels') }}</span></span></a></li>
-
-            <li><a href="{{ route('admin.tourbooking.services.restaurants') }}"><span class="menu-bar__text"><span
-                            class="menu-bar__name">{{ __('translate.Restaurants') }}</span></span></a></li>
+            {{-- <li><a href="{{ route('admin.tourbooking.services.by-type', 'tours') }}"><span class="menu-bar__text"><span
+                            class="menu-bar__name">{{ __('translate.Tours') }}</span></span></a></li> --}}
+            @foreach ($servicesTypes as $slug => $name)
+                <li><a href="{{ route('admin.tourbooking.services.by-type', $slug) }}"><span
+                            class="menu-bar__text"><span class="menu-bar__name">{{ $name }}</span></span></a>
+                </li>
+            @endforeach
         </ul>
     </div>
 </li>

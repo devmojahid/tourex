@@ -745,7 +745,7 @@ final class ServiceController extends Controller
         
         $services = $this->serviceRepository->getByType($serviceType->id, 0);
         
-        return view('tourbooking::admin.services.index', compact('services', 'serviceType'));
+        return view('tourbooking::admin.service_types.show', compact('serviceType', 'services'));
     }
     
     /**
