@@ -487,8 +487,15 @@ final class ServiceController extends Controller
     /**
      * Store a new extra charge for a service.
      */
-    public function storeExtraCharge(Request $request, Service $service): RedirectResponse
+    public function storeExtraCharge(Request $request, Service $service): RedirectResponse 
     {
+        // Transform checkbox values before validation
+        $request->merge([
+            'is_mandatory' => $request->boolean('is_mandatory'),
+            'is_tax' => $request->boolean('is_tax'),
+            'status' => $request->boolean('status'),
+        ]);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -500,15 +507,12 @@ final class ServiceController extends Controller
             'max_quantity' => 'nullable|integer|min:1',
             'status' => 'boolean',
         ]);
-        
+
         $data = $request->all();
         $data['service_id'] = $service->id;
-        $data['is_mandatory'] = $request->has('is_mandatory');
-        $data['is_tax'] = $request->has('is_tax');
-        $data['status'] = $request->has('status');
-        
+
         ExtraCharge::create($data);
-        
+
         $notify_message = trans('translate.Extra charge added successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         
@@ -533,9 +537,9 @@ final class ServiceController extends Controller
         ]);
         
         $data = $request->all();
-        $data['is_mandatory'] = $request->has('is_mandatory');
-        $data['is_tax'] = $request->has('is_tax');
-        $data['status'] = $request->has('status');
+        $data['is_mandatory'] = $request->input('is_mandatory') == '1' || $request->input('is_mandatory') === true;
+        $data['is_tax'] = $request->input('is_tax') == '1' || $request->input('is_tax') === true;
+        $data['status'] = $request->input('status') == '1' || $request->input('status') === true;
         
         $charge->update($data);
         
