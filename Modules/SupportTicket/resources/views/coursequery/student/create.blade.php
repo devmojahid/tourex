@@ -5,7 +5,7 @@
 
 @section('body-header')
     <h3 class="crancy-header__title m-0">{{ __('translate.Create Ticket') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Teacher Support') }} >> {{ __('translate.Create Ticket') }}</p>
+    <p class="crancy-header__text">{{ __('translate.Agency Support') }} >> {{ __('translate.Create Ticket') }}</p>
 @endsection
 
 @section('body-content')
@@ -17,7 +17,7 @@
                     <div class="crancy-body">
                         <!-- Dashboard Inner -->
                         <div class="crancy-dsinner">
-                            <form action="{{ route('user.teacher-support.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('user.agency-support.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="row">
@@ -27,7 +27,7 @@
                                             <div class="create_new_btn_inline_box">
                                                 <h4 class="crancy-product-card__title">{{ __('translate.Create Ticket') }}</h4>
 
-                                                <a href="{{ route('user.teacher-support.index') }}" class="crancy-btn "><i class="fa fa-list"></i> {{ __('translate.Ticket List') }}</a>
+                                                <a href="{{ route('user.agency-support.index') }}" class="crancy-btn "><i class="fa fa-list"></i> {{ __('translate.Ticket List') }}</a>
                                             </div>
 
                                             <div class="row mg-top-30">

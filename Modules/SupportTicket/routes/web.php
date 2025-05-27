@@ -27,8 +27,8 @@ Route::group(['as' => 'user.', 'prefix' => 'user', 'middleware' => ['auth:web', 
     Route::resource('support-ticket', UserSupportTicketController::class);
     Route::post('support-ticket-message/{id}', [UserSupportTicketController::class, 'support_ticket_message'])->name('support-ticket-message');
 
-    Route::resource('teacher-support', StudentCourseQueryController::class);
-    Route::post('teacher-support-message/{id}', [StudentCourseQueryController::class, 'support_ticket_message'])->name('teacher-support-message');
+    Route::resource('agency-support', StudentCourseQueryController::class);
+    Route::post('agency-support-message/{id}', [StudentCourseQueryController::class, 'support_ticket_message'])->name('teacher-support-message');
 
 });
 
@@ -37,7 +37,6 @@ Route::group(['as' => 'instructor.', 'prefix' => 'instructor', 'middleware' => [
 
     Route::resource('support-ticket', InstructorSupportTicketController::class);
     Route::post('support-ticket-message/{id}', [InstructorSupportTicketController::class, 'support_ticket_message'])->name('support-ticket-message');
-
 
     Route::get('teacher-supports', [InstructorCourseQueryController::class, 'index'])->name('teacher-supports');
     Route::get('teacher-support/{id}', [InstructorCourseQueryController::class, 'show'])->name('teacher-support');
