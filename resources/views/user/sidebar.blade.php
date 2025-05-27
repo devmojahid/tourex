@@ -296,7 +296,7 @@
         </div>
     @else
         <div class="d-flex d-md-none justify-content-center pt-5">
-            <a href="{{ route('user.become-an-instructor') }}"
+            <a href="{{ route('user.create-agency') }}"
                 class="panel-switcher-btn">{{ __('translate.Become Instructor') }}</a>
         </div>
     @endif

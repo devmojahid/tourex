@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BecomeInstructorRequest extends FormRequest
+class BecomeAgencyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,14 @@ class BecomeInstructorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'designation' => 'required|max:255',
-            'instructor_experience' => 'required|max:100|numeric',
+            'agency_logo' => 'required|mimes:jpg,jpeg,png|max:2048',
+            'agency_name' => 'required',
+            'agency_slug' => 'required|unique:users,agency_slug',
             'about_me' => 'required',
             'country' => 'required|max:255',
             'state' => 'required|max:255',
             'city' => 'required|max:255',
             'address' => 'required|max:255',
-
         ];
     }
 
@@ -37,9 +37,11 @@ class BecomeInstructorRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'designation.required' => trans('translate.Designation is required'),
-            'instructor_experience.required' => trans('translate.Experience is required'),
-            'about_me.required' => trans('translate.Short Bio is required'),
+            'agency_logo.required' => trans('translate.Logo is required'),
+            'agency_name.required' => trans('translate.Agency Name is required'),
+            'agency_slug.required' => trans('translate.Agency Slug is required'),
+            'agency_slug.unique' => trans('translate.Agency Slug already exist'),
+            'about_me.required' => trans('translate.Agency Description is required'),
             'country.required' => trans('translate.Country is required'),
             'state.required' => trans('translate.State is required'),
             'city.required' => trans('translate.City is required'),

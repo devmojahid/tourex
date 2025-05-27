@@ -488,7 +488,7 @@
                 <p class="td_fs_18 td_white_color td_opacity_9 td_mb_30">
                     {{ getTranslatedValue($home1_join_instructor, 'first_item_description') }}
                  </p>
-                <a href="{{ route('user.become-an-instructor') }}" class="td_btn td_style_1 td_type_3 td_radius_30 td_medium td_with_shadow">
+                <a href="{{ route('user.create-agency') }}" class="td_btn td_style_1 td_type_3 td_radius_30 td_medium td_with_shadow">
                   <span class="td_btn_in td_white_color td_accent_bg">
                     <span>{{ __('translate.Become A Instructor') }}</span>
                     <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
