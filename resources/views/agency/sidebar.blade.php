@@ -137,12 +137,6 @@
                 </a>
             </li>
 
-
-
-
-            @include('eventcalendar::instructor.sidebar')
-
-
             <li class="{{ Route::is('agency.account-delete') ? 'active' : '' }}"><a class="collapsed" href="{{ route('agency.account-delete') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
