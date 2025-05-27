@@ -1,4 +1,4 @@
-@extends('instructor.master_layout')
+@extends('agency.master_layout')
 @section('title')
     <title>{{ __('translate.Zoom Meeting Setting') }}</title>
 @endsection
@@ -16,7 +16,7 @@
                     <div class="crancy-body">
                         <!-- Dashboard Inner -->
                         <div class="crancy-dsinner">
-                            <form action="{{ route('instructor.update-zoom-setting') }}" method="POST">
+                            <form action="{{ route('agency.update-zoom-setting') }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
@@ -82,7 +82,7 @@
                                                     {{ __('translate.Set your') }}
                                                     <strong>{{ __('translate.OAuth Redirect URL') }}</strong>
                                                     {{ __('translate.to the following:') }}
-                                                    <code>{{ route('instructor.zoom.callback') }}</code>
+                                                    <code>{{ route('agency.zoom.callback') }}</code>
                                                 </li>
 
                                             </ol>

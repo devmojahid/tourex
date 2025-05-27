@@ -1,14 +1,14 @@
-@extends('instructor.master_layout')
+@extends('agency.master_layout')
 @section('title')
-    <title>{{ __('translate.Instructor Profile') }}</title>
+    <title>{{ __('translate.Agency Profile') }}</title>
 @endsection
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Instructor Profile') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Instructor Profile') }}</p>
+    <h3 class="crancy-header__title m-0">{{ __('translate.Agency Profile') }}</h3>
+    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Agency Profile') }}</p>
 @endsection
 @section('body-content')
 
-    <form action="{{ route('agency.update-instructor-profile') }}" enctype="multipart/form-data" method="POST">
+    <form action="{{ route('agency.update-agency-profile') }}" enctype="multipart/form-data" method="POST">
     @csrf
     @method('PUT')
         <!-- crancy Dashboard -->

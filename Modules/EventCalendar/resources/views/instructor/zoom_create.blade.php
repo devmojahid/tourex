@@ -1,4 +1,4 @@
-@extends('instructor.master_layout')
+@extends('agency.master_layout')
 @section('title')
     <title>{{ __('translate.Create Meeting') }}</title>
 @endsection
@@ -28,7 +28,7 @@
 
 
                                             <p class="edc-meeting_warn mb-4">{{ __('translate.If you are facing unauthorised error, Please') }} <a class="crancy-underline"
-                                                    href="{{ route('instructor.zoom.auth') }}" onclick="return confirm(`{{ __('translate.Are you sure ?') }}`)">
+                                                    href="{{ route('agency.zoom.auth') }}" onclick="return confirm(`{{ __('translate.Are you sure ?') }}`)">
                                                     {{ __('translate.Click here') }}</a> </p>
 
 

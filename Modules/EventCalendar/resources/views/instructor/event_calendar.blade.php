@@ -1,4 +1,4 @@
-@extends('instructor.master_layout')
+@extends('agency.master_layout')
 @section('title')
     <title>{{ __('translate.Calendar') }}</title>
 @endsection
@@ -20,7 +20,7 @@
                         <div class="crancy-dsinner edc-calendar-wrapper">
                             <!-- <div id="calendar"></div> -->
 
-                            <iframe class="edc-calendar-frame" src="{{ route('instructor.event-calendar-iframe') }}" frameborder="0"></iframe>
+                            <iframe class="edc-calendar-frame" src="{{ route('agency.event-calendar-iframe') }}" frameborder="0"></iframe>
 
 
                         </div>

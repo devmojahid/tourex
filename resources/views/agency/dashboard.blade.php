@@ -1,4 +1,4 @@
-@extends('instructor.master_layout')
+@extends('agency.master_layout')
 @section('title')
 <title>{{ __('translate.Dashboard') }}</title>
 @endsection
@@ -181,7 +181,7 @@
                                     <div class="crancy-ecom-card crancy-ecom-card__v2">
                                         <div class="flex-main">
                                             <span>
-                                                @include('instructor.svg.total_sold')
+                                                @include('agency.svg.total_sold')
                                             </span>
                                             <div class="flex-1">
                                                 <div class="crancy-ecom-card__heading">
@@ -206,7 +206,7 @@
                                     <div class="crancy-ecom-card crancy-ecom-card__v2">
                                         <div class="flex-main">
                                             <span>
-                                                @include('instructor.svg.total_active_course')
+                                                @include('agency.svg.total_active_course')
                                             </span>
                                             <div class="flex-1">
                                                 <div class="crancy-ecom-card__heading">

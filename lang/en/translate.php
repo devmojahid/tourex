@@ -283,7 +283,7 @@ return array(
     'Revenue' => 'Revenue',
     'Commission' => 'Commission',
     'Enrollments' => 'Enrollments',
-    'Instructor Profile' => 'Instructor Profile',
+    'Agency Profile' => 'Agency Profile',
     'Write Your Bio' => 'Write Your Bio',
     'How many years of experience do you have as an instructor?' => 'How many years of experience do you have as an instructor?',
     'Short Bio' => 'Short Bio',

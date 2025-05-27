@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Instructor;
+namespace App\Http\Controllers\Agency;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -96,7 +96,7 @@ class ProfileController extends Controller
         $lable = json_encode($lable);
 
 
-        return view('instructor.dashboard', [
+        return view('agency.dashboard', [
             'lable' => $lable,
             'data' => $data,
             'total_income' => $total_income,
@@ -115,7 +115,7 @@ class ProfileController extends Controller
     public function edit_profile(){
         $user = Auth::guard('web')->user();
 
-        return view('instructor.edit_profile', ['user' => $user]);
+        return view('agency.edit_profile', ['user' => $user]);
     }
 
     public function update_profile(EditStudentProfileRequest $request){
@@ -148,7 +148,7 @@ class ProfileController extends Controller
     }
 
     public function change_password(){
-        return view('instructor.change_password');
+        return view('agency.change_password');
     }
 
     public function update_password(PasswordChangeRequest $request){
@@ -179,7 +179,7 @@ class ProfileController extends Controller
 
         $skills_expertises = json_decode($user->skills_expertise);
 
-        return view('instructor.instructor_profile', [
+        return view('agency.agency_profile', [
             'user' => $user,
             'skills_expertises' => $skills_expertises,
         ]);
@@ -223,7 +223,7 @@ class ProfileController extends Controller
 
 
     public function account_delete(){
-        return view('instructor.account_delete');
+        return view('agency.account_delete');
     }
 
     public function confirm_account_delete(Request $request){

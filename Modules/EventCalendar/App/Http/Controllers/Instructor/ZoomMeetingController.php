@@ -32,7 +32,7 @@ class ZoomMeetingController extends Controller
         $zoomAuthUrl = 'https://zoom.us/oauth/authorize?' . http_build_query([
             'response_type' => 'code',
             'client_id' => $user->zoom_api_key,
-            'redirect_uri' => route('instructor.zoom.callback')
+            'redirect_uri' => route('agency.zoom.callback')
         ]);
 
         return redirect($zoomAuthUrl);
@@ -51,7 +51,7 @@ class ZoomMeetingController extends Controller
             ->post('https://zoom.us/oauth/token', [
                 'grant_type' => 'authorization_code',
                 'code' => $code,
-                'redirect_uri' => route('instructor.zoom.callback'),
+                'redirect_uri' => route('agency.zoom.callback'),
             ]);
 
             if ($response->successful()) {
@@ -85,7 +85,7 @@ class ZoomMeetingController extends Controller
 
             $notify_message= trans('translate.Authorization failed');
             $notify_message=array('message'=>$notify_message,'alert-type'=>'error');
-            return redirect()->route('instructor.zoom-setting')->with($notify_message);
+            return redirect()->route('agency.zoom-setting')->with($notify_message);
 
         }
 
@@ -102,11 +102,11 @@ class ZoomMeetingController extends Controller
         if(!$user->zoom_api_key){
             $notify_message= trans('translate.Please provide zoom credential');
             $notify_message=array('message'=>$notify_message,'alert-type'=>'error');
-            return redirect()->route('instructor.zoom-setting')->with($notify_message);
+            return redirect()->route('agency.zoom-setting')->with($notify_message);
         }
 
         if(!$user->zoom_access_token){
-            return redirect()->route('instructor.zoom.auth');
+            return redirect()->route('agency.zoom.auth');
         }
 
         $courses = Course::with('category')->where('user_id', $user->id)->latest()->get();

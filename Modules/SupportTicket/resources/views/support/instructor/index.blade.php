@@ -1,4 +1,4 @@
-@extends('instructor.master_layout')
+@extends('agency.master_layout')
 @section('title')
     <title>{{ __('translate.Support Ticket') }}</title>
 @endsection

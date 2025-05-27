@@ -15,7 +15,7 @@ use Modules\EventCalendar\App\Http\Controllers\Student\ZoomMeetingController as 
 |
 */
 
-Route::group(['as'=> 'instructor.', 'prefix' => 'instructor', 'middleware' => ['auth:web', 'CheckInstructor']],function (){
+Route::group(['as'=> 'agency.', 'prefix' => 'agency', 'middleware' => ['auth:web', 'CheckInstructor']],function (){
 
     Route::get('/zoom/auth', [ZoomMeetingController::class, 'redirectToZoom'])->name('zoom.auth');
     Route::get('/zoom/callback', [ZoomMeetingController::class, 'handleZoomCallback'])->name('zoom.callback');

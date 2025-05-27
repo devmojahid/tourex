@@ -1,4 +1,4 @@
-<li class="{{ Route::is('instructor.zoom-setting') || Route::is('instructor.zoom-meeting.*') || Route::is('instructor.event-calendar') ? 'active' : '' }}"><a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-zoom_seeting"><span class="menu-bar__text">
+<li class="{{ Route::is('agency.zoom-setting') || Route::is('agency.zoom-meeting.*') || Route::is('agency.event-calendar') ? 'active' : '' }}"><a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-zoom_seeting"><span class="menu-bar__text">
     <span class="crancy-menu-icon crancy-svg-icon__v1">
    <svg  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.00001 3H5.00016C3.8956 3 3.00017 3.89542 3.00016 4.99998L3.00003 19C3.00002 20.1046 3.89545 21 5.00003 21H18C19.1046 21 20 20.1046 20 19V15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -9,16 +9,16 @@
 
     <span class="menu-bar__name">{{ __('translate.Zoom Meeting') }}</span></span> <span class="crancy__toggle"></span></a></span>
     <!-- Dropdown Menu -->
-    <div class="collapse crancy__dropdown {{ Route::is('instructor.zoom-setting') || Route::is('instructor.zoom-meeting.*') || Route::is('instructor.event-calendar') ? 'show' : '' }}" id="menu-zoom_seeting"  data-bs-parent="#CrancyMenu">
+    <div class="collapse crancy__dropdown {{ Route::is('agency.zoom-setting') || Route::is('agency.zoom-meeting.*') || Route::is('agency.event-calendar') ? 'show' : '' }}" id="menu-zoom_seeting"  data-bs-parent="#CrancyMenu">
         <ul class="menu-bar__one-dropdown">
 
-            <li><a href="{{ route('instructor.zoom-setting') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Setting') }}</span></span></a></li>
+            <li><a href="{{ route('agency.zoom-setting') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Setting') }}</span></span></a></li>
 
-            <li><a href="{{ route('instructor.zoom-meeting.create') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Create Meeting') }}</span></span></a></li>
+            <li><a href="{{ route('agency.zoom-meeting.create') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Create Meeting') }}</span></span></a></li>
 
-            <li><a href="{{ route('instructor.zoom-meeting.index') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Meeting History') }}</span></span></a></li>
+            <li><a href="{{ route('agency.zoom-meeting.index') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Meeting History') }}</span></span></a></li>
 
-            <li><a href="{{ route('instructor.event-calendar') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Calendar') }}</span></span></a></li>
+            <li><a href="{{ route('agency.event-calendar') }}"><span class="menu-bar__text"><span class="menu-bar__name">{{ __('translate.Calendar') }}</span></span></a></li>
 
 
 

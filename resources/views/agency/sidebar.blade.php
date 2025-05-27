@@ -48,7 +48,7 @@
 
                 </a>
             </li>
-            <li class="{{ Route::is('agency.instructor-profile') ? 'active' : '' }}"><a class="collapsed" href="{{ route('agency.instructor-profile') }}">
+            <li class="{{ Route::is('agency.agency-profile') ? 'active' : '' }}"><a class="collapsed" href="{{ route('agency.agency-profile') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
 
@@ -62,7 +62,7 @@
 
 
                     </span>
-                    <span class="menu-bar__name">{{ __('translate.Instructor Profile') }}</span>
+                    <span class="menu-bar__name">{{ __('translate.Agency Profile') }}</span>
                 </span>
 
                 </a>
