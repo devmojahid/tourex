@@ -29,13 +29,16 @@ class WishlistController extends Controller
             $item_array[] = $wishlist->item_id;
         }
 
-        $products = Product::with('category')
+        $products = Product::with('translate')
+            ->withCount('reviews')
+            ->withExists('myWishlist')
+            ->withAvg('reviews', 'rating')
             ->where(['status' => 1])
             ->whereIn('id', $item_array)
             ->latest()
             ->get();
 
-        return view('wishlist::index', ['courses' => $products]);
+        return view('wishlist::index', ['products' => $products]);
     }
 
     /**
