@@ -92,7 +92,7 @@
                                                     @endphp
                                                     @if ($auth_user->instructor_joining_request == 'approved')
                                                         <div class="profile-switcher-wrapper d-md-flex d-none gap-3 align-items-center">
-                                                            <p class="text">{{ __('translate.Switch to Instructor Portal') }}</p>
+                                                            <p class="text">{{ __('translate.Switch to Agency Dashboard') }}</p>
                                                             <label class="custom-switch switch_to_instructor">
                                                                 <input type="checkbox">
                                                                 <span class="slider"></span>

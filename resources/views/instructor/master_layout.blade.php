@@ -86,7 +86,7 @@
 											<div class="crancy-header__group-two">
 												<div class="crancy-header__right">
 												<div class="profile-switcher-wrapper d-md-flex d-none gap-3 align-items-center">
-														<p class="text">{{ __('translate.Switch to Student Portal') }}</p>
+														<p class="text">{{ __('translate.Switch to User Dashboard') }}</p>
 														<label class="custom-switch switch_to_student">
 															<input type="checkbox">
 															<span class="slider"></span>
