@@ -93,8 +93,8 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
             Route::put('/update-password', [UserProfileController::class, 'update_password'])->name('update-password');
 
 
-            Route::get('/become-an-instructor', [UserProfileController::class, 'become_an_instructor'])->name('become-an-instructor');
-            Route::post('/instructor-application', [UserProfileController::class, 'instructor_application'])->name('instructor-application');
+            Route::get('/create-agency', [UserProfileController::class, 'create_agency'])->name('create-agency');
+            Route::post('/agency-application', [UserProfileController::class, 'agency_application'])->name('agency-application');
 
             Route::get('/account-delete', [UserProfileController::class, 'account_delete'])->name('account-delete');
             Route::delete('/confirm-account-delete', [UserProfileController::class, 'confirm_account_delete'])->name('confirm-account-delete');

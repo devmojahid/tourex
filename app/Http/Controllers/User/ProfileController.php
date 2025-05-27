@@ -12,7 +12,7 @@ use Modules\Course\App\Models\CourseModule;
 use Modules\Course\App\Models\CourseReview;
 use App\Http\Requests\PasswordChangeRequest;
 use Modules\Coupon\App\Models\CouponHistory;
-use App\Http\Requests\BecomeInstructorRequest;
+use App\Http\Requests\BecomeAgencyRequest;
 use Modules\Course\App\Models\LessonChecklist;
 use Modules\Course\App\Models\CourseEnrollment;
 use App\Http\Requests\EditStudentProfileRequest;
@@ -26,7 +26,8 @@ use Modules\SupportTicket\App\Models\SupportTicketMessage;
 
 class ProfileController extends Controller
 {
-    public function dashboard(){
+    public function dashboard()
+    {
 
         $user = Auth::guard('web')->user();
 
@@ -35,7 +36,7 @@ class ProfileController extends Controller
         $complete_transaction = CourseEnrollment::with('course_list')->where('student_id', $user->id)->where('payment_status', 'success')->sum('total_amount');
         $rejected_transaction = CourseEnrollment::with('course_list')->where('student_id', $user->id)->where('payment_status', 'rejected')->sum('total_amount');
 
-        $enrolled_corse = CourseEnrollmentList::whereHas('course_enrollment', function($query) use($user) {
+        $enrolled_corse = CourseEnrollmentList::whereHas('course_enrollment', function ($query) use ($user) {
             $query->where('payment_status', 'success')->where('student_id', $user->id);;
         })->count();
 
@@ -52,16 +53,17 @@ class ProfileController extends Controller
             'wishlists' => $wishlists,
             'support_tickets' => $support_tickets,
         ]);
-
     }
 
-    public function edit_profile(){
+    public function edit_profile()
+    {
         $user = Auth::guard('web')->user();
 
         return view('user.edit_profile', ['user' => $user]);
     }
 
-    public function update_profile(EditStudentProfileRequest $request){
+    public function update_profile(EditStudentProfileRequest $request)
+    {
 
         $user = Auth::guard('web')->user();
         $user->name = $request->name;
@@ -70,80 +72,66 @@ class ProfileController extends Controller
         $user->gender = $request->gender;
         $user->save();
 
-        if($request->file('image')){
+        if ($request->file('image')) {
             $old_image = $user->image;
             $user_image = $request->image;
             $extention = $user_image->getClientOriginalExtension();
-            $image_name = Str::slug($user->name).date('-Y-m-d-h-i-s-').rand(999,9999).'.'.$extention;
-            $image_name = 'uploads/custom-images/'.$image_name;
-            Image::make($user_image)->save(public_path().'/'.$image_name);
+            $image_name = Str::slug($user->name) . date('-Y-m-d-h-i-s-') . rand(999, 9999) . '.' . $extention;
+            $image_name = 'uploads/custom-images/' . $image_name;
+            Image::make($user_image)->save(public_path() . '/' . $image_name);
             $user->image = $image_name;
             $user->save();
-            if($old_image){
-                if(File::exists(public_path().'/'.$old_image))unlink(public_path().'/'.$old_image);
+            if ($old_image) {
+                if (File::exists(public_path() . '/' . $old_image)) unlink(public_path() . '/' . $old_image);
             }
         }
 
         $notify_message = trans('translate.Updated successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         return redirect()->back()->with($notify_message);
-
     }
 
-    public function change_password(){
+    public function change_password()
+    {
         return view('user.change_password');
     }
 
-    public function update_password(PasswordChangeRequest $request){
+    public function update_password(PasswordChangeRequest $request)
+    {
 
         $user = Auth::guard('web')->user();
 
-        if(Hash::check($request->current_password, $user->password)){
+        if (Hash::check($request->current_password, $user->password)) {
             $user->password = Hash::make($request->password);
             $user->save();
 
             $notify_message = trans('translate.Password changed successfully');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
             return redirect()->back()->with($notify_message);
-
-        }else{
+        } else {
             $notify_message = trans('translate.Current password does not match');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
             return redirect()->back()->with($notify_message);
         }
-
-
     }
 
 
-    public function become_an_instructor(Request $request){
+    public function create_agency(Request $request)
+    {
 
         $user = Auth::guard('web')->user();
 
-        return view('user.become_an_instructor', [
+        return view('user.create_agency', [
             'user' => $user
         ]);
     }
 
-    public function instructor_application(BecomeInstructorRequest $request){
-
-
-        $skills_expertise = array();
-
-        foreach($request->skills as $index => $skill){
-            if($request->skills[$index] && $request->expertises[$index]){
-                $skills_expertise [] = (object) array(
-                    'skill' => $skill,
-                    'expertise' => $request->expertises[$index],
-                );
-            }
-
-        }
-
+    public function agency_application(BecomeAgencyRequest $request)
+    {
         $user = Auth::guard('web')->user();
-        $user->skills_expertise = json_encode($skills_expertise);
-        $user->instructor_experience = $request->instructor_experience;
-        $user->designation = $request->designation;
+
+        $user->agency_name = $request->agency_name;
+        $user->agency_slug = $request->agency_slug;
         $user->about_me = $request->about_me;
         $user->country = $request->country;
         $user->state = $request->state;
@@ -153,19 +141,33 @@ class ProfileController extends Controller
         $user->linkedin = $request->linkedin;
         $user->twitter = $request->twitter;
         $user->instagram = $request->instagram;
+        $user->website = $request->website;
+        $user->location_map = $request->location_map;
         $user->instructor_joining_request = 'pending';
         $user->save();
 
-        $notify_message = trans('translate.Instructor joining request send to admin. please awaiting for approval');
+        if ($request->hasFile('agency_logo')) {
+            $file = $request->file('agency_logo');
+            $imageName = 'uploads/custom-images/' . Str::slug($user->agency_name) . '-' . now()->format('YmdHis') . '-' . rand(1000, 9999) . '.' . $file->getClientOriginalExtension();
+
+            Image::make($file)->save(public_path($imageName));
+
+            $user->agency_logo = $imageName;
+            $user->save();
+        }
+
+        $notify_message = trans('translate.Agency joining request send to admin. please awaiting for approval');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         return redirect()->back()->with($notify_message);
     }
 
-    public function account_delete(){
+    public function account_delete()
+    {
         return view('user.account_delete');
     }
 
-    public function confirm_account_delete(Request $request){
+    public function confirm_account_delete(Request $request)
+    {
 
         $user = Auth::guard('web')->user();
 
@@ -175,7 +177,7 @@ class ProfileController extends Controller
             'current_password.required' => trans('translate.Current password is required')
         ]);
 
-        if(!Hash::check($request->current_password, $user->password)){
+        if (!Hash::check($request->current_password, $user->password)) {
             $notify_message = trans('translate.Current password does not match');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
             return redirect()->back()->with($notify_message);
@@ -183,8 +185,8 @@ class ProfileController extends Controller
 
         $user_image = $user->image;
 
-        if($user_image){
-            if(File::exists(public_path().'/'.$user_image))unlink(public_path().'/'.$user_image);
+        if ($user_image) {
+            if (File::exists(public_path() . '/' . $user_image)) unlink(public_path() . '/' . $user_image);
         }
 
         $user_id = $user->id;
@@ -194,10 +196,10 @@ class ProfileController extends Controller
 
         $courses = Course::where('user_id', $user_id)->get();
 
-        foreach($courses as $course){
+        foreach ($courses as $course) {
             CourseEnrollmentList::where('course_id', $course->id)->delete();
             $modules = CourseModule::where('course_id', $course->id)->get();
-            foreach($modules as $module){
+            foreach ($modules as $module) {
                 CourseModuleLesson::where('course_module_id', $module->id)->delete();
                 $module->delete();
             }
@@ -207,18 +209,16 @@ class ProfileController extends Controller
             CourseReview::where('course_id', $course->id)->delete();
 
             $old_image = $course->thumb_image;
-            if($old_image){
-                if(File::exists(public_path().'/'.$old_image))unlink(public_path().'/'.$old_image);
+            if ($old_image) {
+                if (File::exists(public_path() . '/' . $old_image)) unlink(public_path() . '/' . $old_image);
             }
 
             $course->delete();
-
-
         }
 
         $enrollments = CourseEnrollment::where('student_id', $user_id)->get();
 
-        foreach($enrollments as $enrollment){
+        foreach ($enrollments as $enrollment) {
             CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)->delete();
             $enrollment->delete();
         }
@@ -234,16 +234,16 @@ class ProfileController extends Controller
 
         $support_tickets = SupportTicket::where('author_id', $user->id)->latest()->get();
 
-        foreach($support_tickets as $support_ticket){
+        foreach ($support_tickets as $support_ticket) {
             $ticket_messages = SupportTicketMessage::with('documents')->where('support_ticket_id', $support_ticket->id)->get();
 
-            foreach($ticket_messages as $ticket_message){
+            foreach ($ticket_messages as $ticket_message) {
 
                 $documents = MessageDocument::where('message_id', $ticket_message->id)->where('model_name', 'SupportTicketMessage')->get();
-                foreach($documents as $document){
+                foreach ($documents as $document) {
                     $exist_file_name = $document->file_name;
-                    if($exist_file_name){
-                        if(File::exists(public_path('uploads/custom-images').'/'.$exist_file_name))unlink(public_path('uploads/custom-images').'/'.$exist_file_name);
+                    if ($exist_file_name) {
+                        if (File::exists(public_path('uploads/custom-images') . '/' . $exist_file_name)) unlink(public_path('uploads/custom-images') . '/' . $exist_file_name);
                     }
 
                     $document->delete();
@@ -264,8 +264,5 @@ class ProfileController extends Controller
         $notify_message = trans('translate.Your account deleted successful');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         return redirect()->route('user.login')->with($notify_message);
-
-
     }
-
 }

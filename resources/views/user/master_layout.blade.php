@@ -100,9 +100,9 @@
                                                         </div>
                                                     @else
                                                         <div class="profile-switcher-wrapper d-md-flex d-none gap-3 align-items-center">
-                                                            <p class="text">{{ __('translate.Become Instructor') }}</p>
+                                                            <p class="text">{{ __('translate.Create a agency') }}</p>
                                                             <label class="custom-switch join_as_instructor">
-                                                                <input type="checkbox" {{ Route::is('user.become-an-instructor') ? 'checked' : '' }}>
+                                                                <input type="checkbox" {{ Route::is('user.create-agency') ? 'checked' : '' }}>
                                                                 <span class="slider"></span>
                                                             </label>
                                                         </div>
@@ -244,7 +244,7 @@
                     })
 
                     $(".join_as_instructor").on("change", function(){
-                        window.location = `{{ route('user.become-an-instructor') }}`
+                        window.location = `{{ route('user.create-agency') }}`
 
                     })
 

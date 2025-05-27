@@ -13,7 +13,7 @@ use Modules\Course\App\Models\CourseModule;
 use Modules\Course\App\Models\CourseReview;
 use App\Http\Requests\PasswordChangeRequest;
 use Modules\Coupon\App\Models\CouponHistory;
-use App\Http\Requests\BecomeInstructorRequest;
+use App\Http\Requests\BecomeAgencyRequest;
 use Modules\Course\App\Models\LessonChecklist;
 use Modules\Course\App\Models\CourseEnrollment;
 use Modules\NoticeBoard\App\Models\NoticeBoard;
@@ -185,7 +185,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function update_instructor_profile(BecomeInstructorRequest $request){
+    public function update_instructor_profile(BecomeAgencyRequest $request){
 
 
         $skills_expertise = array();
