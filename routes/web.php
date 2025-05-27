@@ -117,8 +117,8 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
             Route::get('/edit-profile', [AgencyProfileController::class, 'edit_profile'])->name('edit-profile');
             Route::put('/update-profile', [AgencyProfileController::class, 'update_profile'])->name('update-profile');
 
-            Route::get('/agency-profile', [AgencyProfileController::class, 'instructor_profile'])->name('agency-profile');
-            Route::put('/update-agency-profile', [AgencyProfileController::class, 'update_instructor_profile'])->name('update-agency-profile');
+            Route::get('/agency-profile', [AgencyProfileController::class, 'agency_profile'])->name('agency-profile');
+            Route::put('/update-agency-profile', [AgencyProfileController::class, 'update_agency_profile'])->name('update-agency-profile');
 
             Route::get('/change-password', [AgencyProfileController::class, 'change_password'])->name('change-password');
             Route::put('/update-password', [AgencyProfileController::class, 'update_password'])->name('update-password');
