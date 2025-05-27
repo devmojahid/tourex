@@ -209,7 +209,7 @@ class ProfileController extends Controller
 
             $old_agency_logo = $user->agency_logo;
 
-            if ($request->old_agency_logo) {
+            if ($old_agency_logo) {
                 if (File::exists(public_path() . '/' . $old_agency_logo)) unlink(public_path() . '/' . $old_agency_logo);
             }
 
