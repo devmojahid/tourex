@@ -8,7 +8,7 @@
 @endsection
 @section('body-content')
 
-    <form action="{{ route('instructor.update-instructor-profile') }}" enctype="multipart/form-data" method="POST">
+    <form action="{{ route('agency.update-instructor-profile') }}" enctype="multipart/form-data" method="POST">
     @csrf
     @method('PUT')
         <!-- crancy Dashboard -->

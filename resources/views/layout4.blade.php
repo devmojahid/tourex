@@ -162,7 +162,7 @@
                 <a href="{{ route('user.login') }}" class="">{{ __('translate.Login') }}</a> /
                 <a href="{{ route('user.register') }}" class="">{{ __('translate.Register') }}</a>
                 @else
-                <a href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('instructor.dashboard') : route('user.dashboard') }}" class="">{{ __('translate.Dashboard') }}</a>
+                <a href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}" class="">{{ __('translate.Dashboard') }}</a>
               @endguest
 
             </span>

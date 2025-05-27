@@ -108,7 +108,7 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     });
 
 
-    Route::group(['as' => 'instructor.', 'prefix' => 'instructor'], function () {
+    Route::group(['as' => 'agency.', 'prefix' => 'agency'], function () {
 
         Route::group(['middleware' => ['auth:web', 'CheckInstructor']], function () {
 

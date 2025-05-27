@@ -375,7 +375,7 @@
                                 </span>
                             </a>
                         @else
-                            <a href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('instructor.dashboard') : route('user.dashboard') }}"
+                            <a href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}"
                                 class="td_btn td_style_1 td_radius_30 td_medium td_with_shadow">
                                 <span class="td_btn_in td_white_color td_accent_bg">
                                     <span>{{ __('translate.Dashboard') }}</span>

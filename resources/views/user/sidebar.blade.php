@@ -291,13 +291,13 @@
     </div>
     @if ($auth_user->instructor_joining_request == 'approved')
         <div class="d-flex d-md-none justify-content-center pt-5">
-            <a href="{{ route('instructor.dashboard') }}"
-                class="panel-switcher-btn">{{ __('translate.Instructor Panel') }}</a>
+            <a href="{{ route('agency.dashboard') }}"
+                class="panel-switcher-btn">{{ __('translate.Agency Dashboard') }}</a>
         </div>
     @else
         <div class="d-flex d-md-none justify-content-center pt-5">
             <a href="{{ route('user.create-agency') }}"
-                class="panel-switcher-btn">{{ __('translate.Become Instructor') }}</a>
+                class="panel-switcher-btn">{{ __('translate.Create a agency') }}</a>
         </div>
     @endif
 

@@ -37,7 +37,7 @@
 
 					<!-- Logo -->
 					<div class="logo crancy-sidebar-padding pd-right-0">
-						<a class="crancy-logo" href="{{ route('instructor.dashboard') }}">
+						<a class="crancy-logo" href="{{ route('agency.dashboard') }}">
                             <img src="{{ asset($general_setting->logo) }}" alt="logo">
 						</a>
 						<div id="crancy__sicon" class="crancy__sicon close-icon">
@@ -112,7 +112,7 @@
 
 													<!-- Header Author -->
 													<div class="crancy-header__single">
-														<a href="{{ route('instructor.edit-profile') }}"><div class="crancy-header__author-img"><img src="{{ asset($auth_user->image) }}" alt="#"></div></a>
+														<a href="{{ route('agency.edit-profile') }}"><div class="crancy-header__author-img"><img src="{{ asset($auth_user->image) }}" alt="#"></div></a>
 														<!-- crancy Profile Hover -->
 
 														<!-- Dropdown List -->
@@ -120,7 +120,7 @@
 															<div class="crancy-dropdown__hover--inner">
 																<ul class="crancy-dmenu">
 																	<li>
-																		<a href="{{ route('instructor.edit-profile') }}">
+																		<a href="{{ route('agency.edit-profile') }}">
 																			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 																				<path d="M12.1202 12.78C12.0502 12.77 11.9602 12.77 11.8802 12.78C10.1202 12.72 8.72021 11.28 8.72021 9.50998C8.72021 7.69998 10.1802 6.22998 12.0002 6.22998C13.8102 6.22998 15.2802 7.69998 15.2802 9.50998C15.2702 11.28 13.8802 12.72 12.1202 12.78Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 																				<path d="M18.7398 19.3801C16.9598 21.0101 14.5998 22.0001 11.9998 22.0001C9.39977 22.0001 7.03977 21.0101 5.25977 19.3801C5.35977 18.4401 5.95977 17.5201 7.02977 16.8001C9.76977 14.9801 14.2498 14.9801 16.9698 16.8001C18.0398 17.5201 18.6398 18.4401 18.7398 19.3801Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -131,7 +131,7 @@
 																	</li>
 
 																	<li>
-																		<a href="{{ route('instructor.instructor-profile') }}">
+																		<a href="{{ route('agency.instructor-profile') }}">
 																			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 																				<path d="M12.1202 12.78C12.0502 12.77 11.9602 12.77 11.8802 12.78C10.1202 12.72 8.72021 11.28 8.72021 9.50998C8.72021 7.69998 10.1802 6.22998 12.0002 6.22998C13.8102 6.22998 15.2802 7.69998 15.2802 9.50998C15.2702 11.28 13.8802 12.72 12.1202 12.78Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 																				<path d="M18.7398 19.3801C16.9598 21.0101 14.5998 22.0001 11.9998 22.0001C9.39977 22.0001 7.03977 21.0101 5.25977 19.3801C5.35977 18.4401 5.95977 17.5201 7.02977 16.8001C9.76977 14.9801 14.2498 14.9801 16.9698 16.8001C18.0398 17.5201 18.6398 18.4401 18.7398 19.3801Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

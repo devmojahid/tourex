@@ -15,7 +15,7 @@
                     <div class="crancy-body">
                         <!-- Dashboard Inner -->
                         <div class="crancy-dsinner">
-                            <form action="{{ route('instructor.update-profile') }}" enctype="multipart/form-data" method="POST">
+                            <form action="{{ route('agency.update-profile') }}" enctype="multipart/form-data" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="row">

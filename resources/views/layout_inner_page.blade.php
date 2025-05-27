@@ -207,7 +207,7 @@
                                     </a>
                                 @else
                                     <a class="tg-btn-header"
-                                        href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('instructor.dashboard') : route('user.dashboard') }}">
+                                        href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}">
                                         <span>
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">

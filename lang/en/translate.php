@@ -1482,7 +1482,7 @@ return array(
     "Services in this Category" => "Services in this Category",
     "Extra charge added successfully" => "Extra charge added successfully",
     "Extra charge updated successfully" => "Extra charge updated successfully",
-    
+
 
     "Pricing Plan" => "Pricing Plan",
     "Create a agency" => "Create a agency",
@@ -1495,4 +1495,5 @@ return array(
     "Agency Name is required" => "Agency Name is required",
     "Agency Slug is required" => "Agency Slug is required",
     "Agency Slug already exist" => "Agency Slug already exist",
+    "Agency Dashboard" => "Agency Dashboard",
 );

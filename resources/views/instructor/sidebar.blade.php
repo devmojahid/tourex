@@ -9,7 +9,7 @@
     <div class="menu-bar">
         <ul id="CrancyMenu" class="menu-bar__one crancy-dashboard-menu">
 
-            <li class="{{ Route::is('instructor.dashboard') ? 'active' : '' }}"><a class="collapsed" href="{{ route('instructor.dashboard') }}"><span class="menu-bar__text">
+            <li class="{{ Route::is('agency.dashboard') ? 'active' : '' }}"><a class="collapsed" href="{{ route('agency.dashboard') }}"><span class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
 
                     <svg class="crancy-svg-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +32,7 @@
             @include('paymentwithdraw::seller.sidebar')
 
 
-            <li class="{{ Route::is('instructor.edit-profile') ? 'active' : '' }}"><a class="collapsed" href="{{ route('instructor.edit-profile') }}">
+            <li class="{{ Route::is('agency.edit-profile') ? 'active' : '' }}"><a class="collapsed" href="{{ route('agency.edit-profile') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
 
@@ -48,7 +48,7 @@
 
                 </a>
             </li>
-            <li class="{{ Route::is('instructor.instructor-profile') ? 'active' : '' }}"><a class="collapsed" href="{{ route('instructor.instructor-profile') }}">
+            <li class="{{ Route::is('agency.instructor-profile') ? 'active' : '' }}"><a class="collapsed" href="{{ route('agency.instructor-profile') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
 
@@ -67,7 +67,7 @@
 
                 </a>
             </li>
-            <li class="{{ Route::is('instructor.change-password') ? 'active' : '' }}"><a class="collapsed" href="{{ route('instructor.change-password') }}">
+            <li class="{{ Route::is('agency.change-password') ? 'active' : '' }}"><a class="collapsed" href="{{ route('agency.change-password') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -143,7 +143,7 @@
             @include('eventcalendar::instructor.sidebar')
 
 
-            <li class="{{ Route::is('instructor.account-delete') ? 'active' : '' }}"><a class="collapsed" href="{{ route('instructor.account-delete') }}">
+            <li class="{{ Route::is('agency.account-delete') ? 'active' : '' }}"><a class="collapsed" href="{{ route('agency.account-delete') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

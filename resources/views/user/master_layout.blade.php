@@ -239,7 +239,7 @@
                     $('#dataTable').DataTable();
 
                     $(".switch_to_instructor").on("change", function(){
-                        window.location = `{{ route('instructor.dashboard') }}`
+                        window.location = `{{ route('agency.dashboard') }}`
 
                     })
 
