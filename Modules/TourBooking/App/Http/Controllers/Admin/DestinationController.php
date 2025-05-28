@@ -24,7 +24,7 @@ final class DestinationController extends Controller
             ->latest()
             ->paginate(15);
 
-        return view('tourbooking::admin.destinations.index', compact('destinations'));
+        return view('tourbooking::agency.destinations.index', compact('destinations'));
     }
 
     /**
@@ -32,7 +32,7 @@ final class DestinationController extends Controller
      */
     public function create(): View
     {
-        return view('tourbooking::admin.destinations.create');
+        return view('tourbooking::agency.destinations.create');
     }
 
     /**
@@ -53,24 +53,24 @@ final class DestinationController extends Controller
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
         ]);
-        
+
         // Handle image if present
         if ($request->hasFile('image')) {
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
-            
+
             $imagePath = $request->file('image')->store('destinations', 'public');
             $validated['image'] = $imagePath;
         }
-        
+
         $validated['status'] = $request->has('status');
         $validated['is_featured'] = $request->has('is_featured');
         $validated['show_on_homepage'] = $request->has('show_on_homepage');
-        
+
         $destination = Destination::create($validated);
 
-        return redirect()->route('admin.tourbooking.destinations.index')
+        return redirect()->route('agency.tourbooking.destinations.index')
             ->with('success', 'Destination created successfully.');
     }
 
@@ -80,8 +80,8 @@ final class DestinationController extends Controller
     public function show(Destination $destination): View
     {
         $destination->load(['services.serviceType']);
-        
-        return view('tourbooking::admin.destinations.show', compact('destination'));
+
+        return view('tourbooking::agency.destinations.show', compact('destination'));
     }
 
     /**
@@ -89,7 +89,7 @@ final class DestinationController extends Controller
      */
     public function edit(Destination $destination): View
     {
-        return view('tourbooking::admin.destinations.edit', compact('destination'));
+        return view('tourbooking::agency.destinations.edit', compact('destination'));
     }
 
     /**
@@ -110,29 +110,29 @@ final class DestinationController extends Controller
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
         ]);
-        
+
         // Handle image if present
         if ($request->hasFile('image')) {
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
-            
+
             // Delete old image if exists
             if ($destination->image) {
                 @unlink(storage_path('app/public/' . $destination->image));
             }
-            
+
             $imagePath = $request->file('image')->store('destinations', 'public');
             $validated['image'] = $imagePath;
         }
-        
+
         $validated['status'] = $request->has('status');
         $validated['is_featured'] = $request->has('is_featured');
         $validated['show_on_homepage'] = $request->has('show_on_homepage');
-        
+
         $destination->update($validated);
 
-        return redirect()->route('admin.tourbooking.destinations.index')
+        return redirect()->route('agency.tourbooking.destinations.index')
             ->with('success', 'Destination updated successfully.');
     }
 
@@ -143,18 +143,18 @@ final class DestinationController extends Controller
     {
         // Check if there are any services associated with this destination
         if (Service::where('destination_id', $destination->id)->exists()) {
-            return redirect()->route('admin.tourbooking.destinations.index')
+            return redirect()->route('agency.tourbooking.destinations.index')
                 ->with('error', 'Cannot delete destination because it is being used by one or more services.');
         }
-        
+
         // Delete image if exists
         if ($destination->image) {
             @unlink(storage_path('app/public/' . $destination->image));
         }
-        
+
         $destination->delete();
 
-        return redirect()->route('admin.tourbooking.destinations.index')
+        return redirect()->route('agency.tourbooking.destinations.index')
             ->with('success', 'Destination deleted successfully.');
     }
 
@@ -178,4 +178,4 @@ final class DestinationController extends Controller
 
         return response()->json($notify_message);
     }
-} 
+}

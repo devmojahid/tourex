@@ -176,7 +176,7 @@
         "use strict"
 
         function itemDeleteConfrimation(id) {
-            $("#item_delect_confirmation").attr("action", '{{ url('admin/tourbooking/destinations') }}' + "/" + id)
+            $("#item_delect_confirmation").attr("action", '{{ url('agency/tourbooking/destinations') }}' + "/" + id)
         }
 
         function manageStatus(id) {
