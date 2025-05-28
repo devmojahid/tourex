@@ -350,7 +350,7 @@
                                                                 <strong>{{ $charge->name }}</strong>
                                                                 @if ($charge->description)
                                                                     <div class="small text-muted">
-                                                                        {{ Str::limit($charge->description, 50) }}</div>
+                                                                        {!! strip_tags(Str::limit($charge->description, 50)) !!}</div>
                                                                 @endif
                                                             </td>
                                                             <td>{{ config('settings.currency_icon', '$') }}

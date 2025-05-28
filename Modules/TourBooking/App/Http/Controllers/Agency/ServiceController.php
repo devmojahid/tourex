@@ -28,8 +28,7 @@ final class ServiceController extends Controller
     public function __construct(
         private ServiceRepository $serviceRepository,
         private ServiceTypeRepository $serviceTypeRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of services.
@@ -126,6 +125,11 @@ final class ServiceController extends Controller
      */
     public function edit(Request $request, Service $service): View
     {
+
+        if ($service->user_id != auth()->user()->id) {
+            abort(404);
+        }
+
         $lang_code = $request->lang_code ?? admin_lang();
 
         $service->load([
@@ -179,7 +183,7 @@ final class ServiceController extends Controller
         return view('tourbooking::agency.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code'));
     }
 
-   /**
+    /**
      * Update the specified service in storage.
      */
     public function update(ServiceRequest $request, Service $service): RedirectResponse
@@ -200,7 +204,9 @@ final class ServiceController extends Controller
                             // Not JSON, treat as newline-separated string
                             $lines = array_filter(
                                 array_map('trim', explode("\n", $data[$field])),
-                                function($line) { return $line !== ''; }
+                                function ($line) {
+                                    return $line !== '';
+                                }
                             );
                             $data[$field] = json_encode(array_values($lines));
                         }
@@ -242,7 +248,9 @@ final class ServiceController extends Controller
                         // Not JSON, treat as newline-separated string
                         $lines = array_filter(
                             array_map('trim', explode("\n", $data[$field])),
-                            function($line) { return $line !== ''; }
+                            function ($line) {
+                                return $line !== '';
+                            }
                         );
                         $translationData[$field] = json_encode(array_values($lines));
                     } else {
@@ -378,6 +386,10 @@ final class ServiceController extends Controller
      */
     public function showItineraries(Service $service): View
     {
+        if ($service->user_id !== auth()->user()->id) {
+            abort(404);
+        }
+
         $service->load(['itineraries' => function ($query) {
             $query->orderBy('day_number');
         }]);
@@ -390,6 +402,11 @@ final class ServiceController extends Controller
      */
     public function storeItinerary(Request $request, Service $service): RedirectResponse
     {
+
+        if ($service->user_id !== auth()->user()->id) {
+            abort(404);
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'day_number' => 'required|integer|min:1',
@@ -482,6 +499,11 @@ final class ServiceController extends Controller
      */
     public function showExtraCharges(Service $service): View
     {
+
+        if ($service->user_id !== auth()->user()->id) {
+            abort(404);
+        }
+
         $service->load('extraCharges');
 
         return view('tourbooking::agency.services.extra_charges', compact('service'));
@@ -492,6 +514,11 @@ final class ServiceController extends Controller
      */
     public function storeExtraCharge(Request $request, Service $service): RedirectResponse
     {
+
+        if ($service->user_id !== auth()->user()->id) {
+            abort(404);
+        }
+
         // Transform checkbox values before validation
         $request->merge([
             'is_mandatory' => $request->boolean('is_mandatory'),
