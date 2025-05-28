@@ -1482,6 +1482,15 @@ return array(
     "Services in this Category" => "Services in this Category",
     "Extra charge added successfully" => "Extra charge added successfully",
     "Extra charge updated successfully" => "Extra charge updated successfully",
+    "Destinations" => "Destinations",
+    "All Destinations" => "All Destinations",
+    "Add New Destination" => "Add New Destination",
+    "Create Destination" => "Create Destination",
+    "Create Destination" => "Create Destination",
+    "Destination Information" => "Destination Information",
+    "Destination List" => "Destination List",
+    "Update Destination" => "Update Destination",
+    "Edit Destination" => "Edit Destination",
     
 
     "Pricing Plan" => "Pricing Plan",

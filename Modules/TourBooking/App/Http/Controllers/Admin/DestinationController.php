@@ -7,6 +7,7 @@ namespace Modules\TourBooking\App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Service;
@@ -155,5 +156,26 @@ final class DestinationController extends Controller
 
         return redirect()->route('admin.tourbooking.destinations.index')
             ->with('success', 'Destination deleted successfully.');
+    }
+
+    public function updateStatus(Destination $destination): RedirectResponse|JsonResponse
+    {
+        $destination->update(['status' => !$destination->status]);
+
+
+        $notify_message = trans('translate.Status updated');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+
+        return response()->json($notify_message);
+    }
+
+    public function updateFeatured(Destination $destination): RedirectResponse|JsonResponse
+    {
+        $destination->update(['is_featured' => !$destination->is_featured]);
+
+        $notify_message = trans('translate.Featured updated');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+
+        return response()->json($notify_message);
     }
 } 

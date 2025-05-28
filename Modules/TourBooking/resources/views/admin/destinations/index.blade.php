@@ -1,7 +1,3 @@
-{{-- @extends('admin.layouts.master')
-@section('title', 'Destinations')
-@section('content') --}}
-
 @extends('admin.master_layout')
 @section('title')
     <title>{{ __('translate.Destinations') }}</title>
@@ -84,48 +80,39 @@
                                                         {{ $destination->created_at->format('d M, Y') }}
                                                     </td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
+                                                        <label class="crancy__item-switch" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            title="Toggle Status: Click to activate/deactivate">
+                                                            <input onClick="manageStatus({{ $destination->id }})"
+                                                                name="status" type="checkbox"
+                                                                {{ $destination->status == 1 ? 'checked' : '' }}>
+                                                            <span
+                                                                class="crancy__item-switch--slide crancy__item-switch--round"></span>
+                                                        </label>
+
+                                                        <label class="crancy__item-switch" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            title="Toggle Featured: Click to activate/deactivate">
+                                                            <input onClick="manageFeatured({{ $destination->id }})"
+                                                                name="featured" type="checkbox"
+                                                                {{ $destination->is_featured == 1 ? 'checked' : '' }}>
+                                                            <span
+                                                                class="crancy__item-switch--slide crancy__item-switch--round"></span>
+                                                        </label>
                                                         <a href="{{ route('admin.tourbooking.destinations.edit', $destination) }}"
                                                             class="crancy-action__btn crancy-action__edit crancy-btn">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
                                                         <a href="{{ route('admin.tourbooking.destinations.show', $destination) }}"
-                                                            class="crancy-action__btn crancy-action__edit crancy-btn">
+                                                            class="crancy-action__btn crancy-action__edit crancy-btn d-none">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
-                                                        <form
-                                                            action="{{ route('admin.tourbooking.destinations.update-status', $destination) }}"
-                                                            method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="submit"
-                                                                class="destination crancy-btn crancy-action__btn crancy-action__edit crancy-btn {{ $destination->status ? 'btn-success' : 'btn-danger' }}"
-                                                                title="{{ $destination->status ? 'Deactivate' : 'Activate' }}">
-                                                                <i
-                                                                    class="fas {{ $destination->status ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
-                                                            </button>
-                                                        </form>
-                                                        <form
-                                                            action="{{ route('admin.tourbooking.destinations.update-featured', $destination) }}"
-                                                            method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="submit"
-                                                                class="destination crancy-btn crancy-action__btn crancy-action__edit crancy-btn {{ $destination->is_featured ? 'btn-info' : 'btn-secondary' }}"
-                                                                title="{{ $destination->is_featured ? 'Unfeature' : 'Feature' }}">
-                                                                <i class="fas fa-star"></i>
-                                                            </button>
-                                                        </form>
-                                                        <form
-                                                            action="{{ route('admin.tourbooking.destinations.destroy', $destination) }}"
-                                                            method="POST" class="d-inline delete-form">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit"
-                                                                class="destination crancy-btn crancy-action__btn crancy-action__edit crancy-btn delete_danger_btn"
-                                                                onclick="return confirm('Are you sure you want to delete this destination?')">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </form>
+                                                        <a onclick="itemDeleteConfrimation({{ $destination->id }})"
+                                                            href="javascript:;" data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal"
+                                                            class="destination crancy-btn crancy-action__btn crancy-action__edit crancy-btn delete_danger_btn"><i
+                                                                class="fas fa-trash"></i> {{ __('translate.Delete') }}
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -146,6 +133,32 @@
             </div>
         </div>
     </section>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="" id="item_delect_confirmation" class="delet_modal_form" method="POST">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('styles')
@@ -155,4 +168,61 @@
             vertical-align: middle;
         }
     </style>
+@endpush
+
+
+@push('js_section')
+    <script>
+        "use strict"
+
+        function itemDeleteConfrimation(id) {
+            $("#item_delect_confirmation").attr("action", '{{ url('admin/tourbooking/destinations') }}' + "/" + id)
+        }
+
+        function manageStatus(id) {
+            var appMODE = "{{ env('APP_MODE') }}"
+            if (appMODE == 'DEMO') {
+                toastr.error('This Is Demo Version. You Can Not Change Anything');
+                return;
+            }
+
+            $.ajax({
+                type: "PUT",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                url: "{{ route('admin.tourbooking.destinations.update-status', ':id') }}".replace(':id', id),
+                success: function(response) {
+                    toastr.success(response.message)
+                },
+                error: function(err) {
+                    console.log(err);
+                    toastr.error('An error occurred while updating status');
+                }
+            })
+        }
+
+        function manageFeatured(id) {
+            var appMODE = "{{ env('APP_MODE') }}"
+            if (appMODE == 'DEMO') {
+                toastr.error('This Is Demo Version. You Can Not Change Anything');
+                return;
+            }
+
+            $.ajax({
+                type: "PUT",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                url: "{{ route('admin.tourbooking.destinations.update-featured', ':id') }}".replace(':id', id),
+                success: function(response) {
+                    toastr.success(response.message)
+                },
+                error: function(err) {
+                    console.log(err);
+                    toastr.error('An error occurred while updating featured');
+                }
+            })
+        }
+    </script>
 @endpush
