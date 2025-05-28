@@ -1,11 +1,11 @@
-@extends('instructor.master_layout')
+@extends('agency.master_layout')
 @section('title')
-    <title>{{ __('translate.Student Support') }}</title>
+    <title>{{ __('translate.User Support') }}</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Student Support') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Student Support') }}</p>
+    <h3 class="crancy-header__title m-0">{{ __('translate.User Support') }}</h3>
+    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.User Support') }}</p>
 @endsection
 
 @section('body-content')
@@ -22,7 +22,7 @@
                                 <div class="crancy-customer-filter">
                                     <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
                                         <div class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
-                                            <h4 class="crancy-product-card__title">{{ __('translate.Student Support') }}</h4>
+                                            <h4 class="crancy-product-card__title">{{ __('translate.User Support') }}</h4>
 
 
                                         </div>

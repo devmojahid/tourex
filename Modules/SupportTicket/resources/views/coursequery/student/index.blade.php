@@ -1,11 +1,11 @@
 @extends('user.master_layout')
 @section('title')
-    <title>{{ __('translate.Teacher Support') }}</title>
+    <title>{{ __('translate.Agency Support') }}</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Teacher Support') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Teacher Support') }}</p>
+    <h3 class="crancy-header__title m-0">{{ __('translate.Agency Support') }}</h3>
+    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Agency Support') }}</p>
 @endsection
 
 @section('body-content')
@@ -22,9 +22,9 @@
                                 <div class="crancy-customer-filter">
                                     <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
                                         <div class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
-                                            <h4 class="crancy-product-card__title">{{ __('translate.Teacher Support') }}</h4>
+                                            <h4 class="crancy-product-card__title">{{ __('translate.Agency Support') }}</h4>
 
-                                            <a href="{{ route('user.teacher-support.create') }}" class="crancy-btn "><span>
+                                            <a href="{{ route('user.agency-support.create') }}" class="crancy-btn "><span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
 																<path d="M8 1V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
 																<path d="M1 8H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>

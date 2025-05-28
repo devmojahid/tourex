@@ -1,4 +1,4 @@
-@extends('instructor.master_layout')
+@extends('agency.master_layout')
 @section('title')
     <title>{{ __('translate.Ticket Details') }}</title>
 @endsection
@@ -114,7 +114,7 @@
 
                                             @endforeach
 
-                                            <form action="{{ route('instructor.support-ticket-message', $support_ticket->id) }}" method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('agency.support-ticket-message', $support_ticket->id) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row">
                                                     <div class="col-12">

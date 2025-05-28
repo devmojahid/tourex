@@ -284,7 +284,7 @@
 'Revenue' => 'আয়',
 'Commission' => 'কমিশন',
 'Enrollments' => 'এনরোলমেন্টস',
-'Instructor Profile' => 'ইন্সট্রাক্টর প্রোফাইল',
+'Agency Profile' => 'ইন্সট্রাক্টর প্রোফাইল',
 'Write Your Bio' => 'আপনার জীবনী লিখুন',
 'How many years of experience do you have as an instructor?' => 'আপনার কত বছরের অভিজ্ঞতা আছে একজন ইন্সট্রাক্টর হিসেবে?',
 'Short Bio' => 'সংক্ষিপ্ত জীবনী',

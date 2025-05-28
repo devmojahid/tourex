@@ -283,7 +283,7 @@ return array(
     'Revenue' => 'Revenue',
     'Commission' => 'Commission',
     'Enrollments' => 'Enrollments',
-    'Instructor Profile' => 'Instructor Profile',
+    'Agency Profile' => 'Agency Profile',
     'Write Your Bio' => 'Write Your Bio',
     'How many years of experience do you have as an instructor?' => 'How many years of experience do you have as an instructor?',
     'Short Bio' => 'Short Bio',
@@ -1029,8 +1029,8 @@ return array(
     'Ticket Closed Successfully' => 'Ticket Closed Successfully',
     'Close Confirmation' => 'Close Confirmation',
     'Yes, Close' => 'Yes, Close',
-    'Teacher Support' => 'Teacher Support',
-    'Student Support' => 'Student Support',
+    'Agency Support' => 'Agency Support',
+    'User Support' => 'User Support',
     'Notice Board' => 'Notice Board',
     'Create Notice' => 'Create Notice',
     'Edit Notice' => 'Edit Notice',
@@ -1051,8 +1051,8 @@ return array(
     'Calendar' => 'Calendar',
     'Live Class' => 'Live Class',
     'Are you sure want to join?' => 'Are you sure want to join?',
-    'Switch to Instructor Portal' => 'Switch to Instructor Portal',
-    'Switch to Student Portal' => 'Switch to Student Portal',
+    'Switch to User Dashboard' => 'Switch to User Dashboard',
+    'Switch to Agency Dashboard' => 'Switch to Agency Dashboard',
     'Download Certificate' => 'Download Certificate',
     'Previous' => 'Previous',
     'Next' => 'Next',
@@ -1493,6 +1493,7 @@ return array(
     "Edit Destination" => "Edit Destination",
     
 
+
     "Pricing Plan" => "Pricing Plan",
     "Create a agency" => "Create a agency",
     "Agency Name" => "Agency Name",
@@ -1504,4 +1505,5 @@ return array(
     "Agency Name is required" => "Agency Name is required",
     "Agency Slug is required" => "Agency Slug is required",
     "Agency Slug already exist" => "Agency Slug already exist",
+    "Agency Dashboard" => "Agency Dashboard",
 );

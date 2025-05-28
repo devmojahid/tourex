@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Modules\Course\App\Models\Course;
+use Modules\Ecommerce\Entities\Product;
 use Modules\Wishlist\App\Models\Wishlist;
 
 class WishlistController extends Controller
@@ -17,19 +18,27 @@ class WishlistController extends Controller
      */
     public function index()
     {
+
         $item_array = array();
 
         $user = Auth::guard('web')->user();
 
         $wishlists = Wishlist::where('user_id', $user->id)->get();
 
-        foreach($wishlists as $wishlist){
+        foreach ($wishlists as $wishlist) {
             $item_array[] = $wishlist->item_id;
         }
 
-        $courses = Course::with('category')->where(['status' => 'enable', 'approved_by_admin' => 'approved'])->whereIn('id', $item_array)->latest()->get();
+        $products = Product::with('translate')
+            ->withCount('reviews')
+            ->withExists('myWishlist')
+            ->withAvg('reviews', 'rating')
+            ->where(['status' => 1])
+            ->whereIn('id', $item_array)
+            ->latest()
+            ->get();
 
-        return view('wishlist::index', ['courses' => $courses]);
+        return view('wishlist::index', ['products' => $products]);
     }
 
     /**
@@ -41,23 +50,21 @@ class WishlistController extends Controller
 
         $exist_item = Wishlist::where('user_id', $user->id)->where('item_id', $request->item_id)->first();
 
-        if(!$exist_item){
+        if (!$exist_item) {
             $wishlist = new Wishlist();
             $wishlist->item_id = $request->item_id;
             $wishlist->user_id = $user->id;
             $wishlist->save();
 
-            $notify_message= trans('translate.Item added to wishlist');
+            $notify_message = trans('translate.Item added to wishlist');
             return response()->json(['message' => $notify_message, 'type' => 'added']);
-        }else{
+        } else {
 
             $exist_item->delete();
 
-            $notify_message= trans('translate.Item removed from wishlist');
+            $notify_message = trans('translate.Item removed from wishlist');
             return response()->json(['message' => $notify_message,  'type' => 'removed']);
         }
-
-
     }
 
     /**
@@ -69,8 +76,8 @@ class WishlistController extends Controller
 
         Wishlist::where('user_id', $user->id)->where('item_id', $id)->delete();
 
-        $notify_message= trans('translate.Item removed to wishlist');
-        $notify_message=array('message'=>$notify_message,'alert-type'=>'success');
+        $notify_message = trans('translate.Item removed to wishlist');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         return redirect()->back()->with($notify_message);
     }
 }

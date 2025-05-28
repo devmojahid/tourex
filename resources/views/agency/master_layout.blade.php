@@ -20,7 +20,6 @@
 		<link rel="stylesheet" href="{{ asset('backend/css/nice-select.min.css') }}">
 		<link rel="stylesheet" href="{{ asset('backend/css/reset.css') }}">
 		<link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
-		<link rel="stylesheet" href="{{ asset('backend/css/enrollment.css') }}">
 		<link rel="stylesheet" href="{{ asset('backend/css/overview.css') }}">
 		<link rel="stylesheet" href="{{ asset('backend/css/dev.css') }}">
         <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
@@ -38,7 +37,7 @@
 
 					<!-- Logo -->
 					<div class="logo crancy-sidebar-padding pd-right-0">
-						<a class="crancy-logo" href="{{ route('user.dashboard') }}">
+						<a class="crancy-logo" href="{{ route('agency.dashboard') }}">
                             <img src="{{ asset($general_setting->logo) }}" alt="logo">
 						</a>
 						<div id="crancy__sicon" class="crancy__sicon close-icon">
@@ -51,7 +50,7 @@
 						</div>
 					</div>
 
-					@include('user.sidebar')
+					@include('agency.sidebar')
 
 
 				</div>
@@ -86,48 +85,26 @@
 										<div class="crancy-header__group">
 											<div class="crancy-header__group-two">
 												<div class="crancy-header__right">
-
-                                                    @php
-                                                        $auth_user = Auth::guard('web')->user();
-                                                    @endphp
-                                                    @if ($auth_user->instructor_joining_request == 'approved')
-                                                        <div class="profile-switcher-wrapper d-md-flex d-none gap-3 align-items-center">
-                                                            <p class="text">{{ __('translate.Switch to Agency Dashboard') }}</p>
-                                                            <label class="custom-switch switch_to_instructor">
-                                                                <input type="checkbox">
-                                                                <span class="slider"></span>
-                                                            </label>
-                                                        </div>
-                                                    @else
-                                                        <div class="profile-switcher-wrapper d-md-flex d-none gap-3 align-items-center">
-                                                            <p class="text">{{ __('translate.Create a agency') }}</p>
-                                                            <label class="custom-switch join_as_instructor">
-                                                                <input type="checkbox" {{ Route::is('user.create-agency') ? 'checked' : '' }}>
-                                                                <span class="slider"></span>
-                                                            </label>
-                                                        </div>
-                                                    @endif
-
+												<div class="profile-switcher-wrapper d-md-flex d-none gap-3 align-items-center">
+														<p class="text">{{ __('translate.Switch to User Dashboard') }}</p>
+														<label class="custom-switch switch_to_student">
+															<input type="checkbox">
+															<span class="slider"></span>
+														</label>
+													</div>
 													<!-- Header Option Group -->
 													<div class="crancy-header__options">
 
-                                                        <!-- Header Notifications -->
 														<div class="crancy-header__single">
 															<a target="_blank" class="crancy-header__blink" href="{{ route('home') }}">
                                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <ellipse cx="12" cy="12" rx="4" ry="10" stroke="currentColor" stroke-width="1.5"/>
                                                                     <path d="M21.9962 11.7205C20.1938 13.2016 16.3949 14.2222 12 14.2222C7.60511 14.2222 3.80619 13.2016 2.00383 11.7205M21.9962 11.7205C21.8482 6.32691 17.4294 2 12 2C6.57061 2 2.15183 6.32691 2.00383 11.7205M21.9962 11.7205C21.9987 11.8134 22 11.9065 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 11.9065 2.00128 11.8134 2.00383 11.7205" stroke="currentColor" stroke-width="1.5"/>
                                                                 </svg>
-															</a>
+
+                                                            </a>
 
 														</div>
-														<!-- End Notifications -->
-
-
-
-														<!-- Header Nav -->
-													</div>
-													<!-- End Header Option Group-->
 
                                                     @php
                                                         $auth_user = Auth::guard('web')->user();
@@ -135,11 +112,7 @@
 
 													<!-- Header Author -->
 													<div class="crancy-header__single">
-														<a href="{{ route('user.edit-profile') }}"><div class="crancy-header__author-img">
-
-															<img src="{{ $auth_user->image ? asset($auth_user->image) : asset($general_setting->default_avatar) }}" alt="#">
-
-														</div></a>
+														<a href="{{ route('agency.edit-profile') }}"><div class="crancy-header__author-img"><img src="{{ asset($auth_user->image) }}" alt="#"></div></a>
 														<!-- crancy Profile Hover -->
 
 														<!-- Dropdown List -->
@@ -147,13 +120,24 @@
 															<div class="crancy-dropdown__hover--inner">
 																<ul class="crancy-dmenu">
 																	<li>
-																		<a href="{{ route('user.edit-profile') }}">
+																		<a href="{{ route('agency.edit-profile') }}">
 																			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 																				<path d="M12.1202 12.78C12.0502 12.77 11.9602 12.77 11.8802 12.78C10.1202 12.72 8.72021 11.28 8.72021 9.50998C8.72021 7.69998 10.1802 6.22998 12.0002 6.22998C13.8102 6.22998 15.2802 7.69998 15.2802 9.50998C15.2702 11.28 13.8802 12.72 12.1202 12.78Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 																				<path d="M18.7398 19.3801C16.9598 21.0101 14.5998 22.0001 11.9998 22.0001C9.39977 22.0001 7.03977 21.0101 5.25977 19.3801C5.35977 18.4401 5.95977 17.5201 7.02977 16.8001C9.76977 14.9801 14.2498 14.9801 16.9698 16.8001C18.0398 17.5201 18.6398 18.4401 18.7398 19.3801Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 																				<path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 																			</svg>
 																			{{ __('translate.My Profile') }}
+																		</a>
+																	</li>
+
+																	<li>
+																		<a href="{{ route('agency.agency-profile') }}">
+																			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+																				<path d="M12.1202 12.78C12.0502 12.77 11.9602 12.77 11.8802 12.78C10.1202 12.72 8.72021 11.28 8.72021 9.50998C8.72021 7.69998 10.1802 6.22998 12.0002 6.22998C13.8102 6.22998 15.2802 7.69998 15.2802 9.50998C15.2702 11.28 13.8802 12.72 12.1202 12.78Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+																				<path d="M18.7398 19.3801C16.9598 21.0101 14.5998 22.0001 11.9998 22.0001C9.39977 22.0001 7.03977 21.0101 5.25977 19.3801C5.35977 18.4401 5.95977 17.5201 7.02977 16.8001C9.76977 14.9801 14.2498 14.9801 16.9698 16.8001C18.0398 17.5201 18.6398 18.4401 18.7398 19.3801Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+																				<path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+																			</svg>
+																			{{ __('translate.Agency Profile') }}
 																		</a>
 																	</li>
 
@@ -166,6 +150,9 @@
 																			{{ __('translate.Logout') }}
 																		</a>
 
+                                                                        <form id="admin-logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+                                                                            @csrf
+                                                                        </form>
 																	</li>
 																</ul>
 
@@ -183,6 +170,7 @@
 						</div>
 					</div>
 				</div>
+                </div>
 			</header>
 			<!-- End Header -->
 
@@ -238,16 +226,10 @@
 
                     $('#dataTable').DataTable();
 
-                    $(".switch_to_instructor").on("change", function(){
-                        window.location = `{{ route('agency.dashboard') }}`
+                    $(".switch_to_student").on("change", function(){
+                        window.location = `{{ route('user.dashboard') }}`
 
                     })
-
-                    $(".join_as_instructor").on("change", function(){
-                        window.location = `{{ route('user.create-agency') }}`
-
-                    })
-
 
                 });
             })(jQuery);

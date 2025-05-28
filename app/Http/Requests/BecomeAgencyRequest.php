@@ -22,9 +22,10 @@ class BecomeAgencyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'agency_logo' => 'required|mimes:jpg,jpeg,png|max:2048',
+            'old_agency_logo' => 'nullable',
+            'agency_logo' => 'required_without:old_agency_logo|mimes:jpg,jpeg,png|max:2048',
             'agency_name' => 'required',
-            'agency_slug' => 'required|unique:users,agency_slug',
+            'agency_slug' => 'required|unique:users,agency_slug,' . auth()->user()->id,
             'about_me' => 'required',
             'country' => 'required|max:255',
             'state' => 'required|max:255',

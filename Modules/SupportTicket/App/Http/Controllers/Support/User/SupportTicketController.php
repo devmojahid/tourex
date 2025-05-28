@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\SupportTicket\App\Http\Controllers\Support\Instructor;
+namespace Modules\SupportTicket\App\Http\Controllers\Support\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +21,7 @@ class SupportTicketController extends Controller
 
         $support_tickets = SupportTicket::where('author_id', $user->id)->where('admin_type', 'admin')->latest()->get();
 
-        return view('supportticket::support.instructor.index', [
+        return view('supportticket::support.student.index', [
             'support_tickets' => $support_tickets
         ]);
     }
@@ -31,7 +31,7 @@ class SupportTicketController extends Controller
      */
     public function create()
     {
-        return view('supportticket::support.instructor.create');
+        return view('supportticket::support.student.create');
     }
 
     /**
@@ -80,7 +80,7 @@ class SupportTicketController extends Controller
 
         $notify_message = trans('translate.Ticket created successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-        return redirect()->route('agency.support-ticket.show', $support_ticket->ticket_id)->with($notify_message);
+        return redirect()->route('user.support-ticket.show', $support_ticket->ticket_id)->with($notify_message);
 
 
     }
@@ -93,12 +93,13 @@ class SupportTicketController extends Controller
 
         $user = Auth::guard('web')->user();
 
-        $support_ticket = SupportTicket::where('ticket_id', $ticket_id)->where('author_id', $user->id)->firstOrFail();
+        $support_ticket = SupportTicket::where('ticket_id', $ticket_id)->where('admin_type', 'admin')->where('author_id', $user->id)->firstOrFail();
 
         $ticket_messages = SupportTicketMessage::with('documents')->where('support_ticket_id', $support_ticket->id)->get();
         $last_message = SupportTicketMessage::with('documents')->where('support_ticket_id', $support_ticket->id)->latest()->first();
 
-        return view('supportticket::support.instructor.show', [
+
+        return view('supportticket::support.student.show', [
             'support_ticket' => $support_ticket,
             'ticket_messages' => $ticket_messages,
             'last_message' => $last_message,

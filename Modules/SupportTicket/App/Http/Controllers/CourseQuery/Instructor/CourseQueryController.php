@@ -113,7 +113,7 @@ class CourseQueryController extends Controller
 
         $notify_message= trans('translate.Ticket Closed Successfully');
         $notify_message=array('message'=>$notify_message,'alert-type'=>'success');
-        return redirect()->route('instructor.teacher-supports')->with($notify_message);
+        return redirect()->route('agency.teacher-supports')->with($notify_message);
 
     }
 

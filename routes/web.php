@@ -16,7 +16,7 @@ use App\Http\Controllers\Auth\RegisterController as UserRegisterController;
 
 
 use App\Http\Controllers\User\ProfileController as UserProfileController;
-use App\Http\Controllers\Instructor\ProfileController as InstructorProfileController;
+use App\Http\Controllers\Agency\ProfileController as AgencyProfileController;
 use App\Http\Controllers\User\OrderController;
 
 Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function () {
@@ -108,23 +108,23 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     });
 
 
-    Route::group(['as' => 'instructor.', 'prefix' => 'instructor'], function () {
+    Route::group(['as' => 'agency.', 'prefix' => 'agency'], function () {
 
         Route::group(['middleware' => ['auth:web', 'CheckInstructor']], function () {
 
-            Route::get('/dashboard', [InstructorProfileController::class, 'dashboard'])->name('dashboard');
+            Route::get('/dashboard', [AgencyProfileController::class, 'dashboard'])->name('dashboard');
 
-            Route::get('/edit-profile', [InstructorProfileController::class, 'edit_profile'])->name('edit-profile');
-            Route::put('/update-profile', [InstructorProfileController::class, 'update_profile'])->name('update-profile');
+            Route::get('/edit-profile', [AgencyProfileController::class, 'edit_profile'])->name('edit-profile');
+            Route::put('/update-profile', [AgencyProfileController::class, 'update_profile'])->name('update-profile');
 
-            Route::get('/instructor-profile', [InstructorProfileController::class, 'instructor_profile'])->name('instructor-profile');
-            Route::put('/update-instructor-profile', [InstructorProfileController::class, 'update_instructor_profile'])->name('update-instructor-profile');
+            Route::get('/agency-profile', [AgencyProfileController::class, 'agency_profile'])->name('agency-profile');
+            Route::put('/update-agency-profile', [AgencyProfileController::class, 'update_agency_profile'])->name('update-agency-profile');
 
-            Route::get('/change-password', [InstructorProfileController::class, 'change_password'])->name('change-password');
-            Route::put('/update-password', [InstructorProfileController::class, 'update_password'])->name('update-password');
+            Route::get('/change-password', [AgencyProfileController::class, 'change_password'])->name('change-password');
+            Route::put('/update-password', [AgencyProfileController::class, 'update_password'])->name('update-password');
 
-            Route::get('/account-delete', [InstructorProfileController::class, 'account_delete'])->name('account-delete');
-            Route::delete('/confirm-account-delete', [InstructorProfileController::class, 'confirm_account_delete'])->name('confirm-account-delete');
+            Route::get('/account-delete', [AgencyProfileController::class, 'account_delete'])->name('account-delete');
+            Route::delete('/confirm-account-delete', [AgencyProfileController::class, 'confirm_account_delete'])->name('confirm-account-delete');
         });
     });
 });

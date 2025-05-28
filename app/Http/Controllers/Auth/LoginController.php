@@ -94,7 +94,7 @@ class LoginController extends Controller
                             $notify_message = trans('translate.Login successfully');
                             $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
                             if($user->is_seller == 1){
-                                return redirect()->route('instructor.dashboard')->with($notify_message);
+                                return redirect()->route('agency.dashboard')->with($notify_message);
                             }else{
                                 return redirect()->route('user.dashboard')->with($notify_message);
                             }
