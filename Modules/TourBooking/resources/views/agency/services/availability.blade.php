@@ -587,7 +587,7 @@
                             <div class="col-md-6">
                                 <div class="crancy__item-form--group">
                                     <label class="crancy__item-label">{{ __('translate.Start Date') }} *</label>
-                                    <input class="crancy__item-input datepicker" type="text" name="start_date"
+                                    <input class="crancy__item-input datepicker" type="text" name="date"
                                         placeholder="YYYY-MM-DD" required>
                                 </div>
                             </div>
