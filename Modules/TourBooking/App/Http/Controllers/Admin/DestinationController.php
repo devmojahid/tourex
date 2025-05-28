@@ -67,8 +67,12 @@ final class DestinationController extends Controller
         $validated['status'] = $request->has('status');
         $validated['is_featured'] = $request->has('is_featured');
         $validated['show_on_homepage'] = $request->has('show_on_homepage');
+        $validated['user_id'] = auth()->user()->id;
+        $validated['meta_title'] = $request->meta_title ?? null;
+        $validated['meta_keywords'] = $request->meta_keywords ?? null;
+        $validated['meta_description'] = $request->meta_description ?? null;
 
-        $destination = Destination::create($validated);
+        Destination::create($validated);
 
         return redirect()->route('agency.tourbooking.destinations.index')
             ->with('success', 'Destination created successfully.');
@@ -89,6 +93,10 @@ final class DestinationController extends Controller
      */
     public function edit(Destination $destination): View
     {
+        if ($destination->user_id !== auth()->user()->id) {
+            return abort(403);
+        }
+
         return view('tourbooking::agency.destinations.edit', compact('destination'));
     }
 
@@ -97,6 +105,11 @@ final class DestinationController extends Controller
      */
     public function update(Request $request, Destination $destination): RedirectResponse
     {
+
+        if ($destination->user_id !== auth()->user()->id) {
+            return abort(403);
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:destinations,slug,' . $destination->id,
@@ -129,6 +142,9 @@ final class DestinationController extends Controller
         $validated['status'] = $request->has('status');
         $validated['is_featured'] = $request->has('is_featured');
         $validated['show_on_homepage'] = $request->has('show_on_homepage');
+        $validated['meta_title'] = $request->meta_title ?? null;
+        $validated['meta_keywords'] = $request->meta_keywords ?? null;
+        $validated['meta_description'] = $request->meta_description ?? null;
 
         $destination->update($validated);
 

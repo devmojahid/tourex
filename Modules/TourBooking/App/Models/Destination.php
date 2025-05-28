@@ -35,6 +35,7 @@ final class Destination extends Model
         'meta_title',
         'meta_keywords',
         'meta_description',
+        'user_id',
     ];
 
     /**
@@ -107,4 +108,4 @@ final class Destination extends Model
         return $this->hasMany(Service::class, 'destination_id')
             ->where('type', 'tour');
     }
-} 
+}

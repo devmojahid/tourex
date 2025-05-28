@@ -1491,7 +1491,7 @@ return array(
     "Destination List" => "Destination List",
     "Update Destination" => "Update Destination",
     "Edit Destination" => "Edit Destination",
-    
+
 
 
     "Pricing Plan" => "Pricing Plan",
@@ -1506,4 +1506,5 @@ return array(
     "Agency Slug is required" => "Agency Slug is required",
     "Agency Slug already exist" => "Agency Slug already exist",
     "Agency Dashboard" => "Agency Dashboard",
+    "Featured Image" => "Featured Image",
 );
