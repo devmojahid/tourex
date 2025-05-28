@@ -188,6 +188,11 @@ final class ServiceController extends Controller
      */
     public function update(ServiceRequest $request, Service $service): RedirectResponse
     {
+
+        if ($service->user_id !== auth()->user()->id) {
+            abort(404);
+        }
+
         $data = $request->validated();
         $lang_code = $request->lang_code ?? admin_lang();
 
@@ -275,6 +280,11 @@ final class ServiceController extends Controller
      */
     public function destroy(Service $service): RedirectResponse
     {
+
+        if ($service->user_id !== auth()->user()->id) {
+            abort(404);
+        }
+
         // Delete all associated media files
         foreach ($service->media as $media) {
             Storage::delete($media->file_path);
@@ -294,6 +304,10 @@ final class ServiceController extends Controller
      */
     public function storeMedia(Request $request, Service $service): RedirectResponse
     {
+        if ($service->user_id !== auth()->user()->id) {
+            abort(404);
+        }
+
         $request->validate([
             'file' => 'required|file|mimes:jpeg,png,jpg,gif,webp,mp4,avi,mov|max:10240',
             'caption' => 'nullable|string|max:255',
@@ -597,6 +611,11 @@ final class ServiceController extends Controller
      */
     public function showAvailability(Service $service): View
     {
+
+        if ($service->user_id !== auth()->user()->id) {
+            abort(404);
+        }
+
         $service->load('availabilities');
 
         return view('tourbooking::agency.services.availability', compact('service'));
@@ -609,6 +628,11 @@ final class ServiceController extends Controller
      */
     public function storeAvailability(Request $request, Service $service): RedirectResponse|JsonResponse
     {
+
+        if ($service->user_id !== auth()->user()->id) {
+            abort(404);
+        }
+
         // Check if this is a bulk request with dates array (from AJAX)
         if ($request->has('bulk') && $request->has('dates')) {
             // Validate bulk data

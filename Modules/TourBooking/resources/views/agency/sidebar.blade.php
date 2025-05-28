@@ -1,9 +1,7 @@
-
-
 @dump('agency sidebar')
 <h4 class="admin-menu__title pt-2">{{ __('translate.Booking Services') }}</h4>
 <li
-    class="{{ Route::is('agency.tourbooking.services.index') || Route::is(' agency.tourbooking.service-types.index') || Route::is('agency.tourbooking.services.tours') ? 'active' : '' }}">
+    class="{{ Route::is('agency.tourbooking.services.index') || Route::is('agency.tourbooking.services.create') ? 'active' : '' }}">
     <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__booking_services_list"><span
             class="menu-bar__text">
             <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -23,6 +21,9 @@
         <ul class="menu-bar__one-dropdown">
             <li><a href="{{ route('agency.tourbooking.services.index') }}"><span class="menu-bar__text"><span
                             class="menu-bar__name">{{ __('translate.Booking Services') }}</span></span></a></li>
+
+            <li><a href="{{ route('agency.tourbooking.services.create') }}"><span class="menu-bar__text"><span
+                            class="menu-bar__name">{{ __('translate.Add New Service') }}</span></span></a></li>
         </ul>
     </div>
 </li>

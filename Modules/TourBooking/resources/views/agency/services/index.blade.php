@@ -180,7 +180,7 @@
         "use strict"
 
         function itemDeleteConfrimation(id) {
-            $("#item_delect_confirmation").attr("action", '{{ url('admin/tourbooking/services/') }}' + "/" + id)
+            $("#item_delect_confirmation").attr("action", '{{ url('agency/tourbooking/services/') }}' + "/" + id)
         }
     </script>
 @endpush
