@@ -92,7 +92,7 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
 
 
 
-    Route::group(['as'=> 'instructor.', 'prefix' => 'instructor', 'middleware' => ['auth:web', 'CheckInstructor']],function (){
+    Route::group(['as'=> 'instructor.', 'prefix' => 'instructor', 'middleware' => ['auth:web', 'CheckAgency']],function (){
 
         Route::resource('courses', InstructorCourseController::class)->names('courses');
         Route::get('course-media/{course_id}', [InstructorCourseController::class, 'course_media'])->name('course-media');

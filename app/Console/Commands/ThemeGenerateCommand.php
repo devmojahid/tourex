@@ -31,18 +31,18 @@ class ThemeGenerateCommand extends Command
     {
         $name = $this->argument('name');
         $force = $this->option('force');
-        
+
         // Convert to lowercase and remove spaces
         $name = Str::lower(str_replace(' ', '', $name));
-        
+
         // Create theme directory
         $themeDir = base_path("cms/themes/{$name}");
-        
+
         if (File::exists($themeDir) && !$force) {
             $this->error("Theme '{$name}' already exists. Use --force to overwrite.");
             return 1;
         }
-        
+
         // Create directories
         $directories = [
             '',
@@ -57,13 +57,13 @@ class ThemeGenerateCommand extends Command
             '/views/partials',
             '/views/pages',
         ];
-        
+
         foreach ($directories as $dir) {
             if (!File::exists($themeDir . $dir)) {
                 File::makeDirectory($themeDir . $dir, 0755, true);
             }
         }
-        
+
         // Create theme.json
         $themeJson = [
             'id' => "tourex/{$name}",
@@ -75,19 +75,19 @@ class ThemeGenerateCommand extends Command
             'description' => "The {$name} theme for TourEx platform",
             'required_plugins' => []
         ];
-        
+
         File::put(
             $themeDir . '/theme.json',
             json_encode($themeJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
         );
-        
+
         // Create config.php
         $configContent = <<<'PHP'
 <?php
 
 return [
     'inherit' => null,
-    
+
     'events' => [
         'beforeRenderTheme' => function ($theme) {
             // Add theme assets
@@ -97,9 +97,9 @@ return [
     ],
 ];
 PHP;
-        
+
         File::put($themeDir . '/config.php', $configContent);
-        
+
         // Create functions.php
         $functionsContent = <<<PHP
 <?php
@@ -119,11 +119,11 @@ function get_theme_info()
 /**
  * Format currency based on site settings
  */
-function {$name}_format_currency(\$amount) 
+function {$name}_format_currency(\$amount)
 {
     \$currency_icon = Session::get('currency_icon', '\$');
     \$currency_position = Session::get('currency_position', 'left');
-    
+
     if (\$currency_position == 'left') {
         return \$currency_icon . number_format(\$amount, 2);
     } else {
@@ -134,14 +134,14 @@ function {$name}_format_currency(\$amount)
 /**
  * Get theme version
  */
-function {$name}_get_version() 
+function {$name}_get_version()
 {
     return '1.0.0';
 }
 PHP;
-        
+
         File::put($themeDir . '/functions/functions.php', $functionsContent);
-        
+
         // Create routes.php
         $routesContent = <<<PHP
 <?php
@@ -164,9 +164,9 @@ Route::get('/{$name}/welcome', '{$name}Controller@welcome')->name('welcome');
 Route::get('/{$name}/about', '{$name}Controller@about')->name('about');
 Route::get('/{$name}/contact', '{$name}Controller@contact')->name('contact');
 PHP;
-        
+
         File::put($themeDir . '/routes.php', $routesContent);
-        
+
         // Create basic language file
         $langContent = <<<'PHP'
 <?php
@@ -175,7 +175,7 @@ return [
     // General
     'site_name' => 'TourEx',
     'tagline' => 'Your Premier Tour Experience Platform',
-    
+
     // Navigation
     'nav_home' => 'Home',
     'nav_about' => 'About',
@@ -183,21 +183,21 @@ return [
     'nav_blog' => 'Blog',
     'nav_contact' => 'Contact',
     'nav_login' => 'Login',
-    
+
     // Home Page
     'hero_title' => 'Welcome to TourEx',
     'hero_subtitle' => 'Your premier tour experience platform',
     'hero_button' => 'Explore Courses',
-    
+
     // Theme Switcher
     'theme_switcher_label' => 'Theme:',
     'theme_light' => 'Light',
     'theme_dark' => 'Dark',
 ];
 PHP;
-        
+
         File::put($themeDir . '/lang/en.php', $langContent);
-        
+
         // Create theme-switcher.blade.php
         $themeSwitcherContent = <<<'PHP'
 <div class="theme-switcher">
@@ -205,7 +205,7 @@ PHP;
         <div class="d-flex justify-content-center">
             <div class="theme-options">
                 <span>@themetrans('theme_switcher_label') </span>
-                <a href="/?theme=theme1" class="{{ Theme::current() == 'theme1' ? 'active' : '' }}">@themetrans('theme_light')</a> | 
+                <a href="/?theme=theme1" class="{{ Theme::current() == 'theme1' ? 'active' : '' }}">@themetrans('theme_light')</a> |
                 <a href="/?theme=theme2" class="{{ Theme::current() == 'theme2' ? 'active' : '' }}">@themetrans('theme_dark')</a>
             </div>
         </div>
@@ -218,26 +218,26 @@ PHP;
         background-color: #f8f9fa;
         border-bottom: 1px solid #e9ecef;
     }
-    
+
     .theme-options {
         font-size: 14px;
     }
-    
+
     .theme-options a {
         margin: 0 5px;
         color: #6c757d;
         text-decoration: none;
     }
-    
+
     .theme-options a.active {
         font-weight: bold;
         color: #0d6efd;
     }
 </style>
 PHP;
-        
+
         File::put($themeDir . '/views/partials/theme-switcher.blade.php', $themeSwitcherContent);
-        
+
         // Create basic CSS
         $cssContent = <<<'CSS'
 /* Basic theme styling */
@@ -266,9 +266,9 @@ body {
     padding: 50px 0 20px;
 }
 CSS;
-        
+
         File::put($themeDir . '/assets/css/theme.css', $cssContent);
-        
+
         // Create basic JS
         $jsContent = <<<'JS'
 // Theme functions
@@ -276,9 +276,9 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Theme loaded successfully!');
 });
 JS;
-        
+
         File::put($themeDir . '/assets/js/theme.js', $jsContent);
-        
+
         // Create basic index view
         $indexContent = <<<'PHP'
 <!DOCTYPE html>
@@ -289,23 +289,23 @@ JS;
     <title>{{ $seo_setting->title ?? 'TourEx' }}</title>
     <meta name="description" content="{{ $seo_setting->description ?? 'TourEx platform' }}">
     <meta name="keywords" content="{{ $seo_setting->keywords ?? 'tourex, theme, travel' }}">
-    
+
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('backend/img/favicon.png') }}">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{{ theme()->asset('css/theme.css') }}">
 </head>
 <body>
     <!-- Theme Switcher -->
     @include('theme::partials.theme-switcher')
-    
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
@@ -331,7 +331,7 @@ JS;
                         <a class="nav-link" href="/contact-us">@themetrans('nav_contact')</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary ms-2" href="/student/login">@themetrans('nav_login')</a>
+                        <a class="btn btn-primary ms-2" href="/user/login">@themetrans('nav_login')</a>
                     </li>
                 </ul>
             </div>
@@ -399,27 +399,27 @@ JS;
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Theme JS -->
     <script src="{{ theme()->asset('js/theme.js') }}"></script>
 </body>
 </html>
 PHP;
-        
+
         File::put($themeDir . '/views/index.blade.php', $indexContent);
-        
+
         // Update config/themes.php
         $themesConfig = include(config_path('themes.php'));
         $themesConfig['themes'][$name] = [
             'name' => Str::title($name),
             'description' => "The {$name} theme for TourEx platform",
         ];
-        
+
         $configContent = "<?php\n\nreturn " . var_export($themesConfig, true) . ";\n";
         File::put(config_path('themes.php'), $configContent);
-        
+
         $this->info("Theme '{$name}' created successfully!");
-        
+
         return 0;
     }
-} 
+}

@@ -166,8 +166,8 @@
                                                 <div class="crancy-header__single">
                                                     <a href="{{ route('admin.edit-profile') }}">
                                                         <div class="crancy-header__author-img">
-                                                            @if ($auth_admin->image)
-                                                                <img src="{{ asset($auth_admin->image) }}"
+                                                            @if ($auth_admin?->image)
+                                                                <img src="{{ asset($auth_admin?->image) }}"
                                                                     alt="#">
                                                             @else
                                                                 <img src="{{ asset($general_setting->default_avatar) }}"

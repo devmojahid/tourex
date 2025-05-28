@@ -21,9 +21,7 @@
                 <span class="menu-bar__name">{{ __('translate.Dashboard') }}</span></span></a>
             </li>
 
-
-
-
+            @include('tourbooking::agency.sidebar')
 
             @include('course::instructor.sidebar')
 

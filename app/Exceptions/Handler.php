@@ -60,7 +60,7 @@ class Handler extends ExceptionHandler
             break;
 
             default:
-                $login="/student/login";
+                $login="/user/login";
         }
         return Redirect()->guest($login);
     }

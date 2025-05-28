@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\CheckInstructor;
+use App\Http\Middleware\CheckAgency;
 use App\Http\Middleware\MaintenanceMode;
 use App\Http\Middleware\HtmlSpecialchars;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -73,6 +73,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'MaintenanceMode' => MaintenanceMode::class,
         'HtmlSpecialchars' => HtmlSpecialchars::class,
-        'CheckInstructor' => CheckInstructor::class,
+        'CheckAgency' => CheckAgency::class,
     ];
 }

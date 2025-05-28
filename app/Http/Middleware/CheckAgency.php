@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckInstructor
+class CheckAgency
 {
     /**
      * Handle an incoming request.
@@ -22,7 +22,7 @@ class CheckInstructor
         if($auth_user->is_seller == 1){
             return $next($request);
         }else{
-            $notify_message = trans('translate.Unable to access instructor dashboard');
+            $notify_message = trans('translate.Unable to access agency dashboard');
             $notify_message = array('message' => $notify_message,'alert-type' => 'error');
             return redirect()->route('user.dashboard')->with($notify_message);
         }

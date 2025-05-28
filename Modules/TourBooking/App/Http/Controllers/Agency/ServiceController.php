@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\TourBooking\App\Http\Controllers\Admin;
+namespace Modules\TourBooking\App\Http\Controllers\Agency;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -38,7 +38,7 @@ final class ServiceController extends Controller
     {
         $services = $this->serviceRepository->getPaginated(15);
 
-        return view('tourbooking::admin.services.index', compact('services'));
+        return view('tourbooking::agency.services.index', compact('services'));
     }
 
     /**
@@ -48,7 +48,7 @@ final class ServiceController extends Controller
     {
         $serviceTypes = $this->serviceTypeRepository->getActive();
 
-        return view('tourbooking::admin.services.create', compact('serviceTypes'));
+        return view('tourbooking::agency.services.create', compact('serviceTypes'));
     }
 
     /**
@@ -56,6 +56,7 @@ final class ServiceController extends Controller
      */
     public function store(ServiceRequest $request): RedirectResponse
     {
+
         $data = $request->validated();
 
         // Handle JSON fields
@@ -104,7 +105,7 @@ final class ServiceController extends Controller
         $notify_message = trans('translate.Created successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
 
-        return redirect()->route('admin.tourbooking.services.edit', ['service' => $service->id, 'lang_code' => admin_lang()])->with($notify_message);
+        return redirect()->route('agency.tourbooking.services.edit', ['service' => $service->id, 'lang_code' => admin_lang()])->with($notify_message);
     }
 
     /**
@@ -114,7 +115,7 @@ final class ServiceController extends Controller
     {
         $service->load(['translation', 'serviceType', 'media', 'extraCharges', 'availabilities', 'itineraries']);
 
-        return view('tourbooking::admin.services.show', compact('service'));
+        return view('tourbooking::agency.services.show', compact('service'));
     }
 
 
@@ -173,7 +174,7 @@ final class ServiceController extends Controller
 
         $serviceTypes = $this->serviceTypeRepository->getActive();
 
-        return view('tourbooking::admin.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code'));
+        return view('tourbooking::agency.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code'));
     }
 
    /**
@@ -275,7 +276,7 @@ final class ServiceController extends Controller
         $notify_message = trans('translate.Deleted successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
 
-        return redirect()->route('admin.tourbooking.services.index')->with($notify_message);
+        return redirect()->route('agency.tourbooking.services.index')->with($notify_message);
     }
 
     /**
@@ -379,7 +380,7 @@ final class ServiceController extends Controller
             $query->orderBy('day_number');
         }]);
 
-        return view('tourbooking::admin.services.itineraries', compact('service'));
+        return view('tourbooking::agency.services.itineraries', compact('service'));
     }
 
     /**
@@ -481,7 +482,7 @@ final class ServiceController extends Controller
     {
         $service->load('extraCharges');
 
-        return view('tourbooking::admin.services.extra_charges', compact('service'));
+        return view('tourbooking::agency.services.extra_charges', compact('service'));
     }
 
     /**
@@ -569,7 +570,7 @@ final class ServiceController extends Controller
     {
         $service->load('availabilities');
 
-        return view('tourbooking::admin.services.availability', compact('service'));
+        return view('tourbooking::agency.services.availability', compact('service'));
     }
 
     /**
@@ -749,7 +750,7 @@ final class ServiceController extends Controller
 
         $services = $this->serviceRepository->getByType($serviceType->id, 0);
 
-        return view('tourbooking::admin.service_types.show', compact('serviceType', 'services'));
+        return view('tourbooking::agency.service_types.show', compact('serviceType', 'services'));
     }
 
     /**
@@ -789,6 +790,6 @@ final class ServiceController extends Controller
             $query->orderBy('display_order')->orderBy('created_at', 'desc');
         }]);
 
-        return view('tourbooking::admin.services.media', compact('service'));
+        return view('tourbooking::agency.services.media', compact('service'));
     }
 }

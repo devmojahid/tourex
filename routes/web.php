@@ -110,7 +110,7 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
 
     Route::group(['as' => 'agency.', 'prefix' => 'agency'], function () {
 
-        Route::group(['middleware' => ['auth:web', 'CheckInstructor']], function () {
+        Route::group(['middleware' => ['auth:web', 'CheckAgency']], function () {
 
             Route::get('/dashboard', [AgencyProfileController::class, 'dashboard'])->name('dashboard');
 
