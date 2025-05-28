@@ -91,6 +91,11 @@ final class ServiceRepository
         $query = Service::with(['translation', 'serviceType', 'thumbnail']);
 
         // Apply filters
+
+         if (!empty($filters['user_id'])) {
+            $query->where('user_id', $filters['user_id']);
+        }
+
         if (!empty($filters['type_id'])) {
             $query->where('service_type_id', $filters['type_id']);
         }
@@ -138,9 +143,9 @@ final class ServiceRepository
     public function findById(int $id): ?Service
     {
         return Service::with([
-            'translation', 
-            'serviceType', 
-            'media', 
+            'translation',
+            'serviceType',
+            'media',
             'reviews' => function($q) {
                 $q->approved()->with('user');
             },
@@ -158,9 +163,9 @@ final class ServiceRepository
     public function findBySlug(string $slug): ?Service
     {
         return Service::with([
-            'translation', 
-            'serviceType', 
-            'media', 
+            'translation',
+            'serviceType',
+            'media',
             'reviews' => function($q) {
                 $q->approved()->with('user');
             },
@@ -256,4 +261,4 @@ final class ServiceRepository
             ->limit($limit)
             ->get();
     }
-} 
+}

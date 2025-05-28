@@ -36,7 +36,7 @@ final class ServiceController extends Controller
      */
     public function index(): View
     {
-        $services = $this->serviceRepository->getPaginated(15);
+        $services = $this->serviceRepository->getPaginated(15, ['user_id' => auth()->user()->id]);
 
         return view('tourbooking::agency.services.index', compact('services'));
     }
@@ -77,6 +77,8 @@ final class ServiceController extends Controller
         if (empty($data['slug'])) {
             $data['slug'] = Str::slug($data['title']);
         }
+
+        $data['user_id'] = auth()->user()->id;
 
         // Save the service
         $service = $this->serviceRepository->create($data);
