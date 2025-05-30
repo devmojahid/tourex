@@ -13,9 +13,17 @@ use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Review;
 use Modules\TourBooking\App\Models\Service;
 use Modules\TourBooking\App\Models\ServiceType;
+use Modules\TourBooking\App\Repositories\ServiceRepository;
+use Modules\TourBooking\App\Repositories\ServiceTypeRepository;
 
 final class FrontServiceController extends Controller
 {
+
+    public function __construct(
+        private ServiceRepository $serviceRepository,
+        private ServiceTypeRepository $serviceTypeRepository,
+    ) {}
+
     /**
      * Display the home page of the tour booking module.
      */
@@ -72,8 +80,8 @@ final class FrontServiceController extends Controller
             $keyword = $request->input('keyword');
             $query->where(function ($q) use ($keyword) {
                 $q->where('title', 'like', "%{$keyword}%")
-                  ->orWhere('description', 'like', "%{$keyword}%")
-                  ->orWhere('location', 'like', "%{$keyword}%");
+                    ->orWhere('description', 'like', "%{$keyword}%")
+                    ->orWhere('location', 'like', "%{$keyword}%");
             });
         }
 
@@ -88,16 +96,16 @@ final class FrontServiceController extends Controller
         if ($request->filled('min_price')) {
             $query->where(function ($q) use ($request) {
                 $q->where('full_price', '>=', $request->input('min_price'))
-                  ->orWhere('discount_price', '>=', $request->input('min_price'))
-                  ->orWhere('price_per_person', '>=', $request->input('min_price'));
+                    ->orWhere('discount_price', '>=', $request->input('min_price'))
+                    ->orWhere('price_per_person', '>=', $request->input('min_price'));
             });
         }
 
         if ($request->filled('max_price')) {
             $query->where(function ($q) use ($request) {
                 $q->where('full_price', '<=', $request->input('max_price'))
-                  ->orWhere('discount_price', '<=', $request->input('max_price'))
-                  ->orWhere('price_per_person', '<=', $request->input('max_price'));
+                    ->orWhere('discount_price', '<=', $request->input('max_price'))
+                    ->orWhere('price_per_person', '<=', $request->input('max_price'));
             });
         }
 
@@ -113,7 +121,7 @@ final class FrontServiceController extends Controller
                 break;
             case 'rating':
                 $query->withAvg('reviews', 'rating')
-                      ->orderByDesc('reviews_avg_rating');
+                    ->orderByDesc('reviews_avg_rating');
                 break;
             case 'oldest':
                 $query->oldest();
@@ -167,13 +175,25 @@ final class FrontServiceController extends Controller
      */
     public function allServices()
     {
+        $serviceType = $this->serviceTypeRepository->getActiveNameId();
 
-        $services = Service::where('status', true)
+        return view('tourbooking::front.services.services', compact('serviceType'));
+    }
+
+    /**
+     * load all services.
+     */
+    public function loadServicesAjax(Request $request)
+    {
+
+        dd($request->all());
+
+        $allServices = Service::where('status', true)
             ->with(['thumbnail', 'serviceType', 'reviews'])
             ->latest()
             ->paginate(12);
 
-        return view('tourbooking::front.services.services', compact('services'));
+        return response()->json(['success' => true, 'message' => 'Services loaded successfully', 'data' => $allServices]);
     }
 
     /**
