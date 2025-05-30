@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Service;
@@ -21,7 +20,6 @@ final class DestinationController extends Controller
     public function index(): View
     {
         $destinations = Destination::with('translation')
-            ->where('user_id', Auth::user()->id)
             ->withCount('services')
             ->latest()
             ->paginate(15);

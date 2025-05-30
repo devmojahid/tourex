@@ -20,6 +20,7 @@ final class DestinationController extends Controller
     public function index(): View
     {
         $destinations = Destination::with('translation')
+            ->where('user_id', auth()->user()->id)
             ->withCount('services')
             ->latest()
             ->paginate(15);
