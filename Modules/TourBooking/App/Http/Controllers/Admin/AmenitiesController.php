@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 use Modules\Language\App\Models\Language;
 use Modules\TourBooking\App\Models\Amenity;
@@ -87,8 +88,9 @@ final class AmenitiesController extends Controller
      */
     public function edit(Request $request, Amenity $amenity): View
     {
-
-        // dd($amenity, $request->all());
+        $amenity->translation = AmenityTranslation::where('amenity_id', $amenity->id)
+            ->where('lang_code', $request->lang_code)
+            ->first();
 
         return view('tourbooking::admin.amenity.edit', compact('amenity'));
     }
@@ -96,53 +98,53 @@ final class AmenitiesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Destination $destination): RedirectResponse
+    public function update(Request $request, Amenity $amenity): RedirectResponse
     {
 
-        if ($destination->user_id !== auth()->user()->id) {
-            return abort(403);
-        }
+        if ($request->lang_code == admin_lang()) {
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:amenities,slug,' . $destination->id,
-            'description' => 'nullable|string',
-            'country' => 'nullable|string|max:100',
-            'region' => 'nullable|string|max:100',
-            'city' => 'nullable|string|max:100',
-            'latitude' => 'nullable|string|max:30',
-            'longitude' => 'nullable|string|max:30',
-            'status' => 'nullable|boolean',
-            'is_featured' => 'nullable|boolean',
-            'show_on_homepage' => 'nullable|boolean',
-        ]);
+            if ($request->image) {
 
-        // Handle image if present
-        if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
+                if ($amenity->image) {
+                    if (File::exists(public_path() . '/' . $amenity->image)) unlink(public_path() . '/' . $amenity->image);
+                }
 
-            // Delete old image if exists
-            if ($destination->image) {
-                @unlink(storage_path('app/public/' . $destination->image));
+                $image_name = 'aminity-' . date('-Y-m-d-h-i-s-') . rand(999, 9999) . '.' . $request->image->getClientOriginalExtension();
+                $image_name = 'uploads/custom-images/' . $image_name;
+                $request->image->move(public_path('uploads/custom-images'), $image_name);
+                $amenity->image = $image_name ?? null;
+
             }
 
-            $imagePath = $request->file('image')->store('amenities', 'public');
-            $validated['image'] = $imagePath;
+            $amenity->slug = $request->slug;
+            $amenity->status = $request->status ? true : false;
+            $amenity->save();
+
+            $sub_translation = AmenityTranslation::where('amenity_id', $amenity->id)->where('lang_code', $request->lang_code)->first();
+            $sub_translation->amenity_id = $amenity->id;
+            $sub_translation->lang_code = $request->lang_code;
+            $sub_translation->name = $request->name;
+            $sub_translation->description = $request->description;
+            $sub_translation->meta_title = $request->meta_title;
+            $sub_translation->meta_keywords = $request->meta_keywords;
+            $sub_translation->meta_description = $request->meta_description;
+            $sub_translation->save();
+        } else {
+
+            $sub_translation = AmenityTranslation::where('amenity_id', $amenity->id)->where('lang_code', $request->lang_code)->first();
+            $sub_translation->amenity_id = $amenity->id;
+            $sub_translation->lang_code = $request->lang_code;
+            $sub_translation->name = $request->name;
+            $sub_translation->description = $request->description;
+            $sub_translation->meta_title = $request->meta_title;
+            $sub_translation->meta_keywords = $request->meta_keywords;
+            $sub_translation->meta_description = $request->meta_description;
+            $sub_translation->save();
         }
 
-        $validated['status'] = $request->has('status');
-        $validated['is_featured'] = $request->has('is_featured');
-        $validated['show_on_homepage'] = $request->has('show_on_homepage');
-        $validated['meta_title'] = $request->meta_title ?? null;
-        $validated['meta_keywords'] = $request->meta_keywords ?? null;
-        $validated['meta_description'] = $request->meta_description ?? null;
-
-        $destination->update($validated);
-
-        return redirect()->route('admin.tourbooking.amenities.index')
-            ->with('success', 'Destination updated successfully.');
+        $notify_message = trans('translate.Update Successfully');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        return redirect()->route('admin.tourbooking.amenities.index')->with($notify_message);
     }
 
     /**
@@ -159,7 +161,7 @@ final class AmenitiesController extends Controller
 
         $amenity->delete();
 
-         $notify_message = trans('translate.Delete Successfully');
+        $notify_message = trans('translate.Delete Successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         return redirect()->route('admin.tourbooking.amenities.index')->with($notify_message);
     }

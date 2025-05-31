@@ -120,7 +120,8 @@
                                                             @endif
 
                                                             {{ $language->lang_name }}
-                                                        </a></li>
+                                                        </a>
+                                                    </li>
                                                 @endforeach
                                             </ul>
 
@@ -161,6 +162,9 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
+
+                                <input type="hidden" name="lang_code" value="{{ request()->lang_code }}">
+
                                 <div class="row">
                                     <div class="col-12 mg-top-30">
                                         <div class="crancy-product-card">
@@ -187,18 +191,20 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-6 col-md-6 col-12">
-                                                    <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label class="crancy__item-label">{{ __('translate.Slug') }}
-                                                            *</label>
-                                                        <input required class="crancy__item-input" type="text"
-                                                            name="slug" id="slug"
-                                                            value="{{ old('slug', $amenity->slug) }}">
-                                                        @error('slug')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
+                                                @if (admin_lang() == request()->get('lang_code'))
+                                                    <div class="col-lg-6 col-md-6 col-12">
+                                                        <div class="crancy__item-form--group mg-top-form-20">
+                                                            <label class="crancy__item-label">{{ __('translate.Slug') }}
+                                                                *</label>
+                                                            <input required class="crancy__item-input" type="text"
+                                                                name="slug" id="slug"
+                                                                value="{{ old('slug', $amenity->slug) }}">
+                                                            @error('slug')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
 
                                                 <div class="col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
@@ -211,49 +217,52 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row mg-top-30">
-                                                <div class="col-6">
-                                                    <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label
-                                                            class="crancy__item-label">{{ __('translate.Status') }}</label>
-                                                        <div
-                                                            class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
-                                                            <label class="crancy__item-switch">
-                                                                <input name="status" type="checkbox"
-                                                                    {{ old('status', $amenity->translation->status) ? 'checked' : '' }}
-                                                                    value="1">
-                                                                <span
-                                                                    class="crancy__item-switch--slide crancy__item-switch--round"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <div class="col-md-6">
-                                                    <div class="crancy__item-form--group w-100 h-100">
-                                                        <label
-                                                            class="crancy__item-label">{{ __('translate.Featured Image') }}
-                                                            * </label>
-                                                        <div
-                                                            class="crancy-product-card__upload crancy-product-card__upload--border">
-                                                            <input accept="image/*" type="file" class="btn-check"
-                                                                name="image" id="input-img1" autocomplete="off"
-                                                                onchange="previewImage(event)">
-                                                            <label class="crancy-image-video-upload__label"
-                                                                for="input-img1">
-                                                                <img id="view_img"
-                                                                    src="{{ isset($amenity) && $amenity->image ? asset($amenity->image) : asset($general_setting->placeholder_image) }}">
-                                                                <h4 class="crancy-image-video-upload__title">
-                                                                    {{ __('translate.Click here to') }}
+                                            @if (admin_lang() == request()->get('lang_code'))
+                                                <div class="row mg-top-30">
+                                                    <div class="col-6">
+                                                        <div class="crancy__item-form--group mg-top-form-20">
+                                                            <label
+                                                                class="crancy__item-label">{{ __('translate.Status') }}</label>
+                                                            <div
+                                                                class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
+                                                                <label class="crancy__item-switch">
+                                                                    <input name="status" type="checkbox"
+                                                                        {{ old('status', $amenity->translation->status) ? 'checked' : '' }}
+                                                                        value="1">
                                                                     <span
-                                                                        class="crancy-primary-color">{{ __('translate.Choose File') }}</span>
-                                                                    {{ __('translate.and upload') }}
-                                                                </h4>
-                                                            </label>
+                                                                        class="crancy__item-switch--slide crancy__item-switch--round"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="crancy__item-form--group w-100 h-100">
+                                                            <label
+                                                                class="crancy__item-label">{{ __('translate.Featured Image') }}
+                                                                * </label>
+                                                            <div
+                                                                class="crancy-product-card__upload crancy-product-card__upload--border">
+                                                                <input accept="image/*" type="file" class="btn-check"
+                                                                    name="image" id="input-img1" autocomplete="off"
+                                                                    onchange="previewImage(event)">
+                                                                <label class="crancy-image-video-upload__label"
+                                                                    for="input-img1">
+                                                                    <img id="view_img"
+                                                                        src="{{ isset($amenity) && $amenity->image ? asset($amenity->image) : asset($general_setting->placeholder_image) }}">
+                                                                    <h4 class="crancy-image-video-upload__title">
+                                                                        {{ __('translate.Click here to') }}
+                                                                        <span
+                                                                            class="crancy-primary-color">{{ __('translate.Choose File') }}</span>
+                                                                        {{ __('translate.and upload') }}
+                                                                    </h4>
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         </div>
                                     </div>
 
