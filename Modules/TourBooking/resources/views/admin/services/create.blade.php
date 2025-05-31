@@ -10,6 +10,7 @@
 
 @push('style_section')
     <link rel="stylesheet" href="{{ asset('global/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         /* Currency Input Field Styling */
         .crancy__item-form--currency {
@@ -390,7 +391,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Check-in Time') }}</label>
-                                                        <input class="crancy__item-input" type="text"
+                                                        <input class="crancy__item-input timepicker" type="text"
                                                             name="check_in_time" value="{{ old('check_in_time') }}"
                                                             placeholder="e.g. 14:00">
                                                         @error('check_in_time')
@@ -403,7 +404,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Check-out Time') }}</label>
-                                                        <input class="crancy__item-input" type="text"
+                                                        <input class="crancy__item-input timepicker" type="text"
                                                             name="check_out_time" value="{{ old('check_out_time') }}"
                                                             placeholder="e.g. 10:00">
                                                         @error('check_out_time')
@@ -741,7 +742,7 @@
 @push('js_section')
     <script src="{{ asset('global/select2/select2.min.js') }}"></script>
     <script src="{{ asset('global/tinymce/js/tinymce/tinymce.min.js') }}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         (function($) {
             "use strict"
@@ -756,6 +757,15 @@
                     tags: true,
                     tokenSeparators: [',', ' ']
                 });
+
+                // Initialize timepicker
+                $(".timepicker").flatpickr({
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                    time_24hr: true
+                });
+
 
                 tinymce.init({
                     selector: '.summernote',
