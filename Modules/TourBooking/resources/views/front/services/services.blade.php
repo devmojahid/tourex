@@ -238,11 +238,13 @@
                                 <div class="tg-filter-item">
                                     <div class="d-flex justify-content-between align-items-center mb-10">
                                         <h4 class="tg-filter-title mb-0">Search</h4>
-                                        <a class="tg-filter-reset" href="#">Reset All</a>
+                                        <a class="tg-filter-reset" x-show="isFilterChanged" @click="resetFilters()"
+                                            href="javascript:void(0);">Reset All</a>
                                     </div>
                                     <div class="tg-filter-search-form">
-                                        <form action="#" class="p-relative">
-                                            <input class="input" type="text" placeholder="Search Hotel">
+                                        <div class="p-relative">
+                                            <input class="input" x-model.debounce="filters.search" type="text"
+                                                placeholder="Search Hotel">
                                             <button class="buttons" type="submit">
                                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -259,47 +261,48 @@
                                                     </defs>
                                                 </svg>
                                             </button>
-                                        </form>
+                                        </div>
                                     </div>
                                     <span class="tg-filter-border mt-30 mb-25"></span>
-                                    <h4 class="tg-filter-title mb-15">Property Type</h4>
-                                    <div class="tg-filter-list">
-                                        <ul>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="australia">
-                                                    <label for="australia" class="tg-label">Hotel</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="italy">
-                                                    <label for="italy" class="tg-label">Resort</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="newyork">
-                                                    <label for="newyork" class="tg-label">Apartments</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="switzerland">
-                                                    <label for="switzerland" class="tg-label">Guest houses</label>
-                                                </div>
-                                            </li>
-                                        </ul>
+
+                                    <div x-data="{ showPropertyType: false }">
+                                        <h4 class="tg-filter-title mb-15">Property Type</h4>
+                                        <div class="tg-filter-list">
+                                            <ul>
+                                                @foreach ($serviceTypes as $key => $serviceType)
+                                                    <li x-show="showPropertyType || {{ $key }} < 4" x-transition>
+                                                        <div class="checkbox d-flex">
+                                                            <input value="{{ $serviceType?->id }}"
+                                                                x-model="filters.service_type_ids" class="tg-checkbox"
+                                                                type="checkbox" id="australia_{{ $key }}">
+                                                            <label for="australia_{{ $key }}" class="tg-label">
+                                                                {{ $serviceType?->name }}
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+
+                                        @if (count($serviceTypes) > 4)
+                                            <div class="tg-filter-seemore mt-2 cursor-pointer select-none"
+                                                @click="showPropertyType = !showPropertyType">
+                                                <span class="plus">
+                                                    <i
+                                                        :class="showPropertyType ? 'fa-solid fa-minus' : 'fa-sharp fa-solid fa-plus'"></i>
+                                                </span>
+                                                <span class="more" x-text="showPropertyType ? 'See Less' : 'See More'"></span>
+                                            </div>
+                                        @endif
+
+                                        <span class="tg-filter-border mt-25 mb-25"></span>
                                     </div>
-                                    <div class="tg-filter-seemore">
-                                        <span class="plus"><i class="fa-sharp fa-solid fa-plus"></i></span>
-                                        <span class="more">See More</span>
-                                    </div>
-                                    <span class="tg-filter-border mt-25 mb-25"></span>
+
+
                                     <div class="tg-filter-price-input">
                                         <h4 class="tg-filter-title mb-20">Price By Filter</h4>
                                         <div class="d-flex align-items-center">
-                                            <input class="input" type="text" placeholder="Min Price">
+                                            <input class="input no-arrow" x-model="filters.min_price" type="number" placeholder="Min Price">
                                             <span class="dvdr">
                                                 <svg width="14" height="4" viewBox="0 0 14 4" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -307,7 +310,7 @@
                                                         stroke-linecap="round" />
                                                 </svg>
                                             </span>
-                                            <input class="input" type="text" placeholder="Max Price">
+                                            <input class="input no-arrow" x-model="filters.max_price" type="number" placeholder="Max Price">
                                         </div>
                                     </div>
                                     <span class="tg-filter-border mt-25 mb-25"></span>
@@ -525,610 +528,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tg-listing-grid-item">
-                                    <div class="row list-card">
-                                        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
-                                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                                                <div
-                                                    class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                                    <a href="tour-details-2.html">
-                                                        <img class="tg-card-border w-100"
-                                                            src="assets/img/listing/listing-4/thumb-2.jpg" alt="listing">
-                                                        <span class="tg-listing-item-price-discount shape">New</span>
-                                                    </a>
-                                                    <div class="tg-listing-2-price">
-                                                        <span class="new">$230</span>
-                                                        <span class="shift">/night</span>
-                                                    </div>
-                                                </div>
-                                                <div class="tg-listing-card-content p-relative">
-                                                    <h4 class="tg-listing-card-title mb-5"><a
-                                                            href="tour-details-2.html">Two
-                                                            Hour Walking Tour of Manhattan</a></h4>
-                                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                                        <svg width="13" height="16" viewBox="0 0 13 16"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path
-                                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
-                                                        51 Dekor Land, Thailand
-                                                    </span>
-                                                    <div class="tg-listing-card-review mb-10">
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                                    </div>
-                                                    <div
-                                                        class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                                        <a class="tg-listing-avai-btn" href="tour-details-2.html">Check
-                                                            Availability</a>
-                                                        <div class="tg-listing-item-wishlist">
-                                                            <a href="#">
-                                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                                        stroke="currentColor" stroke-width="1.5"
-                                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
-                                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                                                <div
-                                                    class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                                    <a href="tour-details-2.html">
-                                                        <img class="tg-card-border w-100"
-                                                            src="assets/img/listing/listing-4/thumb.jpg" alt="listing">
-                                                        <span class="tg-listing-item-price-discount shape-3">
-                                                            <svg width="12" height="14" viewBox="0 0 12 14"
-                                                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path
-                                                                    d="M6.60156 1L0.601562 8.2H6.00156L5.40156 13L11.4016 5.8H6.00156L6.60156 1Z"
-                                                                    stroke="white" stroke-width="0.857143"
-                                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                                            </svg>
-                                                            Featured
-                                                        </span>
-                                                        <span class="tg-listing-item-price-discount offer-btm shape-2">%
-                                                            Offer</span>
-                                                    </a>
-                                                    <div class="tg-listing-2-price">
-                                                        <del>$299</del>
-                                                        <span class="new">$180</span>
-                                                        <span class="shift">/night</span>
-                                                    </div>
-                                                </div>
-                                                <div class="tg-listing-card-content p-relative">
-                                                    <h4 class="tg-listing-card-title mb-5"><a
-                                                            href="tour-details-2.html">American Parks Trail end Rapid City
-                                                            Express</a></h4>
-                                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                                        <svg width="13" height="16" viewBox="0 0 13 16"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path
-                                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
-                                                        51 Dekor Land, Thailand
-                                                    </span>
-                                                    <div class="tg-listing-card-review mb-10">
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                                    </div>
-                                                    <div
-                                                        class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                                        <a class="tg-listing-avai-btn" href="tour-details-2.html">Check
-                                                            Availability</a>
-                                                        <div class="tg-listing-item-wishlist">
-                                                            <a href="#">
-                                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                                        stroke="currentColor" stroke-width="1.5"
-                                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
-                                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                                                <div
-                                                    class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                                    <a href="tour-details-2.html">
-                                                        <img class="tg-card-border w-100"
-                                                            src="assets/img/listing/listing-4/thumb-3.jpg" alt="listing">
-                                                    </a>
-                                                    <div class="tg-listing-2-price">
-                                                        <span class="new">$190</span>
-                                                        <span class="shift">/night</span>
-                                                    </div>
-                                                </div>
-                                                <div class="tg-listing-card-content p-relative">
-                                                    <h4 class="tg-listing-card-title mb-5"><a
-                                                            href="tour-details-2.html">Modern Stefano La Piazze
-                                                            Wergeland</a>
-                                                    </h4>
-                                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                                        <svg width="13" height="16" viewBox="0 0 13 16"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path
-                                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
-                                                        51 Dekor Land, Thailand
-                                                    </span>
-                                                    <div class="tg-listing-card-review mb-10">
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                                    </div>
-                                                    <div
-                                                        class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                                        <a class="tg-listing-avai-btn" href="tour-details-2.html">Check
-                                                            Availability</a>
-                                                        <div class="tg-listing-item-wishlist">
-                                                            <a href="#">
-                                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                                        stroke="currentColor" stroke-width="1.5"
-                                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
-                                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                                                <div
-                                                    class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                                    <a href="tour-details-2.html">
-                                                        <img class="tg-card-border w-100"
-                                                            src="assets/img/listing/listing-4/thumb-4.jpg" alt="listing">
-                                                    </a>
-                                                    <div class="tg-listing-2-price">
-                                                        <span class="new">$180</span>
-                                                        <span class="shift">/night</span>
-                                                    </div>
-                                                </div>
-                                                <div class="tg-listing-card-content p-relative">
-                                                    <h4 class="tg-listing-card-title mb-5"><a
-                                                            href="tour-details-2.html">American Parks Trail end Rapid City
-                                                            Express</a></h4>
-                                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                                        <svg width="13" height="16" viewBox="0 0 13 16"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path
-                                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
-                                                        51 Dekor Land, Thailand
-                                                    </span>
-                                                    <div class="tg-listing-card-review mb-10">
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                                    </div>
-                                                    <div
-                                                        class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                                        <a class="tg-listing-avai-btn" href="tour-details-2.html">Check
-                                                            Availability</a>
-                                                        <div class="tg-listing-item-wishlist">
-                                                            <a href="#">
-                                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                                        stroke="currentColor" stroke-width="1.5"
-                                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
-                                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                                                <div
-                                                    class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                                    <a href="tour-details-2.html">
-                                                        <img class="tg-card-border w-100"
-                                                            src="assets/img/listing/listing-4/thumb-5.jpg" alt="listing">
-                                                        <span class="tg-listing-item-price-discount shape-2">% Offer</span>
-                                                    </a>
-                                                    <div class="tg-listing-2-price">
-                                                        <del>$299</del>
-                                                        <span class="new">$230</span>
-                                                        <span class="shift">/night</span>
-                                                    </div>
-                                                </div>
-                                                <div class="tg-listing-card-content p-relative">
-                                                    <h4 class="tg-listing-card-title mb-5"><a
-                                                            href="tour-details-2.html">Vatican Museums, Sistine
-                                                            Chapel Skip the</a></h4>
-                                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                                        <svg width="13" height="16" viewBox="0 0 13 16"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path
-                                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
-                                                        51 Dekor Land, Thailand
-                                                    </span>
-                                                    <div class="tg-listing-card-review mb-10">
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                                    </div>
-                                                    <div
-                                                        class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                                        <a class="tg-listing-avai-btn" href="tour-details-2.html">Check
-                                                            Availability</a>
-                                                        <div class="tg-listing-item-wishlist">
-                                                            <a href="#">
-                                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                                        stroke="currentColor" stroke-width="1.5"
-                                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
-                                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                                                <div
-                                                    class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                                    <a href="tour-details-2.html">
-                                                        <img class="tg-card-border w-100"
-                                                            src="assets/img/listing/listing-4/thumb-6.jpg" alt="listing">
-                                                        <span class="tg-listing-item-price-discount shape-2">% Offer</span>
-                                                    </a>
-                                                    <div class="tg-listing-2-price">
-                                                        <del>$299</del>
-                                                        <span class="new">$230</span>
-                                                        <span class="shift">/night</span>
-                                                    </div>
-                                                </div>
-                                                <div class="tg-listing-card-content p-relative">
-                                                    <h4 class="tg-listing-card-title mb-5"><a
-                                                            href="tour-details-2.html">American Parks Trail end Rapid City
-                                                            Express</a></h4>
-                                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                                        <svg width="13" height="16" viewBox="0 0 13 16"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path
-                                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
-                                                        51 Dekor Land, Thailand
-                                                    </span>
-                                                    <div class="tg-listing-card-review mb-10">
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                                    </div>
-                                                    <div
-                                                        class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                                        <a class="tg-listing-avai-btn" href="tour-details-2.html">Check
-                                                            Availability</a>
-                                                        <div class="tg-listing-item-wishlist">
-                                                            <a href="#">
-                                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                                        stroke="currentColor" stroke-width="1.5"
-                                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
-                                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                                                <div
-                                                    class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                                    <a href="tour-details-2.html">
-                                                        <img class="tg-card-border w-100"
-                                                            src="assets/img/listing/listing-4/thumb-7.jpg" alt="listing">
-                                                    </a>
-                                                    <div class="tg-listing-2-price">
-                                                        <span class="new">$180</span>
-                                                        <span class="shift">/night</span>
-                                                    </div>
-                                                </div>
-                                                <div class="tg-listing-card-content p-relative">
-                                                    <h4 class="tg-listing-card-title mb-5"><a
-                                                            href="tour-details-2.html">Modern Stefano La Piazze
-                                                            Wergeland</a></h4>
-                                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                                        <svg width="13" height="16" viewBox="0 0 13 16"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path
-                                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
-                                                        51 Dekor Land, Thailand
-                                                    </span>
-                                                    <div class="tg-listing-card-review mb-10">
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                                    </div>
-                                                    <div
-                                                        class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                                        <a class="tg-listing-avai-btn" href="tour-details-2.html">Check
-                                                            Availability</a>
-                                                        <div class="tg-listing-item-wishlist">
-                                                            <a href="#">
-                                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                                        stroke="currentColor" stroke-width="1.5"
-                                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
-                                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                                                <div
-                                                    class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                                    <a href="tour-details-2.html">
-                                                        <img class="tg-card-border w-100"
-                                                            src="assets/img/listing/listing-4/thumb-8.jpg" alt="listing">
-                                                        <span class="tg-listing-item-price-discount shape-2">% Offer</span>
-                                                    </a>
-                                                    <div class="tg-listing-2-price">
-                                                        <del>$299</del>
-                                                        <span class="new">$230</span>
-                                                        <span class="shift">/night</span>
-                                                    </div>
-                                                </div>
-                                                <div class="tg-listing-card-content p-relative">
-                                                    <h4 class="tg-listing-card-title mb-5"><a
-                                                            href="tour-details-2.html">Vatican Museums, Sistine
-                                                            Chapel Skip the</a></h4>
-                                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                                        <svg width="13" height="16" viewBox="0 0 13 16"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path
-                                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
-                                                        51 Dekor Land, Thailand
-                                                    </span>
-                                                    <div class="tg-listing-card-review mb-10">
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                                    </div>
-                                                    <div
-                                                        class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                                        <a class="tg-listing-avai-btn" href="tour-details-2.html">Check
-                                                            Availability</a>
-                                                        <div class="tg-listing-item-wishlist">
-                                                            <a href="#">
-                                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                                        stroke="currentColor" stroke-width="1.5"
-                                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
-                                            <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                                                <div
-                                                    class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                                                    <a href="tour-details-2.html">
-                                                        <img class="tg-card-border w-100"
-                                                            src="assets/img/listing/listing-4/thumb.jpg" alt="listing">
-                                                        <span class="tg-listing-item-price-discount shape-2">% Offer</span>
-                                                    </a>
-                                                    <div class="tg-listing-2-price">
-                                                        <del>$299</del>
-                                                        <span class="new">$230</span>
-                                                        <span class="shift">/night</span>
-                                                    </div>
-                                                </div>
-                                                <div class="tg-listing-card-content p-relative">
-                                                    <h4 class="tg-listing-card-title mb-5"><a
-                                                            href="single-listing.html">American Parks Trail end Rapid City
-                                                            Express</a></h4>
-                                                    <span class="tg-listing-card-duration-map d-inline-block">
-                                                        <svg width="13" height="16" viewBox="0 0 13 16"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M12.3329 6.7071C12.3329 11.2324 6.55512 15.1111 6.55512 15.1111C6.55512 15.1111 0.777344 11.2324 0.777344 6.7071C0.777344 5.16402 1.38607 3.68414 2.46962 2.59302C3.55316 1.5019 5.02276 0.888916 6.55512 0.888916C8.08748 0.888916 9.55708 1.5019 10.6406 2.59302C11.7242 3.68414 12.3329 5.16402 12.3329 6.7071Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path
-                                                                d="M6.55512 8.64649C7.61878 8.64649 8.48105 7.7782 8.48105 6.7071C8.48105 5.636 7.61878 4.7677 6.55512 4.7677C5.49146 4.7677 4.6292 5.636 4.6292 6.7071C4.6292 7.7782 5.49146 8.64649 6.55512 8.64649Z"
-                                                                stroke="currentColor" stroke-width="1.15556"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
-                                                        51 Dekor Land, Thailand
-                                                    </span>
-                                                    <div class="tg-listing-card-review mb-10">
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-icon"><i
-                                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                                    </div>
-                                                    <div
-                                                        class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                                        <a class="tg-listing-avai-btn" href="tour-details-2.html">Check
-                                                            Availability</a>
-                                                        <div class="tg-listing-item-wishlist">
-                                                            <a href="#">
-                                                                <svg width="20" height="18" viewBox="0 0 20 18"
-                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M10.5167 16.3416C10.2334 16.4416 9.76675 16.4416 9.48341 16.3416C7.06675 15.5166 1.66675 12.075 1.66675 6.24165C1.66675 3.66665 3.74175 1.58331 6.30008 1.58331C7.81675 1.58331 9.15841 2.31665 10.0001 3.44998C10.8417 2.31665 12.1917 1.58331 13.7001 1.58331C16.2584 1.58331 18.3334 3.66665 18.3334 6.24165C18.3334 12.075 12.9334 15.5166 10.5167 16.3416Z"
-                                                                        stroke="currentColor" stroke-width="1.5"
-                                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tg-pagenation-wrap text-center mt-50 mb-30">
-                                        <nav>
-                                            <ul>
-                                                <li><a class="p-btn mr-25" href="#">Previous Page</a></li>
-                                                <li><a class="active" href="#">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li><a href="#">4</a></li>
-                                                <li><a class="p-btn ml-25" href="#">Next Page</a></li>
-                                            </ul>
-                                        </nav>
+                                <div id="filter_data">
+                                    <div id="loading item_loading">
+                                        <div class="loader"></div>
                                     </div>
                                 </div>
                             </div>
@@ -1149,38 +551,44 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('data', () => ({
-                loading: false,
+                loading: true,
                 page: 1,
                 instructorName: '',
                 instructorAccounts: [],
                 filters: {
-                    category_ids: ["3"],
+
+                    search: `{{ request('search', '') }}`,
+                    service_type_ids: {!! json_encode(request('service_type_ids', [])) !!},
+                    max_price: `{{ request('max_price', '') }}`,
+                    min_price: `{{ request('min_price', '') }}`,
+
+                    category_ids: `{!! request('category_ids') !!}`,
                     course_type: ``,
                     subject_ids: [],
                     instructor: [],
                     business: [],
                     price: '',
-                    search: '',
                     rating: [],
                     languages: [],
                     sort_by: '',
-                    max_price: parseFloat('0') || 0,
-                    min_price: 0,
                     instructors: [],
                 },
                 defaultFilters: {
+
+                    search: '',
+                    service_type_ids: [],
+                    max_price: '',
+                    min_price: '',
+
                     category_ids: [],
                     course_type: '',
                     subject_ids: [],
                     instructor: [],
                     business: [],
                     price: '',
-                    search: '',
                     rating: [],
                     languages: [],
                     sort_by: '',
-                    max_price: parseFloat('0') || 0,
-                    min_price: 0,
                     instructors: [],
                 },
                 get isFilterChanged() {
@@ -1287,12 +695,14 @@
                         },
                         beforeSend: function() {
                             that.loading = true;
-                            $('#filter_data').html('');
+                            $('#filter_data').html(
+                                `<div id="loading item_loading"><div class="loader"></div></div>`
+                            );
                         },
                         success: function(response) {
                             console.log("response", response);
 
-                            $('#filter_data').html(response.html);
+                            $('#filter_data').html(response.view);
                             $('.get_count_result').html(response.get_count_result);
                             $('.course-subject-list').html(response.courseSubjectView);
                         },
@@ -1328,4 +738,13 @@
             }));
         });
     </script>
+@endpush
+
+@push('css_section')
+    <style>
+        .item_loading {
+            top: 20px;
+            position: relative;
+        }
+    </style>
 @endpush

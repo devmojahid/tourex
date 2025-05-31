@@ -175,9 +175,9 @@ final class FrontServiceController extends Controller
      */
     public function allServices()
     {
-        $serviceType = $this->serviceTypeRepository->getActiveNameId();
+        $serviceTypes = $this->serviceTypeRepository->getActiveNameId();
 
-        return view('tourbooking::front.services.services', compact('serviceType'));
+        return view('tourbooking::front.services.services', compact('serviceTypes'));
     }
 
     /**
@@ -186,14 +186,40 @@ final class FrontServiceController extends Controller
     public function loadServicesAjax(Request $request)
     {
 
-        dd($request->all());
+        // dd($request->all());
 
-        $allServices = Service::where('status', true)
-            ->with(['thumbnail', 'serviceType', 'reviews'])
+        $allServices = Service::select('id', 'price_per_person', 'slug', 'location')
+            ->where('status', true)
+            ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title'])
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $query->whereHas('translation', function ($q) use ($request) {
+                    $q->where('title', 'like', "%{$request->search}%");
+                })
+                    ->orWhere('location', 'like', "%{$request->search}%");
+            })
+            ->when($request->filled('service_type_ids') && is_array($request->service_type_ids), function ($query) use ($request) {
+                return $query->whereIn('service_type_id', $request->service_type_ids);
+            })
+            ->when($request->filled('max_price'), function ($query) use ($request) {
+                return $query->where('price_per_person', '<=', $request->max_price);
+            })
+            ->when($request->filled('min_price'), function ($query) use ($request) {
+                return $query->where('price_per_person', '>=', $request->min_price);
+            })
             ->latest()
             ->paginate(12);
 
-        return response()->json(['success' => true, 'message' => 'Services loaded successfully', 'data' => $allServices]);
+        // dd($allServices);
+
+        $view = view('tourbooking::front.services.services-item', compact('allServices'))->render();
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Services loaded successfully',
+                'view' => $view
+            ]
+        );
     }
 
     /**
