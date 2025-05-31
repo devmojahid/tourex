@@ -170,7 +170,7 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::get('tourbookings/{slug}', [FrontServiceController::class, 'show'])->name('tourbooking.show');
 });
 
-Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tourbooking', 'middleware' => ['web']], function () {
+Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middleware' => ['web']], function () {
     // Home/Search Page
     Route::get('/', [FrontServiceController::class, 'index'])->name('home');
     Route::get('/search', [FrontServiceController::class, 'search'])->name('search');
@@ -181,6 +181,7 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tourbooking', 'middlewa
 
     // Services
     Route::get('/services', [FrontServiceController::class, 'allServices'])->name('services');
+    Route::get('/services/load', [FrontServiceController::class, 'loadServicesAjax'])->name('services.load.ajax');
     Route::get('/services/{slug}', [FrontServiceController::class, 'serviceDetail'])->name('services.show');
     Route::get('/tours', [FrontServiceController::class, 'tours'])->name('tours');
     Route::get('/hotels', [FrontServiceController::class, 'hotels'])->name('hotels');

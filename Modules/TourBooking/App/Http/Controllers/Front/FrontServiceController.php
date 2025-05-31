@@ -13,9 +13,17 @@ use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Review;
 use Modules\TourBooking\App\Models\Service;
 use Modules\TourBooking\App\Models\ServiceType;
+use Modules\TourBooking\App\Repositories\ServiceRepository;
+use Modules\TourBooking\App\Repositories\ServiceTypeRepository;
 
 final class FrontServiceController extends Controller
 {
+
+    public function __construct(
+        private ServiceRepository $serviceRepository,
+        private ServiceTypeRepository $serviceTypeRepository,
+    ) {}
+
     /**
      * Display the home page of the tour booking module.
      */
@@ -26,30 +34,30 @@ final class FrontServiceController extends Controller
             ->with('thumbnail')
             ->take(8)
             ->get();
-            
+
         $popularServices = Service::where('status', true)
             ->where('is_popular', true)
             ->with('thumbnail')
             ->take(8)
             ->get();
-            
+
         $serviceTypes = ServiceType::where('status', true)
             ->with('thumbnail')
             ->take(6)
             ->get();
-            
+
         $popularDestinations = Destination::where('status', true)
             ->where('is_popular', true)
             ->with('thumbnail')
             ->take(6)
             ->get();
-            
+
         $latestReviews = Review::where('status', true)
             ->with(['service', 'user'])
             ->latest()
             ->take(6)
             ->get();
-            
+
         return view('tourbooking::front.index', compact(
             'featuredServices',
             'popularServices',
@@ -58,7 +66,7 @@ final class FrontServiceController extends Controller
             'latestReviews'
         ));
     }
-    
+
     /**
      * Search for services.
      */
@@ -66,44 +74,44 @@ final class FrontServiceController extends Controller
     {
         $query = Service::where('status', true)
             ->with(['thumbnail', 'serviceType', 'reviews']);
-            
+
         // Apply search filters
         if ($request->filled('keyword')) {
             $keyword = $request->input('keyword');
             $query->where(function ($q) use ($keyword) {
                 $q->where('title', 'like', "%{$keyword}%")
-                  ->orWhere('description', 'like', "%{$keyword}%")
-                  ->orWhere('location', 'like', "%{$keyword}%");
+                    ->orWhere('description', 'like', "%{$keyword}%")
+                    ->orWhere('location', 'like', "%{$keyword}%");
             });
         }
-        
+
         if ($request->filled('service_type')) {
             $query->where('service_type_id', $request->input('service_type'));
         }
-        
+
         if ($request->filled('location')) {
             $query->where('location', 'like', "%" . $request->input('location') . "%");
         }
-        
+
         if ($request->filled('min_price')) {
             $query->where(function ($q) use ($request) {
                 $q->where('full_price', '>=', $request->input('min_price'))
-                  ->orWhere('discount_price', '>=', $request->input('min_price'))
-                  ->orWhere('price_per_person', '>=', $request->input('min_price'));
+                    ->orWhere('discount_price', '>=', $request->input('min_price'))
+                    ->orWhere('price_per_person', '>=', $request->input('min_price'));
             });
         }
-        
+
         if ($request->filled('max_price')) {
             $query->where(function ($q) use ($request) {
                 $q->where('full_price', '<=', $request->input('max_price'))
-                  ->orWhere('discount_price', '<=', $request->input('max_price'))
-                  ->orWhere('price_per_person', '<=', $request->input('max_price'));
+                    ->orWhere('discount_price', '<=', $request->input('max_price'))
+                    ->orWhere('price_per_person', '<=', $request->input('max_price'));
             });
         }
-        
+
         // Sort results
         $sort = $request->input('sort', 'newest');
-        
+
         switch ($sort) {
             case 'price_low':
                 $query->orderBy('discount_price', 'asc');
@@ -113,7 +121,7 @@ final class FrontServiceController extends Controller
                 break;
             case 'rating':
                 $query->withAvg('reviews', 'rating')
-                      ->orderByDesc('reviews_avg_rating');
+                    ->orderByDesc('reviews_avg_rating');
                 break;
             case 'oldest':
                 $query->oldest();
@@ -123,16 +131,16 @@ final class FrontServiceController extends Controller
                 $query->latest();
                 break;
         }
-        
+
         $services = $query->paginate(12)->withQueryString();
-        
+
         // Get filter options for the search form
         $serviceTypes = ServiceType::where('status', true)->get();
         $destinations = Destination::where('status', true)->get();
-        
+
         return view('tourbooking::front.search', compact('services', 'serviceTypes', 'destinations'));
     }
-    
+
     /**
      * Display all service types.
      */
@@ -141,10 +149,10 @@ final class FrontServiceController extends Controller
         $serviceTypes = ServiceType::where('status', true)
             ->with('thumbnail')
             ->paginate(15);
-            
+
         return view('tourbooking::front.service-types', compact('serviceTypes'));
     }
-    
+
     /**
      * Display a specific service type with its services.
      */
@@ -153,28 +161,67 @@ final class FrontServiceController extends Controller
         $serviceType = ServiceType::where('slug', $slug)
             ->where('status', true)
             ->firstOrFail();
-            
+
         $services = Service::where('service_type_id', $serviceType->id)
             ->where('status', true)
             ->with(['thumbnail', 'reviews'])
             ->paginate(12);
-            
+
         return view('tourbooking::front.service-type-detail', compact('serviceType', 'services'));
     }
-    
+
     /**
      * Display all services.
      */
-    public function allServices(): View
+    public function allServices()
     {
-        $services = Service::where('status', true)
-            ->with(['thumbnail', 'serviceType', 'reviews'])
+        $serviceTypes = $this->serviceTypeRepository->getActiveNameId();
+
+        return view('tourbooking::front.services.services', compact('serviceTypes'));
+    }
+
+    /**
+     * load all services.
+     */
+    public function loadServicesAjax(Request $request)
+    {
+
+        // dd($request->all());
+
+        $allServices = Service::select('id', 'price_per_person', 'slug', 'location')
+            ->where('status', true)
+            ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title'])
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $query->whereHas('translation', function ($q) use ($request) {
+                    $q->where('title', 'like', "%{$request->search}%");
+                })
+                    ->orWhere('location', 'like', "%{$request->search}%");
+            })
+            ->when($request->filled('service_type_ids') && is_array($request->service_type_ids), function ($query) use ($request) {
+                return $query->whereIn('service_type_id', $request->service_type_ids);
+            })
+            ->when($request->filled('max_price'), function ($query) use ($request) {
+                return $query->where('price_per_person', '<=', $request->max_price);
+            })
+            ->when($request->filled('min_price'), function ($query) use ($request) {
+                return $query->where('price_per_person', '>=', $request->min_price);
+            })
             ->latest()
             ->paginate(12);
-            
-        return view('tourbooking::front.services', compact('services'));
+
+        // dd($allServices);
+
+        $view = view('tourbooking::front.services.services-item', compact('allServices'))->render();
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Services loaded successfully',
+                'view' => $view
+            ]
+        );
     }
-    
+
     /**
      * Display a specific service's details.
      */
@@ -196,7 +243,7 @@ final class FrontServiceController extends Controller
                 }
             ])
             ->firstOrFail();
-            
+
         // Get related services
         $relatedServices = Service::where('id', '!=', $service->id)
             ->where('service_type_id', $service->service_type_id)
@@ -204,10 +251,10 @@ final class FrontServiceController extends Controller
             ->with(['thumbnail', 'reviews'])
             ->take(4)
             ->get();
-            
+
         // Check if user has a completed booking for this service
         $canReview = false;
-        
+
         if (Auth::check()) {
             $userId = Auth::id();
             $canReview = $service->bookings()
@@ -216,28 +263,28 @@ final class FrontServiceController extends Controller
                 ->where('is_reviewed', false)
                 ->exists();
         }
-            
+
         return view('tourbooking::front.service-detail', compact('service', 'relatedServices', 'canReview'));
     }
-    
+
     /**
      * Filter services by category (tours, hotels, etc.).
      */
     private function getServicesByType(string $type): View
     {
         $serviceType = ServiceType::where('slug', $type)->firstOrFail();
-        
+
         $services = Service::where('service_type_id', $serviceType->id)
             ->where('status', true)
             ->with(['thumbnail', 'reviews'])
             ->latest()
             ->paginate(12);
-            
+
         $title = ucfirst($type);
-        
+
         return view('tourbooking::front.services-by-type', compact('services', 'serviceType', 'title'));
     }
-    
+
     /**
      * Display all tours.
      */
@@ -245,7 +292,7 @@ final class FrontServiceController extends Controller
     {
         return $this->getServicesByType('tours');
     }
-    
+
     /**
      * Display all hotels.
      */
@@ -253,7 +300,7 @@ final class FrontServiceController extends Controller
     {
         return $this->getServicesByType('hotels');
     }
-    
+
     /**
      * Display all restaurants.
      */
@@ -261,7 +308,7 @@ final class FrontServiceController extends Controller
     {
         return $this->getServicesByType('restaurants');
     }
-    
+
     /**
      * Display all rentals.
      */
@@ -269,7 +316,7 @@ final class FrontServiceController extends Controller
     {
         return $this->getServicesByType('rentals');
     }
-    
+
     /**
      * Display all activities.
      */
@@ -277,7 +324,7 @@ final class FrontServiceController extends Controller
     {
         return $this->getServicesByType('activities');
     }
-    
+
     /**
      * Display all destinations.
      */
@@ -286,10 +333,10 @@ final class FrontServiceController extends Controller
         $destinations = Destination::where('status', true)
             ->with('thumbnail')
             ->paginate(12);
-            
+
         return view('tourbooking::front.destinations', compact('destinations'));
     }
-    
+
     /**
      * Display a specific destination with related services.
      */
@@ -299,15 +346,15 @@ final class FrontServiceController extends Controller
             ->where('status', true)
             ->with('thumbnail')
             ->firstOrFail();
-            
+
         $services = Service::where('status', true)
             ->where('location', 'like', "%{$destination->name}%")
             ->with(['thumbnail', 'serviceType', 'reviews'])
             ->paginate(12);
-            
+
         return view('tourbooking::front.destination-detail', compact('destination', 'services'));
     }
-    
+
     /**
      * Store a new review for a service.
      */
@@ -316,24 +363,24 @@ final class FrontServiceController extends Controller
         $service = Service::where('slug', $slug)
             ->where('status', true)
             ->firstOrFail();
-            
+
         // Verify the user has a completed booking for this service
         $booking = $service->bookings()
             ->where('user_id', Auth::id())
             ->where('booking_status', 'completed')
             ->where('is_reviewed', false)
             ->first();
-            
+
         if (!$booking) {
             return back()->with('error', 'You must have a completed booking to review this service.');
         }
-        
+
         $validated = $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'title' => 'required|string|max:100',
             'content' => 'required|string|min:10|max:1000',
         ]);
-        
+
         $review = Review::create([
             'service_id' => $service->id,
             'booking_id' => $booking->id,
@@ -343,9 +390,9 @@ final class FrontServiceController extends Controller
             'content' => $validated['content'],
             'status' => false, // Pending approval
         ]);
-        
+
         $booking->update(['is_reviewed' => true]);
-        
+
         return back()->with('success', 'Your review has been submitted and is pending approval.');
     }
-} 
+}

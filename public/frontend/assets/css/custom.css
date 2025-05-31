@@ -242,3 +242,13 @@ ul.tourex-tabs-menu li a img {
 .optech-checkuot-sidebar h5 {
     margin-bottom: 20px;
 }
+
+.no-arrow::-webkit-inner-spin-button,
+.no-arrow::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.no-arrow {
+    -moz-appearance: textfield;
+}

@@ -63,7 +63,8 @@
                                                         @endif
                                                     </td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        {{ $service->translation->title ?? $service->title }}</td>
+                                                        {{ Str::limit($service->translation->title ?? $service->title, 50) }}
+                                                    </td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         {{ $service->serviceType->name ?? 'N/A' }}</td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">

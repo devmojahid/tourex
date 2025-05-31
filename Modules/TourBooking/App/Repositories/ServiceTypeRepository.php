@@ -30,6 +30,14 @@ final class ServiceTypeRepository
             ->get();
     }
 
+    public function getActiveNameId(): Collection
+    {
+        return ServiceType::select('id', 'name', 'display_order')
+            ->active()
+            ->orderBy('display_order')
+            ->get();
+    }
+
     /**
      * Get featured service types.
      */

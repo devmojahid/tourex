@@ -91,4 +91,4 @@ final class ServiceType extends Model
     {
         return $query->where('show_on_homepage', true);
     }
-} 
+}
