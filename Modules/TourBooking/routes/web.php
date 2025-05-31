@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\TourBooking\App\Http\Controllers\Admin\AmenitiesController;
 use Modules\TourBooking\App\Http\Controllers\Admin\ServiceTypeController;
 use Modules\TourBooking\App\Http\Controllers\Admin\ServiceController;
 use Modules\TourBooking\App\Http\Controllers\Admin\BookingController;
@@ -87,6 +88,10 @@ Route::group(['as' => 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mi
     Route::resource('destinations', DestinationController::class);
     Route::put('destinations/{destination}/status', [DestinationController::class, 'updateStatus'])->name('destinations.update-status');
     Route::put('destinations/{destination}/featured', [DestinationController::class, 'updateFeatured'])->name('destinations.update-featured');
+
+    // amenities
+    Route::resource('amenities', AmenitiesController::class);
+    Route::put('amenities/{amenity}/status', [AmenitiesController::class, 'updateStatus'])->name('amenities.update-status');
 
     // // Coupons
     // Route::resource('coupons', CouponController::class);

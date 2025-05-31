@@ -1507,4 +1507,12 @@ return array(
     "Agency Slug already exist" => "Agency Slug already exist",
     "Agency Dashboard" => "Agency Dashboard",
     "Featured Image" => "Featured Image",
+
+    "All Amenities" => "All Amenities",
+    "Add New Amenity" => "Add New Amenity",
+    "Create Amenity" => "Create Amenity",
+    "SEO keywords" => "SEO keywords",
+    "Amenity List" => "Amenity List",
+    "Edit Amenity" => "Edit Amenity",
+    "Update Amenity" => "Update Amenity",
 );

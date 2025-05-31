@@ -6,7 +6,7 @@
 
 <h4 class="admin-menu__title pt-2">{{ __('translate.Booking Services') }}</h4>
 <li
-    class="{{ Route::is('admin.tourbooking.services.index') || Route::is(' admin.tourbooking.service-types.index') || Route::is('admin.tourbooking.services.by-type') || Route::is('admin.tourbooking.services.tours') || Route::is('admin.tourbooking.services.hotels') || Route::is('admin.tourbooking.services.restaurants') || Route::is('admin.tourbooking.services.rentals') || Route::is('admin.tourbooking.services.activities') ? 'active' : '' }}">
+    class="{{ Route::is('admin.tourbooking.services.index') || Route::is(' admin.tourbooking.service-types.index') || Route::is('admin.tourbooking.services.by-type') || Route::is('admin.tourbooking.services.tours') || Route::is('admin.tourbooking.services.hotels') || Route::is('admin.tourbooking.services.restaurants') || Route::is('admin.tourbooking.services.rentals') || Route::is('admin.tourbooking.services.activities') || Route::is('admin.tourbooking.amenities.index') ? 'active' : '' }}">
     <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__booking_services_list"><span
             class="menu-bar__text">
             <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -21,7 +21,7 @@
             <span class="menu-bar__name">{{ __('translate.Booking Services') }}</span></span> <span
             class="crancy__toggle"></span></a></span>
     <!-- Dropdown Menu -->
-    <div class="collapse crancy__dropdown {{ Route::is(' admin.tourbooking.service-types.index') || Route::is(' admin.tourbooking.service-types.index') || Route::is('admin.course-pending-payment') || Route::is('admin.course-rejected-payment') ? 'show' : '' }}"
+    <div class="collapse crancy__dropdown {{ Route::is(' admin.tourbooking.service-types.index') || Route::is(' admin.tourbooking.service-types.index') || Route::is('admin.course-pending-payment') || Route::is('admin.course-rejected-payment') || Route::is('admin.tourbooking.amenities.index') ? 'show' : '' }}"
         id="menu-item__booking_services_list" data-bs-parent="#CrancyMenu">
         <ul class="menu-bar__one-dropdown">
             <li><a href="{{ route('admin.tourbooking.services.index') }}"><span class="menu-bar__text"><span
@@ -29,6 +29,9 @@
 
             <li><a href="{{ route('admin.tourbooking.service-types.index') }}"><span class="menu-bar__text"><span
                             class="menu-bar__name">{{ __('translate.Booking Service Types') }}</span></span></a></li>
+
+            <li><a href="{{ route('admin.tourbooking.amenities.index') }}"><span class="menu-bar__text"><span
+                            class="menu-bar__name">{{ __('translate.Amenities') }}</span></span></a></li>
 
             @foreach ($servicesTypes as $slug => $name)
                 <li><a href="{{ route('admin.tourbooking.services.by-type', $slug) }}"><span
