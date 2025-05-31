@@ -22,6 +22,7 @@ use Modules\TourBooking\App\Repositories\ServiceRepository;
 use Modules\TourBooking\App\Repositories\ServiceTypeRepository;
 use Modules\Language\App\Models\Language;
 use Illuminate\Http\JsonResponse;
+use Modules\TourBooking\App\Models\Amenity;
 
 final class ServiceController extends Controller
 {
@@ -46,9 +47,12 @@ final class ServiceController extends Controller
      */
     public function create(): View
     {
+
+        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
+
         $serviceTypes = $this->serviceTypeRepository->getActive();
 
-        return view('tourbooking::admin.services.create', compact('serviceTypes'));
+        return view('tourbooking::admin.services.create', compact('serviceTypes', 'amenities'));
     }
 
     /**
@@ -56,10 +60,11 @@ final class ServiceController extends Controller
      */
     public function store(ServiceRequest $request): RedirectResponse
     {
+
         $data = $request->validated();
 
         // Handle JSON fields
-        $jsonFields = ['included', 'excluded', 'languages', 'amenities', 'facilities', 'rules', 'safety', 'social_links'];
+        $jsonFields = ['included', 'excluded', 'languages', 'facilities', 'rules', 'safety', 'social_links'];
         foreach ($jsonFields as $field) {
             if (isset($data[$field]) && is_array($data[$field])) {
                 $data[$field] = json_encode($data[$field]);
@@ -93,7 +98,7 @@ final class ServiceController extends Controller
                 'seo_keywords' => $data['seo_keywords'] ?? null,
                 'included' => $data['included'] ?? null,
                 'excluded' => $data['excluded'] ?? null,
-                'amenities' => $data['amenities'] ?? null,
+                'amenities' => $data['amenities'] ?? [],
                 'facilities' => $data['facilities'] ?? null,
                 'rules' => $data['rules'] ?? null,
                 'safety' => $data['safety'] ?? null,
@@ -141,7 +146,7 @@ final class ServiceController extends Controller
         ])->first();
 
         // Convert JSON fields back to newline-separated strings for textarea display
-        $jsonFields = ['included', 'excluded', 'amenities', 'facilities', 'rules', 'safety'];
+        $jsonFields = ['included', 'excluded', 'facilities', 'rules', 'safety'];
 
         foreach ($jsonFields as $field) {
             // Check translation first, then service
@@ -173,7 +178,9 @@ final class ServiceController extends Controller
 
         $serviceTypes = $this->serviceTypeRepository->getActive();
 
-        return view('tourbooking::admin.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code'));
+        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
+
+        return view('tourbooking::admin.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code', 'amenities'));
     }
 
    /**
@@ -187,7 +194,7 @@ final class ServiceController extends Controller
         // Handle main service update only if we're editing in the admin language
         if ($lang_code === admin_lang()) {
             // Handle JSON fields - convert newline-separated strings to arrays
-            $jsonFields = ['included', 'excluded', 'languages', 'amenities', 'facilities', 'rules', 'safety', 'social_links'];
+            $jsonFields = ['included', 'excluded', 'languages', 'facilities', 'rules', 'safety', 'social_links'];
             foreach ($jsonFields as $field) {
                 if (isset($data[$field])) {
                     if (is_string($data[$field])) {
@@ -229,7 +236,7 @@ final class ServiceController extends Controller
         ];
 
         // Add JSON fields to translation if they exist in the request
-        $translationJsonFields = ['included', 'excluded', 'amenities', 'facilities', 'rules', 'safety', 'cancellation_policy'];
+        $translationJsonFields = ['included', 'excluded', 'facilities', 'rules', 'safety', 'cancellation_policy'];
         foreach ($translationJsonFields as $field) {
             if (isset($data[$field])) {
                 if (is_string($data[$field])) {
@@ -251,6 +258,9 @@ final class ServiceController extends Controller
                 }
             }
         }
+
+
+        $translationData['amenities'] = $request->amenities ?? [];
 
         $this->serviceRepository->saveTranslation($service, $lang_code, $translationData);
 

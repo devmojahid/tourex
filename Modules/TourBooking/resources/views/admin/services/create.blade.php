@@ -482,36 +482,9 @@
                                                             class="crancy__item-label">{{ __('translate.Amenities') }}</label>
                                                         <select class="crancy__item-input select2" name="amenities[]"
                                                             multiple>
-                                                            <option value="Free WiFi"
-                                                                {{ old('amenities') && in_array('Free WiFi', old('amenities')) ? 'selected' : '' }}>
-                                                                Free WiFi</option>
-                                                            <option value="Air Conditioning"
-                                                                {{ old('amenities') && in_array('Air Conditioning', old('amenities')) ? 'selected' : '' }}>
-                                                                Air Conditioning</option>
-                                                            <option value="Parking"
-                                                                {{ old('amenities') && in_array('Parking', old('amenities')) ? 'selected' : '' }}>
-                                                                Parking</option>
-                                                            <option value="Restaurant"
-                                                                {{ old('amenities') && in_array('Restaurant', old('amenities')) ? 'selected' : '' }}>
-                                                                Restaurant</option>
-                                                            <option value="Bar"
-                                                                {{ old('amenities') && in_array('Bar', old('amenities')) ? 'selected' : '' }}>
-                                                                Bar</option>
-                                                            <option value="Swimming Pool"
-                                                                {{ old('amenities') && in_array('Swimming Pool', old('amenities')) ? 'selected' : '' }}>
-                                                                Swimming Pool</option>
-                                                            <option value="Spa"
-                                                                {{ old('amenities') && in_array('Spa', old('amenities')) ? 'selected' : '' }}>
-                                                                Spa</option>
-                                                            <option value="Fitness Center"
-                                                                {{ old('amenities') && in_array('Fitness Center', old('amenities')) ? 'selected' : '' }}>
-                                                                Fitness Center</option>
-                                                            <option value="Family Friendly"
-                                                                {{ old('amenities') && in_array('Family Friendly', old('amenities')) ? 'selected' : '' }}>
-                                                                Family Friendly</option>
-                                                            <option value="Pet Friendly"
-                                                                {{ old('amenities') && in_array('Pet Friendly', old('amenities')) ? 'selected' : '' }}>
-                                                                Pet Friendly</option>
+                                                            @foreach ($amenities as $key => $amenity)
+                                                                <option value="{{ $amenity->translation->id }}">{{ $amenity->translation->name }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>

@@ -43,7 +43,7 @@ final class ServiceTranslation extends Model
     protected $casts = [
         'included' => 'json',
         'excluded' => 'json',
-        'amenities' => 'json',
+        'amenities' => 'array',
         'facilities' => 'json',
         'rules' => 'json',
         'safety' => 'json',
@@ -57,4 +57,4 @@ final class ServiceTranslation extends Model
     {
         return $this->belongsTo(Service::class);
     }
-} 
+}
