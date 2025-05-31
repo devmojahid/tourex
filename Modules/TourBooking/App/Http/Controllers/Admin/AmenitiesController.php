@@ -12,7 +12,7 @@ use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Service;
 
-final class DestinationController extends Controller
+final class AmenitiesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ final class DestinationController extends Controller
             ->latest()
             ->paginate(15);
 
-        return view('tourbooking::admin.destinations.index', compact('destinations'));
+        return view('tourbooking::agency.destinations.index', compact('destinations'));
     }
 
     /**
@@ -32,7 +32,7 @@ final class DestinationController extends Controller
      */
     public function create(): View
     {
-        return view('tourbooking::admin.destinations.create');
+        return view('tourbooking::agency.destinations.create');
     }
 
     /**
@@ -74,7 +74,7 @@ final class DestinationController extends Controller
 
         Destination::create($validated);
 
-        return redirect()->route('admin.tourbooking.destinations.index')
+        return redirect()->route('agency.tourbooking.destinations.index')
             ->with('success', 'Destination created successfully.');
     }
 
@@ -85,7 +85,7 @@ final class DestinationController extends Controller
     {
         $destination->load(['services.serviceType']);
 
-        return view('tourbooking::admin.destinations.show', compact('destination'));
+        return view('tourbooking::agency.destinations.show', compact('destination'));
     }
 
     /**
@@ -97,7 +97,7 @@ final class DestinationController extends Controller
             return abort(403);
         }
 
-        return view('tourbooking::admin.destinations.edit', compact('destination'));
+        return view('tourbooking::agency.destinations.edit', compact('destination'));
     }
 
     /**
@@ -148,7 +148,7 @@ final class DestinationController extends Controller
 
         $destination->update($validated);
 
-        return redirect()->route('admin.tourbooking.destinations.index')
+        return redirect()->route('agency.tourbooking.destinations.index')
             ->with('success', 'Destination updated successfully.');
     }
 
@@ -159,7 +159,7 @@ final class DestinationController extends Controller
     {
         // Check if there are any services associated with this destination
         if (Service::where('destination_id', $destination->id)->exists()) {
-            return redirect()->route('admin.tourbooking.destinations.index')
+            return redirect()->route('agency.tourbooking.destinations.index')
                 ->with('error', 'Cannot delete destination because it is being used by one or more services.');
         }
 
@@ -170,7 +170,7 @@ final class DestinationController extends Controller
 
         $destination->delete();
 
-        return redirect()->route('admin.tourbooking.destinations.index')
+        return redirect()->route('agency.tourbooking.destinations.index')
             ->with('success', 'Destination deleted successfully.');
     }
 
