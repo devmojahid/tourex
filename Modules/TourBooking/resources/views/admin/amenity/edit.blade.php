@@ -228,7 +228,7 @@
                                                                 class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
                                                                 <label class="crancy__item-switch">
                                                                     <input name="status" type="checkbox"
-                                                                        {{ old('status', $amenity->translation->status) ? 'checked' : '' }}
+                                                                        {{ old('status', $amenity->status) ? 'checked' : '' }}
                                                                         value="1">
                                                                     <span
                                                                         class="crancy__item-switch--slide crancy__item-switch--round"></span>
