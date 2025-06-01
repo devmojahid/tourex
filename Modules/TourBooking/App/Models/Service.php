@@ -74,8 +74,8 @@ final class Service extends Model
     protected $casts = [
         'included' => 'json',
         'excluded' => 'json',
-        'languages' => 'json',
-        'amenities' => 'json',
+        'languages' => 'array',
+        'amenities' => 'array',
         'facilities' => 'json',
         'rules' => 'json',
         'safety' => 'json',
@@ -205,11 +205,11 @@ final class Service extends Model
                 if (!empty($this->discount_price)) {
                     return $this->discount_price;
                 }
-                
+
                 if (!empty($this->full_price)) {
                     return $this->full_price;
                 }
-                
+
                 return $this->price_per_person;
             }
         );
@@ -225,7 +225,7 @@ final class Service extends Model
                 if (empty($this->full_price) || empty($this->discount_price)) {
                     return 0;
                 }
-                
+
                 return round((($this->full_price - $this->discount_price) / $this->full_price) * 100);
             }
         );
@@ -310,4 +310,4 @@ final class Service extends Model
     {
         return $query->where('location', 'like', "%{$location}%");
     }
-} 
+}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\TourBooking\App\Http\Controllers\Admin;
 
+use App\Enums\Language as EnumsLanguage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -52,7 +53,9 @@ final class ServiceController extends Controller
 
         $serviceTypes = $this->serviceTypeRepository->getActive();
 
-        return view('tourbooking::admin.services.create', compact('serviceTypes', 'amenities'));
+        $enum_languages = EnumsLanguage::cases();
+
+        return view('tourbooking::admin.services.create', compact('serviceTypes', 'amenities', 'enum_languages'));
     }
 
     /**
@@ -64,7 +67,7 @@ final class ServiceController extends Controller
         $data = $request->validated();
 
         // Handle JSON fields
-        $jsonFields = ['included', 'excluded', 'languages', 'facilities', 'rules', 'safety', 'social_links'];
+        $jsonFields = ['included', 'excluded', 'facilities', 'rules', 'safety', 'social_links'];
         foreach ($jsonFields as $field) {
             if (isset($data[$field]) && is_array($data[$field])) {
                 $data[$field] = json_encode($data[$field]);
@@ -180,7 +183,9 @@ final class ServiceController extends Controller
 
         $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
 
-        return view('tourbooking::admin.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code', 'amenities'));
+        $enum_languages = EnumsLanguage::cases();
+
+        return view('tourbooking::admin.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code', 'amenities', 'enum_languages'));
     }
 
    /**
@@ -194,7 +199,7 @@ final class ServiceController extends Controller
         // Handle main service update only if we're editing in the admin language
         if ($lang_code === admin_lang()) {
             // Handle JSON fields - convert newline-separated strings to arrays
-            $jsonFields = ['included', 'excluded', 'languages', 'facilities', 'rules', 'safety', 'social_links'];
+            $jsonFields = ['included', 'excluded', 'facilities', 'rules', 'safety', 'social_links'];
             foreach ($jsonFields as $field) {
                 if (isset($data[$field])) {
                     if (is_string($data[$field])) {
@@ -220,6 +225,8 @@ final class ServiceController extends Controller
             foreach ($booleanFields as $field) {
                 $data[$field] = isset($data[$field]) ? true : false;
             }
+
+            $data['languages'] = $request->languages ?? [];
 
             // Update the service
             $this->serviceRepository->update($service, $data);

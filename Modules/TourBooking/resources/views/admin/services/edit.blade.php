@@ -516,34 +516,14 @@
                                                             class="crancy__item-label">{{ __('translate.Languages') }}</label>
                                                         <select class="crancy__item-input select2" name="languages[]"
                                                             multiple>
-                                                            @php $languages = old('languages', json_decode($service->languages ?? '[]')); @endphp
-                                                            <option value="English"
-                                                                {{ in_array('English', $languages ?? []) ? 'selected' : '' }}>
-                                                                English</option>
-                                                            <option value="Spanish"
-                                                                {{ in_array('Spanish', $languages ?? []) ? 'selected' : '' }}>
-                                                                Spanish</option>
-                                                            <option value="French"
-                                                                {{ in_array('French', $languages ?? []) ? 'selected' : '' }}>
-                                                                French</option>
-                                                            <option value="German"
-                                                                {{ in_array('German', $languages ?? []) ? 'selected' : '' }}>
-                                                                German</option>
-                                                            <option value="Italian"
-                                                                {{ in_array('Italian', $languages ?? []) ? 'selected' : '' }}>
-                                                                Italian</option>
-                                                            <option value="Chinese"
-                                                                {{ in_array('Chinese', $languages ?? []) ? 'selected' : '' }}>
-                                                                Chinese</option>
-                                                            <option value="Japanese"
-                                                                {{ in_array('Japanese', $languages ?? []) ? 'selected' : '' }}>
-                                                                Japanese</option>
-                                                            <option value="Arabic"
-                                                                {{ in_array('Arabic', $languages ?? []) ? 'selected' : '' }}>
-                                                                Arabic</option>
-                                                            <option value="Russian"
-                                                                {{ in_array('Russian', $languages ?? []) ? 'selected' : '' }}>
-                                                                Russian</option>
+
+                                                            @foreach ($enum_languages as $language)
+                                                                <option value="{{ $language->name }}"
+                                                                    @selected(in_array($language->name, $service->languages ?? []))>
+                                                                    {{ $language->value }}
+                                                                </option>
+                                                            @endforeach
+
                                                         </select>
                                                     </div>
                                                 </div>

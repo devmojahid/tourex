@@ -445,33 +445,11 @@
                                                             class="crancy__item-label">{{ __('translate.Languages') }}</label>
                                                         <select class="crancy__item-input select2" name="languages[]"
                                                             multiple>
-                                                            <option value="English"
-                                                                {{ old('languages') && in_array('English', old('languages')) ? 'selected' : '' }}>
-                                                                English</option>
-                                                            <option value="Spanish"
-                                                                {{ old('languages') && in_array('Spanish', old('languages')) ? 'selected' : '' }}>
-                                                                Spanish</option>
-                                                            <option value="French"
-                                                                {{ old('languages') && in_array('French', old('languages')) ? 'selected' : '' }}>
-                                                                French</option>
-                                                            <option value="German"
-                                                                {{ old('languages') && in_array('German', old('languages')) ? 'selected' : '' }}>
-                                                                German</option>
-                                                            <option value="Italian"
-                                                                {{ old('languages') && in_array('Italian', old('languages')) ? 'selected' : '' }}>
-                                                                Italian</option>
-                                                            <option value="Chinese"
-                                                                {{ old('languages') && in_array('Chinese', old('languages')) ? 'selected' : '' }}>
-                                                                Chinese</option>
-                                                            <option value="Japanese"
-                                                                {{ old('languages') && in_array('Japanese', old('languages')) ? 'selected' : '' }}>
-                                                                Japanese</option>
-                                                            <option value="Arabic"
-                                                                {{ old('languages') && in_array('Arabic', old('languages')) ? 'selected' : '' }}>
-                                                                Arabic</option>
-                                                            <option value="Russian"
-                                                                {{ old('languages') && in_array('Russian', old('languages')) ? 'selected' : '' }}>
-                                                                Russian</option>
+                                                            @foreach ($enum_languages as $key => $language)
+                                                                <option value="{{ $language->name }}">
+                                                                    {{ $language->value }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -483,7 +461,8 @@
                                                         <select class="crancy__item-input select2" name="amenities[]"
                                                             multiple>
                                                             @foreach ($amenities as $key => $amenity)
-                                                                <option value="{{ $amenity->translation->id }}">{{ $amenity->translation->name }}</option>
+                                                                <option value="{{ $amenity->translation->id }}">
+                                                                    {{ $amenity->translation->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>

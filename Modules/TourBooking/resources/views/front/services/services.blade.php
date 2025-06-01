@@ -285,24 +285,26 @@
                                         </div>
 
                                         @if (count($serviceTypes) > 4)
-                                            <div class="tg-filter-seemore mt-2 cursor-pointer select-none"
+                                            <div class="tg-filter-seemore mt-2 cp select-none"
                                                 @click="showPropertyType = !showPropertyType">
                                                 <span class="plus">
                                                     <i
-                                                        :class="showPropertyType ? 'fa-solid fa-minus' : 'fa-sharp fa-solid fa-plus'"></i>
+                                                        :class="showPropertyType ? 'fa-solid fa-minus' :
+                                                            'fa-sharp fa-solid fa-plus'"></i>
                                                 </span>
-                                                <span class="more" x-text="showPropertyType ? 'See Less' : 'See More'"></span>
+                                                <span class="more"
+                                                    x-text="showPropertyType ? 'See Less' : 'See More'"></span>
                                             </div>
                                         @endif
 
                                         <span class="tg-filter-border mt-25 mb-25"></span>
                                     </div>
 
-
                                     <div class="tg-filter-price-input">
                                         <h4 class="tg-filter-title mb-20">Price By Filter</h4>
                                         <div class="d-flex align-items-center">
-                                            <input class="input no-arrow" x-model="filters.min_price" type="number" placeholder="Min Price">
+                                            <input class="input no-arrow" x-model="filters.min_price" type="number"
+                                                placeholder="Min Price">
                                             <span class="dvdr">
                                                 <svg width="14" height="4" viewBox="0 0 14 4" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -310,46 +312,49 @@
                                                         stroke-linecap="round" />
                                                 </svg>
                                             </span>
-                                            <input class="input no-arrow" x-model="filters.max_price" type="number" placeholder="Max Price">
+                                            <input class="input no-arrow" x-model="filters.max_price" type="number"
+                                                placeholder="Max Price">
                                         </div>
                                     </div>
                                     <span class="tg-filter-border mt-25 mb-25"></span>
-                                    <h4 class="tg-filter-title mb-15">Amenities</h4>
-                                    <div class="tg-filter-list">
-                                        <ul>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="amenities">
-                                                    <label for="amenities" class="tg-label">Accepts Credit Cards</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="amenities-2">
-                                                    <label for="amenities-2" class="tg-label">Car Parking</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="amenities-3">
-                                                    <label for="amenities-3" class="tg-label">Free Coupons</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="amenities-4">
-                                                    <label for="amenities-4" class="tg-label">Reservations</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="amenities-5">
-                                                    <label for="amenities-5" class="tg-label">Restaurant</label>
-                                                </div>
-                                            </li>
-                                        </ul>
+
+                                    <div x-data="{ showAmenity: false }">
+                                        <h4 class="tg-filter-title mb-15">Amenities</h4>
+                                        <div class="tg-filter-list">
+                                            <ul>
+                                                @foreach ($amenities as $key => $amenity)
+                                                    <li x-show="showAmenity || {{ $key }} < 4" x-transition>
+                                                        <div class="checkbox d-flex">
+                                                            <input value="{{ $amenity?->translation?->id }}"
+                                                                x-model="filters.amenity_ids" class="tg-checkbox"
+                                                                type="checkbox" id="amenity_{{ $key }}">
+                                                            <label for="amenity_{{ $key }}" class="tg-label">
+                                                                {{ $amenity?->translation?->name }}
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+
+                                        @if (count($amenities) > 4)
+                                            <div class="tg-filter-seemore mt-2 cp select-none"
+                                                @click="showAmenity = !showAmenity">
+                                                <span class="plus">
+                                                    <i
+                                                        :class="showAmenity ? 'fa-solid fa-minus' :
+                                                            'fa-sharp fa-solid fa-plus'"></i>
+                                                </span>
+                                                <span class="more"
+                                                    x-text="showAmenity ? 'See Less' : 'See More'"></span>
+                                            </div>
+                                        @endif
+
+                                        <span class="tg-filter-border mt-25 mb-25"></span>
                                     </div>
-                                    <span class="tg-filter-border mt-25 mb-25"></span>
+
+
+
                                     <h4 class="tg-filter-title mb-15">Top Reviews</h4>
                                     <div class="tg-filter-list">
                                         <ul>
@@ -426,35 +431,40 @@
                                         </ul>
                                     </div>
                                     <span class="tg-filter-border mt-25 mb-25"></span>
-                                    <h4 class="tg-filter-title mb-15">Language</h4>
-                                    <div class="tg-filter-list">
-                                        <ul>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="english">
-                                                    <label for="english" class="tg-label">English</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="spanish">
-                                                    <label for="spanish" class="tg-label">Spanish</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="bangla">
-                                                    <label for="bangla" class="tg-label">French</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="turkish">
-                                                    <label for="turkish" class="tg-label">Turkish</label>
-                                                </div>
-                                            </li>
-                                        </ul>
+
+                                    <div x-data="{ showMoreLanguages: false }">
+                                        <h4 class="tg-filter-title mb-15">Language</h4>
+                                        <div class="tg-filter-list">
+                                            <ul>
+                                                @foreach ($languages as $key => $language)
+                                                    <li x-show="showMoreLanguages || {{ $key }} < 4" x-transition>
+                                                        <div class="checkbox d-flex">
+                                                            <input value="{{ $language?->name }}"
+                                                                x-model="filters.languages" class="tg-checkbox"
+                                                                type="checkbox" id="language_{{ $key }}">
+                                                            <label for="language_{{ $key }}" class="tg-label">
+                                                                {{ $language?->value }}
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+
+                                        @if (count($languages) > 4)
+                                            <div class="tg-filter-seemore mt-2 cp select-none"
+                                                @click="showMoreLanguages = !showMoreLanguages">
+                                                <span class="plus">
+                                                    <i
+                                                        :class="showMoreLanguages ? 'fa-solid fa-minus' :
+                                                            'fa-sharp fa-solid fa-plus'"></i>
+                                                </span>
+                                                <span class="more"
+                                                    x-text="showMoreLanguages ? 'See Less' : 'See More'"></span>
+                                            </div>
+                                        @endif
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -561,6 +571,8 @@
                     service_type_ids: {!! json_encode(request('service_type_ids', [])) !!},
                     max_price: `{{ request('max_price', '') }}`,
                     min_price: `{{ request('min_price', '') }}`,
+                    amenity_ids: {!! json_encode(request('amenity_ids', [])) !!},
+                    languages: [],
 
                     category_ids: `{!! request('category_ids') !!}`,
                     course_type: ``,
@@ -569,7 +581,6 @@
                     business: [],
                     price: '',
                     rating: [],
-                    languages: [],
                     sort_by: '',
                     instructors: [],
                 },
@@ -579,6 +590,8 @@
                     service_type_ids: [],
                     max_price: '',
                     min_price: '',
+                    amenity_ids: [],
+                    languages: [],
 
                     category_ids: [],
                     course_type: '',
@@ -587,7 +600,6 @@
                     business: [],
                     price: '',
                     rating: [],
-                    languages: [],
                     sort_by: '',
                     instructors: [],
                 },

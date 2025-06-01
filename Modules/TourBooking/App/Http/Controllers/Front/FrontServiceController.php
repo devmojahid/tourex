@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\TourBooking\App\Http\Controllers\Front;
 
+use App\Enums\Language;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Modules\TourBooking\App\Models\Amenity;
 use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Review;
 use Modules\TourBooking\App\Models\Service;
@@ -177,7 +179,10 @@ final class FrontServiceController extends Controller
     {
         $serviceTypes = $this->serviceTypeRepository->getActiveNameId();
 
-        return view('tourbooking::front.services.services', compact('serviceTypes'));
+        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
+        $languages = Language::cases();
+
+        return view('tourbooking::front.services.services', compact('serviceTypes', 'amenities', 'languages'));
     }
 
     /**
@@ -205,6 +210,20 @@ final class FrontServiceController extends Controller
             })
             ->when($request->filled('min_price'), function ($query) use ($request) {
                 return $query->where('price_per_person', '>=', $request->min_price);
+            })
+            ->when($request->filled('amenity_ids') && is_array($request->amenity_ids), function ($query) use ($request) {
+                $query->where(function ($q) use ($request) {
+                    foreach ($request->amenity_ids as $amenityId) {
+                        $q->orWhereJsonContains('amenities', $amenityId);
+                    }
+                });
+            })
+            ->when($request->filled('languages') && is_array($request->languages), function ($query) use ($request) {
+                $query->where(function ($q) use ($request) {
+                    foreach ($request->languages as $language) {
+                        $q->orWhereJsonContains('languages', $language);
+                    }
+                });
             })
             ->latest()
             ->paginate(12);
