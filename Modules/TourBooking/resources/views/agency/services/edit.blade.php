@@ -554,37 +554,12 @@
                                                             class="crancy__item-label">{{ __('translate.Amenities') }}</label>
                                                         <select class="crancy__item-input select2" name="amenities[]"
                                                             multiple>
-                                                            @php $amenities = old('amenities', json_decode($translation->amenities ?? $service->amenities ?? '[]')); @endphp
-                                                            <option value="Free WiFi"
-                                                                {{ in_array('Free WiFi', $amenities ?? []) ? 'selected' : '' }}>
-                                                                Free WiFi</option>
-                                                            <option value="Air Conditioning"
-                                                                {{ in_array('Air Conditioning', $amenities ?? []) ? 'selected' : '' }}>
-                                                                Air Conditioning</option>
-                                                            <option value="Parking"
-                                                                {{ in_array('Parking', $amenities ?? []) ? 'selected' : '' }}>
-                                                                Parking</option>
-                                                            <option value="Restaurant"
-                                                                {{ in_array('Restaurant', $amenities ?? []) ? 'selected' : '' }}>
-                                                                Restaurant</option>
-                                                            <option value="Bar"
-                                                                {{ in_array('Bar', $amenities ?? []) ? 'selected' : '' }}>
-                                                                Bar</option>
-                                                            <option value="Swimming Pool"
-                                                                {{ in_array('Swimming Pool', $amenities ?? []) ? 'selected' : '' }}>
-                                                                Swimming Pool</option>
-                                                            <option value="Spa"
-                                                                {{ in_array('Spa', $amenities ?? []) ? 'selected' : '' }}>
-                                                                Spa</option>
-                                                            <option value="Fitness Center"
-                                                                {{ in_array('Fitness Center', $amenities ?? []) ? 'selected' : '' }}>
-                                                                Fitness Center</option>
-                                                            <option value="Family Friendly"
-                                                                {{ in_array('Family Friendly', $amenities ?? []) ? 'selected' : '' }}>
-                                                                Family Friendly</option>
-                                                            <option value="Pet Friendly"
-                                                                {{ in_array('Pet Friendly', $amenities ?? []) ? 'selected' : '' }}>
-                                                                Pet Friendly</option>
+                                                            @foreach ($amenities as $amenity)
+                                                                <option value="{{ $amenity->translation->id }}"
+                                                                    @selected($amenity->translation->id == in_array($amenity->translation->id, $translation->amenities ?? []))>
+                                                                    {{ $amenity->translation->name }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>

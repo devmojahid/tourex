@@ -1515,4 +1515,7 @@ return array(
     "Amenity List" => "Amenity List",
     "Edit Amenity" => "Edit Amenity",
     "Update Amenity" => "Update Amenity",
+    "Manage service images and videos in the Media Gallery" => "Manage service images and videos in the Media Gallery",
+  'After creating the service, you can upload images and videos from the Media Gallery section.' => 'After creating the service, you can upload images and videos from the Media Gallery section.',
+  'Manage service images and videos in the' => 'Manage service images and videos in the',
 );

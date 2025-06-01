@@ -1062,5 +1062,6 @@
   'Enter your credentials to access your account' => 'Enter your credentials to access your account',
   'Register Now!' => 'Register Now!',
   'You can signup with you social account below' => 'You can signup with you social account below',
+  'After creating the service, you can upload images and videos from the Media Gallery section.' => 'After creating the service, you can upload images and videos from the Media Gallery section.',
 );
  ?>

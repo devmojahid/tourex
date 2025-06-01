@@ -10,6 +10,7 @@
 
 @push('style_section')
     <link rel="stylesheet" href="{{ asset('global/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         /* Currency Input Field Styling */
         .crancy__item-form--currency {
@@ -390,7 +391,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Check-in Time') }}</label>
-                                                        <input class="crancy__item-input" type="text"
+                                                        <input class="crancy__item-input timepicker" type="text"
                                                             name="check_in_time" value="{{ old('check_in_time') }}"
                                                             placeholder="e.g. 14:00">
                                                         @error('check_in_time')
@@ -403,7 +404,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Check-out Time') }}</label>
-                                                        <input class="crancy__item-input" type="text"
+                                                        <input class="crancy__item-input timepicker" type="text"
                                                             name="check_out_time" value="{{ old('check_out_time') }}"
                                                             placeholder="e.g. 10:00">
                                                         @error('check_out_time')
@@ -481,36 +482,10 @@
                                                             class="crancy__item-label">{{ __('translate.Amenities') }}</label>
                                                         <select class="crancy__item-input select2" name="amenities[]"
                                                             multiple>
-                                                            <option value="Free WiFi"
-                                                                {{ old('amenities') && in_array('Free WiFi', old('amenities')) ? 'selected' : '' }}>
-                                                                Free WiFi</option>
-                                                            <option value="Air Conditioning"
-                                                                {{ old('amenities') && in_array('Air Conditioning', old('amenities')) ? 'selected' : '' }}>
-                                                                Air Conditioning</option>
-                                                            <option value="Parking"
-                                                                {{ old('amenities') && in_array('Parking', old('amenities')) ? 'selected' : '' }}>
-                                                                Parking</option>
-                                                            <option value="Restaurant"
-                                                                {{ old('amenities') && in_array('Restaurant', old('amenities')) ? 'selected' : '' }}>
-                                                                Restaurant</option>
-                                                            <option value="Bar"
-                                                                {{ old('amenities') && in_array('Bar', old('amenities')) ? 'selected' : '' }}>
-                                                                Bar</option>
-                                                            <option value="Swimming Pool"
-                                                                {{ old('amenities') && in_array('Swimming Pool', old('amenities')) ? 'selected' : '' }}>
-                                                                Swimming Pool</option>
-                                                            <option value="Spa"
-                                                                {{ old('amenities') && in_array('Spa', old('amenities')) ? 'selected' : '' }}>
-                                                                Spa</option>
-                                                            <option value="Fitness Center"
-                                                                {{ old('amenities') && in_array('Fitness Center', old('amenities')) ? 'selected' : '' }}>
-                                                                Fitness Center</option>
-                                                            <option value="Family Friendly"
-                                                                {{ old('amenities') && in_array('Family Friendly', old('amenities')) ? 'selected' : '' }}>
-                                                                Family Friendly</option>
-                                                            <option value="Pet Friendly"
-                                                                {{ old('amenities') && in_array('Pet Friendly', old('amenities')) ? 'selected' : '' }}>
-                                                                Pet Friendly</option>
+                                                            @foreach ($amenities as $key => $amenity)
+                                                                <option value="{{ $amenity->translation->id }}">
+                                                                    {{ $amenity->translation->name }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -741,6 +716,7 @@
 @push('js_section')
     <script src="{{ asset('global/select2/select2.min.js') }}"></script>
     <script src="{{ asset('global/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
         (function($) {
@@ -755,6 +731,14 @@
                 $('.select2').select2({
                     tags: true,
                     tokenSeparators: [',', ' ']
+                });
+
+                // Initialize timepicker
+                $(".timepicker").flatpickr({
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                    time_24hr: true
                 });
 
                 tinymce.init({
