@@ -1,6 +1,6 @@
 @if ($allServices->count() > 0)
     <div class="tg-listing-grid-item">
-        <div class="row list-card">
+        <div @class(['row list-card', 'list-card-open' => $isListView == 'true'])>
             @foreach ($allServices as $key => $service)
                 <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
                     <div class="tg-listing-card-item tg-listing-4-card-item mb-25">

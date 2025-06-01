@@ -191,7 +191,7 @@ final class FrontServiceController extends Controller
     public function loadServicesAjax(Request $request)
     {
 
-        // dd($request->all());
+        $isListView = $request->isListView;
 
         $allServices = Service::select('id', 'price_per_person', 'slug', 'location')
             ->where('status', true)
@@ -225,12 +225,43 @@ final class FrontServiceController extends Controller
                     }
                 });
             })
-            ->latest()
+            ->when($request->filled('sort_by'), function ($query) use ($request) {
+                switch ($request->sort_by) {
+                    case 'price_low':
+                        $query->orderBy('price_per_person', 'asc');
+                        break;
+                    case 'price_high':
+                        $query->orderBy('price_per_person', 'desc');
+                        break;
+                    case 'trending':
+                        $query->orderBy('is_featured', 'desc');
+                        break;
+                    case 'popular':
+                        $query->orderBy('is_popular', 'desc');
+                        break;
+                    case 'latest':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    case 'oldest':
+                        $query->orderBy('created_at', 'asc');
+                        break;
+                    case 'location_asc':
+                        $query->orderBy('location', 'asc');
+                        break;
+                    case 'location_desc':
+                        $query->orderBy('location', 'desc');
+                        break;
+                    default:
+                        $query->orderBy('created_at', 'desc');
+                }
+            }, function ($query) {
+                $query->orderBy('created_at', 'desc');
+            })
             ->paginate(12);
 
-        // dd($allServices);
+        // dd($isListView);
 
-        $view = view('tourbooking::front.services.services-item', compact('allServices'))->render();
+        $view = view('tourbooking::front.services.services-item', compact('allServices', 'isListView'))->render();
 
         return response()->json(
             [

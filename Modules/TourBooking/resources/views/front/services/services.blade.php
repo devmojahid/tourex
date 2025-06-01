@@ -437,7 +437,8 @@
                                         <div class="tg-filter-list">
                                             <ul>
                                                 @foreach ($languages as $key => $language)
-                                                    <li x-show="showMoreLanguages || {{ $key }} < 4" x-transition>
+                                                    <li x-show="showMoreLanguages || {{ $key }} < 4"
+                                                        x-transition>
                                                         <div class="checkbox d-flex">
                                                             <input value="{{ $language?->name }}"
                                                                 x-model="filters.languages" class="tg-checkbox"
@@ -492,18 +493,22 @@
                                                     </a>
                                                 </div>
                                                 <div class="tg-listing-select-price ml-10">
-                                                    <select class="select">
-                                                        <option>Price Low</option>
-                                                        <option>Price High</option>
-                                                        <option>Default</option>
-                                                        <option>Latest</option>
-                                                        <option>Trending</option>
+                                                    <select id="sortSelect" class="select" name="sort_by">
+                                                        <option value="default">Default</option>
+                                                        <option value="latest">Latest</option>
+                                                        <option value="oldest">Oldest</option>
+                                                        <option value="price_low">Price Low</option>
+                                                        <option value="price_high">Price High</option>
+                                                        <option value="trending">Trending</option>
+                                                        <option value="popular">Popular</option>
+                                                        <option value="location_asc">Location A-Z</option>
+                                                        <option value="location_desc">Location Z-A</option>
                                                     </select>
                                                 </div>
                                                 <div class="d-none d-sm-block">
                                                     <div class="tg-listing-box-view ml-10 d-flex">
                                                         <div class="list-switch-item">
-                                                            <button class="grid-view active">
+                                                            <button @click="isListView = false" class="grid-view active">
                                                                 <svg width="20" height="20" viewBox="0 0 20 20"
                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M8 1H1V8H8V1Z" stroke="currentColor"
@@ -522,7 +527,7 @@
                                                             </button>
                                                         </div>
                                                         <div class="list-switch-item ml-5">
-                                                            <button class="list-view">
+                                                            <button @click="isListView = true" class="list-view">
                                                                 <svg width="20" height="14" viewBox="0 0 20 14"
                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path
@@ -565,6 +570,7 @@
                 page: 1,
                 instructorName: '',
                 instructorAccounts: [],
+                isListView: false,
                 filters: {
 
                     search: `{{ request('search', '') }}`,
@@ -572,7 +578,8 @@
                     max_price: `{{ request('max_price', '') }}`,
                     min_price: `{{ request('min_price', '') }}`,
                     amenity_ids: {!! json_encode(request('amenity_ids', [])) !!},
-                    languages: [],
+                    languages: {!! json_encode(request('languages', [])) !!},
+                    sort_by: `{{ request('sort_by', '') }}`,
 
                     category_ids: `{!! request('category_ids') !!}`,
                     course_type: ``,
@@ -581,7 +588,6 @@
                     business: [],
                     price: '',
                     rating: [],
-                    sort_by: '',
                     instructors: [],
                 },
                 defaultFilters: {
@@ -592,6 +598,7 @@
                     min_price: '',
                     amenity_ids: [],
                     languages: [],
+                    sort_by: '',
 
                     category_ids: [],
                     course_type: '',
@@ -600,7 +607,6 @@
                     business: [],
                     price: '',
                     rating: [],
-                    sort_by: '',
                     instructors: [],
                 },
                 get isFilterChanged() {
@@ -661,40 +667,18 @@
                 resetFilters() {
                     this.filters = JSON.parse(JSON.stringify(this.defaultFilters));
 
-                    // Reset slider range
-                    $(".satt-slider-range-bar").slider("values", [0, this.filters.max_price]);
-                    $(".amount").val("৳" + 0 + " - ৳" + this.filters.max_price);
-
-                    // Manually trigger slidechange event to update filters
-                    $(".satt-slider-range-bar").trigger("slidechange", {
-                        values: [0, this.filters.max_price]
+                    // Update select field (Nice Select)
+                    this.$nextTick(() => {
+                        $('#sortSelect').val('default').niceSelect('update');
                     });
                 },
                 init() {
-                    console.log('init');
-
                     this.$watch('filters', (value, oldValue) => {
-
-                        console.log('filters');
-
                         this.page = 1;
                         this.fetchServices();
                         this.updateURL(this.filters);
                     });
                     this.initializeAll();
-                },
-                jumpToPage: function() {
-                    const pageNo = Number($('input[name="page_no"]').val());
-                    const lastPage = Number($('input[name="last_page"]').val());
-
-                    if (pageNo > 0 && pageNo < lastPage) {
-                        this.page = pageNo;
-                        this.fetchData();
-                    } else {
-                        toastr.error(
-                            `Invalid.Page number should be greater than 0 and less than ${lastPage}.`
-                        )
-                    }
                 },
                 fetchServices() {
                     that = this;
@@ -703,7 +687,8 @@
                         method: 'GET',
                         data: {
                             ...this.filters,
-                            page: this.page
+                            page: this.page,
+                            isListView: this.isListView
                         },
                         beforeSend: function() {
                             that.loading = true;
@@ -737,12 +722,13 @@
                         }, 500);
                     });
 
-                    $(document).ready(() => {
-                        // Listen to slider changes
-                        $(".satt-slider-range-bar").on("slidechange", (event, ui) => {
-                            this.filters.min_price = ui.values[0];
-                            this.filters.max_price = ui.values[1];
+                    this.$nextTick(() => {
+                        $('#sortSelect').niceSelect();
+                        $('#sortSelect').on('change', (e) => {
+                            this.filters.sort_by = e.target.value;
                         });
+                        $('#sortSelect').val(this.filters.sort_by || 'default').niceSelect('update');
+
                     });
 
                     this.fetchServices();
@@ -757,6 +743,10 @@
         .item_loading {
             top: 20px;
             position: relative;
+        }
+
+        .list-card.list-card-open .tg-grid-full .tg-listing-card-thumb {
+            max-width: 288px;
         }
     </style>
 @endpush
