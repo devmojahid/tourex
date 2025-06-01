@@ -572,7 +572,6 @@
                 instructorAccounts: [],
                 isListView: false,
                 filters: {
-
                     search: `{{ request('search', '') }}`,
                     service_type_ids: {!! json_encode(request('service_type_ids', [])) !!},
                     max_price: `{{ request('max_price', '') }}`,
@@ -580,18 +579,8 @@
                     amenity_ids: {!! json_encode(request('amenity_ids', [])) !!},
                     languages: {!! json_encode(request('languages', [])) !!},
                     sort_by: `{{ request('sort_by', '') }}`,
-
-                    category_ids: `{!! request('category_ids') !!}`,
-                    course_type: ``,
-                    subject_ids: [],
-                    instructor: [],
-                    business: [],
-                    price: '',
-                    rating: [],
-                    instructors: [],
                 },
                 defaultFilters: {
-
                     search: '',
                     service_type_ids: [],
                     max_price: '',
@@ -599,15 +588,6 @@
                     amenity_ids: [],
                     languages: [],
                     sort_by: '',
-
-                    category_ids: [],
-                    course_type: '',
-                    subject_ids: [],
-                    instructor: [],
-                    business: [],
-                    price: '',
-                    rating: [],
-                    instructors: [],
                 },
                 get isFilterChanged() {
                     return JSON.stringify(this.filters) !== JSON.stringify(this.defaultFilters);
