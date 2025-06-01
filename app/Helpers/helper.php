@@ -318,3 +318,11 @@ function getTranslatedSlides(?object $content, string $key): array
     return $defaultValues;
 }
 
+function customPaginationCount($items)
+{
+    $from = ($items->currentPage() - 1) * $items->perPage() + 1;
+    $to = min($from + $items->count() - 1, $items->total());
+    $total = $items->total();
+
+    return "Showing {$from} - {$to} of {$total} entries";
+}

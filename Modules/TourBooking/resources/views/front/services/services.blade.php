@@ -475,7 +475,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-lg-5 col-md-5 mb-15">
                                             <div class="tg-listing-box-number-found">
-                                                <span>3,269 properties in Europe</span>
+                                                <span class="custom_pagination_count"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-7 col-md-7 mb-15">
@@ -677,11 +677,8 @@
                             );
                         },
                         success: function(response) {
-                            console.log("response", response);
-
                             $('#filter_data').html(response.view);
-                            $('.get_count_result').html(response.get_count_result);
-                            $('.course-subject-list').html(response.courseSubjectView);
+                            $('.custom_pagination_count').html(response.customPaginationCount);
                         },
                         error: function(xhr, status, error) {
                             console.error(error);

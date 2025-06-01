@@ -181,8 +181,9 @@ final class FrontServiceController extends Controller
 
         $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
         $languages = Language::cases();
+        $destinations = Destination::where('status', true)->get();
 
-        return view('tourbooking::front.services.services', compact('serviceTypes', 'amenities', 'languages'));
+        return view('tourbooking::front.services.services', compact('serviceTypes', 'amenities', 'languages', 'destinations'));
     }
 
     /**
@@ -259,15 +260,16 @@ final class FrontServiceController extends Controller
             })
             ->paginate(12);
 
-        // dd($isListView);
-
         $view = view('tourbooking::front.services.services-item', compact('allServices', 'isListView'))->render();
+
+        $customPaginationCount = customPaginationCount($allServices);
 
         return response()->json(
             [
                 'success' => true,
                 'message' => 'Services loaded successfully',
-                'view' => $view
+                'view' => $view,
+                'customPaginationCount' => $customPaginationCount,
             ]
         );
     }
