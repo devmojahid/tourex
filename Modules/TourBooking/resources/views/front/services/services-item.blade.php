@@ -63,17 +63,8 @@
                 </div>
             @endforeach
         </div>
-        <div class="tg-pagenation-wrap text-center mt-50 mb-30">
-            <nav>
-                <ul>
-                    <li><a class="p-btn mr-25" href="#">Previous Page</a></li>
-                    <li><a class="active" href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a class="p-btn ml-25" href="#">Next Page</a></li>
-                </ul>
-            </nav>
+        <div class="text-center mt-50 mb-30">
+            @include('components.front.custom-pagination', ['items' => $allServices])
         </div>
     </div>
 @else
