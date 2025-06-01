@@ -192,6 +192,8 @@ final class FrontServiceController extends Controller
     public function loadServicesAjax(Request $request)
     {
 
+        // dd($request->all());
+
         $isListView = $request->isListView;
 
         $allServices = Service::select('id', 'price_per_person', 'slug', 'location')
@@ -225,6 +227,15 @@ final class FrontServiceController extends Controller
                         $q->orWhereJsonContains('languages', $language);
                     }
                 });
+            })
+            ->when($request->filled('destination_id'), function ($query) use ($request) {
+                return $query->where('destination_id', $request->destination_id);
+            })
+            ->when($request->filled('checkIn'), function ($query) use ($request) {
+                return $query->whereTime('check_in_time', $request->checkIn);
+            })
+            ->when($request->filled('checkOut'), function ($query) use ($request) {
+                return $query->whereTime('check_out_time', $request->checkOut);
             })
             ->when($request->filled('sort_by'), function ($query) use ($request) {
                 switch ($request->sort_by) {

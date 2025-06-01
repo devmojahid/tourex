@@ -15,12 +15,18 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="tg-booking-form-item pt-20 pb-10">
-                                <form action="#">
+                                <div>
                                     <div class="tg-booking-form-input-group d-flex align-items-end justify-content-between">
                                         <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
                                             <span class="tg-booking-form-title mb-5">Destinations:</span>
                                             <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
-                                                <span class="tg-booking-title-value">Where are you going . . .</span>
+                                                <span x-show="bookingForm.destination" x-text="bookingForm.destination"
+                                                    class="tg-booking-title-value">
+                                                    Where are you going . . .
+                                                </span>
+                                                <span x-show="!bookingForm.destination" class="tg-booking-title-value">
+                                                    Where are you going . . .
+                                                </span>
                                                 <span class="location">
                                                     <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -37,34 +43,21 @@
                                             </div>
                                             <div class="tg-booking-form-location-list tg-booking-quantity-active">
                                                 <ul class="scrool-bar scrool-height pr-5">
-                                                    <li>
-                                                        <i class="fa-regular fa-location-dot"></i>
-                                                        <span>Chicago</span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa-regular fa-location-dot"></i>
-                                                        <span>Los Angeles</span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa-regular fa-location-dot"></i>
-                                                        <span>London</span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa-regular fa-location-dot"></i>
-                                                        <span>Paris</span>
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa-regular fa-location-dot"></i>
-                                                        <span>Dubai</span>
-                                                    </li>
+                                                    @foreach ($destinations as $key => $destination)
+                                                        <li
+                                                            @click="selectDestination(`{{ $destination->id }}`, `{{ $destination->name }}`)">
+                                                            <i class="fa-regular fa-location-dot"></i>
+                                                            <span>{{ $destination->name }}</span>
+                                                        </li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                             <span class="tg-booking-form-title mb-5">Check in:</span>
                                             <div class="tg-booking-add-input-date p-relative">
-                                                <input class="input" name="datetime-local" type="text"
-                                                    placeholder="dd/mm/yyyy">
+                                                <input x-model="bookingForm.checkIn" class="input timepicker"
+                                                    name="check_in" type="text" placeholder="Check in">
                                                 <span>
                                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -79,8 +72,8 @@
                                         <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                             <span class="tg-booking-form-title mb-5">Check Out:</span>
                                             <div class="tg-booking-add-input-date p-relative">
-                                                <input class="input" name="datetime-local" type="text"
-                                                    placeholder="dd/mm/yyyy">
+                                                <input x-model="bookingForm.checkOut" class="input timepicker"
+                                                    name="check_out" type="text" placeholder="Check Out">
                                                 <span>
                                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -118,7 +111,7 @@
                                                     <li>
                                                         <span class="mr-20">Rooms</span>
                                                         <div class="tg-booking-quantity-item">
-                                                            <span class="increment">
+                                                            <span @click="incrementRooms" class="increment">
                                                                 <svg width="15" height="14" viewBox="0 0 15 14"
                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M1.21924 7H13.3836" stroke="currentColor"
@@ -129,9 +122,9 @@
                                                                         stroke-linejoin="round" />
                                                                 </svg>
                                                             </span>
-                                                            <input class="tg-quantity-input" type="text"
-                                                                value="1">
-                                                            <span class="decrement">
+                                                            <input x-bind:value="bookingForm.rooms"
+                                                                class="tg-quantity-input" type="text">
+                                                            <span @click="decrementRooms" class="decrement">
                                                                 <svg width="14" height="2" viewBox="0 0 14 2"
                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M1 1H13" stroke="currentColor"
@@ -144,7 +137,7 @@
                                                     <li>
                                                         <span class="mr-20">Adults</span>
                                                         <div class="tg-booking-quantity-item">
-                                                            <span class="increment">
+                                                            <span @click="incrementAdults" class="increment">
                                                                 <svg width="15" height="14" viewBox="0 0 15 14"
                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M1.21924 7H13.3836" stroke="currentColor"
@@ -155,9 +148,9 @@
                                                                         stroke-linejoin="round" />
                                                                 </svg>
                                                             </span>
-                                                            <input class="tg-quantity-input" type="text"
-                                                                value="1">
-                                                            <span class="decrement">
+                                                            <input x-bind:value="bookingForm.adults"
+                                                                class="tg-quantity-input" type="text">
+                                                            <span @click="decrementAdults" class="decrement">
                                                                 <svg width="14" height="2" viewBox="0 0 14 2"
                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M1 1H13" stroke="currentColor"
@@ -170,7 +163,7 @@
                                                     <li>
                                                         <span class="mr-20">Children</span>
                                                         <div class="tg-booking-quantity-item">
-                                                            <span class="increment">
+                                                            <span @click="incrementChildren" class="increment">
                                                                 <svg width="15" height="14" viewBox="0 0 15 14"
                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M1.21924 7H13.3836" stroke="currentColor"
@@ -181,9 +174,9 @@
                                                                         stroke-linejoin="round" />
                                                                 </svg>
                                                             </span>
-                                                            <input class="tg-quantity-input" type="text"
-                                                                value="0">
-                                                            <span class="decrement">
+                                                            <input x-bind:value="bookingForm.children"
+                                                                class="tg-quantity-input" type="text">
+                                                            <span @click="decrementChildren" class="decrement">
                                                                 <svg width="14" height="2" viewBox="0 0 14 2"
                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M1 1H13" stroke="currentColor"
@@ -194,13 +187,11 @@
                                                         </div>
                                                     </li>
                                                 </ul>
-                                                <div class="tg-booking-form-search-btn mt-15 ">
-                                                    <button class="bk-search-button w-100" type="submit">Ok</button>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="tg-booking-form-search-btn mb-15">
-                                            <button class="bk-search-button" type="submit">Search
+                                            <button @click="searchServices" class="bk-search-button"
+                                                type="button">Search
                                                 <span class="ml-5">
                                                     <svg width="14" height="14" viewBox="0 0 14 14"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -221,7 +212,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -238,8 +229,8 @@
                                 <div class="tg-filter-item">
                                     <div class="d-flex justify-content-between align-items-center mb-10">
                                         <h4 class="tg-filter-title mb-0">Search</h4>
-                                        <a class="tg-filter-reset" x-show="isFilterChanged" @click="resetFilters()"
-                                            href="javascript:void(0);">Reset All</a>
+                                        <a class="tg-filter-reset" x-show="isFilterChanged || isBookingFilterChanged"
+                                            @click="resetFilters()" href="javascript:void(0);">Reset All</a>
                                     </div>
                                     <div class="tg-filter-search-form">
                                         <div class="p-relative">
@@ -562,6 +553,22 @@
 
 
 @push('js_section')
+    <script>
+        (function($) {
+            "use strict"
+            $(document).ready(function() {
+
+                // Initialize timepicker
+                $(".timepicker").flatpickr({
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                    time_24hr: true
+                });
+            });
+        })(jQuery);
+    </script>
+
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         document.addEventListener('alpine:init', () => {
@@ -571,6 +578,53 @@
                 instructorName: '',
                 instructorAccounts: [],
                 isListView: false,
+                // Booking form data
+                defaultBookingForm: {
+                    destination_id: '',
+                    destination: 'Where are you going . . .',
+                    checkIn: '',
+                    checkOut: '',
+                    rooms: 1,
+                    adults: 1,
+                    children: 0
+                },
+                bookingForm: {
+                    destination_id: `{{ request('destination_id', '') }}`,
+                    destination: `{{ request('destination', 'Where are you going . . .') }}`,
+                    checkIn: `{{ request('checkIn', '') }}`,
+                    checkOut: `{{ request('checkOut', '') }}`,
+                    rooms: `{{ request('rooms', 1) }}`,
+                    adults: `{{ request('adults', 1) }}`,
+                    children: `{{ request('children', 0) }}`,
+                },
+                incrementRooms() {
+                    this.bookingForm.rooms++;
+                },
+                decrementRooms() {
+                    if (this.bookingForm.rooms > 1) {
+                        this.bookingForm.rooms--;
+                    }
+                },
+                incrementAdults() {
+                    this.bookingForm.adults++;
+                },
+                decrementAdults() {
+                    if (this.bookingForm.adults > 1) {
+                        this.bookingForm.adults--;
+                    }
+                },
+                incrementChildren() {
+                    this.bookingForm.children++;
+                },
+                decrementChildren() {
+                    if (this.bookingForm.children > 1) {
+                        this.bookingForm.children--;
+                    }
+                },
+                selectDestination(destinationId, destinationName) {
+                    this.bookingForm.destination_id = destinationId;
+                    this.bookingForm.destination = destinationName;
+                },
                 filters: {
                     search: `{{ request('search', '') }}`,
                     service_type_ids: {!! json_encode(request('service_type_ids', [])) !!},
@@ -591,6 +645,10 @@
                 },
                 get isFilterChanged() {
                     return JSON.stringify(this.filters) !== JSON.stringify(this.defaultFilters);
+                },
+                get isBookingFilterChanged() {
+                    return JSON.stringify(this.bookingForm) !== JSON.stringify(this
+                        .defaultBookingForm);
                 },
                 updateURL(value) {
                     var currentURL = window.location.protocol + "//" + window.location.host + window
@@ -646,8 +704,16 @@
 
                 resetFilters() {
                     this.filters = JSON.parse(JSON.stringify(this.defaultFilters));
+                    this.bookingForm = JSON.parse(JSON.stringify({
+                        destination_id: '',
+                        destination: '',
+                        checkIn: '',
+                        checkOut: '',
+                        rooms: '',
+                        adults: '',
+                        children: ''
+                    }));
 
-                    // Update select field (Nice Select)
                     this.$nextTick(() => {
                         $('#sortSelect').val('default').niceSelect('update');
                     });
@@ -656,7 +722,10 @@
                     this.$watch('filters', (value, oldValue) => {
                         this.page = 1;
                         this.fetchServices();
-                        this.updateURL(this.filters);
+                        this.updateURL({
+                            ...this.bookingForm,
+                            ...this.filters
+                        });
                     });
                     this.initializeAll();
                 },
@@ -667,8 +736,9 @@
                         method: 'GET',
                         data: {
                             ...this.filters,
+                            ...this.bookingForm,
                             page: this.page,
-                            isListView: this.isListView
+                            isListView: this.isListView,
                         },
                         beforeSend: function() {
                             that.loading = true;
@@ -678,7 +748,8 @@
                         },
                         success: function(response) {
                             $('#filter_data').html(response.view);
-                            $('.custom_pagination_count').html(response.customPaginationCount);
+                            $('.custom_pagination_count').html(response
+                                .customPaginationCount);
                         },
                         error: function(xhr, status, error) {
                             console.error(error);
@@ -686,6 +757,14 @@
                         complete: function() {
                             that.loading = false;
                         },
+                    });
+                },
+                searchServices() {
+                    this.page = 1;
+                    this.fetchServices();
+                    this.updateURL({
+                        ...this.bookingForm,
+                        ...this.filters
                     });
                 },
                 initializeAll() {
@@ -704,7 +783,8 @@
                         $('#sortSelect').on('change', (e) => {
                             this.filters.sort_by = e.target.value;
                         });
-                        $('#sortSelect').val(this.filters.sort_by || 'default').niceSelect('update');
+                        $('#sortSelect').val(this.filters.sort_by || 'default').niceSelect(
+                            'update');
 
                     });
 
