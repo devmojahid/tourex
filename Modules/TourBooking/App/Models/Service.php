@@ -310,4 +310,13 @@ final class Service extends Model
     {
         return $query->where('location', 'like', "%{$location}%");
     }
+
+    public function getPriceDisplayAttribute()
+    {
+        if ($this->discount_price) {
+            return '<del>' . currency($this->full_price) . '</del> ' . currency($this->discount_price);
+        }
+
+        return currency($this->full_price);
+    }
 }

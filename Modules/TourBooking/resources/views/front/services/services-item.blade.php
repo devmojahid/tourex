@@ -12,7 +12,7 @@
                                 <span class="tg-listing-item-price-discount shape"
                                     style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape-2.png') }}')">New</span>
 
-                                {{-- @dump($service) --}}
+
                                 @if ($service?->is_featured == 1)
                                     <span class="tg-listing-item-price-discount shape-3"
                                         style="background-image: url('{{ asset('frontend/assets/img/shape/featured.png') }}')">
@@ -31,8 +31,7 @@
                                     Offer</span>
                             </a>
                             <div class="tg-listing-2-price">
-                                <span class="new">${{ $service?->price_per_person }}</span>
-                                <span class="shift">/person</span>
+                                {!! $service->price_display !!}
                             </div>
                         </div>
                         <div class="tg-listing-card-content p-relative">
