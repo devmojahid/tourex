@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Modules\Course\App\Models\Course;
 use Modules\Ecommerce\Entities\Product;
+use Modules\TourBooking\App\Models\Service;
 use Modules\Wishlist\App\Models\Wishlist;
 
 class WishlistController extends Controller
@@ -48,24 +49,42 @@ class WishlistController extends Controller
     {
         $user = Auth::guard('web')->user();
 
-        $exist_item = Wishlist::where('user_id', $user->id)->where('item_id', $request->item_id)->first();
+        $itemId = $request->item_id;
+        $itemType = $request->item_type;
 
-        if (!$exist_item) {
+        // Resolve full class name based on type
+        if ($itemType === 'service') {
+            $modelClass = Service::class;
+        } else {
+            $modelClass = Product::class;
+        }
+
+        // Check if item already in wishlist
+        $existing = Wishlist::where('user_id', $user->id)
+            ->where('wishable_id', $itemId)
+            ->where('wishable_type', $modelClass)
+            ->first();
+
+        if (!$existing) {
+            // Add to wishlist
             $wishlist = new Wishlist();
-            $wishlist->item_id = $request->item_id;
             $wishlist->user_id = $user->id;
+            $wishlist->item_id = $itemId;
+            $wishlist->wishable_id = $itemId;
+            $wishlist->wishable_type = $modelClass;
             $wishlist->save();
 
             $notify_message = trans('translate.Item added to wishlist');
             return response()->json(['message' => $notify_message, 'type' => 'added']);
         } else {
-
-            $exist_item->delete();
+            // Remove from wishlist
+            $existing->delete();
 
             $notify_message = trans('translate.Item removed from wishlist');
-            return response()->json(['message' => $notify_message,  'type' => 'removed']);
+            return response()->json(['message' => $notify_message, 'type' => 'removed']);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

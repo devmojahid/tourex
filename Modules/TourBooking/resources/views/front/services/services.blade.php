@@ -793,7 +793,7 @@
     </script>
 @endpush
 
-@push('css_section')
+@push('style_section')
     <style>
         .item_loading {
             top: 20px;
@@ -802,6 +802,10 @@
 
         .list-card.list-card-open .tg-grid-full .tg-listing-card-thumb {
             max-width: 288px;
+        }
+
+        .tg-listing-item-wishlist.active svg {
+            color: var(--tg-theme-primary);
         }
     </style>
 @endpush
