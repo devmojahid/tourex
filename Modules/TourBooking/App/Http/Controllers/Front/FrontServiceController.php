@@ -201,6 +201,20 @@ final class FrontServiceController extends Controller
     }
 
     /**
+     * Display all services.
+     */
+    public function allServicesThree()
+    {
+        $serviceTypes = $this->serviceTypeRepository->getActiveNameId();
+
+        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
+        $languages = Language::cases();
+        $destinations = Destination::where('status', true)->get();
+
+        return view('tourbooking::front.services.services3', compact('serviceTypes', 'amenities', 'languages', 'destinations'));
+    }
+
+    /**
      * load all services.
      */
     public function loadServicesAjax(Request $request)
@@ -299,6 +313,8 @@ final class FrontServiceController extends Controller
 
         if ($style == 'style2') {
             $view = view('tourbooking::front.services.services-item2', compact('allServices', 'isListView'))->render();
+        } elseif ($style == 'style3') {
+            $view = view('tourbooking::front.services.services-item3', compact('allServices', 'isListView'))->render();
         } else {
             $view = view('tourbooking::front.services.services-item', compact('allServices', 'isListView'))->render();
         }
