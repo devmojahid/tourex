@@ -215,6 +215,20 @@ final class FrontServiceController extends Controller
     }
 
     /**
+     * Display all services.
+     */
+    public function allServicesFour()
+    {
+        $serviceTypes = $this->serviceTypeRepository->getActiveNameId();
+
+        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
+        $languages = Language::cases();
+        $destinations = Destination::where('status', true)->get();
+
+        return view('tourbooking::front.services.services4', compact('serviceTypes', 'amenities', 'languages', 'destinations'));
+    }
+
+    /**
      * load all services.
      */
     public function loadServicesAjax(Request $request)
@@ -223,10 +237,10 @@ final class FrontServiceController extends Controller
         $isListView = $request->isListView;
         $style = $request->style;
 
-        $allServices = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration')
+        $allServices = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration', 'group_size')
             ->withExists('myWishlist')
             ->where('status', true)
-            ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title'])
+            ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title,short_description'])
             ->when($request->filled('search'), function ($query) use ($request) {
                 $query->whereHas('translation', function ($q) use ($request) {
                     $q->where('title', 'like', "%{$request->search}%");
@@ -236,11 +250,14 @@ final class FrontServiceController extends Controller
             ->when($request->filled('service_type_ids') && is_array($request->service_type_ids), function ($query) use ($request) {
                 return $query->whereIn('service_type_id', $request->service_type_ids);
             })
+            ->when($request->filled('service_type_id'), function ($query) use ($request) {
+                return $query->where('service_type_id', $request->service_type_id);
+            })
             ->when($request->filled('max_price'), function ($query) use ($request) {
-                return $query->where('price_per_person', '<=', $request->max_price);
+                return $query->where('full_price', '<=', $request->max_price);
             })
             ->when($request->filled('min_price'), function ($query) use ($request) {
-                return $query->where('price_per_person', '>=', $request->min_price);
+                return $query->where('full_price', '>=', $request->min_price);
             })
             ->when($request->filled('amenity_ids') && is_array($request->amenity_ids), function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
@@ -248,6 +265,9 @@ final class FrontServiceController extends Controller
                         $q->orWhereJsonContains('amenities', $amenityId);
                     }
                 });
+            })
+            ->when($request->filled('amenity_id'), function ($query) use ($request) {
+                $query->whereJsonContains('amenities', $request->amenity_id);
             })
             ->when($request->filled('languages') && is_array($request->languages), function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
@@ -315,10 +335,11 @@ final class FrontServiceController extends Controller
             $view = view('tourbooking::front.services.services-item2', compact('allServices', 'isListView'))->render();
         } elseif ($style == 'style3') {
             $view = view('tourbooking::front.services.services-item3', compact('allServices', 'isListView'))->render();
+        } elseif ($style == 'style4') {
+            $view = view('tourbooking::front.services.services-item4', compact('allServices', 'isListView'))->render();
         } else {
             $view = view('tourbooking::front.services.services-item', compact('allServices', 'isListView'))->render();
         }
-
 
         $customPaginationCount = customPaginationCount($allServices);
 
