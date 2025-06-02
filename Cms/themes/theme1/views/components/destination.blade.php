@@ -1,6 +1,6 @@
 @php
     $theme1_destination = getContent('theme1_destination.content', true);
-    $destination_items = Modules\TourBooking\App\Models\Destination::where(['status' => 1, 'is_featured' => 1])->get();
+    $destination_items = Modules\TourBooking\App\Models\Destination::where(['status' => 1, 'is_featured' => 1])->limit(4)->get();
 @endphp
 
 <!-- tg-location-area-start -->
@@ -27,11 +27,11 @@
                     <div class="bg-white tg-round-25 p-relative z-index-1">
                         <div class="tg-location-wrap p-relative mb-30">
                             <div class="tg-location-thumb">
-                                <img class="w-100" src="assets/img/location/location.jpg" alt="location">
+                                <img class="w-100" src="{{ asset($destination_item->image) }}" alt="location">
                             </div>
                             <div class="tg-location-content text-center">
                                 <span class="tg-location-time">05 Tours</span>
-                                <h3 class="tg-location-title mb-0"><a href="map-listing.html">New york City</a></h3>
+                                <h3 class="tg-location-title mb-0"><a href="map-listing.html">{{ $destination_item->name }}</a></h3>
                             </div>
                             <div class="tg-location-border one"></div>
                             <div class="tg-location-border two"></div>
