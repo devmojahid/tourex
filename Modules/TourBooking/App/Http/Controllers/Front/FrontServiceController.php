@@ -250,7 +250,7 @@ final class FrontServiceController extends Controller
             ->when($request->filled('service_type_ids') && is_array($request->service_type_ids), function ($query) use ($request) {
                 return $query->whereIn('service_type_id', $request->service_type_ids);
             })
-            ->when($request->filled('service_type_id'), function ($query) use ($request) {
+            ->when($request->filled('service_type_id') && $request->service_type_id != 'Type', function ($query) use ($request) {
                 return $query->where('service_type_id', $request->service_type_id);
             })
             ->when($request->filled('max_price'), function ($query) use ($request) {
@@ -266,7 +266,7 @@ final class FrontServiceController extends Controller
                     }
                 });
             })
-            ->when($request->filled('amenity_id'), function ($query) use ($request) {
+            ->when($request->filled('amenity_id') && $request->amenity_id != 'Amenities', function ($query) use ($request) {
                 $query->whereJsonContains('amenities', $request->amenity_id);
             })
             ->when($request->filled('languages') && is_array($request->languages), function ($query) use ($request) {
