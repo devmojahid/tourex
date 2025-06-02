@@ -138,7 +138,7 @@
     </div>
     <div class="search-popup-overlay"></div>
     <!-- header-search-end -->
-    <header class="tg-header-height"> 
+    <header class="tg-header-height">
         <div class="tg-header__area">
             <div class="tg-header-top tg-header-top-space tg-primary-bg d-none d-lg-block">
                 <div class="container">
@@ -310,8 +310,8 @@
         @include('components.common_offcanvas')
 
     </header>
-    @yield('front-content')
 
+    @yield('front-content')
 
     <!-- footer-area-start -->
     <footer>
