@@ -197,6 +197,7 @@ final class FrontServiceController extends Controller
         $isListView = $request->isListView;
 
         $allServices = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new')
+            ->withExists('myWishlist')
             ->where('status', true)
             ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title'])
             ->when($request->filled('search'), function ($query) use ($request) {

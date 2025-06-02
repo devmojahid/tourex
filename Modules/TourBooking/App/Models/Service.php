@@ -330,4 +330,9 @@ final class Service extends Model
     {
         return $this->morphMany(Wishlist::class, 'wishable');
     }
+
+    public function myWishlist()
+    {
+        return $this->hasOne(Wishlist::class, 'wishable_id', 'id')->where('user_id', auth()->id());
+    }
 }
