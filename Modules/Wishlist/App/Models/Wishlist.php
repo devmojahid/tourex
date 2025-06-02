@@ -14,4 +14,9 @@ class Wishlist extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [];
+
+    public function wishable()
+    {
+        return $this->morphTo();
+    }
 }

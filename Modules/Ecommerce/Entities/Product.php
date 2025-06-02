@@ -89,6 +89,6 @@ class Product extends Model
 
     public function wishlists()
     {
-        return $this->hasMany(Wishlist::class);
+        return $this->morphMany(Wishlist::class, 'wishable');
     }
 }

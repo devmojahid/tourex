@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Modules\Wishlist\App\Models\Wishlist;
 
 final class Service extends Model
 {
@@ -323,5 +324,10 @@ final class Service extends Model
         }
 
         return currency($this->full_price);
+    }
+
+    public function wishlists()
+    {
+        return $this->morphMany(Wishlist::class, 'wishable');
     }
 }
