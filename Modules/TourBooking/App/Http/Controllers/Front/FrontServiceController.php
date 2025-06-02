@@ -187,16 +187,29 @@ final class FrontServiceController extends Controller
     }
 
     /**
+     * Display all services.
+     */
+    public function allServicesTwo()
+    {
+        $serviceTypes = $this->serviceTypeRepository->getActiveNameId();
+
+        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
+        $languages = Language::cases();
+        $destinations = Destination::where('status', true)->get();
+
+        return view('tourbooking::front.services.services2', compact('serviceTypes', 'amenities', 'languages', 'destinations'));
+    }
+
+    /**
      * load all services.
      */
     public function loadServicesAjax(Request $request)
     {
 
-        // dd($request->all());
-
         $isListView = $request->isListView;
+        $style = $request->style;
 
-        $allServices = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new')
+        $allServices = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration')
             ->withExists('myWishlist')
             ->where('status', true)
             ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title'])
@@ -282,9 +295,14 @@ final class FrontServiceController extends Controller
             }, function ($query) {
                 $query->orderBy('created_at', 'desc');
             })
-            ->paginate(12);
+            ->paginate(4);
 
-        $view = view('tourbooking::front.services.services-item', compact('allServices', 'isListView'))->render();
+        if ($style == 'style2') {
+            $view = view('tourbooking::front.services.services-item2', compact('allServices', 'isListView'))->render();
+        } else {
+            $view = view('tourbooking::front.services.services-item', compact('allServices', 'isListView'))->render();
+        }
+
 
         $customPaginationCount = customPaginationCount($allServices);
 

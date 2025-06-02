@@ -233,34 +233,37 @@
                         <div class="col-xl-3 col-lg-4 order-last order-lg-first">
                             <div class="tg-filter-sidebar mb-40 top-sticky">
                                 <div class="tg-filter-item">
-                                    <div class="d-flex justify-content-between align-items-center mb-10">
-                                        <h4 class="tg-filter-title mb-0">Search</h4>
-                                        <a class="tg-filter-reset" x-show="isFilterChanged || isBookingFilterChanged"
-                                            @click="resetFilters()" href="javascript:void(0);">Reset All</a>
-                                    </div>
-                                    <div class="tg-filter-search-form">
-                                        <div class="p-relative">
-                                            <input class="input" x-model.debounce="filters.search" type="text"
-                                                placeholder="Search Hotel">
-                                            <button class="buttons" type="submit">
-                                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <g clip-path="url(#clip0_397_1228)">
-                                                        <path
-                                                            d="M13.2218 13.2222L10.5188 10.5192M12.1959 6.48705C12.1959 9.6402 9.63977 12.1963 6.48662 12.1963C3.33348 12.1963 0.777344 9.6402 0.777344 6.48705C0.777344 3.3339 3.33348 0.777771 6.48662 0.777771C9.63977 0.777771 12.1959 3.3339 12.1959 6.48705Z"
-                                                            stroke="#353844" stroke-width="1.575" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_397_1228">
-                                                            <rect width="14" height="14" fill="white" />
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg>
-                                            </button>
+
+                                    <div>
+                                        <div class="d-flex justify-content-between align-items-center mb-10">
+                                            <h4 class="tg-filter-title mb-0">Search</h4>
+                                            <a class="tg-filter-reset" x-show="isFilterChanged || isBookingFilterChanged"
+                                                @click="resetFilters()" href="javascript:void(0);">Reset All</a>
                                         </div>
+                                        <div class="tg-filter-search-form">
+                                            <div class="p-relative">
+                                                <input class="input" x-model.debounce="filters.search" type="text"
+                                                    placeholder="Search Hotel">
+                                                <button class="buttons" type="submit">
+                                                    <svg width="14" height="14" viewBox="0 0 14 14"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g clip-path="url(#clip0_397_1228)">
+                                                            <path
+                                                                d="M13.2218 13.2222L10.5188 10.5192M12.1959 6.48705C12.1959 9.6402 9.63977 12.1963 6.48662 12.1963C3.33348 12.1963 0.777344 9.6402 0.777344 6.48705C0.777344 3.3339 3.33348 0.777771 6.48662 0.777771C9.63977 0.777771 12.1959 3.3339 12.1959 6.48705Z"
+                                                                stroke="#353844" stroke-width="1.575"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                        </g>
+                                                        <defs>
+                                                            <clipPath id="clip0_397_1228">
+                                                                <rect width="14" height="14" fill="white" />
+                                                            </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <span class="tg-filter-border mt-30 mb-25"></span>
                                     </div>
-                                    <span class="tg-filter-border mt-30 mb-25"></span>
 
                                     <div x-data="{ showPropertyType: false }">
                                         <h4 class="tg-filter-title mb-15">Property Type</h4>
@@ -349,8 +352,6 @@
 
                                         <span class="tg-filter-border mt-25 mb-25"></span>
                                     </div>
-
-
 
                                     <h4 class="tg-filter-title mb-15">Top Reviews</h4>
                                     <div class="tg-filter-list">
@@ -480,7 +481,7 @@
                                                 class="tg-listing-box-view-type d-flex justify-content-end align-items-center">
                                                 <div class="tg-listing-sort">
                                                     <span>Sort by:</span>
-                                                    <a href="#">
+                                                    <a href="javascript:void(0);">
                                                         <svg width="14" height="16" viewBox="0 0 14 16"
                                                             fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path
@@ -581,6 +582,7 @@
             Alpine.data('data', () => ({
                 page: 1,
                 isListView: false,
+                style: 'style1',
                 // Booking form data
                 defaultBookingForm: {
                     destination_id: '',
@@ -741,6 +743,7 @@
                             ...this.bookingForm,
                             page: this.page,
                             isListView: this.isListView,
+                            style: this.style
                         },
                         beforeSend: function() {
                             $('#filter_data').html(

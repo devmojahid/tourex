@@ -5,7 +5,7 @@
                 <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
                     <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
                         <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
-                            <a href="tour-details-2.html">
+                            <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
                                 <img class="tg-card-border w-100"
                                     src="{{ asset($service?->thumbnail?->file_path ?? 'frontend/assets/img/shape/placeholder.png') }}"
                                     alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
@@ -31,7 +31,7 @@
 
                                 @if ($service?->discount_price)
                                     <span class="tg-listing-item-price-discount offer-btm shape-2"
-                                        style="background-image: url('{{ asset('frontend/assets/img/shape/offter.png') }}')">Offer</span>
+                                        style="background-image: url('{{ asset('frontend/assets/img/shape/offter.png') }}')">Sale Offer</span>
                                 @endif
                             </a>
                             <div class="tg-listing-2-price">
@@ -70,7 +70,10 @@
                                 <a class="tg-listing-avai-btn"
                                     href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">Check
                                     Availability</a>
-                                <div @class(['tg-listing-item-wishlist', 'active' => $service?->my_wishlist_exists == 1 ]) class="" data-url="{{ route('user.wishlist.store') }}"
+                                <div @class([
+                                    'tg-listing-item-wishlist',
+                                    'active' => $service?->my_wishlist_exists == 1,
+                                ]) data-url="{{ route('user.wishlist.store') }}"
                                     onclick="addToWishlist({{ $service->id }}, this, 'service')">
                                     <a href="javascript:void(0);">
                                         <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
