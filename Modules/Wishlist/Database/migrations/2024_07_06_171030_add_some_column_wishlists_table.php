@@ -14,7 +14,6 @@ return new class extends Migration
          Schema::table('wishlists', function (Blueprint $table) {
             $table->unsignedBigInteger('wishable_id')->nullable()->after('user_id');
             $table->string('wishable_type')->nullable()->after('wishable_id');
-            $table->dropColumn('item_id');
         });
     }
 
@@ -26,7 +25,6 @@ return new class extends Migration
         Schema::table('wishlists', function (Blueprint $table) {
             $table->dropColumn('wishable_id');
             $table->dropColumn('wishable_type');
-            $table->unsignedBigInteger('item_id')->nullable()->after('user_id');
         });
     }
 };

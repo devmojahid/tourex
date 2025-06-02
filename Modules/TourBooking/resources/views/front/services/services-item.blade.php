@@ -68,8 +68,10 @@
                             </div>
                             <div class="tg-listing-avai d-flex align-items-center justify-content-between">
                                 <a class="tg-listing-avai-btn" href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">Check Availability</a>
-                                <div class="tg-listing-item-wishlist">
-                                    <a href="#">
+                                <div class="tg-listing-item-wishlist"
+                                data-url="{{ route('user.wishlist.store') }}"
+                                onclick="addToWishlist({{ $service->id }}, this, 'service')">
+                                    <a href="javascript:void(0);">
                                         <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path

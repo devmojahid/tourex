@@ -1,12 +1,13 @@
 "use strict";
 
 // Add To WishList Cart
-function addToWishlist(productId, element) {
+function addToWishlist(productId, element, type = 'product') {
     $.ajax({
         url: $(element).data('url'), // Get URL from data attribute
         type: "POST",
         data: {
             item_id: productId,
+            type: type,
             _token: document.querySelector('meta[name="csrf-token"]').content
         },
         success: function (response) {
