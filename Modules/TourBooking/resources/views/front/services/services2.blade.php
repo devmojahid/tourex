@@ -270,7 +270,7 @@
                                     <div class="tg-filter-search-form">
                                         <div class="p-relative">
                                             <input class="input" x-model.debounce="filters.search" type="text"
-                                                placeholder="Search Hotel">
+                                                placeholder="Search here...">
                                             <button class="buttons" type="submit">
                                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
