@@ -573,10 +573,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('data', () => ({
-                loading: true,
                 page: 1,
-                instructorName: '',
-                instructorAccounts: [],
                 isListView: false,
                 // Booking form data
                 defaultBookingForm: {
@@ -701,7 +698,6 @@
                         path: newURL
                     }, '', newURL);
                 },
-
                 resetFilters() {
                     this.filters = JSON.parse(JSON.stringify(this.defaultFilters));
                     this.bookingForm = JSON.parse(JSON.stringify({
@@ -741,7 +737,6 @@
                             isListView: this.isListView,
                         },
                         beforeSend: function() {
-                            that.loading = true;
                             $('#filter_data').html(
                                 `<div id="loading item_loading"><div class="loader"></div></div>`
                             );
@@ -753,10 +748,7 @@
                         },
                         error: function(xhr, status, error) {
                             console.error(error);
-                        },
-                        complete: function() {
-                            that.loading = false;
-                        },
+                        }
                     });
                 },
                 searchServices() {
