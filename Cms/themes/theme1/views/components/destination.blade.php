@@ -1,5 +1,6 @@
 @php
     $theme1_destination = getContent('theme1_destination.content', true);
+    $destination_items = Modules\TourBooking\App\Models\Destination::where(['status' => 1, 'is_featured' => 1])->get();
 @endphp
 
 <!-- tg-location-area-start -->
@@ -21,66 +22,23 @@
                     </p>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".9s">
-                <div class="bg-white tg-round-25 p-relative z-index-1">
-                    <div class="tg-location-wrap p-relative mb-30">
-                        <div class="tg-location-thumb">
-                            <img class="w-100" src="assets/img/location/location.jpg" alt="location">
-                        </div>
-                        <div class="tg-location-content text-center">
-                            <span class="tg-location-time">05 Tours</span>
-                            <h3 class="tg-location-title mb-0"><a href="map-listing.html">New york City</a></h3>
-                        </div>
-                        <div class="tg-location-border one"></div>
-                        <div class="tg-location-border two"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
-                <div class="bg-white tg-round-25 p-relative z-index-1">
-                    <div class="tg-location-wrap p-relative mb-30">
-                        <span class="tg-location-border one"></span>
-                        <span class="tg-location-border two"></span>
-                        <div class="tg-location-thumb">
-                            <img class="w-100" src="assets/img/location/location-2.jpg" alt="location">
-                        </div>
-                        <div class="tg-location-content text-center">
-                            <span class="tg-location-time">03 Tours</span>
-                            <h3 class="tg-location-title mb-0"><a href="map-listing.html">Australia</a></h3>
+            @foreach ($destination_items as $destination_item)
+                <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".9s">
+                    <div class="bg-white tg-round-25 p-relative z-index-1">
+                        <div class="tg-location-wrap p-relative mb-30">
+                            <div class="tg-location-thumb">
+                                <img class="w-100" src="assets/img/location/location.jpg" alt="location">
+                            </div>
+                            <div class="tg-location-content text-center">
+                                <span class="tg-location-time">05 Tours</span>
+                                <h3 class="tg-location-title mb-0"><a href="map-listing.html">New york City</a></h3>
+                            </div>
+                            <div class="tg-location-border one"></div>
+                            <div class="tg-location-border two"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
-                <div class="bg-white tg-round-25 p-relative z-index-1">
-                    <div class="tg-location-wrap p-relative mb-30">
-                        <span class="tg-location-border one"></span>
-                        <span class="tg-location-border two"></span>
-                        <div class="tg-location-thumb">
-                            <img class="w-100" src="assets/img/location/location-3.jpg" alt="location">
-                        </div>
-                        <div class="tg-location-content text-center">
-                            <span class="tg-location-time">18 Tours</span>
-                            <h3 class="tg-location-title mb-0"><a href="map-listing.html">Switzerland</a></h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">
-                <div class="bg-white tg-round-25 p-relative z-index-1">
-                    <div class="tg-location-wrap p-relative mb-30">
-                        <span class="tg-location-border one"></span>
-                        <span class="tg-location-border two"></span>
-                        <div class="tg-location-thumb">
-                            <img class="w-100" src="assets/img/location/location-4.jpg" alt="location">
-                        </div>
-                        <div class="tg-location-content text-center">
-                            <span class="tg-location-time">02 Tours</span>
-                            <h3 class="tg-location-title mb-0"><a href="map-listing.html">Germany</a></h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </div>

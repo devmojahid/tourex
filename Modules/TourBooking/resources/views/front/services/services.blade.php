@@ -1,4 +1,10 @@
-@extends('tourbooking::layouts.layout-one')
+@extends('layout_inner_page2')
+
+@section('title')
+    <title>Services</title>
+    <meta name="title" content="Services">
+    <meta name="description" content="Services">
+@endsection
 
 @section('front-content')
     <!-- main-area -->
