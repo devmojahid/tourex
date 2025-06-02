@@ -24,6 +24,7 @@ use Modules\TourBooking\App\Repositories\ServiceTypeRepository;
 use Modules\Language\App\Models\Language;
 use Illuminate\Http\JsonResponse;
 use Modules\TourBooking\App\Models\Amenity;
+use Modules\TourBooking\App\Models\Destination;
 
 final class ServiceController extends Controller
 {
@@ -55,7 +56,9 @@ final class ServiceController extends Controller
 
         $enum_languages = EnumsLanguage::cases();
 
-        return view('tourbooking::admin.services.create', compact('serviceTypes', 'amenities', 'enum_languages'));
+        $destinations = Destination::select('id', 'name')->where('status', true)->get();
+
+        return view('tourbooking::admin.services.create', compact('serviceTypes', 'amenities', 'enum_languages', 'destinations'));
     }
 
     /**
@@ -75,7 +78,7 @@ final class ServiceController extends Controller
         }
 
         // Convert checkbox values
-        $booleanFields = ['deposit_required', 'is_featured', 'is_popular', 'show_on_homepage', 'status'];
+        $booleanFields = ['deposit_required', 'is_featured', 'is_popular', 'show_on_homepage', 'status', 'is_new'];
         foreach ($booleanFields as $field) {
             $data[$field] = isset($data[$field]) ? true : false;
         }
@@ -185,7 +188,9 @@ final class ServiceController extends Controller
 
         $enum_languages = EnumsLanguage::cases();
 
-        return view('tourbooking::admin.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code', 'amenities', 'enum_languages'));
+         $destinations = Destination::select('id', 'name')->where('status', true)->get();
+
+        return view('tourbooking::admin.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code', 'amenities', 'enum_languages', 'destinations'));
     }
 
    /**
@@ -194,6 +199,7 @@ final class ServiceController extends Controller
     public function update(ServiceRequest $request, Service $service): RedirectResponse
     {
         $data = $request->validated();
+
         $lang_code = $request->lang_code ?? admin_lang();
 
         // Handle main service update only if we're editing in the admin language
@@ -221,7 +227,7 @@ final class ServiceController extends Controller
             }
 
             // Convert checkbox values
-            $booleanFields = ['deposit_required', 'is_featured', 'is_popular', 'show_on_homepage', 'status'];
+            $booleanFields = ['deposit_required', 'is_featured', 'is_popular', 'show_on_homepage', 'status', 'is_new'];
             foreach ($booleanFields as $field) {
                 $data[$field] = isset($data[$field]) ? true : false;
             }

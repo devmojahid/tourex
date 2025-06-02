@@ -1518,4 +1518,9 @@ return array(
     "Manage service images and videos in the Media Gallery" => "Manage service images and videos in the Media Gallery",
   'After creating the service, you can upload images and videos from the Media Gallery section.' => 'After creating the service, you can upload images and videos from the Media Gallery section.',
   'Manage service images and videos in the' => 'Manage service images and videos in the',
+  'Room Count' => 'Room Count',
+  'Adult Count' => 'Adult Count',
+  'Children Count' => 'Children Count',
+  'Is New' => 'Is New',
+  'Select Destination' => 'Select Destination',
 );

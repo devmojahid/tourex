@@ -129,7 +129,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-6 col-md-6 col-12">
+                                                <div class="col-lg-4 col-md-6 col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Service Type') }}
@@ -150,7 +150,27 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-6 col-md-6 col-12">
+                                                <div class="col-lg-4 col-md-6 col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Select Destination') }}</label>
+                                                        <select class="crancy__item-input" name="destination_id" required>
+                                                            <option value="">{{ __('translate.Select Type') }}
+                                                            </option>
+                                                            @foreach ($destinations as $destination)
+                                                                <option value="{{ $destination->id }}"
+                                                                    {{ old('destination_id') == $destination->id ? 'selected' : '' }}>
+                                                                    {{ $destination->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('destination_id')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-6 col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Location') }}</label>
@@ -183,6 +203,45 @@
                                                             value="{{ old('group_size') }}"
                                                             placeholder="e.g. Up to 10 people">
                                                         @error('group_size')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-6 col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Room Count') }}</label>
+                                                        <input class="crancy__item-input" type="number" name="room_count"
+                                                            value="{{ old('room_count', 1) }}"
+                                                            placeholder="1">
+                                                        @error('room_count')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-6 col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Adult Count') }}</label>
+                                                        <input class="crancy__item-input" type="number" name="adult_count"
+                                                            value="{{ old('adult_count', 1) }}"
+                                                            placeholder="1">
+                                                        @error('adult_count')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-6 col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Children Count') }}</label>
+                                                        <input class="crancy__item-input" type="number" name="children_count"
+                                                            value="{{ old('children_count', 0) }}"
+                                                            placeholder="0">
+                                                        @error('children_count')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
                                                     </div>
@@ -619,7 +678,7 @@
                                             </h4>
 
                                             <div class="row mg-top-30">
-                                                <div class="col-lg-4 col-md-4 col-12">
+                                                <div class="col-lg-3 col-md-4 col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Featured') }}</label>
@@ -636,7 +695,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-4 col-12">
+                                                <div class="col-lg-3 col-md-4 col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Popular') }}</label>
@@ -653,7 +712,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-4 col-12">
+                                                <div class="col-lg-3 col-md-4 col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Show on Homepage') }}</label>
@@ -663,6 +722,21 @@
                                                                 <input name="show_on_homepage" type="checkbox"
                                                                     {{ old('show_on_homepage') ? 'checked' : '' }}
                                                                     value="1">
+                                                                <span
+                                                                    class="crancy__item-switch--slide crancy__item-switch--round"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-4 col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Is New') }}</label>
+                                                        <div
+                                                            class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
+                                                            <label class="crancy__item-switch">
+                                                                <input checked name="is_new" type="checkbox" value="1">
                                                                 <span
                                                                     class="crancy__item-switch--slide crancy__item-switch--round"></span>
                                                             </label>

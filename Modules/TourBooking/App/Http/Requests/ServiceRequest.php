@@ -24,7 +24,7 @@ class ServiceRequest extends FormRequest
     {
         // Convert textarea strings to arrays for fields that need it
         $textareaFields = ['included', 'excluded'];
-        
+
         foreach ($textareaFields as $field) {
             if ($this->has($field) && is_string($this->input($field))) {
                 $this->merge([
@@ -42,7 +42,7 @@ class ServiceRequest extends FormRequest
         if (empty($text)) {
             return [];
         }
-        
+
         // Split by new lines, trim whitespace, and remove empty lines
         return array_filter(
             array_map('trim', preg_split('/\r\n|\r|\n/', $text)),
@@ -67,9 +67,10 @@ class ServiceRequest extends FormRequest
             'latitude' => 'nullable|string|max:30',
             'longitude' => 'nullable|string|max:30',
             'service_type_id' => 'required|exists:service_types,id',
+            'destination_id' => 'nullable',
             'price_per_person' => 'nullable|numeric|min:0',
             'full_price' => 'nullable|numeric|min:0',
-            'discount_price' => 'nullable|numeric|min:0',
+            'discount_price' => 'nullable|numeric|min:0|lte:full_price',
             'child_price' => 'nullable|numeric|min:0',
             'infant_price' => 'nullable|numeric|min:0',
             'security_deposit' => 'nullable|numeric|min:0',
@@ -94,6 +95,7 @@ class ServiceRequest extends FormRequest
             'is_popular' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
             'status' => 'nullable|boolean',
+            'is_new' => 'nullable|boolean',
             'video_url' => 'nullable|url|max:255',
             'address' => 'nullable|string',
             'email' => 'nullable|email|max:255',
@@ -105,6 +107,9 @@ class ServiceRequest extends FormRequest
             'seo_description' => 'nullable|string|max:500',
             'seo_keywords' => 'nullable|string|max:255',
             'lang_code' => 'nullable|string|exists:languages,lang_code',
+            'room_count' => 'nullable|integer|min:0',
+            'adult_count' => 'nullable|integer|min:0',
+            'children_count' => 'nullable|integer|min:0',
         ];
 
         if ($this->isMethod('POST')) {
@@ -147,4 +152,4 @@ class ServiceRequest extends FormRequest
             'excluded.*.max' => 'Each excluded item cannot exceed 255 characters.',
         ];
     }
-} 
+}

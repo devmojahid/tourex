@@ -64,6 +64,10 @@ final class Service extends Model
         'website',
         'social_links',
         'user_id',
+        'is_new',
+        'room_count',
+        'adult_count',
+        'children_count'
     ];
 
     /**
@@ -93,6 +97,7 @@ final class Service extends Model
         'is_popular' => 'boolean',
         'show_on_homepage' => 'boolean',
         'status' => 'boolean',
+        'is_new' => 'boolean',
     ];
 
     /**
