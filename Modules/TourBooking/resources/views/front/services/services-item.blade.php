@@ -6,13 +6,33 @@
                     <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
                         <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
                             <a href="tour-details-2.html">
-                                <img class="tg-card-border w-100" src="{{ asset($service?->thumbnail?->file_path) }}"
+                                <img class="tg-card-border w-100"
+                                    src="{{ asset($service?->thumbnail?->file_path ?? 'frontend/assets/img/shape/placeholder.png') }}"
                                     alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
-                                <span class="tg-listing-item-price-discount shape">New</span>
+                                <span class="tg-listing-item-price-discount shape"
+                                    style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape-2.png') }}')">New</span>
+
+                                {{-- @dump($service) --}}
+                                @if ($service?->is_featured == 1)
+                                    <span class="tg-listing-item-price-discount shape-3"
+                                        style="background-image: url('{{ asset('frontend/assets/img/shape/featured.png') }}')">
+                                        <svg width="12" height="14" viewBox="0 0 12 14" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M6.60156 1L0.601562 8.2H6.00156L5.40156 13L11.4016 5.8H6.00156L6.60156 1Z"
+                                                stroke="white" stroke-width="0.857143" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </svg>
+                                        Featured
+                                    </span>
+                                @endif
+                                <span class="tg-listing-item-price-discount offer-btm shape-2"
+                                    style="background-image: url('{{ asset('frontend/assets/img/shape/offter.png') }}')">%
+                                    Offer</span>
                             </a>
                             <div class="tg-listing-2-price">
                                 <span class="new">${{ $service?->price_per_person }}</span>
-                                <span class="shift">/night</span>
+                                <span class="shift">/person</span>
                             </div>
                         </div>
                         <div class="tg-listing-card-content p-relative">
