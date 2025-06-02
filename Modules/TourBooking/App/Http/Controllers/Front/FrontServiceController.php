@@ -181,8 +181,9 @@ final class FrontServiceController extends Controller
 
         $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
         $languages = Language::cases();
+        $destinations = Destination::where('status', true)->get();
 
-        return view('tourbooking::front.services.services', compact('serviceTypes', 'amenities', 'languages'));
+        return view('tourbooking::front.services.services', compact('serviceTypes', 'amenities', 'languages', 'destinations'));
     }
 
     /**
@@ -193,7 +194,9 @@ final class FrontServiceController extends Controller
 
         // dd($request->all());
 
-        $allServices = Service::select('id', 'price_per_person', 'slug', 'location')
+        $isListView = $request->isListView;
+
+        $allServices = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured')
             ->where('status', true)
             ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title'])
             ->when($request->filled('search'), function ($query) use ($request) {
@@ -225,18 +228,59 @@ final class FrontServiceController extends Controller
                     }
                 });
             })
-            ->latest()
+            ->when($request->filled('destination_id'), function ($query) use ($request) {
+                return $query->where('destination_id', $request->destination_id);
+            })
+            ->when($request->filled('checkIn'), function ($query) use ($request) {
+                return $query->whereTime('check_in_time', $request->checkIn);
+            })
+            ->when($request->filled('checkOut'), function ($query) use ($request) {
+                return $query->whereTime('check_out_time', $request->checkOut);
+            })
+            ->when($request->filled('sort_by'), function ($query) use ($request) {
+                switch ($request->sort_by) {
+                    case 'price_low':
+                        $query->orderBy('price_per_person', 'asc');
+                        break;
+                    case 'price_high':
+                        $query->orderBy('price_per_person', 'desc');
+                        break;
+                    case 'trending':
+                        $query->orderBy('is_featured', 'desc');
+                        break;
+                    case 'popular':
+                        $query->orderBy('is_popular', 'desc');
+                        break;
+                    case 'latest':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    case 'oldest':
+                        $query->orderBy('created_at', 'asc');
+                        break;
+                    case 'location_asc':
+                        $query->orderBy('location', 'asc');
+                        break;
+                    case 'location_desc':
+                        $query->orderBy('location', 'desc');
+                        break;
+                    default:
+                        $query->orderBy('created_at', 'desc');
+                }
+            }, function ($query) {
+                $query->orderBy('created_at', 'desc');
+            })
             ->paginate(12);
 
-        // dd($allServices);
+        $view = view('tourbooking::front.services.services-item', compact('allServices', 'isListView'))->render();
 
-        $view = view('tourbooking::front.services.services-item', compact('allServices'))->render();
+        $customPaginationCount = customPaginationCount($allServices);
 
         return response()->json(
             [
                 'success' => true,
                 'message' => 'Services loaded successfully',
-                'view' => $view
+                'view' => $view,
+                'customPaginationCount' => $customPaginationCount,
             ]
         );
     }
