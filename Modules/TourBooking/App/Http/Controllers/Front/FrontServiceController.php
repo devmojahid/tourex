@@ -196,7 +196,7 @@ final class FrontServiceController extends Controller
 
         $isListView = $request->isListView;
 
-        $allServices = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price')
+        $allServices = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new')
             ->where('status', true)
             ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title'])
             ->when($request->filled('search'), function ($query) use ($request) {
@@ -236,6 +236,18 @@ final class FrontServiceController extends Controller
             })
             ->when($request->filled('checkOut'), function ($query) use ($request) {
                 return $query->whereTime('check_out_time', $request->checkOut);
+            })
+            ->when($request->filled('rooms'), function ($query) use ($request) {
+                return $query->where('room_count', $request->rooms);
+            })
+            ->when($request->filled('adults'), function ($query) use ($request) {
+                return $query->where('adult_count', $request->adults);
+            })
+            ->when($request->filled('children'), function ($query) use ($request) {
+                return $query->where('children_count', $request->children);
+            })
+            ->when($request->filled('destination_id'), function ($query) use ($request) {
+                return $query->where('destination_id', $request->destination_id);
             })
             ->when($request->filled('sort_by'), function ($query) use ($request) {
                 switch ($request->sort_by) {
@@ -327,7 +339,7 @@ final class FrontServiceController extends Controller
                 ->exists();
         }
 
-        return view('tourbooking::front.service-detail', compact('service', 'relatedServices', 'canReview'));
+        return view('tourbooking::front.services.service-detail', compact('service', 'relatedServices', 'canReview'));
     }
 
     /**

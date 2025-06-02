@@ -578,7 +578,7 @@
 
                                                             @foreach ($enum_languages as $language)
                                                                 <option value="{{ $language->name }}"
-                                                                    @selected(in_array($language->name, $service->languages ?? []))>
+                                                                    @selected(is_array($service?->languages) && in_array($language->name, $service?->languages ?? []))>
                                                                     {{ $language->value }}
                                                                 </option>
                                                             @endforeach
@@ -595,7 +595,7 @@
                                                             multiple>
                                                             @foreach ($amenities as $amenity)
                                                                 <option value="{{ $amenity->translation->id }}"
-                                                                    @selected($amenity->translation->id == in_array($amenity->translation->id, $translation->amenities ?? []))>
+                                                                    @selected( is_array($translation->amenities) && in_array($amenity->translation->id, $translation->amenities ?? []))>
                                                                     {{ $amenity->translation->name }}
                                                                 </option>
                                                             @endforeach

@@ -593,18 +593,18 @@
                 },
                 bookingForm: {
                     destination_id: `{{ request('destination_id', '') }}`,
-                    destination: `{{ request('destination', 'Where are you going . . .') }}`,
+                    destination: `{{ request('destination', '') }}`,
                     checkIn: `{{ request('checkIn', '') }}`,
                     checkOut: `{{ request('checkOut', '') }}`,
-                    rooms: `{{ request('rooms', 1) }}`,
-                    adults: `{{ request('adults', 1) }}`,
-                    children: `{{ request('children', 0) }}`,
+                    rooms: `{{ request('rooms', '') }}`,
+                    adults: `{{ request('adults', '') }}`,
+                    children: `{{ request('children', '') }}`,
                 },
                 incrementRooms() {
                     this.bookingForm.rooms++;
                 },
                 decrementRooms() {
-                    if (this.bookingForm.rooms > 1) {
+                    if (this.bookingForm.rooms > 0) {
                         this.bookingForm.rooms--;
                     }
                 },
@@ -612,7 +612,7 @@
                     this.bookingForm.adults++;
                 },
                 decrementAdults() {
-                    if (this.bookingForm.adults > 1) {
+                    if (this.bookingForm.adults > 0) {
                         this.bookingForm.adults--;
                     }
                 },
@@ -620,7 +620,7 @@
                     this.bookingForm.children++;
                 },
                 decrementChildren() {
-                    if (this.bookingForm.children > 1) {
+                    if (this.bookingForm.children > 0) {
                         this.bookingForm.children--;
                     }
                 },

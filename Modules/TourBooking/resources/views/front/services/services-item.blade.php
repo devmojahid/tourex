@@ -9,9 +9,11 @@
                                 <img class="tg-card-border w-100"
                                     src="{{ asset($service?->thumbnail?->file_path ?? 'frontend/assets/img/shape/placeholder.png') }}"
                                     alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
-                                <span class="tg-listing-item-price-discount shape"
-                                    style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape-2.png') }}')">New</span>
 
+                                @if ($service?->is_new == 1)
+                                    <span class="tg-listing-item-price-discount shape"
+                                        style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape-2.png') }}')">New</span>
+                                @endif
 
                                 @if ($service?->is_featured == 1)
                                     <span class="tg-listing-item-price-discount shape-3"
@@ -26,9 +28,11 @@
                                         Featured
                                     </span>
                                 @endif
-                                <span class="tg-listing-item-price-discount offer-btm shape-2"
-                                    style="background-image: url('{{ asset('frontend/assets/img/shape/offter.png') }}')">%
-                                    Offer</span>
+
+                                @if ($service?->discount_price)
+                                    <span class="tg-listing-item-price-discount offer-btm shape-2"
+                                        style="background-image: url('{{ asset('frontend/assets/img/shape/offter.png') }}')">Offer</span>
+                                @endif
                             </a>
                             <div class="tg-listing-2-price">
                                 {!! $service->price_display !!}
@@ -36,7 +40,7 @@
                         </div>
                         <div class="tg-listing-card-content p-relative">
                             <h4 class="tg-listing-card-title mb-5">
-                                <a href="tour-details-2.html">
+                                <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
                                     {{ Str::limit($service?->translation?->title, 45) }}
                                 </a>
                             </h4>
@@ -63,8 +67,7 @@
                                 <span class="tg-listing-rating-percent">(5 Reviews)</span>
                             </div>
                             <div class="tg-listing-avai d-flex align-items-center justify-content-between">
-                                <a class="tg-listing-avai-btn" href="tour-details-2.html">Check
-                                    Availability</a>
+                                <a class="tg-listing-avai-btn" href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">Check Availability</a>
                                 <div class="tg-listing-item-wishlist">
                                     <a href="#">
                                         <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
