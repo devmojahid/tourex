@@ -1523,4 +1523,5 @@ return array(
   'Children Count' => 'Children Count',
   'Is New' => 'Is New',
   'Select Destination' => 'Select Destination',
+  'No Review Found' => 'No Review Found',
 );

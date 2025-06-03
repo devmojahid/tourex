@@ -413,152 +413,94 @@
                                         <p class="text-capitalize lh-28 mb-20">Castle in one day is next to impossible.
                                             Designed specifically for trave arelimited time in London, this tour
                                             ws you to check off a range of southern England‘s are historical</p>
-                                        <div class="tg-tour-about-review">
-                                            <div class="head-reviews">
-                                                <div class="review-left">
-                                                    <div class="review-info-inner">
-                                                        <h2>4.9</h2>
-                                                        <span>Excellent</span>
-                                                        <p>Based On 1582 Reviews</p>
+
+
+                                        @if ($reviews->count() > 0)
+                                            <div class="tg-tour-about-review">
+                                                <div class="head-reviews">
+                                                    <div class="review-left">
+                                                        <div class="review-info-inner">
+                                                            <h2>
+                                                                {{ number_format($avgRating, 1) }}
+                                                            </h2>
+                                                            <p>Based On
+                                                                {{ __($reviews->count()) }}
+                                                                {{ __($reviews->count() > 1 ? __('translate.Reviews') : __('translate.Review')) }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="review-right">
-                                                    <div class="review-progress">
-                                                        <div class="item-review-progress">
-                                                            <div class="text-rv-progress">
-                                                                <p>Location</p>
-                                                            </div>
-                                                            <div class="bar-rv-progress">
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" style="width: 60%"> </div>
+                                                    <div class="review-right">
+                                                        <div class="review-progress">
+                                                            @foreach ($averageRatings as $item)
+                                                                <div class="item-review-progress">
+                                                                    <div class="text-rv-progress">
+                                                                        <p>{{ $item['category'] }}</p>
+                                                                    </div>
+                                                                    <div class="bar-rv-progress">
+                                                                        <div class="progress">
+                                                                            <div class="progress-bar"
+                                                                                style="width: {{ $item['percent'] }}%">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-avarage">
+                                                                        <p>{{ $item['average'] }}/5</p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="text-avarage">
-                                                                <p>4/5</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="item-review-progress">
-                                                            <div class="text-rv-progress">
-                                                                <p>Amenities</p>
-                                                            </div>
-                                                            <div class="bar-rv-progress">
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" style="width: 65%"> </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-avarage">
-                                                                <p>4/5</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="item-review-progress">
-                                                            <div class="text-rv-progress">
-                                                                <p>Services</p>
-                                                            </div>
-                                                            <div class="bar-rv-progress">
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" style="width: 70%"> </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-avarage">
-                                                                <p>4/5</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="item-review-progress">
-                                                            <div class="text-rv-progress">
-                                                                <p>Price</p>
-                                                            </div>
-                                                            <div class="bar-rv-progress">
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" style="width: 80%"> </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-avarage">
-                                                                <p>3.5/5</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="item-review-progress mb-0">
-                                                            <div class="text-rv-progress">
-                                                                <p>Rooms</p>
-                                                            </div>
-                                                            <div class="bar-rv-progress">
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" style="width: 85%"></div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-avarage">
-                                                                <p>5/5</p>
-                                                            </div>
+                                                            @endforeach
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
+
                                     </div>
                                     <div class="tg-tour-about-border mb-35"></div>
                                     <div class="tg-tour-about-cus-review-wrap mb-25">
-                                        <h4 class="tg-tour-about-title mb-40">2 Reviews</h4>
+                                        <h4 class="tg-tour-about-title mb-40">
+                                            {{ __($reviews->count()) }}
+                                            {{ __($reviews->count() > 1 ? __('translate.Reviews') : __('translate.Review')) }}
+                                        </h4>
                                         <ul>
-                                            <li>
-                                                <div class="tg-tour-about-cus-review d-flex mb-40">
-                                                    <div class="tg-tour-about-cus-review-thumb">
-                                                        <img src="assets/img/tour-details/avatar.png" alt="avatar">
-                                                    </div>
-                                                    <div>
-                                                        <div
-                                                            class="tg-tour-about-cus-name mb-5 d-flex align-items-center justify-content-between flex-wrap">
-                                                            <h6 class="mr-10 mb-10 d-inline-block">Ronald Richards <span>-
-                                                                    20
-                                                                    Mar, 2023 . 4:00 Pm</span></h6>
-                                                            <span
-                                                                class="tg-tour-about-cus-review-star mb-10 d-inline-block">
-                                                                <i class="fa-sharp fa-solid fa-star"></i>
-                                                                <i class="fa-sharp fa-solid fa-star"></i>
-                                                                <i class="fa-sharp fa-solid fa-star"></i>
-                                                                <i class="fa-sharp fa-solid fa-star"></i>
-                                                                <i class="fa-sharp fa-solid fa-star"></i>
-                                                            </span>
+                                            @forelse ($paginatedReviews as $review)
+                                                <li>
+                                                    <div class="tg-tour-about-cus-review d-flex mb-40">
+                                                        <div class="tg-tour-about-cus-review-thumb">
+                                                            <img src="{{ asset($review->user->image ?? 'frontend/assets/img/shape/placeholder.png') }}"
+                                                                alt="{{ $review->user->name }}">
                                                         </div>
-                                                        <p class="text-capitalize lh-28 mb-10">Castle in one day is next to
-                                                            impossible. Designed specifically for trave areli areafol
-                                                            time in London, this tour allou to check off a range of southern
-                                                            day
-                                                            is next together
-                                                            impossible. Designed speciEngland.</p>
-                                                        <a class="tg-tour-about-cus-reply" href="#">Reply</a>
-                                                    </div>
-                                                </div>
-                                                <div class="tg-tour-about-border mb-40"></div>
-                                            </li>
-                                            <li>
-                                                <div class="tg-tour-about-cus-review d-flex mb-40">
-                                                    <div class="tg-tour-about-cus-review-thumb">
-                                                        <img src="assets/img/tour-details/avatr.png" alt="avatar">
-                                                    </div>
-                                                    <div>
-                                                        <div
-                                                            class="tg-tour-about-cus-name mb-5 d-flex align-items-center justify-content-between flex-wrap">
-                                                            <h6 class="mr-10 mb-10 d-inline-block">Annette Black <span>- 20
-                                                                    Mar, 2023 . 4:00 Pm</span></h6>
-                                                            <span
-                                                                class="tg-tour-about-cus-review-star mb-10 d-inline-block">
-                                                                <i class="fa-sharp fa-solid fa-star"></i>
-                                                                <i class="fa-sharp fa-solid fa-star"></i>
-                                                                <i class="fa-sharp fa-solid fa-star"></i>
-                                                                <i class="fa-sharp fa-solid fa-star"></i>
-                                                                <i class="fa-sharp fa-solid fa-star"></i>
-                                                            </span>
+                                                        <div>
+                                                            <div
+                                                                class="tg-tour-about-cus-name mb-5 d-flex align-items-center justify-content-between flex-wrap">
+                                                                <h6 class="mr-10 mb-10 d-inline-block">
+                                                                    {{ $review->user->name }}
+                                                                    <span>-
+                                                                        {{ \Carbon\Carbon::parse($review->created_at)->format('d M, Y . h:i A') }}
+                                                                    </span>
+                                                                </h6>
+                                                                <span
+                                                                    class="tg-tour-about-cus-review-star mb-10 d-inline-block">
+                                                                    @foreach (range(1, 5) as $star)
+                                                                        <i
+                                                                            class="fa-sharp fa-solid fa-star @if ($review->rating >= $star) active @endif"></i>
+                                                                    @endforeach
+
+                                                                </span>
+                                                            </div>
+                                                            <p class="text-capitalize lh-28 mb-10">
+                                                                {{ $review->review }}
+                                                            </p>
                                                         </div>
-                                                        <p class="text-capitalize lh-28 mb-10">Castle in one day is next to
-                                                            impossible. Designed specifically for trave areli areafol
-                                                            time in London, this tour allou to check off a range of southern
-                                                            day
-                                                            is next together
-                                                            impossible. Designed speciEngland.</p>
-                                                        <a class="tg-tour-about-cus-reply" href="#">Reply</a>
                                                     </div>
-                                                </div>
-                                            </li>
+                                                    <div class="tg-tour-about-border mb-40"></div>
+                                                </li>
+                                            @empty
+                                                <h5 class="text-center">{{ __('translate.No Review Found') }}</h5>
+                                            @endforelse
                                         </ul>
+                                        @include('components.front.custom-pagination', [
+                                            'items' => $paginatedReviews,
+                                        ])
                                     </div>
                                     <div class="tg-tour-about-border mb-45"></div>
                                     <div x-data="reviewForm()" class="tg-tour-about-review-form-wrap mb-45">
@@ -863,6 +805,10 @@
     <style>
         a.tg-listing-item-wishlist.active {
             color: var(--tg-theme-primary);
+        }
+
+        .tg-tour-about-cus-review-thumb img {
+            height: 128px;
         }
     </style>
 @endpush

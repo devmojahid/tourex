@@ -37,7 +37,7 @@ final class Review extends Model
      */
     protected $casts = [
         'rating' => 'decimal:1',
-        'rating_attributes' => 'json',
+        'rating_attributes' => 'array',
         'status' => 'boolean',
         'is_featured' => 'boolean',
     ];
@@ -89,4 +89,4 @@ final class Review extends Model
     {
         return $query->where('rating', '>=', $minRating);
     }
-} 
+}
