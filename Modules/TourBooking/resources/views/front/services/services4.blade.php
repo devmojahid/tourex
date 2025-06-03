@@ -27,11 +27,11 @@
                                         <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
                                             <span class="tg-booking-form-title mb-5">Destinations:</span>
                                             <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
-                                                <span x-show="bookingForm.destination" x-text="bookingForm.destination"
+                                                <span x-clock x-show="bookingForm.destination" x-text="bookingForm.destination"
                                                     class="tg-booking-title-value">
                                                     Where are you going . . .
                                                 </span>
-                                                <span x-show="!bookingForm.destination" class="tg-booking-title-value">
+                                                <span x-clock x-show="!bookingForm.destination" class="tg-booking-title-value">
                                                     Where are you going . . .
                                                 </span>
                                                 <span class="location">
