@@ -1,1 +1,1043 @@
-<h1>Services details page</h1>
+@extends('layout_inner_page')
+
+@section('title')
+    <title>Services</title>
+    <meta name="title" content="Services">
+    <meta name="description" content="Services">
+@endsection
+
+@section('front-content')
+    <!-- main-area -->
+    <main>
+
+        <!-- tg-breadcrumb-area-start -->
+        <div class="tg-breadcrumb-spacing-3 include-bg p-relative fix"
+            data-background="assets/img/breadcrumb/breadcrumb-2.jpg">
+            <div class="tg-hero-top-shadow"></div>
+        </div>
+        <div class="tg-breadcrumb-list-2-wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="tg-breadcrumb-list-2">
+                            <ul>
+                                <li><a href="{{ url('home') }}">Home</a></li>
+                                <li><i class="fa-sharp fa-solid fa-angle-right"></i></li>
+                                <li><a href="{{ route('front.tourbooking.services') }}">Services</a></li>
+                                <li><i class="fa-sharp fa-solid fa-angle-right"></i></li>
+                                <li><span>
+                                        {{ $service?->translation?->title }}
+                                    </span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- tg-breadcrumb-area-end -->
+
+        <div x-data="data">
+            <!-- tg-tour-details-area-start -->
+            <div class="tg-tour-details-area pt-35 pb-25">
+                <div class="container">
+                    <div class="row align-items-end mb-35">
+                        <div class="col-xl-9 col-lg-8">
+                            <div class="tg-tour-details-video-title-wrap">
+                                <h2 class="tg-tour-details-video-title mb-15">
+                                    {{ $service?->translation?->title }}
+                                </h2>
+                                <div class="tg-tour-details-video-location d-flex flex-wrap">
+
+                                    @if ($service?->location)
+                                        <span class="mr-25"><i class="fa-regular fa-location-dot"></i>
+                                            {{ $service?->location }}
+                                        </span>
+                                    @endif
+
+                                    <div class="tg-tour-details-video-ratings">
+                                        <span><i class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span><i class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span><i class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span><i class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span><i class="fa-sharp fa-solid fa-star"></i></span>
+                                        <span class="review">(5 Reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4">
+                            <div class="tg-tour-details-video-share text-end">
+                                <a href="#">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M5.87746 9.03227L10.7343 11.8625M10.7272 4.05449L5.87746 6.88471M14.7023 2.98071C14.7023 4.15892 13.7472 5.11405 12.569 5.11405C11.3908 5.11405 10.4357 4.15892 10.4357 2.98071C10.4357 1.80251 11.3908 0.847382 12.569 0.847382C13.7472 0.847382 14.7023 1.80251 14.7023 2.98071ZM6.16901 7.95849C6.16901 9.1367 5.21388 10.0918 4.03568 10.0918C2.85747 10.0918 1.90234 9.1367 1.90234 7.95849C1.90234 6.78029 2.85747 5.82516 4.03568 5.82516C5.21388 5.82516 6.16901 6.78029 6.16901 7.95849ZM14.7023 12.9363C14.7023 14.1145 13.7472 15.0696 12.569 15.0696C11.3908 15.0696 10.4357 14.1145 10.4357 12.9363C10.4357 11.7581 11.3908 10.8029 12.569 10.8029C13.7472 10.8029 14.7023 11.7581 14.7023 12.9363Z"
+                                            stroke="currentColor" stroke-width="0.977778" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                    Share
+                                </a>
+                                <a @class([
+                                    'tg-listing-item-wishlist ml-25',
+                                    'active' => $service?->my_wishlist_exists == 1,
+                                ]) data-url="{{ route('user.wishlist.store') }}"
+                                    onclick="addToWishlist({{ $service->id }}, this, 'service')"
+                                    href="javascript:void(0);">
+                                    <svg width="16" height="14" viewBox="0 0 16 14" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M10.2606 10.7831L10.2878 10.8183L10.2606 10.7831L10.2482 10.7928C10.0554 10.9422 9.86349 11.0909 9.67488 11.2404C9.32643 11.5165 9.01846 11.7565 8.72239 11.9304C8.42614 12.1044 8.19324 12.1804 7.99978 12.1804C7.80633 12.1804 7.57342 12.1044 7.27718 11.9304C6.9811 11.7565 6.67312 11.5165 6.32472 11.2404C6.13618 11.091 5.94436 10.9423 5.75159 10.7929L5.73897 10.7831C4.90868 10.1397 4.06133 9.48294 3.36178 8.6911C2.51401 7.73157 1.92536 6.61544 1.92536 5.16811C1.92536 3.75448 2.71997 2.57143 3.80086 2.07481C4.84765 1.59384 6.26028 1.71692 7.61021 3.12673L7.64151 3.09675L7.61021 3.12673C7.7121 3.23312 7.85274 3.2933 7.99978 3.2933C8.14682 3.2933 8.28746 3.23312 8.38936 3.12673L8.35868 3.09736L8.38936 3.12673C9.73926 1.71692 11.1519 1.59384 12.1987 2.07481C13.2796 2.57143 14.0742 3.75448 14.0742 5.16811C14.0742 6.61544 13.4856 7.73157 12.6378 8.69109L12.668 8.71776L12.6378 8.6911C11.9382 9.48294 11.0909 10.1397 10.2606 10.7831ZM5.10884 11.6673L5.13604 11.6321L5.10884 11.6673L5.10901 11.6674C5.29802 11.8137 5.48112 11.9554 5.65523 12.0933C5.99368 12.3616 6.35981 12.6498 6.73154 12.8682L6.75405 12.8298L6.73154 12.8682C7.10315 13.0864 7.53174 13.2667 7.99978 13.2667C8.46782 13.2667 8.89641 13.0864 9.26802 12.8682L9.24552 12.8298L9.26803 12.8682C9.63979 12.6498 10.0059 12.3615 10.3443 12.0933C10.5185 11.9553 10.7016 11.8136 10.8907 11.6673L10.8907 11.6673L10.8926 11.6659C11.7255 11.0212 12.6722 10.2884 13.4463 9.41228L13.413 9.38285L13.4463 9.41227C14.4145 8.31636 15.1553 6.95427 15.1553 5.16811C15.1553 3.34832 14.1308 1.76808 12.6483 1.08693C11.2517 0.445248 9.53362 0.635775 7.99979 1.99784C6.46598 0.635775 4.74782 0.445248 3.35124 1.08693C1.86877 1.76808 0.844227 3.34832 0.844227 5.16811C0.844227 6.95427 1.58502 8.31636 2.55325 9.41227C3.32727 10.2883 4.27395 11.0211 5.10682 11.6657L5.10884 11.6673Z"
+                                            fill="currentColor" stroke="currentColor" stroke-width="0.0888889" />
+                                    </svg>
+                                    <span class="wishlist_change_text">@if ($service?->my_wishlist_exists == 1)
+                                        Remove
+                                    @else
+                                        Add
+                                    @endif to Wishlist</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gx-15 mb-25">
+                        <div class="col-lg-7">
+                            <div class="tg-tour-details-video-thumb mb-15">
+                                <img class="w-100" src="assets/img/tour-details/thumb-4.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="row  gx-15">
+                                <div class="col-12">
+                                    <div class="tg-tour-details-video-thumb p-relative mb-15">
+                                        <img class="w-100" src="assets/img/tour-details/thumb-1.jpg" alt="">
+                                        <div class="tg-tour-details-video-inner text-center">
+                                            <a class="tg-video-play popup-video tg-pulse-border"
+                                                href="https://www.youtube.com/watch?v=sY2bdbsy3rg">
+                                                <span class="p-relative z-index-11">
+                                                    <svg width="19" height="21" viewBox="0 0 19 21" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M17.3616 8.34455C19.0412 9.31425 19.0412 11.7385 17.3616 12.7082L4.13504 20.3445C2.45548 21.3142 0.356021 20.1021 0.356021 18.1627L0.356022 2.89C0.356022 0.950609 2.45548 -0.261512 4.13504 0.708185L17.3616 8.34455Z"
+                                                            fill="currentColor" />
+                                                    </svg>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="tg-tour-details-video-thumb mb-15">
+                                        <img class="w-100" src="assets/img/tour-details/thumb-2.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="tg-tour-details-video-thumb mb-15">
+                                        <img class="w-100" src="assets/img/tour-details/thumb-3.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tg-tour-details-feature-list-wrap">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8">
+                                <div class="tg-tour-details-video-feature-list">
+                                    <ul>
+                                        <li>
+                                            <span class="icon">
+                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.00001 4.19992V8.99992L12.2 10.5999M17 9C17 13.4183 13.4183 17 9 17C4.58172 17 1 13.4183 1 9C1 4.58172 4.58172 1 9 1C13.4183 1 17 4.58172 17 9Z"
+                                                        stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            </span>
+                                            <div>
+                                                <span class="title">Duration</span>
+                                                <span class="duration">4 days</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="icon">
+                                                <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M11.5 6.52684L4.5 2.64944M1.21001 4.70401L8.00001 8.47683L14.79 4.70401M8 16V8.46931M15 11.4578V5.48102C14.9997 5.21899 14.9277 4.96165 14.7912 4.7348C14.6547 4.50794 14.4585 4.31956 14.2222 4.18855L8.77778 1.20018C8.5413 1.06904 8.27306 1 8 1C7.72694 1 7.4587 1.06904 7.22222 1.20018L1.77778 4.18855C1.54154 4.31956 1.34532 4.50794 1.2088 4.7348C1.07229 4.96165 1.00028 5.21899 1 5.48102V11.4578C1.00028 11.7198 1.07229 11.9771 1.2088 12.204C1.34532 12.4308 1.54154 12.6192 1.77778 12.7502L7.22222 15.7386C7.4587 15.8697 7.72694 15.9388 8 15.9388C8.27306 15.9388 8.5413 15.8697 8.77778 15.7386L14.2222 12.7502C14.4585 12.6192 14.6547 12.4308 14.7912 12.204C14.9277 11.9771 14.9997 11.7198 15 11.4578Z"
+                                                        stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            </span>
+                                            <div>
+                                                <span class="title">Type</span>
+                                                <span class="duration">Adventure</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="icon">
+                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M1.7 17.2C1.5 17.2 1.3 17.1 1.2 17C1.1 16.8 1 16.7 1 16.5C1 15.1 1.4 13.7 2.1 12.4C2.8 11.2 3.9 10.1 5.1 9.4C4.6 8.8 4.2 8 4 7.2C3.9 6.4 3.9 5.5 4.1 4.8C4.3 4 4.8 3.2 5.3 2.6C5.9 2 6.6 1.5 7.3 1.3C7.9 1.1 8.5 1 9.1 1C9.3 1 9.6 1 9.8 1C10.6 1.1 11.4 1.4 12.1 1.9C12.8 2.4 13.3 3 13.7 3.7C14.1 4.4 14.3 5.2 14.3 6.1C14.3 7.3 13.9 8.5 13.1 9.4C13.7 9.8 14.3 10.2 14.9 10.7C15.7 11.5 16.2 12.3 16.7 13.3C17.1 14.3 17.3 15.3 17.3 16.4C17.3 16.6 17.2 16.8 17.1 16.9C17 17 16.8 17.1 16.6 17.1C16.5 17.1 16.4 17.1 16.3 17C16.2 17 16.1 16.9 16.1 16.8C16 16.7 16 16.7 15.9 16.6C15.9 16.5 15.8 16.4 15.8 16.3C15.8 15.4 15.6 14.6 15.3 13.8C15 13 14.5 12.3 13.8 11.7C13.2 11.2 12.6 10.7 11.9 10.4C11.1 10.9 10.2 11.2 9.1 11.2C8.1 11.2 7.1 10.9 6.3 10.4C5.2 10.9 4.2 11.7 3.5 12.8C2.8 13.9 2.4 15.1 2.4 16.4C2.4 16.6 2.3 16.8 2.2 16.9C2.1 17.1 1.9 17.2 1.7 17.2ZM9.1 2.5C8.4 2.5 7.7 2.7 7.1 3.1C6.4 3.5 6 4.1 5.7 4.7C5.4 5.4 5.3 6.1 5.5 6.9C5.6 7.6 6 8.3 6.5 8.8C7 9.3 7.7 9.7 8.4 9.8C8.6 9.8 8.9 9.9 9.1 9.9C9.6 9.9 10.1 9.8 10.5 9.6C11.2 9.3 11.7 8.9 12.2 8.2C12.6 7.6 12.8 6.9 12.8 6.2C12.8 5.2 12.4 4.3 11.7 3.6C11 2.8 10.1 2.5 9.1 2.5Z"
+                                                        fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <div>
+                                                <span class="title">Group Size</span>
+                                                <span class="duration">50 People</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="icon">
+                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M16 8.5C16 12.6421 12.6421 16 8.5 16M16 8.5C16 4.35786 12.6421 1 8.5 1M16 8.5H1M8.5 16C4.35786 16 1 12.6421 1 8.5M8.5 16C10.376 13.9462 11.4421 11.281 11.5 8.5C11.4421 5.71903 10.376 3.05376 8.5 1M8.5 16C6.62404 13.9462 5.55794 11.281 5.5 8.5C5.55794 5.71903 6.62404 3.05376 8.5 1M1 8.5C1 4.35786 4.35786 1 8.5 1"
+                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            </span>
+                                            <div>
+                                                <span class="title">Languages</span>
+                                                <span class="duration">English</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="tg-tour-details-video-feature-price mb-15">
+                                    <p>From <span>$59.00</span> / Person</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- tg-tour-details-area-end -->
+
+            <!-- tg-tour-about-start -->
+            <div class="tg-tour-about-area tg-tour-about-border pt-40 pb-70">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-8">
+                            <div class="tg-tour-about-wrap mr-55">
+                                <div class="tg-tour-about-content">
+                                    <div class="tg-tour-about-inner mb-25">
+                                        <h4 class="tg-tour-about-title mb-15">About This Tour</h4>
+                                        <p class="text-capitalize lh-28">isiting Stonehenge, Bath, and Windsor Castle in
+                                            one
+                                            day is next to impossible. Designed specifically for
+                                            lers with limited time in London, this tour allows you to check off a range of
+                                            southern England‘s are l
+                                            attractions in just one day by eliminating the hassle of traveling between each
+                                            one
+                                            independently. Travel
+                                            by comfortable coach and witness your guide bring each.</p>
+                                    </div>
+                                    <div class="tg-tour-about-inner mb-40">
+                                        <h4 class="tg-tour-about-title mb-20">Trip Highlights</h4>
+                                        <div class="tg-tour-about-list">
+                                            <ul>
+                                                <li>
+                                                    <span class="icon mr-10"><i
+                                                            class="fa-sharp fa-solid fa-check fa-fw"></i></span>
+                                                    <span class="text">Tour the city with a licensed NYC tour guide,
+                                                        who</span>
+                                                </li>
+                                                <li>
+                                                    <span class="icon mr-10"><i
+                                                            class="fa-sharp fa-solid fa-check fa-fw"></i></span>
+                                                    <span class="text">Explore with a guide to delve deeper into the
+                                                        history</span>
+                                                </li>
+                                                <li>
+                                                    <span class="icon mr-10"><i
+                                                            class="fa-sharp fa-solid fa-check fa-fw"></i></span>
+                                                    <span class="text">Great for history buffs and travelers with limited
+                                                        time</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="tg-tour-about-border mb-40"></div>
+                                    <div class="tg-tour-about-inner mb-40">
+                                        <h4 class="tg-tour-about-title mb-20">Included/Exclude</h4>
+                                        <div class="row">
+                                            <div class="col-lg-5">
+                                                <div class="tg-tour-about-list  tg-tour-about-list-2">
+                                                    <ul>
+                                                        <li>
+                                                            <span class="icon mr-10"><i
+                                                                    class="fa-sharp fa-solid fa-check fa-fw"></i></span>
+                                                            <span class="text">Pick and Drop Service</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="icon mr-10"><i
+                                                                    class="fa-sharp fa-solid fa-check fa-fw"></i></span>
+                                                            <span class="text">1 Meal Per Day</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="icon mr-10"><i
+                                                                    class="fa-sharp fa-solid fa-check fa-fw"></i></span>
+                                                            <span class="text">Cruise Dinner & Music Event</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="icon mr-10"><i
+                                                                    class="fa-sharp fa-solid fa-check fa-fw"></i></span>
+                                                            <span class="text">Visit 7 Best Places</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <div class="tg-tour-about-list tg-tour-about-list-2 disable">
+                                                    <ul>
+                                                        <li>
+                                                            <span class="icon mr-10"><i
+                                                                    class="fa-sharp fa-solid fa-xmark"></i></span>
+                                                            <span class="text"> Gratuities</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="icon mr-10"><i
+                                                                    class="fa-sharp fa-solid fa-xmark"></i></span>
+                                                            <span class="text">Return airport and round trip
+                                                                transfers.</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="icon mr-10"><i
+                                                                    class="fa-sharp fa-solid fa-xmark"></i></span>
+                                                            <span class="text">Luxury air-conditioned coach</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="icon mr-10"><i
+                                                                    class="fa-sharp fa-solid fa-xmark"></i></span>
+                                                            <span class="text">Tickets</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tg-tour-about-border mb-40"></div>
+                                    <div class="tg-tour-faq-wrap mb-70">
+                                        <h4 class="tg-tour-about-title mb-15">Tour Plan</h4>
+                                        <p class="text-capitalize lh-28 mb-20">Castle in one day is next to impossible.
+                                            Designed specifically for trave arelimited time in London
+                                            ws you to check off a range of southern England‘s are historical</p>
+                                        <div class="tg-tour-about-faq-inner">
+                                            <div class="tg-tour-about-faq" id="accordionExample">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                            aria-expanded="true" aria-controls="collapseOne">
+                                                            <span>Day-01</span> London to Amsterdam
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                                        data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <p>Trade Center is the seventh tallest building in the world and
+                                                                the
+                                                                tallest building in the w hemisph
+                                                                ere. This skyscraper standst view of New York City. From
+                                                                here,
+                                                                you have awesome Manhattan
+                                                                the Statue of Liberty, Brooklyn, Staten Island, </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                            aria-expanded="false" aria-controls="collapseTwo">
+                                                            <span>Day-02</span>  Art Museums, Central Park, Rockefeller
+                                                            Center,
+                                                            Times Square
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                                        data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <p>Trade Center is the seventh tallest building in the world and
+                                                                the
+                                                                tallest building in the w hemisph
+                                                                ere. This skyscraper standst view of New York City. From
+                                                                here,
+                                                                you have awesome Manhattan
+                                                                the Statue of Liberty, Brooklyn, Staten Island, </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                                            aria-expanded="false" aria-controls="collapseThree">
+                                                            <span>Day-03</span>  The Statue of Liberty, Ellis Island, the
+                                                            Tenement Museum & a Food Tour
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseThree" class="accordion-collapse collapse"
+                                                        data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <p>Trade Center is the seventh tallest building in the world and
+                                                                the
+                                                                tallest building in the w hemisph
+                                                                ere. This skyscraper standst view of New York City. From
+                                                                here,
+                                                                you have awesome Manhattan
+                                                                the Statue of Liberty, Brooklyn, Staten Island, </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                                            aria-expanded="false" aria-controls="collapseFour">
+                                                            <span>Day-04</span> Empire State Building, Chelsea Market, the
+                                                            High
+                                                            Line & Hudson Yards
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseFour" class="accordion-collapse collapse"
+                                                        data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <p>Trade Center is the seventh tallest building in the world and
+                                                                the
+                                                                tallest building in the w hemisph
+                                                                ere. This skyscraper standst view of New York City. From
+                                                                here,
+                                                                you have awesome Manhattan
+                                                                the Statue of Liberty, Brooklyn, Staten Island, </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tg-tour-about-border mb-45"></div>
+                                    <div class="tg-tour-about-map mb-40">
+                                        <h4 class="tg-tour-about-title mb-15">Location</h4>
+                                        <p class="text-capitalize lh-28">Castle in one day is next to impossible. Designed
+                                            specifically for trave arelimited time in London, this tour
+                                            ws you to check off a range of southern England‘s are historical.</p>
+                                        <div class="tg-tour-about-map h-100">
+                                            <iframe
+                                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31078.361591144112!2d-74.0256365664179!3d40.705584751235754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1724572184688!5m2!1sen!2sbd"
+                                                width="600" height="450" style="border:0;" allowfullscreen=""
+                                                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                        </div>
+                                    </div>
+                                    <div class="tg-tour-about-border mb-45"></div>
+                                    <div class="tg-tour-about-review-wrap mb-45">
+                                        <h4 class="tg-tour-about-title mb-15">Customer Reviews</h4>
+                                        <p class="text-capitalize lh-28 mb-20">Castle in one day is next to impossible.
+                                            Designed specifically for trave arelimited time in London, this tour
+                                            ws you to check off a range of southern England‘s are historical</p>
+                                        <div class="tg-tour-about-review">
+                                            <div class="head-reviews">
+                                                <div class="review-left">
+                                                    <div class="review-info-inner">
+                                                        <h2>4.9</h2>
+                                                        <span>Excellent</span>
+                                                        <p>Based On 1582 Reviews</p>
+                                                    </div>
+                                                </div>
+                                                <div class="review-right">
+                                                    <div class="review-progress">
+                                                        <div class="item-review-progress">
+                                                            <div class="text-rv-progress">
+                                                                <p>Location</p>
+                                                            </div>
+                                                            <div class="bar-rv-progress">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar" style="width: 60%"> </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-avarage">
+                                                                <p>4/5</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-review-progress">
+                                                            <div class="text-rv-progress">
+                                                                <p>Amenities</p>
+                                                            </div>
+                                                            <div class="bar-rv-progress">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar" style="width: 65%"> </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-avarage">
+                                                                <p>4/5</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-review-progress">
+                                                            <div class="text-rv-progress">
+                                                                <p>Services</p>
+                                                            </div>
+                                                            <div class="bar-rv-progress">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar" style="width: 70%"> </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-avarage">
+                                                                <p>4/5</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-review-progress">
+                                                            <div class="text-rv-progress">
+                                                                <p>Price</p>
+                                                            </div>
+                                                            <div class="bar-rv-progress">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar" style="width: 80%"> </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-avarage">
+                                                                <p>3.5/5</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-review-progress mb-0">
+                                                            <div class="text-rv-progress">
+                                                                <p>Rooms</p>
+                                                            </div>
+                                                            <div class="bar-rv-progress">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar" style="width: 85%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-avarage">
+                                                                <p>5/5</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tg-tour-about-border mb-35"></div>
+                                    <div class="tg-tour-about-cus-review-wrap mb-25">
+                                        <h4 class="tg-tour-about-title mb-40">2 Reviews</h4>
+                                        <ul>
+                                            <li>
+                                                <div class="tg-tour-about-cus-review d-flex mb-40">
+                                                    <div class="tg-tour-about-cus-review-thumb">
+                                                        <img src="assets/img/tour-details/avatar.png" alt="avatar">
+                                                    </div>
+                                                    <div>
+                                                        <div
+                                                            class="tg-tour-about-cus-name mb-5 d-flex align-items-center justify-content-between flex-wrap">
+                                                            <h6 class="mr-10 mb-10 d-inline-block">Ronald Richards <span>-
+                                                                    20
+                                                                    Mar, 2023 . 4:00 Pm</span></h6>
+                                                            <span
+                                                                class="tg-tour-about-cus-review-star mb-10 d-inline-block">
+                                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                            </span>
+                                                        </div>
+                                                        <p class="text-capitalize lh-28 mb-10">Castle in one day is next to
+                                                            impossible. Designed specifically for trave areli areafol
+                                                            time in London, this tour allou to check off a range of southern
+                                                            day
+                                                            is next together
+                                                            impossible. Designed speciEngland.</p>
+                                                        <a class="tg-tour-about-cus-reply" href="#">Reply</a>
+                                                    </div>
+                                                </div>
+                                                <div class="tg-tour-about-border mb-40"></div>
+                                            </li>
+                                            <li>
+                                                <div class="tg-tour-about-cus-review d-flex mb-40">
+                                                    <div class="tg-tour-about-cus-review-thumb">
+                                                        <img src="assets/img/tour-details/avatr.png" alt="avatar">
+                                                    </div>
+                                                    <div>
+                                                        <div
+                                                            class="tg-tour-about-cus-name mb-5 d-flex align-items-center justify-content-between flex-wrap">
+                                                            <h6 class="mr-10 mb-10 d-inline-block">Annette Black <span>- 20
+                                                                    Mar, 2023 . 4:00 Pm</span></h6>
+                                                            <span
+                                                                class="tg-tour-about-cus-review-star mb-10 d-inline-block">
+                                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                            </span>
+                                                        </div>
+                                                        <p class="text-capitalize lh-28 mb-10">Castle in one day is next to
+                                                            impossible. Designed specifically for trave areli areafol
+                                                            time in London, this tour allou to check off a range of southern
+                                                            day
+                                                            is next together
+                                                            impossible. Designed speciEngland.</p>
+                                                        <a class="tg-tour-about-cus-reply" href="#">Reply</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tg-tour-about-border mb-45"></div>
+                                    <div class="tg-tour-about-review-form-wrap mb-45">
+                                        <h4 class="tg-tour-about-title mb-5">Leave a Reply</h4>
+                                        <div class="tg-tour-about-rating-category mb-20">
+                                            <ul>
+                                                <li>
+                                                    <label>Location :</label>
+                                                    <div class="rating-icon">
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label>Price :</label>
+                                                    <div class="rating-icon">
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label>Amenities :</label>
+                                                    <div class="rating-icon">
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label>Rooms :</label>
+                                                    <div class="rating-icon">
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label>Services :</label>
+                                                    <div class="rating-icon">
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                        <i class="fa-sharp fa-solid fa-star"></i>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="tg-tour-about-review-form">
+                                            <form action="#">
+                                                <div class="row">
+                                                    <div class="col-lg-6 mb-15">
+                                                        <input class="input" type="text" placeholder="Your Name">
+                                                    </div>
+                                                    <div class="col-lg-6 mb-15">
+                                                        <input class="input" type="email"
+                                                            placeholder="E-mail Address">
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <textarea class="textarea  mb-5" placeholder="Write Message"></textarea>
+                                                        <div class="review-checkbox d-flex align-items-center mb-25">
+                                                            <input class="tg-checkbox" type="checkbox" id="australia">
+                                                            <label for="australia" class="tg-label">Save my name, email,
+                                                                and
+                                                                website in this browser for the next time I comment.</label>
+                                                        </div>
+                                                        <button type="submit"
+                                                            class="tg-btn tg-btn-switch-animation">Submit
+                                                            Review</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4">
+                            <div class="tg-tour-about-sidebar top-sticky mb-50">
+                                <form action="#">
+                                    <h4 class="tg-tour-about-title title-2 mb-15">Book This Tour</h4>
+                                    <div class="tg-booking-form-parent-inner mb-10">
+                                        <div class="tg-tour-about-date p-relative">
+                                            <input class="input" name="datetime-local" type="text"
+                                                placeholder="When (Date)">
+                                            <span class="calender">
+                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M11.1111 1V3.80003M4.88888 1V3.80003M1 6.59992H15M2.55556 2.39988H13.4444C14.3036 2.39988 15 3.02668 15 3.79989V13.6C15 14.3732 14.3036 15 13.4444 15H2.55556C1.69645 15 1 14.3732 1 13.6V3.79989C1 3.02668 1.69645 2.39988 2.55556 2.39988Z"
+                                                        stroke="#560CE3" stroke-width="1.1" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            </span>
+                                            <span class="angle"><i class="fa-sharp fa-solid fa-angle-down"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="tg-tour-about-time d-flex align-items-center mb-10">
+                                        <span class="time">Time:</span>
+                                        <div class="form-check mr-15">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="time1" checked>
+                                            <label class="form-check-label" for="time1">
+                                                12:00
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="time2">
+                                            <label class="form-check-label" for="time2">
+                                                19:00
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tg-tour-about-border-doted mb-15"></div>
+                                    <div class="tg-tour-about-tickets-wrap mb-15">
+                                        <span class="tg-tour-about-sidebar-title">Tickets:</span>
+                                        <div class="tg-tour-about-tickets mb-10">
+                                            <div class="tg-tour-about-tickets-adult">
+                                                <span>Adult</span>
+                                                <p class="mb-0">(14+ years) <span>$20</span></p>
+                                            </div>
+                                            <div class="tg-tour-about-tickets-quantity">
+                                                <select class="select  item-first">
+                                                    <option>0</option>
+                                                    <option>01</option>
+                                                    <option>02</option>
+                                                    <option>04</option>
+                                                    <option>05</option>
+                                                    <option>06</option>
+                                                    <option>07</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="tg-tour-about-tickets mb-10">
+                                            <div class="tg-tour-about-tickets-adult">
+                                                <span>Youth </span>
+                                                <p class="mb-0">(13-17 years) <span>$20</span></p>
+                                            </div>
+                                            <div class="tg-tour-about-tickets-quantity">
+                                                <select class="select  item-first">
+                                                    <option>0</option>
+                                                    <option>01</option>
+                                                    <option>02</option>
+                                                    <option>04</option>
+                                                    <option>05</option>
+                                                    <option>06</option>
+                                                    <option>07</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="tg-tour-about-tickets mb-10">
+                                            <div class="tg-tour-about-tickets-adult">
+                                                <span>Children </span>
+                                                <p class="mb-0">(13-17 years) <span>$15</span></p>
+                                            </div>
+                                            <div class="tg-tour-about-tickets-quantity">
+                                                <select class="select  item-first">
+                                                    <option>0</option>
+                                                    <option>01</option>
+                                                    <option>02</option>
+                                                    <option>04</option>
+                                                    <option>05</option>
+                                                    <option>06</option>
+                                                    <option>07</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tg-tour-about-border-doted mb-15"></div>
+                                    <div class="tg-tour-about-extra mb-10">
+                                        <span class="tg-tour-about-sidebar-title mb-10 d-inline-block">Add Extra:</span>
+                                        <div class="tg-filter-list">
+                                            <ul>
+                                                <li>
+                                                    <div class="checkbox d-flex">
+                                                        <input class="tg-checkbox" type="checkbox" id="amenities">
+                                                        <label for="amenities" class="tg-label">Service per
+                                                            booking</label>
+                                                    </div>
+                                                    <span class="quantity">$30.00</span>
+                                                </li>
+                                                <li>
+                                                    <div class="checkbox d-flex">
+                                                        <input class="tg-checkbox" type="checkbox" id="amenities-2">
+                                                        <label for="amenities-2" class="tg-label">Service per
+                                                            person</label>
+                                                    </div>
+                                                    <span class="quantity">$20.00</span>
+                                                </li>
+                                                <li>
+                                                    <span class="adult">Adult:</span>
+                                                    <span class="quantity">$15.00</span>
+                                                </li>
+                                                <li>
+                                                    <span class="adult">Youth:</span>
+                                                    <span class="quantity">$20.00</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="tg-tour-about-border-doted mb-15"></div>
+                                    <div
+                                        class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
+                                        <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
+                                        <h5 class="total-price">$300.00</h5>
+                                    </div>
+                                    <button type="submit" class="tg-btn tg-btn-switch-animation w-100">Book now</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- tg-tour-about-end -->
+        </div>
+    </main>
+    <!-- main-area-end -->
+@endsection
+
+
+@push('js_section')
+    <script>
+        (function($) {
+            "use strict"
+            $(document).ready(function() {
+
+                // Initialize timepicker
+                $(".timepicker").flatpickr({
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                    time_24hr: true
+                });
+            });
+        })(jQuery);
+    </script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('data', () => ({
+                page: 1,
+                isListView: false,
+                style: 'style1',
+                // Booking form data
+                defaultBookingForm: {
+                    destination_id: '',
+                    destination: 'Where are you going . . .',
+                    checkIn: '',
+                    checkOut: '',
+                    rooms: 1,
+                    adults: 1,
+                    children: 0
+                },
+                bookingForm: {
+                    destination_id: `{{ request('destination_id', '') }}`,
+                    destination: `{{ request('destination', '') }}`,
+                    checkIn: `{{ request('checkIn', '') }}`,
+                    checkOut: `{{ request('checkOut', '') }}`,
+                    rooms: `{{ request('rooms', '') }}`,
+                    adults: `{{ request('adults', '') }}`,
+                    children: `{{ request('children', '') }}`,
+                },
+                incrementRooms() {
+                    this.bookingForm.rooms++;
+                },
+                decrementRooms() {
+                    if (this.bookingForm.rooms > 0) {
+                        this.bookingForm.rooms--;
+                    }
+                },
+                incrementAdults() {
+                    this.bookingForm.adults++;
+                },
+                decrementAdults() {
+                    if (this.bookingForm.adults > 0) {
+                        this.bookingForm.adults--;
+                    }
+                },
+                incrementChildren() {
+                    this.bookingForm.children++;
+                },
+                decrementChildren() {
+                    if (this.bookingForm.children > 0) {
+                        this.bookingForm.children--;
+                    }
+                },
+                selectDestination(destinationId, destinationName) {
+                    this.bookingForm.destination_id = destinationId;
+                    this.bookingForm.destination = destinationName;
+                },
+                filters: {
+                    search: `{{ request('search', '') }}`,
+                    service_type_ids: {!! json_encode(request('service_type_ids', [])) !!},
+                    max_price: `{{ request('max_price', '') }}`,
+                    min_price: `{{ request('min_price', '') }}`,
+                    amenity_ids: {!! json_encode(request('amenity_ids', [])) !!},
+                    languages: {!! json_encode(request('languages', [])) !!},
+                    sort_by: `{{ request('sort_by', '') }}`,
+                },
+                defaultFilters: {
+                    search: '',
+                    service_type_ids: [],
+                    max_price: '',
+                    min_price: '',
+                    amenity_ids: [],
+                    languages: [],
+                    sort_by: '',
+                },
+                get isFilterChanged() {
+                    return JSON.stringify(this.filters) !== JSON.stringify(this.defaultFilters);
+                },
+                get isBookingFilterChanged() {
+                    return JSON.stringify(this.bookingForm) !== JSON.stringify(this
+                        .defaultBookingForm);
+                },
+                updateURL(value) {
+                    var currentURL = window.location.protocol + "//" + window.location.host + window
+                        .location.pathname;
+                    var queryParams = [];
+
+                    // Loop through the object and only add non-empty values to the query params
+                    for (const [key, val] of Object.entries(value)) {
+                        // Check if the value is an array
+                        if (Array.isArray(val)) {
+                            if (val.length > 0) {
+                                // Append [] to key for array values
+                                val.forEach(item => {
+                                    queryParams.push(
+                                        `${encodeURIComponent(key)}%5B%5D=${encodeURIComponent(item)}`
+                                    );
+                                });
+                            }
+                        }
+                        // Check if the value is not empty, and not equal to the default value
+                        else if (val !== null && val !== undefined && val !== '') {
+                            queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`);
+                        }
+                    }
+
+                    // Join all query parameters with '&'
+                    var queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+
+                    var newURL = currentURL + queryString;
+
+                    // Update the browser's URL
+                    window.history.pushState({
+                        path: newURL
+                    }, '', newURL);
+                },
+                resetFilters() {
+                    this.filters = JSON.parse(JSON.stringify(this.defaultFilters));
+                    this.bookingForm = JSON.parse(JSON.stringify({
+                        destination_id: '',
+                        destination: '',
+                        checkIn: '',
+                        checkOut: '',
+                        rooms: '',
+                        adults: '',
+                        children: ''
+                    }));
+
+                    this.$nextTick(() => {
+                        $('#sortSelect').val('default').niceSelect('update');
+                    });
+                },
+                init() {
+                    this.$watch('filters', (value, oldValue) => {
+                        this.page = 1;
+                        this.fetchServices();
+                        this.updateURL({
+                            ...this.bookingForm,
+                            ...this.filters
+                        });
+                    });
+                    this.initializeAll();
+                },
+                fetchServices() {
+                    that = this;
+                    $.ajax({
+                        url: `{{ route('front.tourbooking.services.load.ajax') }}`,
+                        method: 'GET',
+                        data: {
+                            ...this.filters,
+                            ...this.bookingForm,
+                            page: this.page,
+                            isListView: this.isListView,
+                            style: this.style
+                        },
+                        beforeSend: function() {
+                            $('#filter_data').html(
+                                `<div id="loading item_loading"><div class="loader"></div></div>`
+                            );
+                        },
+                        success: function(response) {
+                            $('#filter_data').html(response.view);
+                            $('.custom_pagination_count').html(response
+                                .customPaginationCount);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                },
+                searchServices() {
+                    this.page = 1;
+                    this.fetchServices();
+                    this.updateURL({
+                        ...this.bookingForm,
+                        ...this.filters
+                    });
+                },
+                initializeAll() {
+                    $(document).on('click', '.pagination a', (event) => {
+                        event.preventDefault();
+                        const page = $(event.target).attr('href').split('page=')[1];
+                        this.page = page;
+                        this.fetchServices();
+                        $("html, body").animate({
+                            scrollTop: 0
+                        }, 500);
+                    });
+
+                    this.$nextTick(() => {
+                        $('#sortSelect').niceSelect();
+                        $('#sortSelect').on('change', (e) => {
+                            this.filters.sort_by = e.target.value;
+                        });
+                        $('#sortSelect').val(this.filters.sort_by || 'default').niceSelect(
+                            'update');
+
+                    });
+
+                    this.fetchServices();
+                }
+            }));
+        });
+    </script>
+@endpush
+
+@push('style_section')
+    <style>
+        a.tg-listing-item-wishlist.active {
+            color: var(--tg-theme-primary);
+        }
+    </style>
+@endpush

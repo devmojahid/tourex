@@ -190,7 +190,7 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middlew
     Route::get('/services-3', [FrontServiceController::class, 'allServicesThree'])->name('services-3');
     Route::get('/services-4', [FrontServiceController::class, 'allServicesFour'])->name('services-4');
     Route::get('/services/load', [FrontServiceController::class, 'loadServicesAjax'])->name('services.load.ajax');
-    Route::get('/services/{slug}', [FrontServiceController::class, 'serviceDetail'])->name('services.show');
+    Route::get('/service/{slug}', [FrontServiceController::class, 'serviceDetail'])->name('services.show');
     Route::get('/tours', [FrontServiceController::class, 'tours'])->name('tours');
     Route::get('/hotels', [FrontServiceController::class, 'hotels'])->name('hotels');
     Route::get('/restaurants', [FrontServiceController::class, 'restaurants'])->name('restaurants');

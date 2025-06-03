@@ -12,6 +12,7 @@ function addToWishlist(item_id, element, type = 'product') {
         },
         success: function (response) {
             $(element).toggleClass('active');
+            $(element).find('.wishlist_change_text').text(response.message);
             toastr.success(response.message);
         },
         error: function (xhr) {

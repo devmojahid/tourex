@@ -358,9 +358,11 @@ final class FrontServiceController extends Controller
      */
     public function serviceDetail(string $slug): View
     {
+
         $service = Service::where('slug', $slug)
             ->where('status', true)
             ->with([
+                'translation',
                 'media',
                 'serviceType',
                 'reviews' => function ($query) {
@@ -373,6 +375,7 @@ final class FrontServiceController extends Controller
                     $query->orderBy('day_number');
                 }
             ])
+            ->withExists('myWishlist')
             ->firstOrFail();
 
         // Get related services
@@ -394,6 +397,8 @@ final class FrontServiceController extends Controller
                 ->where('is_reviewed', false)
                 ->exists();
         }
+
+        // dd($service);
 
         return view('tourbooking::front.services.service-detail', compact('service', 'relatedServices', 'canReview'));
     }
