@@ -363,8 +363,8 @@ final class FrontServiceController extends Controller
             ->where('status', true)
             ->with([
                 'translation',
-                'media',
-                'serviceType',
+                'media:id,service_id,file_name,file_path,is_thumbnail',
+                'serviceType:id,name',
                 'reviews' => function ($query) {
                     $query->where('status', true);
                 },
@@ -399,6 +399,7 @@ final class FrontServiceController extends Controller
         }
 
         // dd($service);
+
 
         return view('tourbooking::front.services.service-detail', compact('service', 'relatedServices', 'canReview'));
     }

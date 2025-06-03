@@ -89,124 +89,167 @@
                                             d="M10.2606 10.7831L10.2878 10.8183L10.2606 10.7831L10.2482 10.7928C10.0554 10.9422 9.86349 11.0909 9.67488 11.2404C9.32643 11.5165 9.01846 11.7565 8.72239 11.9304C8.42614 12.1044 8.19324 12.1804 7.99978 12.1804C7.80633 12.1804 7.57342 12.1044 7.27718 11.9304C6.9811 11.7565 6.67312 11.5165 6.32472 11.2404C6.13618 11.091 5.94436 10.9423 5.75159 10.7929L5.73897 10.7831C4.90868 10.1397 4.06133 9.48294 3.36178 8.6911C2.51401 7.73157 1.92536 6.61544 1.92536 5.16811C1.92536 3.75448 2.71997 2.57143 3.80086 2.07481C4.84765 1.59384 6.26028 1.71692 7.61021 3.12673L7.64151 3.09675L7.61021 3.12673C7.7121 3.23312 7.85274 3.2933 7.99978 3.2933C8.14682 3.2933 8.28746 3.23312 8.38936 3.12673L8.35868 3.09736L8.38936 3.12673C9.73926 1.71692 11.1519 1.59384 12.1987 2.07481C13.2796 2.57143 14.0742 3.75448 14.0742 5.16811C14.0742 6.61544 13.4856 7.73157 12.6378 8.69109L12.668 8.71776L12.6378 8.6911C11.9382 9.48294 11.0909 10.1397 10.2606 10.7831ZM5.10884 11.6673L5.13604 11.6321L5.10884 11.6673L5.10901 11.6674C5.29802 11.8137 5.48112 11.9554 5.65523 12.0933C5.99368 12.3616 6.35981 12.6498 6.73154 12.8682L6.75405 12.8298L6.73154 12.8682C7.10315 13.0864 7.53174 13.2667 7.99978 13.2667C8.46782 13.2667 8.89641 13.0864 9.26802 12.8682L9.24552 12.8298L9.26803 12.8682C9.63979 12.6498 10.0059 12.3615 10.3443 12.0933C10.5185 11.9553 10.7016 11.8136 10.8907 11.6673L10.8907 11.6673L10.8926 11.6659C11.7255 11.0212 12.6722 10.2884 13.4463 9.41228L13.413 9.38285L13.4463 9.41227C14.4145 8.31636 15.1553 6.95427 15.1553 5.16811C15.1553 3.34832 14.1308 1.76808 12.6483 1.08693C11.2517 0.445248 9.53362 0.635775 7.99979 1.99784C6.46598 0.635775 4.74782 0.445248 3.35124 1.08693C1.86877 1.76808 0.844227 3.34832 0.844227 5.16811C0.844227 6.95427 1.58502 8.31636 2.55325 9.41227C3.32727 10.2883 4.27395 11.0211 5.10682 11.6657L5.10884 11.6673Z"
                                             fill="currentColor" stroke="currentColor" stroke-width="0.0888889" />
                                     </svg>
-                                    <span class="wishlist_change_text">@if ($service?->my_wishlist_exists == 1)
-                                        Remove
-                                    @else
-                                        Add
-                                    @endif to Wishlist</span>
+                                    <span class="wishlist_change_text">
+                                        @if ($service?->my_wishlist_exists == 1)
+                                            Remove
+                                        @else
+                                            Add
+                                        @endif to Wishlist
+                                    </span>
                                 </a>
                             </div>
                         </div>
                     </div>
+
+                    @php
+                        $thumbnails = $service->media->where('is_thumbnail', 1)->sortBy('display_order')->values();
+                        $nonThumbnails = $service->media->where('is_thumbnail', 0)->sortBy('display_order')->values();
+                    @endphp
+
                     <div class="row gx-15 mb-25">
+                        {{-- Left side: Big image (first thumbnail) --}}
                         <div class="col-lg-7">
                             <div class="tg-tour-details-video-thumb mb-15">
-                                <img class="w-100" src="assets/img/tour-details/thumb-4.jpg" alt="">
+                                @if (isset($thumbnails[0]))
+                                    <img class="w-100" src="{{ asset($thumbnails[0]->file_path) }}"
+                                        alt="{{ $thumbnails[0]->caption }}">
+                                @else
+                                    <img class="w-100" src="{{ asset('frontend/assets/img/shape/placeholder.png') }}"
+                                        alt="default">
+                                @endif
                             </div>
                         </div>
+
+                        {{-- Right side: Small images --}}
                         <div class="col-lg-5">
-                            <div class="row  gx-15">
+                            <div class="row gx-15">
+                                {{-- Top-right: play button image --}}
                                 <div class="col-12">
                                     <div class="tg-tour-details-video-thumb p-relative mb-15">
-                                        <img class="w-100" src="assets/img/tour-details/thumb-1.jpg" alt="">
-                                        <div class="tg-tour-details-video-inner text-center">
-                                            <a class="tg-video-play popup-video tg-pulse-border"
-                                                href="https://www.youtube.com/watch?v=sY2bdbsy3rg">
-                                                <span class="p-relative z-index-11">
-                                                    <svg width="19" height="21" viewBox="0 0 19 21" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M17.3616 8.34455C19.0412 9.31425 19.0412 11.7385 17.3616 12.7082L4.13504 20.3445C2.45548 21.3142 0.356021 20.1021 0.356021 18.1627L0.356022 2.89C0.356022 0.950609 2.45548 -0.261512 4.13504 0.708185L17.3616 8.34455Z"
-                                                            fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </a>
+                                        @if (isset($nonThumbnails[0]))
+                                            <img class="w-100" src="{{ asset($nonThumbnails[0]->file_path) }}"
+                                                alt="{{ $nonThumbnails[0]->caption }}">
+                                            <div class="tg-tour-details-video-inner text-center">
+                                                <a class="tg-video-play popup-video tg-pulse-border"
+                                                    href="{{ $service->video_url }}">
+                                                    <span class="p-relative z-index-11">
+                                                        <svg width="19" height="21" viewBox="0 0 19 21"
+                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M17.3616 8.34455C19.0412 9.31425 19.0412 11.7385 17.3616 12.7082L4.13504 20.3445C2.45548 21.3142 0.356021 20.1021 0.356021 18.1627L0.356022 2.89C0.356022 0.950609 2.45548 -0.261512 4.13504 0.708185L17.3616 8.34455Z"
+                                                                fill="currentColor" />
+                                                        </svg>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                {{-- Bottom-right: two smaller images --}}
+                                @for ($i = 1; $i <= 2; $i++)
+                                    @if (isset($nonThumbnails[$i]))
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="tg-tour-details-video-thumb mb-15">
+                                                <img class="w-100" src="{{ asset($nonThumbnails[$i]->file_path) }}"
+                                                    alt="{{ $nonThumbnails[$i]->caption }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="tg-tour-details-video-thumb mb-15">
-                                        <img class="w-100" src="assets/img/tour-details/thumb-2.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="tg-tour-details-video-thumb mb-15">
-                                        <img class="w-100" src="assets/img/tour-details/thumb-3.jpg" alt="">
-                                    </div>
-                                </div>
+                                    @endif
+                                @endfor
                             </div>
                         </div>
                     </div>
+
                     <div class="tg-tour-details-feature-list-wrap">
                         <div class="row align-items-center">
                             <div class="col-lg-8">
                                 <div class="tg-tour-details-video-feature-list">
                                     <ul>
-                                        <li>
-                                            <span class="icon">
-                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M9.00001 4.19992V8.99992L12.2 10.5999M17 9C17 13.4183 13.4183 17 9 17C4.58172 17 1 13.4183 1 9C1 4.58172 4.58172 1 9 1C13.4183 1 17 4.58172 17 9Z"
-                                                        stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </span>
-                                            <div>
-                                                <span class="title">Duration</span>
-                                                <span class="duration">4 days</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="icon">
-                                                <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M11.5 6.52684L4.5 2.64944M1.21001 4.70401L8.00001 8.47683L14.79 4.70401M8 16V8.46931M15 11.4578V5.48102C14.9997 5.21899 14.9277 4.96165 14.7912 4.7348C14.6547 4.50794 14.4585 4.31956 14.2222 4.18855L8.77778 1.20018C8.5413 1.06904 8.27306 1 8 1C7.72694 1 7.4587 1.06904 7.22222 1.20018L1.77778 4.18855C1.54154 4.31956 1.34532 4.50794 1.2088 4.7348C1.07229 4.96165 1.00028 5.21899 1 5.48102V11.4578C1.00028 11.7198 1.07229 11.9771 1.2088 12.204C1.34532 12.4308 1.54154 12.6192 1.77778 12.7502L7.22222 15.7386C7.4587 15.8697 7.72694 15.9388 8 15.9388C8.27306 15.9388 8.5413 15.8697 8.77778 15.7386L14.2222 12.7502C14.4585 12.6192 14.6547 12.4308 14.7912 12.204C14.9277 11.9771 14.9997 11.7198 15 11.4578Z"
-                                                        stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </span>
-                                            <div>
-                                                <span class="title">Type</span>
-                                                <span class="duration">Adventure</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="icon">
-                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M1.7 17.2C1.5 17.2 1.3 17.1 1.2 17C1.1 16.8 1 16.7 1 16.5C1 15.1 1.4 13.7 2.1 12.4C2.8 11.2 3.9 10.1 5.1 9.4C4.6 8.8 4.2 8 4 7.2C3.9 6.4 3.9 5.5 4.1 4.8C4.3 4 4.8 3.2 5.3 2.6C5.9 2 6.6 1.5 7.3 1.3C7.9 1.1 8.5 1 9.1 1C9.3 1 9.6 1 9.8 1C10.6 1.1 11.4 1.4 12.1 1.9C12.8 2.4 13.3 3 13.7 3.7C14.1 4.4 14.3 5.2 14.3 6.1C14.3 7.3 13.9 8.5 13.1 9.4C13.7 9.8 14.3 10.2 14.9 10.7C15.7 11.5 16.2 12.3 16.7 13.3C17.1 14.3 17.3 15.3 17.3 16.4C17.3 16.6 17.2 16.8 17.1 16.9C17 17 16.8 17.1 16.6 17.1C16.5 17.1 16.4 17.1 16.3 17C16.2 17 16.1 16.9 16.1 16.8C16 16.7 16 16.7 15.9 16.6C15.9 16.5 15.8 16.4 15.8 16.3C15.8 15.4 15.6 14.6 15.3 13.8C15 13 14.5 12.3 13.8 11.7C13.2 11.2 12.6 10.7 11.9 10.4C11.1 10.9 10.2 11.2 9.1 11.2C8.1 11.2 7.1 10.9 6.3 10.4C5.2 10.9 4.2 11.7 3.5 12.8C2.8 13.9 2.4 15.1 2.4 16.4C2.4 16.6 2.3 16.8 2.2 16.9C2.1 17.1 1.9 17.2 1.7 17.2ZM9.1 2.5C8.4 2.5 7.7 2.7 7.1 3.1C6.4 3.5 6 4.1 5.7 4.7C5.4 5.4 5.3 6.1 5.5 6.9C5.6 7.6 6 8.3 6.5 8.8C7 9.3 7.7 9.7 8.4 9.8C8.6 9.8 8.9 9.9 9.1 9.9C9.6 9.9 10.1 9.8 10.5 9.6C11.2 9.3 11.7 8.9 12.2 8.2C12.6 7.6 12.8 6.9 12.8 6.2C12.8 5.2 12.4 4.3 11.7 3.6C11 2.8 10.1 2.5 9.1 2.5Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                            </span>
-                                            <div>
-                                                <span class="title">Group Size</span>
-                                                <span class="duration">50 People</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="icon">
-                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M16 8.5C16 12.6421 12.6421 16 8.5 16M16 8.5C16 4.35786 12.6421 1 8.5 1M16 8.5H1M8.5 16C4.35786 16 1 12.6421 1 8.5M8.5 16C10.376 13.9462 11.4421 11.281 11.5 8.5C11.4421 5.71903 10.376 3.05376 8.5 1M8.5 16C6.62404 13.9462 5.55794 11.281 5.5 8.5C5.55794 5.71903 6.62404 3.05376 8.5 1M1 8.5C1 4.35786 4.35786 1 8.5 1"
-                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </span>
-                                            <div>
-                                                <span class="title">Languages</span>
-                                                <span class="duration">English</span>
-                                            </div>
-                                        </li>
+
+                                        @if ($service?->duration)
+                                            <li>
+                                                <span class="icon">
+                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M9.00001 4.19992V8.99992L12.2 10.5999M17 9C17 13.4183 13.4183 17 9 17C4.58172 17 1 13.4183 1 9C1 4.58172 4.58172 1 9 1C13.4183 1 17 4.58172 17 9Z"
+                                                            stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                    </svg>
+                                                </span>
+                                                <div>
+                                                    <span class="title">Duration</span>
+                                                    <span class="duration">{{ $service?->duration }} </span>
+                                                </div>
+                                            </li>
+                                        @endif
+
+                                        @if ($service?->serviceType?->name)
+                                            <li>
+                                                <span class="icon">
+                                                    <svg width="16" height="17" viewBox="0 0 16 17"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M11.5 6.52684L4.5 2.64944M1.21001 4.70401L8.00001 8.47683L14.79 4.70401M8 16V8.46931M15 11.4578V5.48102C14.9997 5.21899 14.9277 4.96165 14.7912 4.7348C14.6547 4.50794 14.4585 4.31956 14.2222 4.18855L8.77778 1.20018C8.5413 1.06904 8.27306 1 8 1C7.72694 1 7.4587 1.06904 7.22222 1.20018L1.77778 4.18855C1.54154 4.31956 1.34532 4.50794 1.2088 4.7348C1.07229 4.96165 1.00028 5.21899 1 5.48102V11.4578C1.00028 11.7198 1.07229 11.9771 1.2088 12.204C1.34532 12.4308 1.54154 12.6192 1.77778 12.7502L7.22222 15.7386C7.4587 15.8697 7.72694 15.9388 8 15.9388C8.27306 15.9388 8.5413 15.8697 8.77778 15.7386L14.2222 12.7502C14.4585 12.6192 14.6547 12.4308 14.7912 12.204C14.9277 11.9771 14.9997 11.7198 15 11.4578Z"
+                                                            stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                    </svg>
+                                                </span>
+                                                <div>
+                                                    <span class="title">Type</span>
+                                                    <span class="duration">{{ $service?->serviceType?->name }}</span>
+                                                </div>
+                                            </li>
+                                        @endif
+
+                                        @if ($service?->group_size)
+                                            <li>
+                                                <span class="icon">
+                                                    <svg width="18" height="18" viewBox="0 0 18 18"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M1.7 17.2C1.5 17.2 1.3 17.1 1.2 17C1.1 16.8 1 16.7 1 16.5C1 15.1 1.4 13.7 2.1 12.4C2.8 11.2 3.9 10.1 5.1 9.4C4.6 8.8 4.2 8 4 7.2C3.9 6.4 3.9 5.5 4.1 4.8C4.3 4 4.8 3.2 5.3 2.6C5.9 2 6.6 1.5 7.3 1.3C7.9 1.1 8.5 1 9.1 1C9.3 1 9.6 1 9.8 1C10.6 1.1 11.4 1.4 12.1 1.9C12.8 2.4 13.3 3 13.7 3.7C14.1 4.4 14.3 5.2 14.3 6.1C14.3 7.3 13.9 8.5 13.1 9.4C13.7 9.8 14.3 10.2 14.9 10.7C15.7 11.5 16.2 12.3 16.7 13.3C17.1 14.3 17.3 15.3 17.3 16.4C17.3 16.6 17.2 16.8 17.1 16.9C17 17 16.8 17.1 16.6 17.1C16.5 17.1 16.4 17.1 16.3 17C16.2 17 16.1 16.9 16.1 16.8C16 16.7 16 16.7 15.9 16.6C15.9 16.5 15.8 16.4 15.8 16.3C15.8 15.4 15.6 14.6 15.3 13.8C15 13 14.5 12.3 13.8 11.7C13.2 11.2 12.6 10.7 11.9 10.4C11.1 10.9 10.2 11.2 9.1 11.2C8.1 11.2 7.1 10.9 6.3 10.4C5.2 10.9 4.2 11.7 3.5 12.8C2.8 13.9 2.4 15.1 2.4 16.4C2.4 16.6 2.3 16.8 2.2 16.9C2.1 17.1 1.9 17.2 1.7 17.2ZM9.1 2.5C8.4 2.5 7.7 2.7 7.1 3.1C6.4 3.5 6 4.1 5.7 4.7C5.4 5.4 5.3 6.1 5.5 6.9C5.6 7.6 6 8.3 6.5 8.8C7 9.3 7.7 9.7 8.4 9.8C8.6 9.8 8.9 9.9 9.1 9.9C9.6 9.9 10.1 9.8 10.5 9.6C11.2 9.3 11.7 8.9 12.2 8.2C12.6 7.6 12.8 6.9 12.8 6.2C12.8 5.2 12.4 4.3 11.7 3.6C11 2.8 10.1 2.5 9.1 2.5Z"
+                                                            fill="currentColor" />
+                                                    </svg>
+                                                </span>
+                                                <div>
+                                                    <span class="title">Group Size</span>
+                                                    <span class="duration">{{ $service?->group_size }}</span>
+                                                </div>
+                                            </li>
+                                        @endif
+
+                                        @if ($service?->languages && count($service?->languages) > 0)
+                                            <li>
+                                                <span class="icon">
+                                                    <svg width="17" height="17" viewBox="0 0 17 17"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M16 8.5C16 12.6421 12.6421 16 8.5 16M16 8.5C16 4.35786 12.6421 1 8.5 1M16 8.5H1M8.5 16C4.35786 16 1 12.6421 1 8.5M8.5 16C10.376 13.9462 11.4421 11.281 11.5 8.5C11.4421 5.71903 10.376 3.05376 8.5 1M8.5 16C6.62404 13.9462 5.55794 11.281 5.5 8.5C5.55794 5.71903 6.62404 3.05376 8.5 1M1 8.5C1 4.35786 4.35786 1 8.5 1"
+                                                            stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round" stroke-linejoin="round" />
+                                                    </svg>
+                                                </span>
+                                                <div>
+                                                    <span class="title">Languages</span>
+                                                    <span class="duration">
+                                                        @foreach ($service?->languages as $language)
+                                                            {{ $language }}
+                                                            @if (!$loop->last)
+                                                                ,
+                                                            @endif
+                                                        @endforeach
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="tg-tour-details-video-feature-price mb-15">
-                                    <p>From <span>$59.00</span> / Person</p>
+                                    <p>From <span>{{ currency($service?->price_per_person) }}</span> / Person</p>
                                 </div>
                             </div>
                         </div>
@@ -224,101 +267,60 @@
                                 <div class="tg-tour-about-content">
                                     <div class="tg-tour-about-inner mb-25">
                                         <h4 class="tg-tour-about-title mb-15">About This Tour</h4>
-                                        <p class="text-capitalize lh-28">isiting Stonehenge, Bath, and Windsor Castle in
-                                            one
-                                            day is next to impossible. Designed specifically for
-                                            lers with limited time in London, this tour allows you to check off a range of
-                                            southern England‘s are l
-                                            attractions in just one day by eliminating the hassle of traveling between each
-                                            one
-                                            independently. Travel
-                                            by comfortable coach and witness your guide bring each.</p>
-                                    </div>
-                                    <div class="tg-tour-about-inner mb-40">
-                                        <h4 class="tg-tour-about-title mb-20">Trip Highlights</h4>
-                                        <div class="tg-tour-about-list">
-                                            <ul>
-                                                <li>
-                                                    <span class="icon mr-10"><i
-                                                            class="fa-sharp fa-solid fa-check fa-fw"></i></span>
-                                                    <span class="text">Tour the city with a licensed NYC tour guide,
-                                                        who</span>
-                                                </li>
-                                                <li>
-                                                    <span class="icon mr-10"><i
-                                                            class="fa-sharp fa-solid fa-check fa-fw"></i></span>
-                                                    <span class="text">Explore with a guide to delve deeper into the
-                                                        history</span>
-                                                </li>
-                                                <li>
-                                                    <span class="icon mr-10"><i
-                                                            class="fa-sharp fa-solid fa-check fa-fw"></i></span>
-                                                    <span class="text">Great for history buffs and travelers with limited
-                                                        time</span>
-                                                </li>
-                                            </ul>
+                                        <div class="text-capitalize lh-28">
+                                            {!! $service?->translation?->short_description !!}
                                         </div>
                                     </div>
-                                    <div class="tg-tour-about-border mb-40"></div>
-                                    <div class="tg-tour-about-inner mb-40">
-                                        <h4 class="tg-tour-about-title mb-20">Included/Exclude</h4>
-                                        <div class="row">
-                                            <div class="col-lg-5">
-                                                <div class="tg-tour-about-list  tg-tour-about-list-2">
-                                                    <ul>
-                                                        <li>
-                                                            <span class="icon mr-10"><i
-                                                                    class="fa-sharp fa-solid fa-check fa-fw"></i></span>
-                                                            <span class="text">Pick and Drop Service</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="icon mr-10"><i
-                                                                    class="fa-sharp fa-solid fa-check fa-fw"></i></span>
-                                                            <span class="text">1 Meal Per Day</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="icon mr-10"><i
-                                                                    class="fa-sharp fa-solid fa-check fa-fw"></i></span>
-                                                            <span class="text">Cruise Dinner & Music Event</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="icon mr-10"><i
-                                                                    class="fa-sharp fa-solid fa-check fa-fw"></i></span>
-                                                            <span class="text">Visit 7 Best Places</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7">
-                                                <div class="tg-tour-about-list tg-tour-about-list-2 disable">
-                                                    <ul>
-                                                        <li>
-                                                            <span class="icon mr-10"><i
-                                                                    class="fa-sharp fa-solid fa-xmark"></i></span>
-                                                            <span class="text"> Gratuities</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="icon mr-10"><i
-                                                                    class="fa-sharp fa-solid fa-xmark"></i></span>
-                                                            <span class="text">Return airport and round trip
-                                                                transfers.</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="icon mr-10"><i
-                                                                    class="fa-sharp fa-solid fa-xmark"></i></span>
-                                                            <span class="text">Luxury air-conditioned coach</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="icon mr-10"><i
-                                                                    class="fa-sharp fa-solid fa-xmark"></i></span>
-                                                            <span class="text">Tickets</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+
+                                    @if ($service?->translation?->description)
+                                        <div class="tg-tour-about-inner mb-40">
+                                            {!! $service?->translation?->description !!}
+                                        </div>
+                                        <div class="tg-tour-about-border mb-40"></div>
+                                    @endif
+
+                                    @if ($service?->included || $service?->excluded)
+                                        <div class="tg-tour-about-inner mb-40">
+                                            <h4 class="tg-tour-about-title mb-20">Included/Exclude</h4>
+                                            <div class="row">
+                                                @if ($service?->included)
+                                                    <div class="col-lg-5">
+                                                        <div class="tg-tour-about-list  tg-tour-about-list-2">
+                                                            <ul>
+                                                                @foreach (json_decode($service?->included) as $key => $item)
+                                                                    <li>
+                                                                        <span class="icon mr-10"><i
+                                                                                class="fa-sharp fa-solid fa-check fa-fw"></i></span>
+                                                                        <span class="text">{{ $item }}</span>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if ($service?->excluded)
+                                                    <div class="col-lg-7">
+                                                        <div class="tg-tour-about-list tg-tour-about-list-2 disable">
+                                                            <ul>
+                                                                @foreach (json_decode($service?->excluded) as $key => $item)
+                                                                    <li>
+                                                                        <span class="icon mr-10"><i
+                                                                                class="fa-sharp fa-solid fa-xmark"></i></span>
+                                                                        <span class="text">
+                                                                            {{ $item }}
+                                                                        </span>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tg-tour-about-border mb-40"></div>
+                                        <div class="tg-tour-about-border mb-40"></div>
+                                    @endif
+
                                     <div class="tg-tour-faq-wrap mb-70">
                                         <h4 class="tg-tour-about-title mb-15">Tour Plan</h4>
                                         <p class="text-capitalize lh-28 mb-20">Castle in one day is next to impossible.
@@ -326,95 +328,67 @@
                                             ws you to check off a range of southern England‘s are historical</p>
                                         <div class="tg-tour-about-faq-inner">
                                             <div class="tg-tour-about-faq" id="accordionExample">
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                            aria-expanded="true" aria-controls="collapseOne">
-                                                            <span>Day-01</span> London to Amsterdam
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapseOne" class="accordion-collapse collapse show"
-                                                        data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
-                                                            <p>Trade Center is the seventh tallest building in the world and
-                                                                the
-                                                                tallest building in the w hemisph
-                                                                ere. This skyscraper standst view of New York City. From
-                                                                here,
-                                                                you have awesome Manhattan
-                                                                the Statue of Liberty, Brooklyn, Staten Island, </p>
+                                                @foreach ($service?->itineraries as $itinerary)
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header">
+                                                            <button class="accordion-button" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#collapse_{{ $itinerary->id }}"
+                                                                aria-expanded="true"
+                                                                aria-controls="collapse_{{ $itinerary->id }}">
+                                                                <span>Day-{{ $itinerary?->day_number }}</span>
+                                                                {{ $itinerary?->title }}
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapse_{{ $itinerary->id }}"
+                                                            @class(['accordion-collapse collapse', 'show' => $loop->first])
+                                                            data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body">
+                                                                <div class="row pb-5">
+                                                                    <div class="col-md-4 mb-5">
+                                                                        <img src="{{ asset($itinerary->image) }}"
+                                                                            alt="{{ $itinerary->title }}"
+                                                                            class="itinerary-image">
+                                                                    </div>
+                                                                    <div class="col-md-8 mb-5">
+
+                                                                        @if ($itinerary?->description)
+                                                                            <div>
+                                                                                {!! $itinerary?->description !!}
+                                                                            </div>
+                                                                        @endif
+
+                                                                        @if ($itinerary?->location)
+                                                                            <div class="mt-3">
+                                                                                <strong><i class="fa fa-map-marker"></i>
+                                                                                    Location:</strong>
+                                                                                {{ $itinerary?->location }}
+                                                                            </div>
+                                                                        @endif
+
+                                                                         @if ($itinerary?->duration)
+                                                                            <div class="mt-3">
+                                                                                <strong><i class="fa-solid fa-business-time"></i>
+                                                                                    Duration:</strong>
+                                                                                {{ $itinerary?->duration }}
+                                                                            </div>
+                                                                        @endif
+
+                                                                        @if ($itinerary?->meal_included)
+                                                                            <div class="mt-2">
+                                                                                <strong><i class="fa fa-utensils"></i>
+                                                                                    Meal Included:</strong>
+                                                                                <span class="badge bg-success">
+                                                                                    {{ $itinerary?->meal_included }}
+                                                                                </span>
+                                                                            </div>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                                            aria-expanded="false" aria-controls="collapseTwo">
-                                                            <span>Day-02</span>  Art Museums, Central Park, Rockefeller
-                                                            Center,
-                                                            Times Square
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapseTwo" class="accordion-collapse collapse"
-                                                        data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
-                                                            <p>Trade Center is the seventh tallest building in the world and
-                                                                the
-                                                                tallest building in the w hemisph
-                                                                ere. This skyscraper standst view of New York City. From
-                                                                here,
-                                                                you have awesome Manhattan
-                                                                the Statue of Liberty, Brooklyn, Staten Island, </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
-                                                            aria-expanded="false" aria-controls="collapseThree">
-                                                            <span>Day-03</span>  The Statue of Liberty, Ellis Island, the
-                                                            Tenement Museum & a Food Tour
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapseThree" class="accordion-collapse collapse"
-                                                        data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
-                                                            <p>Trade Center is the seventh tallest building in the world and
-                                                                the
-                                                                tallest building in the w hemisph
-                                                                ere. This skyscraper standst view of New York City. From
-                                                                here,
-                                                                you have awesome Manhattan
-                                                                the Statue of Liberty, Brooklyn, Staten Island, </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
-                                                            aria-expanded="false" aria-controls="collapseFour">
-                                                            <span>Day-04</span> Empire State Building, Chelsea Market, the
-                                                            High
-                                                            Line & Hudson Yards
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapseFour" class="accordion-collapse collapse"
-                                                        data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
-                                                            <p>Trade Center is the seventh tallest building in the world and
-                                                                the
-                                                                tallest building in the w hemisph
-                                                                ere. This skyscraper standst view of New York City. From
-                                                                here,
-                                                                you have awesome Manhattan
-                                                                the Statue of Liberty, Brooklyn, Staten Island, </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
