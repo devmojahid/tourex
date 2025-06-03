@@ -9,11 +9,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Js;
 use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Amenity;
 use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Review;
 use Modules\TourBooking\App\Models\Service;
+use Modules\TourBooking\App\Models\ServiceReview;
 use Modules\TourBooking\App\Models\ServiceType;
 use Modules\TourBooking\App\Repositories\ServiceRepository;
 use Modules\TourBooking\App\Repositories\ServiceTypeRepository;
@@ -378,30 +380,7 @@ final class FrontServiceController extends Controller
             ->withExists('myWishlist')
             ->firstOrFail();
 
-        // Get related services
-        $relatedServices = Service::where('id', '!=', $service->id)
-            ->where('service_type_id', $service->service_type_id)
-            ->where('status', true)
-            ->with(['thumbnail', 'reviews'])
-            ->take(4)
-            ->get();
-
-        // Check if user has a completed booking for this service
-        $canReview = false;
-
-        if (Auth::check()) {
-            $userId = Auth::id();
-            $canReview = $service->bookings()
-                ->where('user_id', $userId)
-                ->where('booking_status', 'completed')
-                ->where('is_reviewed', false)
-                ->exists();
-        }
-
-        // dd($service);
-
-
-        return view('tourbooking::front.services.service-detail', compact('service', 'relatedServices', 'canReview'));
+        return view('tourbooking::front.services.service-detail', compact('service'));
     }
 
     /**
@@ -495,41 +474,57 @@ final class FrontServiceController extends Controller
     /**
      * Store a new review for a service.
      */
-    public function storeReview(Request $request, string $slug): RedirectResponse
+    public function storeReview(Request $request)
     {
-        $service = Service::where('slug', $slug)
-            ->where('status', true)
-            ->firstOrFail();
 
-        // Verify the user has a completed booking for this service
-        $booking = $service->bookings()
-            ->where('user_id', Auth::id())
-            ->where('booking_status', 'completed')
-            ->where('is_reviewed', false)
-            ->first();
-
-        if (!$booking) {
-            return back()->with('error', 'You must have a completed booking to review this service.');
+        if (!Auth::check()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'You must be logged in to submit a review.',
+                ]
+            );
         }
 
-        $validated = $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'title' => 'required|string|max:100',
-            'content' => 'required|string|min:10|max:1000',
+        if (count($request->ratings) != 5) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'You must rate all categories.',
+                ]
+            );
+        }
+
+        $request->validate([
+            'message' => 'required|string',
+            'ratings' => 'required|array',
+            'ratings.*.category' => 'required|string',
+            'ratings.*.rating' => 'required|numeric|min:0|max:5'
         ]);
 
-        $review = Review::create([
-            'service_id' => $service->id,
-            'booking_id' => $booking->id,
+        $allRating = 0.0;
+        foreach ($request->ratings as $rating) {
+            $allRating += $rating['rating'];
+        }
+
+        ServiceReview::create([
+            'service_id' => $request->service_id,
             'user_id' => Auth::id(),
-            'rating' => $validated['rating'],
-            'title' => $validated['title'],
-            'content' => $validated['content'],
-            'status' => false, // Pending approval
+            'message' => $request->message,
+            'all_rating' => $allRating / 5,
+            'location_rating' => $request->ratings[0]['rating'],
+            'price_rating' => $request->ratings[1]['rating'],
+            'amenity_rating' => $request->ratings[2]['rating'],
+            'room_rating' => $request->ratings[3]['rating'],
+            'service_rating' => $request->ratings[4]['rating'],
+            'status' => false,
         ]);
 
-        $booking->update(['is_reviewed' => true]);
-
-        return back()->with('success', 'Your review has been submitted and is pending approval.');
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Your review has been submitted and is pending approval.',
+            ]
+        );
     }
 }

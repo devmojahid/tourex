@@ -191,6 +191,7 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middlew
     Route::get('/services-4', [FrontServiceController::class, 'allServicesFour'])->name('services-4');
     Route::get('/services/load', [FrontServiceController::class, 'loadServicesAjax'])->name('services.load.ajax');
     Route::get('/service/{slug}', [FrontServiceController::class, 'serviceDetail'])->name('services.show');
+
     Route::get('/tours', [FrontServiceController::class, 'tours'])->name('tours');
     Route::get('/hotels', [FrontServiceController::class, 'hotels'])->name('hotels');
     Route::get('/restaurants', [FrontServiceController::class, 'restaurants'])->name('restaurants');
@@ -209,7 +210,7 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middlew
     Route::get('/booking/cancel/{code}', [FrontBookingController::class, 'bookingCancel'])->name('booking-cancel');
 
     // Reviews
-    Route::post('/services/{slug}/reviews', [FrontServiceController::class, 'storeReview'])->name('reviews.store');
+    Route::post('/services/reviews', [FrontServiceController::class, 'storeReview'])->name('reviews.store');
 
     // Availability Check
     Route::post('/check-availability', [FrontBookingController::class, 'checkAvailability'])->name('check-availability');

@@ -36,7 +36,7 @@
         </div>
         <!-- tg-breadcrumb-area-end -->
 
-        <div x-data="data">
+        <div>
             <!-- tg-tour-details-area-start -->
             <div class="tg-tour-details-area pt-35 pb-25">
                 <div class="container">
@@ -561,88 +561,43 @@
                                         </ul>
                                     </div>
                                     <div class="tg-tour-about-border mb-45"></div>
-                                    <div class="tg-tour-about-review-form-wrap mb-45">
+                                    <div x-data="reviewForm()" class="tg-tour-about-review-form-wrap mb-45">
                                         <h4 class="tg-tour-about-title mb-5">Leave a Reply</h4>
                                         <div class="tg-tour-about-rating-category mb-20">
                                             <ul>
-                                                <li>
-                                                    <label>Location :</label>
-                                                    <div class="rating-icon">
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <label>Price :</label>
-                                                    <div class="rating-icon">
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <label>Amenities :</label>
-                                                    <div class="rating-icon">
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <label>Rooms :</label>
-                                                    <div class="rating-icon">
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <label>Services :</label>
-                                                    <div class="rating-icon">
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                        <i class="fa-sharp fa-solid fa-star"></i>
-                                                    </div>
-                                                </li>
+                                                <template x-for="(category, index) in categories" :key="category.name">
+                                                    <li>
+                                                        <label x-text="category.name + ' :'" class="mr-2"></label>
+                                                        <div class="rating-icon flex space-x-1">
+                                                            <template x-for="star in 5" :key="star">
+                                                                <i class="fa-sharp fa-solid fa-star cursor-pointer"
+                                                                    :class="star <= category.rating ? 'active' :
+                                                                        ''"
+                                                                    @click="setRating(index, star)"
+                                                                    @mouseover="hoverRating = star; hoverIndex = index"
+                                                                    @mouseleave="hoverRating = 0; hoverIndex = null"
+                                                                    :class="(hoverIndex === index && star <= hoverRating) ?
+                                                                    'text-yellow-300' : ''"></i>
+                                                            </template>
+                                                        </div>
+                                                    </li>
+                                                </template>
                                             </ul>
                                         </div>
                                         <div class="tg-tour-about-review-form">
-                                            <form action="#">
+                                            <form @submit.prevent="submitForm" method="POST">
+                                                @csrf
                                                 <div class="row">
-                                                    <div class="col-lg-6 mb-15">
-                                                        <input class="input" type="text" placeholder="Your Name">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-15">
-                                                        <input class="input" type="email"
-                                                            placeholder="E-mail Address">
-                                                    </div>
                                                     <div class="col-lg-12">
-                                                        <textarea class="textarea  mb-5" placeholder="Write Message"></textarea>
-                                                        <div class="review-checkbox d-flex align-items-center mb-25">
-                                                            <input class="tg-checkbox" type="checkbox" id="australia">
-                                                            <label for="australia" class="tg-label">Save my name, email,
-                                                                and
-                                                                website in this browser for the next time I comment.</label>
-                                                        </div>
+                                                        <textarea x-model="message" class="textarea mb-5" placeholder="Write Message"></textarea>
                                                         <button type="submit"
-                                                            class="tg-btn tg-btn-switch-animation">Submit
-                                                            Review</button>
+                                                            class="tg-btn tg-btn-switch-animation">Submit Review</button>
                                                     </div>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -809,204 +764,98 @@
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('data', () => ({
-                page: 1,
-                isListView: false,
-                style: 'style1',
-                // Booking form data
-                defaultBookingForm: {
-                    destination_id: '',
-                    destination: 'Where are you going . . .',
-                    checkIn: '',
-                    checkOut: '',
-                    rooms: 1,
-                    adults: 1,
-                    children: 0
-                },
-                bookingForm: {
-                    destination_id: `{{ request('destination_id', '') }}`,
-                    destination: `{{ request('destination', '') }}`,
-                    checkIn: `{{ request('checkIn', '') }}`,
-                    checkOut: `{{ request('checkOut', '') }}`,
-                    rooms: `{{ request('rooms', '') }}`,
-                    adults: `{{ request('adults', '') }}`,
-                    children: `{{ request('children', '') }}`,
-                },
-                incrementRooms() {
-                    this.bookingForm.rooms++;
-                },
-                decrementRooms() {
-                    if (this.bookingForm.rooms > 0) {
-                        this.bookingForm.rooms--;
-                    }
-                },
-                incrementAdults() {
-                    this.bookingForm.adults++;
-                },
-                decrementAdults() {
-                    if (this.bookingForm.adults > 0) {
-                        this.bookingForm.adults--;
-                    }
-                },
-                incrementChildren() {
-                    this.bookingForm.children++;
-                },
-                decrementChildren() {
-                    if (this.bookingForm.children > 0) {
-                        this.bookingForm.children--;
-                    }
-                },
-                selectDestination(destinationId, destinationName) {
-                    this.bookingForm.destination_id = destinationId;
-                    this.bookingForm.destination = destinationName;
-                },
-                filters: {
-                    search: `{{ request('search', '') }}`,
-                    service_type_ids: {!! json_encode(request('service_type_ids', [])) !!},
-                    max_price: `{{ request('max_price', '') }}`,
-                    min_price: `{{ request('min_price', '') }}`,
-                    amenity_ids: {!! json_encode(request('amenity_ids', [])) !!},
-                    languages: {!! json_encode(request('languages', [])) !!},
-                    sort_by: `{{ request('sort_by', '') }}`,
-                },
-                defaultFilters: {
-                    search: '',
-                    service_type_ids: [],
-                    max_price: '',
-                    min_price: '',
-                    amenity_ids: [],
-                    languages: [],
-                    sort_by: '',
-                },
-                get isFilterChanged() {
-                    return JSON.stringify(this.filters) !== JSON.stringify(this.defaultFilters);
-                },
-                get isBookingFilterChanged() {
-                    return JSON.stringify(this.bookingForm) !== JSON.stringify(this
-                        .defaultBookingForm);
-                },
-                updateURL(value) {
-                    var currentURL = window.location.protocol + "//" + window.location.host + window
-                        .location.pathname;
-                    var queryParams = [];
+        function reviewForm() {
+            return {
+                categories: [{
+                        name: 'Location',
+                        rating: 0
+                    },
+                    {
+                        name: 'Price',
+                        rating: 0
+                    },
+                    {
+                        name: 'Amenities',
+                        rating: 0
+                    },
+                    {
+                        name: 'Rooms',
+                        rating: 0
+                    },
+                    {
+                        name: 'Services',
+                        rating: 0
+                    },
+                ],
+                hoverRating: 0,
+                hoverIndex: null,
+                message: '',
+                saveInfo: false,
 
-                    // Loop through the object and only add non-empty values to the query params
-                    for (const [key, val] of Object.entries(value)) {
-                        // Check if the value is an array
-                        if (Array.isArray(val)) {
-                            if (val.length > 0) {
-                                // Append [] to key for array values
-                                val.forEach(item => {
-                                    queryParams.push(
-                                        `${encodeURIComponent(key)}%5B%5D=${encodeURIComponent(item)}`
-                                    );
-                                });
+                setRating(index, rating) {
+                    this.categories[index].rating = rating;
+                },
+
+                submitForm() {
+                    // Collect all form data
+                    const data = {
+                        service_id: `{{ $service->id }}`,
+                        message: this.message,
+                        ratings: this.categories.map(c => ({
+                            category: c.name,
+                            rating: c.rating
+                        }))
+                    };
+
+                    if (!data.message.trim()) {
+                        toastr.error('{{ __('Please write your review before submitting.') }}');
+                        return;
+                    }
+
+                    if (data.ratings.some(c => c.rating === 0)) {
+                        toastr.error('{{ __('Please select a rating before submitting.') }}');
+                        return;
+                    }
+
+                    // Simulate form submission
+                    this.ajaxSubmitForm(data);
+                },
+
+                resetForm() {
+                    this.name = '';
+                    this.email = '';
+                    this.message = '';
+                    this.saveInfo = false;
+                    this.categories.forEach(c => c.rating = 0);
+                },
+
+                ajaxSubmitForm(data) {
+                    fetch(`{{ route('front.tourbooking.reviews.store') }}`, {
+                            method: 'POST',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                toastr.success(data.message);
+                                this.resetForm();
+                            } else {
+                                toastr.error(data.message);
                             }
-                        }
-                        // Check if the value is not empty, and not equal to the default value
-                        else if (val !== null && val !== undefined && val !== '') {
-                            queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`);
-                        }
-                    }
-
-                    // Join all query parameters with '&'
-                    var queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
-
-                    var newURL = currentURL + queryString;
-
-                    // Update the browser's URL
-                    window.history.pushState({
-                        path: newURL
-                    }, '', newURL);
-                },
-                resetFilters() {
-                    this.filters = JSON.parse(JSON.stringify(this.defaultFilters));
-                    this.bookingForm = JSON.parse(JSON.stringify({
-                        destination_id: '',
-                        destination: '',
-                        checkIn: '',
-                        checkOut: '',
-                        rooms: '',
-                        adults: '',
-                        children: ''
-                    }));
-
-                    this.$nextTick(() => {
-                        $('#sortSelect').val('default').niceSelect('update');
-                    });
-                },
-                init() {
-                    this.$watch('filters', (value, oldValue) => {
-                        this.page = 1;
-                        this.fetchServices();
-                        this.updateURL({
-                            ...this.bookingForm,
-                            ...this.filters
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            toastr.error('{{ __('An error occurred. Please try again later.') }}');
                         });
-                    });
-                    this.initializeAll();
-                },
-                fetchServices() {
-                    that = this;
-                    $.ajax({
-                        url: `{{ route('front.tourbooking.services.load.ajax') }}`,
-                        method: 'GET',
-                        data: {
-                            ...this.filters,
-                            ...this.bookingForm,
-                            page: this.page,
-                            isListView: this.isListView,
-                            style: this.style
-                        },
-                        beforeSend: function() {
-                            $('#filter_data').html(
-                                `<div id="loading item_loading"><div class="loader"></div></div>`
-                            );
-                        },
-                        success: function(response) {
-                            $('#filter_data').html(response.view);
-                            $('.custom_pagination_count').html(response
-                                .customPaginationCount);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(error);
-                        }
-                    });
-                },
-                searchServices() {
-                    this.page = 1;
-                    this.fetchServices();
-                    this.updateURL({
-                        ...this.bookingForm,
-                        ...this.filters
-                    });
-                },
-                initializeAll() {
-                    $(document).on('click', '.pagination a', (event) => {
-                        event.preventDefault();
-                        const page = $(event.target).attr('href').split('page=')[1];
-                        this.page = page;
-                        this.fetchServices();
-                        $("html, body").animate({
-                            scrollTop: 0
-                        }, 500);
-                    });
-
-                    this.$nextTick(() => {
-                        $('#sortSelect').niceSelect();
-                        $('#sortSelect').on('change', (e) => {
-                            this.filters.sort_by = e.target.value;
-                        });
-                        $('#sortSelect').val(this.filters.sort_by || 'default').niceSelect(
-                            'update');
-
-                    });
-
-                    this.fetchServices();
                 }
-            }));
-        });
+            }
+        }
     </script>
 @endpush
 
