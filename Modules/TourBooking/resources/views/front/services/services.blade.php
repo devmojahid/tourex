@@ -660,22 +660,6 @@
                         .location.pathname;
                     var queryParams = [];
 
-                    // Define default or common values that you don't want to include in the URL
-                    const defaults = {
-                        course_type: '',
-                        category_ids: [],
-                        subject_ids: [],
-                        instructor: [],
-                        business: [],
-                        price: '',
-                        search: '',
-                        rating: [],
-                        languages: [],
-                        sort_by: '',
-                        max_price: parseFloat('0') || 0,
-                        min_price: 0,
-                    };
-
                     // Loop through the object and only add non-empty values to the query params
                     for (const [key, val] of Object.entries(value)) {
                         // Check if the value is an array
@@ -690,8 +674,7 @@
                             }
                         }
                         // Check if the value is not empty, and not equal to the default value
-                        else if (val !== null && val !== undefined && val !== '' && val !== defaults[
-                                key]) {
+                        else if (val !== null && val !== undefined && val !== '') {
                             queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`);
                         }
                     }
