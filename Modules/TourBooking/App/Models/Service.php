@@ -68,7 +68,10 @@ final class Service extends Model
         'is_new',
         'room_count',
         'adult_count',
-        'children_count'
+        'children_count',
+        'tour_plan_sub_title',
+        'google_map_sub_title',
+        'google_map_url',
     ];
 
     /**

@@ -1524,4 +1524,9 @@ return array(
   'Is New' => 'Is New',
   'Select Destination' => 'Select Destination',
   'No Review Found' => 'No Review Found',
+  'About This Tour' => 'About This Tour',
+  'Tour Plan' => 'Tour Plan',
+  'Google map sub title' => 'Google map sub title',
+  'Google map embed url' => 'Google map embed url',
+  'Tour Plan Sub Title' => 'Tour Plan Sub Title',
 );

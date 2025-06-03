@@ -110,6 +110,9 @@ class ServiceRequest extends FormRequest
             'room_count' => 'nullable|integer|min:0',
             'adult_count' => 'nullable|integer|min:0',
             'children_count' => 'nullable|integer|min:0',
+            'tour_plan_sub_title' => 'nullable|max:255',
+            'google_map_sub_title' => 'nullable|max:255',
+            'google_map_url' => 'nullable',
         ];
 
         if ($this->isMethod('POST')) {

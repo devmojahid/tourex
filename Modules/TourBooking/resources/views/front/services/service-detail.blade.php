@@ -266,7 +266,9 @@
                             <div class="tg-tour-about-wrap mr-55">
                                 <div class="tg-tour-about-content">
                                     <div class="tg-tour-about-inner mb-25">
-                                        <h4 class="tg-tour-about-title mb-15">About This Tour</h4>
+                                        <h4 class="tg-tour-about-title mb-15">
+                                            {{ __('translate.About This Tour') }}
+                                        </h4>
                                         <div class="text-capitalize lh-28">
                                             {!! $service?->translation?->short_description !!}
                                         </div>
@@ -322,10 +324,15 @@
                                     @endif
 
                                     <div class="tg-tour-faq-wrap mb-70">
-                                        <h4 class="tg-tour-about-title mb-15">Tour Plan</h4>
-                                        <p class="text-capitalize lh-28 mb-20">Castle in one day is next to impossible.
-                                            Designed specifically for trave arelimited time in London
-                                            ws you to check off a range of southern England‘s are historical</p>
+                                        <h4 class="tg-tour-about-title mb-15">
+                                            {{ __('translate.Tour Plan') }}
+                                        </h4>
+
+                                        @if ($service?->tour_plan_sub_title)
+                                            <p class="text-capitalize lh-28 mb-20">
+                                                {{ $service?->tour_plan_sub_title }}
+                                            </p>
+                                        @endif
                                         <div class="tg-tour-about-faq-inner">
                                             <div class="tg-tour-about-faq" id="accordionExample">
                                                 @foreach ($service?->itineraries as $itinerary)
@@ -395,25 +402,26 @@
                                     </div>
                                     <div class="tg-tour-about-border mb-45"></div>
                                     <div class="tg-tour-about-map mb-40">
-                                        <h4 class="tg-tour-about-title mb-15">Location</h4>
-                                        <p class="text-capitalize lh-28">Castle in one day is next to impossible. Designed
-                                            specifically for trave arelimited time in London, this tour
-                                            ws you to check off a range of southern England‘s are historical.</p>
-                                        <div class="tg-tour-about-map h-100">
-                                            <iframe
-                                                src="https://www.google.com/maps/embed/v1/view?key={{ env('GOOGLE_MAPS_API_KEY') }}&center={{ $service?->latitude }},{{ $service?->longitude }}&zoom=13"
-                                                width="600" height="450" style="border:0;" allowfullscreen=""
-                                                loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                                            </iframe>
-                                        </div>
+                                        <h4 class="tg-tour-about-title mb-15">
+                                            {{ __('translate.Location') }}
+                                        </h4>
+                                        @if ($service?->google_map_sub_title)
+                                            <p class="text-capitalize lh-28">
+                                                {{ $service?->google_map_sub_title }}
+                                            </p>
+                                        @endif
+
+                                        @if ($service?->google_map_url)
+                                            <div class="tg-tour-about-map h-100">
+                                                {!! $service?->google_map_url !!}
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="tg-tour-about-border mb-45"></div>
                                     <div class="tg-tour-about-review-wrap mb-45">
-                                        <h4 class="tg-tour-about-title mb-15">Customer Reviews</h4>
-                                        <p class="text-capitalize lh-28 mb-20">Castle in one day is next to impossible.
-                                            Designed specifically for trave arelimited time in London, this tour
-                                            ws you to check off a range of southern England‘s are historical</p>
-
+                                        <h4 class="tg-tour-about-title mb-15">
+                                            {{ __('translate.Customer Reviews') }}
+                                        </h4>
 
                                         @if ($reviews->count() > 0)
                                             <div class="tg-tour-about-review">
@@ -504,7 +512,7 @@
                                     </div>
                                     <div class="tg-tour-about-border mb-45"></div>
                                     <div x-data="reviewForm()" class="tg-tour-about-review-form-wrap mb-45">
-                                        <h4 class="tg-tour-about-title mb-5">Leave a Reply</h4>
+                                        <h4 class="tg-tour-about-title mb-5">{{ __('translate.Leave a Reply') }}</h4>
                                         <div class="tg-tour-about-rating-category mb-20">
                                             <ul>
                                                 <template x-for="(category, index) in categories" :key="category.name">
@@ -532,8 +540,9 @@
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <textarea x-model="message" class="textarea mb-5" placeholder="Write Message"></textarea>
-                                                        <button type="submit"
-                                                            class="tg-btn tg-btn-switch-animation">Submit Review</button>
+                                                        <button type="submit" class="tg-btn tg-btn-switch-animation">
+                                                            {{ __('translate.Submit Review') }}
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </form>

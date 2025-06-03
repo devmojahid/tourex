@@ -213,8 +213,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Room Count') }}</label>
                                                         <input class="crancy__item-input" type="number" name="room_count"
-                                                            value="{{ old('room_count', 1) }}"
-                                                            placeholder="1">
+                                                            value="{{ old('room_count', 1) }}" placeholder="1">
                                                         @error('room_count')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -226,8 +225,7 @@
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Adult Count') }}</label>
                                                         <input class="crancy__item-input" type="number" name="adult_count"
-                                                            value="{{ old('adult_count', 1) }}"
-                                                            placeholder="1">
+                                                            value="{{ old('adult_count', 1) }}" placeholder="1">
                                                         @error('adult_count')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -238,8 +236,8 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Children Count') }}</label>
-                                                        <input class="crancy__item-input" type="number" name="children_count"
-                                                            value="{{ old('children_count', 0) }}"
+                                                        <input class="crancy__item-input" type="number"
+                                                            name="children_count" value="{{ old('children_count', 0) }}"
                                                             placeholder="0">
                                                         @error('children_count')
                                                             <span class="text-danger">{{ $message }}</span>
@@ -542,6 +540,21 @@
                                                         <textarea name="excluded" rows="30" placeholder="One item per line">{{ old('excluded') }}</textarea>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Tour Plan Sub Title') }}</label>
+                                                        <input class="crancy__item-input" type="text"
+                                                            name="tour_plan_sub_title"
+                                                            value="{{ old('tour_plan_sub_title') }}"
+                                                            placeholder="Tour Plan Sub Title">
+                                                        @error('tour_plan_sub_title')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -566,31 +579,6 @@
                                                 <div class="col-lg-6 col-md-6 col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
-                                                            class="crancy__item-label">{{ __('translate.Map Coordinates') }}</label>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <input class="crancy__item-input" type="text"
-                                                                    name="latitude" value="{{ old('latitude') }}"
-                                                                    placeholder="Latitude">
-                                                                @error('latitude')
-                                                                    <span class="text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <input class="crancy__item-input" type="text"
-                                                                    name="longitude" value="{{ old('longitude') }}"
-                                                                    placeholder="Longitude">
-                                                                @error('longitude')
-                                                                    <span class="text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-4 col-md-4 col-12">
-                                                    <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label
                                                             class="crancy__item-label">{{ __('translate.Email') }}</label>
                                                         <input class="crancy__item-input" type="email" name="email"
                                                             value="{{ old('email') }}">
@@ -600,7 +588,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-4 col-12">
+                                                <div class="col-lg-6 col-md-6 col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Phone') }}</label>
@@ -612,7 +600,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-4 col-12">
+                                                <div class="col-lg-6 col-md-6 col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Website') }}</label>
@@ -623,6 +611,35 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+
+                                                <div class="col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Google map sub title') }}</label>
+                                                        <input class="crancy__item-input" type="text"
+                                                            name="google_map_sub_title"
+                                                            value="{{ old('google_map_sub_title') }}"
+                                                            placeholder="Google map sub title">
+                                                        @error('google_map_sub_title')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Google map embed url') }}</label>
+                                                        <input class="crancy__item-input" type="text"
+                                                            name="google_map_url"
+                                                            value="{{ old('google_map_url') }}"
+                                                            placeholder="Google map embed url">
+                                                        @error('google_map_url')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -736,7 +753,8 @@
                                                         <div
                                                             class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
                                                             <label class="crancy__item-switch">
-                                                                <input checked name="is_new" type="checkbox" value="1">
+                                                                <input checked name="is_new" type="checkbox"
+                                                                    value="1">
                                                                 <span
                                                                     class="crancy__item-switch--slide crancy__item-switch--round"></span>
                                                             </label>
