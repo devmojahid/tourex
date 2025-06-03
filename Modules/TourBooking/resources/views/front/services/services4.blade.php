@@ -27,11 +27,12 @@
                                         <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
                                             <span class="tg-booking-form-title mb-5">Destinations:</span>
                                             <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
-                                                <span x-clock x-show="bookingForm.destination" x-text="bookingForm.destination"
-                                                    class="tg-booking-title-value">
+                                                <span x-clock x-show="bookingForm.destination"
+                                                    x-text="bookingForm.destination" class="tg-booking-title-value">
                                                     Where are you going . . .
                                                 </span>
-                                                <span x-clock x-show="!bookingForm.destination" class="tg-booking-title-value">
+                                                <span x-clock x-show="!bookingForm.destination"
+                                                    class="tg-booking-title-value">
                                                     Where are you going . . .
                                                 </span>
                                                 <span class="location">
@@ -239,12 +240,16 @@
                                         <option>5 Star</option>
                                     </select>
                                 </div>
+                                <div class="mt-5 ml-10">
+                                    <a class="tg-filter-reset" x-show="isFilterChanged || isBookingFilterChanged"
+                                        @click="resetFilters()" href="javascript:void(0);">Reset All</a>
+                                </div>
                             </div>
                             <div class="tg-listing-map-filter-bottom mb-5">
                                 <div class="row align-items-center">
                                     <div class="col-xl-5 mb-15">
                                         <div class="tg-listing-box-number-found">
-                                            <span>3,269 properties in Europe</span>
+                                            <span class="custom_pagination_count"></span>
                                         </div>
                                     </div>
                                     <div class="col-xl-7 mb-15">
@@ -525,8 +530,9 @@
                         $('#amenitySelect').on('change', (e) => {
                             this.filters.amenity_id = e.target.value
                         });
-                        $('#amenitySelect').val(this.filters.amenity_id || 'Amenities').niceSelect(
-                            'update');
+                        $('#amenitySelect').val(this.filters.amenity_id || 'Amenities')
+                            .niceSelect(
+                                'update');
                     });
 
                     this.fetchServices();
