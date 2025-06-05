@@ -256,3 +256,16 @@ ul.tourex-tabs-menu li a img {
 [x-cloak] {
     display: none !important;
 }
+
+.tg-listing-card-review i {
+    color: #ababab;
+    font-size: 14px;
+}
+
+.tg-listing-card-review i.active {
+    color: var(--tg-common-yellow);
+}
+
+.tg-listing-item-wishlist.active{
+    color: var(--tg-theme-primary);
+}

@@ -426,7 +426,9 @@ final class FrontServiceController extends Controller
             ->latest()
             ->paginate(14);
 
-        return view('tourbooking::front.services.service-detail', compact('service', 'paginatedReviews', 'averageRatings', 'reviews', 'avgRating'));
+        $popularServices = $this->popularServices($service);
+
+        return view('tourbooking::front.services.service-detail', compact('service', 'paginatedReviews', 'averageRatings', 'reviews', 'avgRating', 'popularServices'));
     }
 
     /**
@@ -504,7 +506,27 @@ final class FrontServiceController extends Controller
             ->latest()
             ->paginate(14);
 
-        return view('tourbooking::front.services.service-detail2', compact('service', 'paginatedReviews', 'averageRatings', 'reviews', 'avgRating', 'amenities'));
+        $popularServices = $this->popularServices($service);
+
+
+        return view('tourbooking::front.services.service-detail2', compact('service', 'paginatedReviews', 'averageRatings', 'reviews', 'avgRating', 'amenities', 'popularServices'));
+    }
+
+    public function popularServices()
+    {
+        return Service::select('id', 'service_type_id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration', 'group_size')
+            ->where('is_popular', true)
+            ->withExists('myWishlist')
+            ->where('status', true)
+            ->with([
+                'thumbnail:id,service_id,caption,file_path',
+                'translation:id,service_id,locale,title,short_description'
+            ])
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->latest()
+            ->take(6)
+            ->get();
     }
 
     /**

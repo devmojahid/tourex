@@ -1534,4 +1534,7 @@ return array(
   'Share' => 'Share',
   'Amenities' => 'Amenities',
   'Amenities Short Description' => 'Castle in one day is next to impossible. Designed specifically for trave arelimited time in London ws you to check off a range of southern England‘s are historical',
+  'Most Popular Tour Packages' => 'Most Popular Tour Packages',
+  'Our Popular Tours' => 'Our Popular Tours',
+  'See All Deal' => 'See All Deal',
 );
