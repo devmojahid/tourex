@@ -154,6 +154,11 @@ final class Service extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function activeReviews(): HasMany
+    {
+        return $this->hasMany(Review::class)->where('status', 1);
+    }
+
     /**
      * Get the extra charges for this service.
      */

@@ -113,8 +113,8 @@
 
 
                                         @include('tourbooking::front.services.ratting', [
-                                            'avgRating' => $service?->reviews_avg_rating ?? 0,
-                                            'ratingCount' => $service?->reviews_count ?? 0,
+                                            'avgRating' => $service?->active_reviews_avg_rating ?? 0,
+                                            'ratingCount' => $service?->active_reviews_count ?? 0,
                                         ])
 
                                         <div class="tg-listing-avai d-flex align-items-center justify-content-between">

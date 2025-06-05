@@ -244,8 +244,8 @@ final class FrontServiceController extends Controller
             ->withExists('myWishlist')
             ->where('status', true)
             ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title,short_description'])
-            ->withAvg('reviews', 'rating')
-            ->withCount('reviews')
+            ->withCount('activeReviews')
+            ->withAvg('activeReviews', 'rating')
             ->when($request->filled('search'), function ($query) use ($request) {
                 $query->whereHas('translation', function ($q) use ($request) {
                     $q->where('title', 'like', "%{$request->search}%");
@@ -376,6 +376,8 @@ final class FrontServiceController extends Controller
                     $query->orderBy('day_number');
                 }
             ])
+            ->withCount('activeReviews')
+            ->withAvg('activeReviews', 'rating')
             ->withExists('myWishlist')
             ->firstOrFail();
 
@@ -451,6 +453,8 @@ final class FrontServiceController extends Controller
                     $query->orderBy('day_number');
                 }
             ])
+            ->withCount('activeReviews')
+            ->withAvg('activeReviews', 'rating')
             ->withExists('myWishlist')
             ->firstOrFail();
 
@@ -524,8 +528,8 @@ final class FrontServiceController extends Controller
                 'thumbnail:id,service_id,caption,file_path',
                 'translation:id,service_id,locale,title,short_description'
             ])
-            ->withAvg('reviews', 'rating')
-            ->withCount('reviews')
+            ->withCount('activeReviews')
+            ->withAvg('activeReviews', 'rating')
             ->latest()
             ->take(6)
             ->get();

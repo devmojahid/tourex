@@ -68,8 +68,8 @@
                                 </a>
                             </h4>
                             @include('tourbooking::front.services.ratting', [
-                                'avgRating' => $service?->reviews_avg_rating ?? 0,
-                                'ratingCount' => $service?->reviews_count ?? 0,
+                                'avgRating' => $service?->active_reviews_avg_rating ?? 0,
+                                'ratingCount' => $service?->active_reviews_count ?? 0,
                                 'ratingClass' => 'tg-listing-card-review mb-5'
                             ])
                             <div class="tg-listing-card-duration-tour">
