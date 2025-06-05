@@ -1,4 +1,4 @@
-<div class="tg-listing-card-review mb-10">
+<div class="{{ $ratingClass ?? 'tg-listing-card-review mb-10' }}">
     @foreach (range(1, 5) as $star)
         <i class="fa-sharp fa-solid fa-star @if ($avgRating >= $star) active @endif"></i>
     @endforeach

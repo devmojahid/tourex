@@ -91,19 +91,10 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="tg-listing-card-review mb-10">
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-icon"><i
-                                                class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                                    </div>
+                                    @include('tourbooking::front.services.ratting', [
+                                        'avgRating' => $service?->reviews_avg_rating ?? 0,
+                                        'ratingCount' => $service?->reviews_count ?? 0,
+                                    ])
                                 </div>
                                 <div @class([
                                     'tg-listing-item-wishlist',

@@ -244,6 +244,8 @@ final class FrontServiceController extends Controller
             ->withExists('myWishlist')
             ->where('status', true)
             ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title,short_description'])
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
             ->when($request->filled('search'), function ($query) use ($request) {
                 $query->whereHas('translation', function ($q) use ($request) {
                     $q->where('title', 'like', "%{$request->search}%");
@@ -332,7 +334,7 @@ final class FrontServiceController extends Controller
             }, function ($query) {
                 $query->orderBy('created_at', 'desc');
             })
-            ->paginate(4);
+            ->paginate(9);
 
         if ($style == 'style2') {
             $view = view('tourbooking::front.services.services-item2', compact('allServices', 'isListView'))->render();
