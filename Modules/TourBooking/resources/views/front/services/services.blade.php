@@ -693,11 +693,6 @@
                             console.error(error);
                         },
                         complete: function() {
-
-                            $("html, body").animate({
-                                scrollTop: 0
-                            }, 500);
-
                             that.loadingOverlay("hide");
                         }
                     });
@@ -716,6 +711,9 @@
                         const page = $(event.target).attr('href').split('page=')[1];
                         this.page = page;
                         this.fetchServices();
+                        $("html, body").animate({
+                            scrollTop: 0
+                        }, 500);
                     });
 
                     this.$nextTick(() => {
