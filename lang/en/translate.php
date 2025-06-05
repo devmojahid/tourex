@@ -1529,4 +1529,9 @@ return array(
   'Google map sub title' => 'Google map sub title',
   'Google map embed url' => 'Google map embed url',
   'Tour Plan Sub Title' => 'Tour Plan Sub Title',
+  'Person' => 'Person',
+  'From' => 'From',
+  'Share' => 'Share',
+  'Amenities' => 'Amenities',
+  'Amenities Short Description' => 'Castle in one day is next to impossible. Designed specifically for trave arelimited time in London ws you to check off a range of southern England‘s are historical',
 );

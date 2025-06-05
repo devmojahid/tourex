@@ -21,9 +21,10 @@
                     <div class="col-12">
                         <div class="tg-breadcrumb-list-2">
                             <ul>
-                                <li><a href="{{ url('home') }}">Home</a></li>
+                                <li><a href="{{ url('home') }}">{{ __('translate.Home') }}</a></li>
                                 <li><i class="fa-sharp fa-solid fa-angle-right"></i></li>
-                                <li><a href="{{ route('front.tourbooking.services') }}">Services</a></li>
+                                <li><a href="{{ route('front.tourbooking.services') }}">{{ __('translate.Services') }}</a>
+                                </li>
                                 <li><i class="fa-sharp fa-solid fa-angle-right"></i></li>
                                 <li><span>
                                         {{ $service?->translation?->title }}
@@ -55,13 +56,18 @@
                                     @endif
 
                                     <div class="tg-tour-details-video-ratings">
-                                        <span><i class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span><i class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span><i class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span><i class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span><i class="fa-sharp fa-solid fa-star"></i></span>
-                                        <span class="review">(5 Reviews)</span>
+                                        @foreach (range(1, 5) as $star)
+                                            <i
+                                                class="fa-sharp fa-solid fa-star @if ($avgRating >= $star) active @endif"></i>
+                                        @endforeach
+                                        <span class="review">
+                                            (
+                                            {{ __($reviews->count()) }}
+                                            {{ __($reviews->count() > 1 ? __('translate.Reviews') : __('translate.Review')) }}
+                                            )
+                                        </span>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -179,8 +185,8 @@
                                                     </svg>
                                                 </span>
                                                 <div>
-                                                    <span class="title">Duration</span>
-                                                    <span class="duration">{{ $service?->duration }} </span>
+                                                    <span class="title">{{ __('translate.Duration') }}</span>
+                                                    <span class="duration">{{ $service?->duration }}</span>
                                                 </div>
                                             </li>
                                         @endif
@@ -197,7 +203,7 @@
                                                     </svg>
                                                 </span>
                                                 <div>
-                                                    <span class="title">Type</span>
+                                                    <span class="title">{{ __('translate.Type') }}</span>
                                                     <span class="duration">{{ $service?->serviceType?->name }}</span>
                                                 </div>
                                             </li>
@@ -214,7 +220,7 @@
                                                     </svg>
                                                 </span>
                                                 <div>
-                                                    <span class="title">Group Size</span>
+                                                    <span class="title">{{ __('translate.Group Size') }}</span>
                                                     <span class="duration">{{ $service?->group_size }}</span>
                                                 </div>
                                             </li>
@@ -232,7 +238,7 @@
                                                     </svg>
                                                 </span>
                                                 <div>
-                                                    <span class="title">Languages</span>
+                                                    <span class="title">{{ __('translate.Languages') }}</span>
                                                     <span class="duration">
                                                         @foreach ($service?->languages as $language)
                                                             {{ $language }}
@@ -249,7 +255,9 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="tg-tour-details-video-feature-price mb-15">
-                                    <p>From <span>{{ currency($service?->price_per_person) }}</span> / Person</p>
+                                    <p> {{ __('translate.From') }}
+                                        <span>{{ currency($service?->price_per_person) }}</span> /
+                                        {{ __('translate.Person') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -417,6 +425,7 @@
                                             </div>
                                         @endif
                                     </div>
+                                    
                                     <div class="tg-tour-about-border mb-45"></div>
                                     <div class="tg-tour-about-review-wrap mb-45">
                                         <h4 class="tg-tour-about-title mb-15">
@@ -818,6 +827,14 @@
 
         .tg-tour-about-cus-review-thumb img {
             height: 128px;
+        }
+
+        .tg-tour-details-video-ratings i {
+            color: #a6a6a6;
+        }
+
+        .tg-tour-details-video-ratings i.active {
+            color: var(--tg-common-yellow);
         }
     </style>
 @endpush

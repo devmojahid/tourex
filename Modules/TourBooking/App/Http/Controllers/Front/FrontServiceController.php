@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Js;
 use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Amenity;
+use Modules\TourBooking\App\Models\AmenityTranslation;
 use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Review;
 use Modules\TourBooking\App\Models\Service;
@@ -426,6 +427,84 @@ final class FrontServiceController extends Controller
             ->paginate(14);
 
         return view('tourbooking::front.services.service-detail', compact('service', 'paginatedReviews', 'averageRatings', 'reviews', 'avgRating'));
+    }
+
+    /**
+     * Display a specific service's details.
+     */
+    public function serviceDetailTwo(string $slug): View
+    {
+
+        $service = Service::where('slug', $slug)
+            ->where('status', true)
+            ->with([
+                'translation',
+                'media:id,service_id,file_name,file_path,is_thumbnail',
+                'serviceType:id,name',
+                'extraCharges',
+                'availabilities',
+                'itineraries' => function ($query) {
+                    $query->orderBy('day_number');
+                }
+            ])
+            ->withExists('myWishlist')
+            ->firstOrFail();
+
+        $amenities = [];
+        if ($service->amenities) {
+            $amenities = AmenityTranslation::select('id', 'name')->whereIn('id', $service->amenities)->get();
+        }
+
+        // 1. Get approved reviews with rating_attributes for the specific service
+        $reviews = Review::select('id', 'service_id', 'rating_attributes')
+            ->where('service_id', $service->id)
+            ->where('status', true)
+            ->get();
+
+        // 2. Calculate overall average rating
+        $avgRating = Review::where('service_id', $service->id)
+            ->where('status', true)
+            ->avg('rating');
+
+        // 3. Calculate average per rating category
+        $categories = [];
+
+        foreach ($reviews as $review) {
+            $attributes = $review->rating_attributes; // Ensure it's an array
+
+            if (!is_array($attributes)) continue;
+
+            foreach ($attributes as $attr) {
+                $category = $attr['category'];
+                $rating = floatval($attr['rating']);
+
+                if (!isset($categories[$category])) {
+                    $categories[$category] = ['total' => 0, 'count' => 0];
+                }
+
+                $categories[$category]['total'] += $rating;
+                $categories[$category]['count']++;
+            }
+        }
+
+        // 4. Format average rating per category
+        $averageRatings = collect($categories)->map(function ($data, $category) {
+            $avg = $data['total'] / $data['count'];
+            return [
+                'category' => $category,
+                'average' => round($avg, 1),
+                'percent' => round(($avg / 5) * 100),
+            ];
+        })->values()->toArray();
+
+        // 5. Paginated reviews with user info
+        $paginatedReviews = Review::where('service_id', $service->id)
+            ->where('status', true)
+            ->with('user:id,name,image')
+            ->latest()
+            ->paginate(14);
+
+        return view('tourbooking::front.services.service-detail2', compact('service', 'paginatedReviews', 'averageRatings', 'reviews', 'avgRating', 'amenities'));
     }
 
     /**
