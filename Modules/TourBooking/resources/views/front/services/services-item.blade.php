@@ -58,14 +58,10 @@
                                 </svg>
                                 {{ $service?->location }}
                             </span>
-                            <div class="tg-listing-card-review mb-10">
-                                <span class="tg-listing-rating-icon"><i class="fa-sharp fa-solid fa-star"></i></span>
-                                <span class="tg-listing-rating-icon"><i class="fa-sharp fa-solid fa-star"></i></span>
-                                <span class="tg-listing-rating-icon"><i class="fa-sharp fa-solid fa-star"></i></span>
-                                <span class="tg-listing-rating-icon"><i class="fa-sharp fa-solid fa-star"></i></span>
-                                <span class="tg-listing-rating-icon"><i class="fa-sharp fa-solid fa-star"></i></span>
-                                <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                            </div>
+                            @include('tourbooking::front.services.ratting', [
+                                'avgRating' => $service?->active_reviews_avg_rating ?? 0,
+                                'ratingCount' => $service?->active_reviews_count ?? 0
+                            ])
                             <div class="tg-listing-avai d-flex align-items-center justify-content-between">
                                 <a class="tg-listing-avai-btn"
                                     href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">Check

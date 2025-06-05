@@ -67,14 +67,11 @@
                                     {{ Str::limit($service?->translation?->title, 45) }}
                                 </a>
                             </h4>
-                            <div class="tg-listing-card-review mb-5">
-                                <span class="tg-listing-rating-icon"><i class="fa-sharp fa-solid fa-star"></i></span>
-                                <span class="tg-listing-rating-icon"><i class="fa-sharp fa-solid fa-star"></i></span>
-                                <span class="tg-listing-rating-icon"><i class="fa-sharp fa-solid fa-star"></i></span>
-                                <span class="tg-listing-rating-icon"><i class="fa-sharp fa-solid fa-star"></i></span>
-                                <span class="tg-listing-rating-icon"><i class="fa-sharp fa-solid fa-star"></i></span>
-                                <span class="tg-listing-rating-percent">(5 Reviews)</span>
-                            </div>
+                            @include('tourbooking::front.services.ratting', [
+                                'avgRating' => $service?->active_reviews_avg_rating ?? 0,
+                                'ratingCount' => $service?->active_reviews_count ?? 0,
+                                'ratingClass' => 'tg-listing-card-review mb-5'
+                            ])
                             <div class="tg-listing-card-duration-tour">
 
                                 @if ($service?->location)

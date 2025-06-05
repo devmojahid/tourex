@@ -587,7 +587,11 @@
         </div>
         <!-- tg-tour-about-end -->
 
-        @include('tourbooking::front.services.popular-services')
+        @if ($popularServices->count() > 0)
+            @include('tourbooking::front.services.popular-services', [
+                'popularServices' => $popularServices,
+            ])
+        @endif
 
     </main>
     <!-- main-area-end -->
