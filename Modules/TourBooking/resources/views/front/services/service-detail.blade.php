@@ -220,7 +220,7 @@
                                             </li>
                                         @endif
 
-                                        @if ($service?->languages && count($service?->languages) > 0)
+                                        @if ($service?->languages && is_array($service?->languages) && count($service?->languages) > 0)
                                             <li>
                                                 <span class="icon">
                                                     <svg width="17" height="17" viewBox="0 0 17 17"
