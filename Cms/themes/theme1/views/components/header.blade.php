@@ -404,10 +404,12 @@
                 <div class="col-lg-7 col-5">
                     <div class="tgmenu__wrap d-flex align-items-center">
                         <div class="logo">
-                            <a class="logo-1" href="index.html"><img src="assets/img/logo/logo-white.png"
-                                    alt="Logo"></a>
-                            <a class="logo-2 d-none" href="index.html"><img src="assets/img/logo/logo-green.png"
-                                    alt="Logo"></a>
+                            <a class="logo-1" href="{{ route('home') }}">
+                                <img src="{{ asset($general_setting->logo) }}" alt="Logo">
+                            </a>
+                            <a class="logo-2 d-none" href="{{ route('home') }}">
+                                <img src="{{ asset($general_setting->logo) }}" alt="Logo">
+                            </a>
                         </div>
                         <nav class="tgmenu__nav tgmenu-1-space ml-180">
                             <div class="tgmenu__navbar-wrap tgmenu__main-menu d-none d-xl-flex">
@@ -423,54 +425,6 @@
                                     'link_before' => '',
                                     'link_after' => '',
                                 ]) !!}
-
-                                <ul class="navigation d-none">
-                                    <li class="active menu-item-has-children"><a href="index.html">Home</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="index.html">Home One</a></li>
-                                            <li><a href="index-2.html">Home Two</a></li>
-                                            <li class="active"><a href="index-3.html">Home Three</a></li>
-                                            <li><a href="index-4.html">Home Four</a></li>
-                                            <li><a href="index-5.html">Home Five</a></li>
-                                            <li><a href="index-6.html">Home Six</a></li>
-                                            <li><a href="index-7.html">Home Saven</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children"><a href="hotel-grid.html">Features</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="hotel-grid.html">Hotel Grid</a></li>
-                                            <li><a href="tour-grid-1.html">Tour Grid One</a></li>
-                                            <li><a href="tour-grid-2.html">Tour Grid Two</a></li>
-                                            <li><a href="map-listing.html">Hotel Listing</a></li>
-                                            <li><a href="tour-details.html">Tour Details One</a></li>
-                                            <li><a href="tour-details-2.html">Tour Details Two</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children"><a href="#">Pages</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="team.html">Team</a></li>
-                                            <li><a href="team-details.html">Team Details</a></li>
-                                            <li><a href="shop.html">Shop</a></li>
-                                            <li><a href="shop-details.html">Shop Details</a></li>
-                                            <li><a href="cart.html">Cart</a></li>
-                                            <li><a href="checkout.html">Checkout</a></li>
-                                            <li><a href="pricing.html">Pricing</a></li>
-                                            <li><a href="faq.html">Faq</a></li>
-                                            <li><a href="login.html">Log In</a></li>
-                                            <li><a href="register.html">Register</a></li>
-                                            <li><a href="error.html">Error</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children"><a href="blog-grid.html">Blogs</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="blog-grid.html">Blog Grid</a></li>
-                                            <li><a href="blog-standard.html">Blog Standard</a></li>
-                                            <li><a href="blog-details.html">Blog Details</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
                             </div>
                         </nav>
                     </div>
@@ -488,7 +442,7 @@
                             </span>
                             <div class="tg-header-contact-number d-none d-xl-block">
                                 <span>Call Us:</span>
-                                <a href="tel:+123595966">+123 5959 66</a>
+                                <a href="tel:{{ $footer->phone }}">{{ $footer->phone }}</a>
                             </div>
                         </div>
                         <div class="tg-header-cart p-relative ml-20 pl-20 d-none d-xl-block">

@@ -102,10 +102,9 @@
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="tg-footer-widget mb-40">
                             <div class="tg-footer-logo mb-20">
-                                <a href="index.html"><img src="assets/img/logo/logo-white.png" alt=""></a>
+                                <a href="{{ route('home') }}"><img src="{{ asset($general_setting->footer_logo) }}" alt=""></a>
                             </div>
-                            <p class="mb-20">Pharetra maecenas felis vestibulum convallis mollis nullam congue sit.d
-                                rivers of Finland Quebec.</p>
+                            <p class="mb-20">{{ $footer->about_us }}</p>
                             <div class="tg-footer-form mb-30">
                                 <form action="#">
                                     <input type="email" placeholder="Enter your mail">
@@ -121,29 +120,33 @@
                                 </form>
                             </div>
                             <div class="tg-footer-social">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                                <a href="{{ $footer->facebook }}"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="{{ $footer->twitter }}"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="{{ $footer->instagram }}"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="{{ $footer->linkedin }}"><i class="fa-brands fa-pinterest-p"></i></a>
+                                <a href="{{ $footer->youtube }}"><i class="fa-brands fa-youtube"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="tg-footer-widget tg-footer-link ml-80 mb-40">
-                            <h3 class="tg-footer-widget-title mb-25">Quick Links</h3>
-                            <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Tour Guide</a></li>
-                                <li><a href="contact.html"> Contact Us</a></li>
-                            </ul>
+                            <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Quick Links') }}</h3>
+                            {!! wp_nav_menu([
+                                'theme_location' => 'footer_menu_1',
+                                'menu_class' => '',
+                                'container' => false,
+                                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                                'menu_id' => 'main-nav',
+                                'before' => '',
+                                'after' => '',
+                                'link_before' => '',
+                                'link_after' => '',
+                            ]) !!}
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="tg-footer-widget tg-footer-info mb-40">
-                            <h3 class="tg-footer-widget-title mb-25">Information</h3>
+                            <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Information') }}</h3>
                             <ul>
                                 <li>
                                     <a class="d-flex"
@@ -192,14 +195,14 @@
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="tg-footer-widget tg-footer-link mb-40">
-                            <h3 class="tg-footer-widget-title mb-25">Utility Pages</h3>
-                            <ul>
-                                <li><a href="#">Style Guide</a></li>
-                                <li><a href="#">Password Protected</a></li>
-                                <li><a href="#">404 Error</a></li>
-                                <li><a href="#">Changelog</a></li>
-                                <li><a href="#">License</a></li>
-                            </ul>
+                            <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Utility Pages') }}</h3>
+                            {!! wp_nav_menu([
+                                'theme_location' => 'footer_menu_2',
+                                'menu_class' => '',
+                                'container' => false,
+                                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                                'menu_id' => 'main-nav',
+                            ]) !!}
                         </div>
                     </div>
                 </div>
@@ -207,7 +210,7 @@
         </div>
         <div class="tg-footer-copyright text-center">
             <span>
-                Copyright <a href="#">©Tourex</a> | All Right Reserved
+                {{ $footer->copyright }}
             </span>
         </div>
     </div>
