@@ -334,66 +334,27 @@
                             <h4 class="tg-filter-title mb-15">Top Reviews</h4>
                             <div class="tg-filter-list">
                                 <ul>
-                                    <li>
-                                        <div class="checkbox d-flex">
-                                            <input class="tg-checkbox" type="checkbox">
-                                            <div class="tg-filter-review">
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
+                                    @for ($i = 5; $i >= 1; $i--)
+                                        <li>
+                                            <div class="checkbox d-flex">
+                                                <input id="rating_{{ $i }}" x-model="filters.ratings"
+                                                    class="tg-checkbox" type="checkbox" value="{{ $i }}"
+                                                    name="filter_ratings[]">
+                                                <div class="tg-filter-review">
+                                                    <label for="rating_{{ $i }}">
+                                                        @for ($j = 1; $j <= 5; $j++)
+                                                            @if ($j <= $i)
+                                                                <span><i class="fa-solid fa-star-sharp"></i></span>
+                                                            @else
+                                                                <span class="bad-review"><i
+                                                                        class="fa-light fa-star-sharp"></i></span>
+                                                            @endif
+                                                        @endfor
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="checkbox d-flex">
-                                            <input class="tg-checkbox" type="checkbox">
-                                            <div class="tg-filter-review">
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span class="bad-review"><i class="fa-light fa-star-sharp"></i></span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="checkbox d-flex">
-                                            <input class="tg-checkbox" type="checkbox">
-                                            <div class="tg-filter-review">
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span class="bad-review"><i class="fa-light fa-star-sharp"></i></span>
-                                                <span class="bad-review"><i class="fa-light fa-star-sharp"></i></span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="checkbox d-flex">
-                                            <input class="tg-checkbox" type="checkbox">
-                                            <div class="tg-filter-review">
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span class="bad-review"><i class="fa-light fa-star-sharp"></i></span>
-                                                <span class="bad-review"><i class="fa-light fa-star-sharp"></i></span>
-                                                <span class="bad-review"><i class="fa-light fa-star-sharp"></i></span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="checkbox d-flex">
-                                            <input class="tg-checkbox" type="checkbox">
-                                            <div class="tg-filter-review">
-                                                <span><i class="fa-solid fa-star-sharp"></i></span>
-                                                <span class="bad-review"><i class="fa-light fa-star-sharp"></i></span>
-                                                <span class="bad-review"><i class="fa-light fa-star-sharp"></i></span>
-                                                <span class="bad-review"><i class="fa-light fa-star-sharp"></i></span>
-                                                <span class="bad-review"><i class="fa-light fa-star-sharp"></i></span>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    @endfor
                                 </ul>
                             </div>
                             <span class="tg-filter-border mt-25 mb-25"></span>
@@ -505,11 +466,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="filter_data">
-                            <div id="loading item_loading">
-                                <div class="loader"></div>
-                            </div>
-                        </div>
+                        <div id="filter_data"></div>
                     </div>
                 </div>
             </div>
@@ -537,6 +494,8 @@
     </script>
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
+    </script>
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('data', () => ({
@@ -598,6 +557,7 @@
                     amenity_ids: {!! json_encode(request('amenity_ids', [])) !!},
                     languages: {!! json_encode(request('languages', [])) !!},
                     sort_by: `{{ request('sort_by', '') }}`,
+                    ratings: {!! json_encode(request('ratings', [])) !!},
                 },
                 defaultFilters: {
                     search: '',
@@ -607,6 +567,7 @@
                     amenity_ids: [],
                     languages: [],
                     sort_by: '',
+                    ratings: []
                 },
                 get isFilterChanged() {
                     return JSON.stringify(this.filters) !== JSON.stringify(this.defaultFilters);
@@ -678,6 +639,9 @@
                 },
                 fetchServices() {
                     that = this;
+
+                    this.loadingOverlay("show");
+
                     $.ajax({
                         url: `{{ route('front.tourbooking.services.load.ajax') }}`,
                         method: 'GET',
@@ -688,11 +652,6 @@
                             isListView: this.isListView,
                             style: this.style
                         },
-                        beforeSend: function() {
-                            $('#filter_data').html(
-                                `<div id="loading item_loading"><div class="loader"></div></div>`
-                            );
-                        },
                         success: function(response) {
                             $('#filter_data').html(response.view);
                             $('.custom_pagination_count').html(response
@@ -700,6 +659,9 @@
                         },
                         error: function(xhr, status, error) {
                             console.error(error);
+                        },
+                        complete: function() {
+                            that.loadingOverlay("hide");
                         }
                     });
                 },
@@ -731,7 +693,22 @@
                             'update');
                     });
 
+                    this.loadingOverlay("show");
+
                     this.fetchServices();
+                },
+                loadingOverlay(action = 'show', target = false) {
+                    const options = {
+                        size: 50,
+                        maxSize: 50,
+                        minSize: 50
+                    };
+
+                    if (target && typeof target === 'string') {
+                        $(target).LoadingOverlay(action, options);
+                    } else {
+                        $.LoadingOverlay(action, options);
+                    }
                 }
             }));
         });
