@@ -302,6 +302,10 @@ final class FrontServiceController extends Controller
             ->when($request->filled('destination_id'), function ($query) use ($request) {
                 return $query->where('destination_id', $request->destination_id);
             })
+            ->when($request->filled('ratings') && is_array($request->ratings), function ($query) use ($request) {
+                $minRating = min($request->ratings);
+                $query->having('active_reviews_avg_rating', '>=', $minRating);
+            })
             ->when($request->filled('sort_by'), function ($query) use ($request) {
                 switch ($request->sort_by) {
                     case 'price_low':
