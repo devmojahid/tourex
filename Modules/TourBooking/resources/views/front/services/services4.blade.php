@@ -231,13 +231,13 @@
 
                                 </div>
                                 <div class="item-select mb-10">
-                                    <select class="select">
-                                        <option>Ratings</option>
-                                        <option>1 Star</option>
-                                        <option>2 Star</option>
-                                        <option>3 Star</option>
-                                        <option>4 Star</option>
-                                        <option>5 Star</option>
+                                    <select id="ratingSelect" class="select">
+                                        <option value="default">Ratings</option>
+                                        <option value="1">1 Star</option>
+                                        <option value="2">2 Star</option>
+                                        <option value="3">3 Star</option>
+                                        <option value="4">4 Star</option>
+                                        <option value="5">5 Star</option>
                                     </select>
                                 </div>
                                 <div class="mt-5 ml-10">
@@ -283,11 +283,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="filter_data">
-                                <div id="loading item_loading">
-                                    <div class="loader"></div>
-                                </div>
-                            </div>
+                            <div id="filter_data"></div>
                         </div>
                     </div>
                 </div>
@@ -324,6 +320,8 @@
     </script>
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
+    </script>
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('data', () => ({
@@ -385,6 +383,8 @@
                     min_price: `{{ request('min_price', '') }}`,
                     languages: {!! json_encode(request('languages', [])) !!},
                     sort_by: `{{ request('sort_by', '') }}`,
+                    ratings: {!! json_encode(request('ratings', [])) !!},
+                    ratting: `{{ request('ratting', '') }}`
                 },
                 defaultFilters: {
                     search: '',
@@ -394,6 +394,8 @@
                     amenity_id: [],
                     languages: [],
                     sort_by: '',
+                    ratings: [],
+                    ratting: ''
                 },
                 get isFilterChanged() {
                     return JSON.stringify(this.filters) !== JSON.stringify(this.defaultFilters);
@@ -452,6 +454,7 @@
                         $('#typeSelect').val('Type').niceSelect('update');
                         $('#sortSelect').val('default').niceSelect('update');
                         $('#amenitySelect').val('Amenities').niceSelect('update');
+                        $('#ratingSelect').val('default').niceSelect('update');
                     });
                 },
                 init() {
@@ -467,6 +470,9 @@
                 },
                 fetchServices() {
                     that = this;
+
+                    this.loadingOverlay("show");
+
                     $.ajax({
                         url: `{{ route('front.tourbooking.services.load.ajax') }}`,
                         method: 'GET',
@@ -477,11 +483,6 @@
                             isListView: this.isListView,
                             style: this.style
                         },
-                        beforeSend: function() {
-                            $('#filter_data').html(
-                                `<div id="loading item_loading"><div class="loader"></div></div>`
-                            );
-                        },
                         success: function(response) {
                             $('#filter_data').html(response.view);
                             $('.custom_pagination_count').html(response
@@ -489,6 +490,9 @@
                         },
                         error: function(xhr, status, error) {
                             console.error(error);
+                        },
+                        complete: function() {
+                            that.loadingOverlay("hide");
                         }
                     });
                 },
@@ -533,9 +537,32 @@
                         $('#amenitySelect').val(this.filters.amenity_id || 'Amenities')
                             .niceSelect(
                                 'update');
+
+                        $('#ratingSelect').on('change', (e) => {
+                            this.filters.ratting = e.target.value
+                        });
+                        $('#ratingSelect').val(this.filters.ratting || 'default')
+                            .niceSelect(
+                                'update');
                     });
 
+                    this.loadingOverlay("show");
+
                     this.fetchServices();
+                },
+
+                loadingOverlay(action = 'show', target = false) {
+                    const options = {
+                        size: 50,
+                        maxSize: 50,
+                        minSize: 50
+                    };
+
+                    if (target && typeof target === 'string') {
+                        $(target).LoadingOverlay(action, options);
+                    } else {
+                        $.LoadingOverlay(action, options);
+                    }
                 }
             }));
         });

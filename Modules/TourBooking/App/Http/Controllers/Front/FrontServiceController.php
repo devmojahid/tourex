@@ -306,6 +306,9 @@ final class FrontServiceController extends Controller
                 $minRating = min($request->ratings);
                 $query->having('active_reviews_avg_rating', '>=', $minRating);
             })
+            ->when($request->filled('ratting') && $request->ratting != 'default', function ($query) use ($request) {
+                $query->having('active_reviews_avg_rating', '>=', $request->ratting);
+            })
             ->when($request->filled('sort_by'), function ($query) use ($request) {
                 switch ($request->sort_by) {
                     case 'price_low':
