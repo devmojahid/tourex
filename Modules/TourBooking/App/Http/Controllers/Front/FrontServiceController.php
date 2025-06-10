@@ -377,7 +377,9 @@ final class FrontServiceController extends Controller
                 'translation',
                 'media:id,service_id,file_name,file_path,is_thumbnail',
                 'serviceType:id,name',
-                'extraCharges',
+                'extraCharges' => function ($query) {
+                    $query->where('status', true);
+                },
                 'availabilities',
                 'itineraries' => function ($query) {
                     $query->orderBy('day_number');
