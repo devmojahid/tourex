@@ -18,22 +18,27 @@ use Modules\TourBooking\App\Models\ExtraCharge;
 use Modules\TourBooking\App\Models\Review;
 use Modules\TourBooking\App\Models\Service;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Session;
 
 final class FrontBookingController extends Controller
 {
     /**
      * Display the booking form for a service.
      */
-    public function bookingForm(string $slug): View
+    public function bookingCheckoutView(Request $request)
     {
-        $service = Service::where('slug', $slug)
+        Session::forget('bookingData');
+        Session::put('bookingData', $request->all());
+
+        $service = Service::where('id', $request->service_id)
             ->where('status', true)
-            ->with(['extraCharges', 'availabilities', 'media'])
             ->firstOrFail();
-        
-        return view('tourbooking::front.bookings.form', compact('service'));
+
+        // dd($request->all(), $service);
+
+        return view('tourbooking::front.bookings.checkout-view', compact('service'));
     }
-    
+
     /**
      * Process a new booking.
      */
@@ -42,7 +47,7 @@ final class FrontBookingController extends Controller
         $service = Service::where('slug', $slug)
             ->where('status', true)
             ->firstOrFail();
-            
+
         $validated = $request->validate([
             'check_in_date' => 'required|date|after_or_equal:today',
             'check_out_date' => 'nullable|date|after_or_equal:check_in_date',
@@ -58,10 +63,10 @@ final class FrontBookingController extends Controller
             'customer_notes' => 'nullable|string',
             'payment_method' => 'required|string|in:paypal,stripe,bank_transfer',
         ]);
-        
+
         // Verify availability
         $this->verifyServiceAvailability($service, $validated['check_in_date'], $validated['check_out_date'] ?? null);
-        
+
         // Calculate prices
         $priceDetails = $this->calculateBookingPrice(
             $service,
@@ -71,7 +76,7 @@ final class FrontBookingController extends Controller
             $validated['extra_services'] ?? [],
             $validated['coupon_code'] ?? null
         );
-        
+
         // Create booking data
         $bookingData = [
             'service_id' => $service->id,
@@ -102,14 +107,14 @@ final class FrontBookingController extends Controller
             'customer_address' => $validated['customer_address'] ?? null,
             'customer_notes' => $validated['customer_notes'] ?? null,
         ];
-        
+
         // Associate with user if logged in
         if (Auth::check()) {
             $bookingData['user_id'] = Auth::id();
         }
-        
+
         $booking = Booking::create($bookingData);
-        
+
         // Process payment based on the selected method
         switch ($validated['payment_method']) {
             case 'paypal':
@@ -121,7 +126,7 @@ final class FrontBookingController extends Controller
                 return redirect()->route('front.tourbooking.confirm-booking', $booking->booking_code);
         }
     }
-    
+
     /**
      * Display the booking confirmation page.
      */
@@ -130,10 +135,10 @@ final class FrontBookingController extends Controller
         $booking = Booking::where('booking_code', $code)
             ->with(['service', 'service.media', 'user'])
             ->firstOrFail();
-            
+
         return view('tourbooking::front.bookings.confirm', compact('booking'));
     }
-    
+
     /**
      * Display the booking success page.
      */
@@ -142,10 +147,10 @@ final class FrontBookingController extends Controller
         $booking = Booking::where('booking_code', $code)
             ->with(['service', 'user'])
             ->firstOrFail();
-            
+
         return view('tourbooking::front.bookings.success', compact('booking'));
     }
-    
+
     /**
      * Display the booking cancel page.
      */
@@ -154,10 +159,10 @@ final class FrontBookingController extends Controller
         $booking = Booking::where('booking_code', $code)
             ->with(['service', 'user'])
             ->firstOrFail();
-            
+
         return view('tourbooking::front.bookings.cancel', compact('booking'));
     }
-    
+
     /**
      * Check availability for a service.
      */
@@ -171,12 +176,12 @@ final class FrontBookingController extends Controller
             'children' => 'nullable|integer|min:0',
             'infants' => 'nullable|integer|min:0',
         ]);
-        
+
         $service = Service::findOrFail($validated['service_id']);
-        
+
         try {
             $this->verifyServiceAvailability($service, $validated['check_in_date'], $validated['check_out_date'] ?? null);
-            
+
             // Calculate pricing
             $priceDetails = $this->calculateBookingPrice(
                 $service,
@@ -184,7 +189,7 @@ final class FrontBookingController extends Controller
                 (int) ($validated['children'] ?? 0),
                 (int) ($validated['infants'] ?? 0)
             );
-            
+
             return response()->json([
                 'available' => true,
                 'message' => 'Service is available for the selected dates.',
@@ -197,7 +202,7 @@ final class FrontBookingController extends Controller
             ], 422);
         }
     }
-    
+
     /**
      * Validate a coupon code.
      */
@@ -209,7 +214,7 @@ final class FrontBookingController extends Controller
             'check_in_date' => 'required|date',
             'subtotal' => 'required|numeric|min:0',
         ]);
-        
+
         $coupon = Coupon::where('code', $validated['coupon_code'])
             ->where('status', true)
             ->where(function ($query) {
@@ -217,14 +222,14 @@ final class FrontBookingController extends Controller
                     ->orWhereNull('expires_at');
             })
             ->first();
-            
+
         if (!$coupon) {
             return response()->json([
                 'valid' => false,
                 'message' => 'Invalid or expired coupon code.',
             ], 422);
         }
-        
+
         // Check if coupon is valid for this service
         if ($coupon->service_id && $coupon->service_id != $validated['service_id']) {
             return response()->json([
@@ -232,7 +237,7 @@ final class FrontBookingController extends Controller
                 'message' => 'This coupon is not valid for the selected service.',
             ], 422);
         }
-        
+
         // Check usage limit
         if ($coupon->usage_limit && $coupon->times_used >= $coupon->usage_limit) {
             return response()->json([
@@ -240,27 +245,27 @@ final class FrontBookingController extends Controller
                 'message' => 'This coupon has reached its usage limit.',
             ], 422);
         }
-        
+
         // Calculate discount
         $subtotal = (float) $validated['subtotal'];
         $discountAmount = 0;
-        
+
         if ($coupon->discount_type == 'percentage') {
             $discountAmount = $subtotal * ($coupon->discount_value / 100);
-            
+
             // Apply max discount if set
             if ($coupon->max_discount_amount && $discountAmount > $coupon->max_discount_amount) {
                 $discountAmount = $coupon->max_discount_amount;
             }
         } else {
             $discountAmount = $coupon->discount_value;
-            
+
             // Discount cannot be greater than subtotal
             if ($discountAmount > $subtotal) {
                 $discountAmount = $subtotal;
             }
         }
-        
+
         return response()->json([
             'valid' => true,
             'message' => 'Coupon applied successfully.',
@@ -268,7 +273,7 @@ final class FrontBookingController extends Controller
             'coupon_data' => $coupon,
         ]);
     }
-    
+
     /**
      * Display user's bookings.
      */
@@ -278,10 +283,10 @@ final class FrontBookingController extends Controller
             ->with(['service', 'service.thumbnail'])
             ->latest()
             ->paginate(10);
-            
+
         return view('tourbooking::front.bookings.my-bookings', compact('bookings'));
     }
-    
+
     /**
      * Display a specific booking's details.
      */
@@ -291,10 +296,10 @@ final class FrontBookingController extends Controller
             ->where('user_id', Auth::id())
             ->with(['service', 'service.media', 'review'])
             ->firstOrFail();
-            
+
         return view('tourbooking::front.bookings.details', compact('booking'));
     }
-    
+
     /**
      * Display an invoice for the booking.
      */
@@ -304,10 +309,10 @@ final class FrontBookingController extends Controller
             ->where('user_id', Auth::id())
             ->with(['service', 'service.serviceType'])
             ->firstOrFail();
-            
+
         return view('tourbooking::front.bookings.invoice', compact('booking'));
     }
-    
+
     /**
      * Generate a PDF invoice for the booking.
      */
@@ -317,7 +322,7 @@ final class FrontBookingController extends Controller
             ->where('user_id', Auth::id())
             ->with(['service', 'service.serviceType'])
             ->firstOrFail();
-        
+
         // Set paper size and orientation
         $pdf = PDF::loadView('tourbooking::front.bookings.invoice', compact('booking'))
             ->setPaper('a4')
@@ -325,14 +330,14 @@ final class FrontBookingController extends Controller
             ->setOption('margin-right', 10)
             ->setOption('margin-bottom', 10)
             ->setOption('margin-left', 10);
-        
+
         // Generate a filename for the PDF
         $filename = 'invoice-' . $booking->booking_code . '.pdf';
-        
+
         // Return the PDF as a download
         return $pdf->download($filename);
     }
-    
+
     /**
      * Cancel a booking.
      */
@@ -343,23 +348,23 @@ final class FrontBookingController extends Controller
             ->where('booking_status', '!=', 'cancelled')
             ->where('booking_status', '!=', 'completed')
             ->firstOrFail();
-            
+
         $validated = $request->validate([
             'cancellation_reason' => 'required|string|max:500',
         ]);
-        
+
         $booking->update([
             'booking_status' => 'cancelled',
             'cancelled_at' => now(),
             'cancellation_reason' => $validated['cancellation_reason'],
         ]);
-        
+
         // Notification logic can be added here
-        
+
         return redirect()->route('front.tourbooking.my-bookings')
             ->with('success', 'Your booking has been cancelled.');
     }
-    
+
     /**
      * Submit a review for a completed booking.
      */
@@ -370,13 +375,13 @@ final class FrontBookingController extends Controller
             ->where('booking_status', 'completed')
             ->where('is_reviewed', false)
             ->firstOrFail();
-            
+
         $validated = $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'review_text' => 'required|string|min:10|max:1000',
             'title' => 'required|string|max:100',
         ]);
-        
+
         $review = Review::create([
             'service_id' => $booking->service_id,
             'booking_id' => $booking->id,
@@ -386,13 +391,13 @@ final class FrontBookingController extends Controller
             'content' => $validated['review_text'],
             'status' => false, // Pending approval
         ]);
-        
+
         $booking->update(['is_reviewed' => true]);
-        
+
         return redirect()->route('front.tourbooking.my-bookings')
             ->with('success', 'Your review has been submitted and is pending approval.');
     }
-    
+
     /**
      * Verify service availability for the selected dates.
      */
@@ -400,39 +405,39 @@ final class FrontBookingController extends Controller
     {
         $checkInDate = \Carbon\Carbon::parse($checkInDate);
         $checkOutDate = $checkOutDate ? \Carbon\Carbon::parse($checkOutDate) : $checkInDate;
-        
+
         // Check if service has specific availabilities
         $hasAvailabilityRecords = $service->availabilities()->exists();
-        
+
         if ($hasAvailabilityRecords) {
             // Check if dates fall within any availability periods
             $availableForDates = $service->availabilities()
                 ->where(function ($query) use ($checkInDate, $checkOutDate) {
                     $query->where(function ($q) use ($checkInDate, $checkOutDate) {
                         $q->where('start_date', '<=', $checkInDate)
-                          ->where('end_date', '>=', $checkOutDate);
+                            ->where('end_date', '>=', $checkOutDate);
                     });
                 })
                 ->exists();
-                
+
             if (!$availableForDates) {
                 throw new \Exception('The service is not available for the selected dates.');
             }
         }
-        
+
         // Check existing bookings to avoid conflicts
         $conflictingBookings = Booking::where('service_id', $service->id)
             ->where('booking_status', '!=', 'cancelled')
             ->forDateRange($checkInDate, $checkOutDate)
             ->exists();
-            
+
         if ($conflictingBookings) {
             throw new \Exception('The service is already booked for the selected dates.');
         }
-        
+
         return true;
     }
-    
+
     /**
      * Calculate booking price details.
      */
@@ -446,35 +451,35 @@ final class FrontBookingController extends Controller
     ): array {
         // Base price calculation
         $basePrice = 0;
-        
+
         if ($service->price_per_person) {
-            $basePrice = ($adults * $service->discounted_price) 
-                + ($children * ($service->child_price ?? 0)) 
+            $basePrice = ($adults * $service->discounted_price)
+                + ($children * ($service->child_price ?? 0))
                 + ($infants * ($service->infant_price ?? 0));
         } else {
             $basePrice = $service->discounted_price;
         }
-        
+
         // Extra charges
         $extraChargesAmount = 0;
-        
+
         if (!empty($extraServices)) {
             $extraChargesIds = array_keys($extraServices);
             $extraCharges = ExtraCharge::whereIn('id', $extraChargesIds)
                 ->where('service_id', $service->id)
                 ->get();
-                
+
             foreach ($extraCharges as $charge) {
                 $quantity = $extraServices[$charge->id] ?? 1;
                 $extraChargesAmount += $charge->price * $quantity;
             }
         }
-        
+
         $subtotal = $basePrice + $extraChargesAmount;
-        
+
         // Apply coupon if provided
         $discountAmount = 0;
-        
+
         if ($couponCode) {
             $coupon = Coupon::where('code', $couponCode)
                 ->where('status', true)
@@ -483,18 +488,18 @@ final class FrontBookingController extends Controller
                         ->orWhereNull('expires_at');
                 })
                 ->first();
-                
+
             if ($coupon && (!$coupon->service_id || $coupon->service_id == $service->id)) {
                 if ($coupon->discount_type == 'percentage') {
                     $discountAmount = $subtotal * ($coupon->discount_value / 100);
-                    
+
                     // Apply max discount if set
                     if ($coupon->max_discount_amount && $discountAmount > $coupon->max_discount_amount) {
                         $discountAmount = $coupon->max_discount_amount;
                     }
                 } else {
                     $discountAmount = $coupon->discount_value;
-                    
+
                     // Discount cannot be greater than subtotal
                     if ($discountAmount > $subtotal) {
                         $discountAmount = $subtotal;
@@ -502,18 +507,18 @@ final class FrontBookingController extends Controller
                 }
             }
         }
-        
+
         // Calculate tax (if applicable)
         $taxAmount = 0;
         $taxPercentage = config('tourbooking.tax_percentage', 0);
-        
+
         if ($taxPercentage > 0) {
             $taxAmount = ($subtotal - $discountAmount) * ($taxPercentage / 100);
         }
-        
+
         // Calculate total
         $total = $subtotal - $discountAmount + $taxAmount;
-        
+
         return [
             'base_price' => $basePrice,
             'extra_charges' => $extraChargesAmount,
@@ -523,4 +528,4 @@ final class FrontBookingController extends Controller
             'total' => $total,
         ];
     }
-} 
+}

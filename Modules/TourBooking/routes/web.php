@@ -204,11 +204,11 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middlew
     Route::get('/destinations/{slug}', [FrontServiceController::class, 'destinationDetail'])->name('destinations.show');
 
     // Booking
-    Route::get('/book/{slug}', [FrontBookingController::class, 'bookingForm'])->name('book');
-    Route::post('/book/{slug}', [FrontBookingController::class, 'processBooking'])->name('process-booking');
-    Route::get('/booking/confirm/{code}', [FrontBookingController::class, 'confirmBooking'])->name('confirm-booking');
-    Route::get('/booking/success/{code}', [FrontBookingController::class, 'bookingSuccess'])->name('booking-success');
-    Route::get('/booking/cancel/{code}', [FrontBookingController::class, 'bookingCancel'])->name('booking-cancel');
+    Route::get('/book/checkout/view', [FrontBookingController::class, 'bookingCheckoutView'])->name('book.checkout.view');
+    // Route::post('/book/{slug}', [FrontBookingController::class, 'processBooking'])->name('process-booking');
+    // Route::get('/booking/confirm/{code}', [FrontBookingController::class, 'confirmBooking'])->name('confirm-booking');
+    // Route::get('/booking/success/{code}', [FrontBookingController::class, 'bookingSuccess'])->name('booking-success');
+    // Route::get('/booking/cancel/{code}', [FrontBookingController::class, 'bookingCancel'])->name('booking-cancel');
 
     // Reviews
     Route::post('/services/reviews', [FrontServiceController::class, 'storeReview'])->name('reviews.store');

@@ -1,13 +1,11 @@
 @extends('layout_inner_page')
 
 @section('title')
-    <title>{{ $seo_setting->seo_title }}</title>
-    <meta name="title" content="{{ $seo_setting->seo_title }}">
-    <meta name="description" content="{!! strip_tags(clean($seo_setting->seo_description)) !!}">
+    <title>{{ __('translate.Booking Checkout') }}</title>
 @endsection
 
 @section('front-content')
-    @include('breadcrumb')
+    @include('breadcrumb', ['breadcrumb_title' => __('translate.Booking Checkout')])
 
     <!-- checkout area -->
     <section class="checkout-area pb-100 pt-125">
@@ -35,17 +33,6 @@
                                     <input class="input" type="text" value="{{ auth()->user()->phone ?? '' }}"
                                         name="phone" placeholder="WhatsApp Phone">
                                 </div>
-
-                                <div class="tg-checkout-form-input mb-25 dropdown">
-                                    <label>{{ __('translate.Shipping Method') }}</label>
-                                    <select class="input" name="shipping_method_id" class="form-select">
-                                        <option value="" selected disabled>{{ __('translate.Select One') }}</option>
-                                        @foreach ($methods as $method)
-                                            <option value="{{ $method->id }}">{{ $method->name }} -
-                                                {{ currency($method->price) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
                                 <div class="tg-checkout-form-input mb-25">
                                     <label>{{ __('translate.Full Address') }}</label>
                                     <input class="input" class="house-number" name="address" type="text"
@@ -67,8 +54,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
-                                            @foreach ($carts as $cart)
+                                            {{-- @foreach ($carts as $cart)
                                                 <tr class="cart_item first">
                                                     <td class="product-name">
                                                         {{ Str::limit($cart->product->translate?->name, 35) }}
@@ -80,9 +66,9 @@
                                                             class="amount">{{ currency($cart->product->finalPrice * $cart->quantity) }}</span>
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @endforeach --}}
                                         </tbody>
-                                        <tfoot>
+                                        {{-- <tfoot>
 
                                             <tr class="cart-subtotal">
                                                 <th>{{ __('translate.Subtotal') }}</th>
@@ -105,7 +91,7 @@
                                                     <input type="hidden" name="total" value="">
                                                 </td>
                                             </tr>
-                                        </tfoot>
+                                        </tfoot> --}}
                                     </table>
                                 </div>
                             </div>

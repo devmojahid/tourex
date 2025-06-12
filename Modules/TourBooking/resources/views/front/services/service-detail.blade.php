@@ -561,13 +561,15 @@
                     </div>
                     <div class="col-xl-3 col-lg-4">
                         <div x-data="bookingForm()" class="tg-tour-about-sidebar top-sticky mb-50">
-                            <form action="#">
+                            <form action="{{ route('front.tourbooking.book.checkout.view') }}">
                                 <h4 class="tg-tour-about-title title-2 mb-15">Book This Tour</h4>
+
+                                <input type="hidden" name="service_id" value="{{ $service->id }}">
 
                                 <div class="tg-booking-form-parent-inner mb-10">
                                     <div class="tg-tour-about-date p-relative">
-                                        <input class="input" name="datetime-local" type="text"
-                                            placeholder="When (Date)">
+                                        <input required class="input" name="check_in_date" type="text"
+                                            placeholder="When (Date)" value="{{ now()->format('Y-m-d') }}">
                                         <span class="calender">
                                             <!-- calendar icon -->
                                         </span>
@@ -578,14 +580,14 @@
                                 <div class="tg-tour-about-time d-flex align-items-center mb-10">
                                     <span class="time">Time:</span>
                                     <div class="form-check mr-15">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                            id="time1" checked>
+                                        <input class="form-check-input" name="check_in_time" type="radio"
+                                            id="time1">
                                         <label class="form-check-label" for="time1">
                                             {{ $service->check_in_time }}
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        <input class="form-check-input" name="check_out_time" type="radio"
                                             id="time2">
                                         <label class="form-check-label" for="time2">
                                             {{ $service->check_out_time }}
@@ -605,9 +607,10 @@
                                             </p>
                                         </div>
                                         <div class="tg-tour-about-tickets-quantity">
-                                            <select class="item-first custom-select" x-model.number="tickets.person">
+                                            <select name="person" class="item-first custom-select"
+                                                x-model.number="tickets.person">
                                                 <template x-for="i in 8" :key="i">
-                                                    <option :value="i - 1" x-text="i - 1"></option>
+                                                    <option :value="i" x-text="i"></option>
                                                 </template>
                                             </select>
                                         </div>
@@ -619,7 +622,8 @@
                                             <p class="mb-0">(13-17 years) <span>${{ $service->child_price }}</span></p>
                                         </div>
                                         <div class="tg-tour-about-tickets-quantity">
-                                            <select class="item-first custom-select" x-model.number="tickets.children">
+                                            <select name="children" class="item-first custom-select"
+                                                x-model.number="tickets.children">
                                                 <template x-for="i in 8" :key="i">
                                                     <option :value="i - 1" x-text="i - 1"></option>
                                                 </template>
@@ -638,12 +642,12 @@
                                                 @foreach ($service->extraCharges as $key => $extra)
                                                     <li>
                                                         <div class="checkbox d-flex">
-                                                            <input name="extras[]" value="{{ $key }}"
+                                                            <input name="extras[]" value="{{ $extra->id }}"
                                                                 class="tg-checkbox" type="checkbox"
                                                                 x-model="extras.charge_{{ $key }}"
                                                                 id="charge_{{ $key }}">
                                                             <label for="charge_{{ $key }}" class="tg-label">
-                                                                {{ $extra->name }}
+                                                                {{ $extra->name }}({{ Str::title(str_replace('_', ' ', $extra->price_type)) }})
                                                             </label>
                                                         </div>
                                                         <span class="quantity">${{ $extra->price }}</span>
@@ -690,6 +694,12 @@
                     dateFormat: "H:i",
                     time_24hr: true
                 });
+
+                flatpickr("input[name='check_in_date']", {
+                    dateFormat: "Y-m-d",
+                    disableMobile: "true"
+                });
+
             });
         })(jQuery);
     </script>
@@ -792,7 +802,7 @@
         function bookingForm() {
             return {
                 tickets: {
-                    person: 0,
+                    person: 1,
                     children: 0
                 },
                 pricePerPerson: {{ $service->price_per_person }},
@@ -817,7 +827,7 @@
                         }
                     }
                     return total.toFixed(2);
-                }
+                },
             }
         }
     </script>
@@ -856,6 +866,12 @@
         .custom-select:focus {
             outline: none;
             border-color: #560CE3;
+        }
+
+        .calender-active.open .flatpickr-innerContainer .flatpickr-days .flatpickr-day.today,
+        .flatpickr-calendar.open .flatpickr-innerContainer .flatpickr-days .flatpickr-day.selected {
+            color: var(--tg-common-white) !important;
+            background-color: var(--tg-theme-primary) !important;
         }
     </style>
 @endpush
