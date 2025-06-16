@@ -1,6 +1,7 @@
 <div class="payment_right">
     <div class="payment_select">
-        <h2 class="tg-checkout-form-title tg-checkout-form-title-3 mb-15">{{ __('translate.Select Payment Method') }}</h2>
+        <h2 class="tg-checkout-form-title tg-checkout-form-title-3 mb-15">{{ __('translate.Select Payment Method') }}
+        </h2>
         <div class="tg-tour-about-border-doted mb-20"></div>
         <div class="payment_select_item_main">
 
@@ -32,6 +33,8 @@
                             action="{{ route('payment.stripe') }}" method="POST" data-cc-on-file="false"
                             data-stripe-publishable-key="{{ $payment_setting->stripe_key }}" id="payment-form">
                             @csrf
+
+                            @include('tourbooking::front.bookings.customer-info')
 
                             <div class="payment_select_modal_form_item mt-0">
                                 <div class="payment_select_modal_form_inner">
@@ -98,12 +101,15 @@
 
             @if ($payment_setting->paypal_status == 1)
                 <div class="payment_select_item_box">
-                    <a href="{{ route('payment.paypal') }}">
-                        <div class="payment_select_item_thumb">
-                            <img src="{{ asset($payment_setting->paypal_image) }}" class="w-100" alt="">
-                        </div>
-                    </a>
-
+                    <form action="{{ route('payment.paypal') }}">
+                        @csrf
+                        @include('tourbooking::front.bookings.customer-info')
+                        <button type="submit">
+                            <div class="payment_select_item_thumb">
+                                <img src="{{ asset($payment_setting->paypal_image) }}" class="w-100" alt="">
+                            </div>
+                        </button>
+                    </form>
                 </div>
             @endif
 
@@ -114,7 +120,6 @@
                             <img src="{{ asset($payment_setting->razorpay_image) }}" class="w-100" alt="">
                         </div>
                     </a>
-
                 </div>
 
                 <form action="{{ route('payment.razorpay') }}" method="POST" class="d-none">
@@ -123,6 +128,9 @@
                         $payable_amount = $data['total'] * $razorpay_currency->currency_rate;
                         $payable_amount = round($payable_amount, 2);
                     @endphp
+
+                    @include('tourbooking::front.bookings.customer-info')
+
                     <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="{{ $payment_setting->razorpay_key }}"
                         data-currency="{{ $razorpay_currency->currency_code }}" data-amount="{{ $payable_amount * 100 }}"
                         data-buttontext="{{ __('translate.Pay') }}" data-name="{{ $payment_setting->razorpay_name }}"
@@ -161,27 +169,32 @@
 
             @if ($payment_setting->mollie_status == 1)
                 <div class="payment_select_item_box">
-                    <a href="{{ route('payment.mollie') }}">
-                        <div class="payment_select_item_thumb">
-                            <img src="{{ asset($payment_setting->mollie_image) }}" class="w-100" alt="">
-                        </div>
-                    </a>
+                    <form action="{{ route('payment.mollie') }}">
+                        @include('tourbooking::front.bookings.customer-info')
+                        <button type="submit">
+                            <div class="payment_select_item_thumb">
+                                <img src="{{ asset($payment_setting->mollie_image) }}" class="w-100"
+                                    alt="">
+                            </div>
+                        </button>
+                    </form>
                 </div>
             @endif
 
 
             @if ($payment_setting->instamojo_status == 1)
                 <div class="payment_select_item_box">
-                    <a href="{{ route('payment.instamojo') }}">
-                        <div class="payment_select_item_thumb">
-                            <img src="{{ asset($payment_setting->instamojo_image) }}" class="w-100" alt="">
-                        </div>
-                    </a>
+                    <form action="{{ route('payment.instamojo') }}">
+                        @include('tourbooking::front.bookings.customer-info')
+                        <button type="submit">
+                            <div class="payment_select_item_thumb">
+                                <img src="{{ asset($payment_setting->instamojo_image) }}" class="w-100"
+                                    alt="">
+                            </div>
+                        </button>
+                    </form>
                 </div>
             @endif
-
-
-
 
             @if ($payment_setting->bank_status == 1)
                 <div class="payment_select_item_box">
@@ -217,6 +230,9 @@
                         <form class="payment_select_modal_form mt-0" action="{{ route('payment.bank') }}"
                             method="POST">
                             @csrf
+
+                            @include('tourbooking::front.bookings.customer-info')
+
                             <div class="payment_select_modal_form_item  mt-0">
                                 <div class="payment_select_modal_form_inner tg-checkout-form-input">
                                     <label for="tnx_info"
@@ -429,7 +445,11 @@
                                 data: {
                                     reference,
                                     tnx_id,
-                                    _token
+                                    _token,
+                                    customer_name: $('.form_customer_name').val(),
+                                    customer_email: $('.form_customer_email').val(),
+                                    customer_phone: $('.form_customer_phone').val(),
+                                    customer_address: $('.form_customer_address').val(),
                                 },
                                 url: "{{ url('payment/paystack') }}",
                                 success: function(response) {

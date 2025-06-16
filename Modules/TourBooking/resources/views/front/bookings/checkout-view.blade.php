@@ -17,24 +17,28 @@
                         <div class="row gx-24">
                             <div class="tg-checkout-form-input mb-25">
                                 <label>{{ __('translate.Customer name') }}</label>
-                                <input class="input" type="text" value="{{ auth()->user()->name ?? '' }}"
-                                    name="customer_name" placeholder="Customer name">
+                                <input id="customer_name" class="input" type="text"
+                                    value="{{ auth()->user()->name ?? '' }}" name="customer_name"
+                                    placeholder="Customer name">
                             </div>
 
                             <div class="tg-checkout-form-input mb-25">
                                 <label>{{ __('translate.Customer email') }}</label>
-                                <input class="input" type="email" value="{{ auth()->user()->email ?? '' }}"
-                                    name="customer_email" placeholder="Customer email">
+                                <input id="customer_email" class="input" type="email"
+                                    value="{{ auth()->user()->email ?? '' }}" name="customer_email"
+                                    placeholder="Customer email">
                             </div>
 
                             <div class="tg-checkout-form-input mb-25">
                                 <label>{{ __('translate.Customer phone') }}</label>
-                                <input class="input" type="text" value="{{ auth()->user()->phone ?? '' }}"
-                                    name="customer_phone" placeholder="Customer phone">
+                                <input id="customer_phone" class="input" type="text"
+                                    value="{{ auth()->user()->phone ?? '' }}" name="customer_phone"
+                                    placeholder="Customer phone">
                             </div>
                             <div class="tg-checkout-form-input mb-25">
                                 <label>{{ __('translate.Customer address') }}</label>
-                                <input class="input" class="house-number" name="customer_address" type="text"
+                                <input id="customer_address" class="input" value="{{ auth()->user()->address ?? '' }}"
+                                    class="house-number" name="customer_address" type="text"
                                     placeholder="{{ __('translate.House number and Street name') }}">
                             </div>
                         </div>
@@ -177,6 +181,20 @@
 
             // Optional: If you want to initially set the values correctly when the page loads, you can call updatePrices()
             updatePrices();
+
+            $('#customer_name').on('keyup', function() {
+                $('.form_customer_name').val($(this).val());
+            });
+            $('#customer_email').on('change', function() {
+                $('.form_customer_email').val($(this).val());
+            });
+            $('#customer_phone').on('change', function() {
+                $('.form_customer_phone').val($(this).val());
+            });
+            $('#customer_address').on('change', function() {
+                $('.form_customer_address').val($(this).val());
+            });
+
         });
     </script>
 @endpush

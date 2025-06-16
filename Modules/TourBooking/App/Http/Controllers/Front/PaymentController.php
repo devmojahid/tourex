@@ -32,7 +32,6 @@ class PaymentController extends Controller
     {
         $payment_data = PaymentGateway::all();
 
-
         $this->payment_setting = array();
 
         foreach ($payment_data as $data_item) {
@@ -56,6 +55,8 @@ class PaymentController extends Controller
 
         Stripe::setApiKey($this->payment_setting->stripe_secret);
 
+        $customerInfo = $this->customerInfo($request);
+
         try {
             $result = Charge::create([
                 "amount" => $payable_amount * 100,
@@ -71,7 +72,7 @@ class PaymentController extends Controller
             return redirect()->back()->with($notify_message);
         }
 
-        $order = $this->create_order($auth_user, 'Stripe', 'success', $result->balance_transaction);
+        $this->create_order($auth_user, 'Stripe', 'success', $result->balance_transaction, $customerInfo);
 
         $notify_message = trans('translate.Your payment has been made successful. Thanks for your new purchase');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
@@ -81,6 +82,8 @@ class PaymentController extends Controller
 
     public function paypal_payment(Request $request)
     {
+
+        $this->setCustomerInfoSession($request);
 
         $calculate_price = $this->calculate_price();
 
@@ -142,6 +145,7 @@ class PaymentController extends Controller
     public function paypal_success_payment(Request $request)
     {
 
+        $customerInfo = Session::get('customer_info');
 
         $paypal_currency = Currency::findOrFail($this->payment_setting->paypal_currency_id);
 
@@ -164,26 +168,25 @@ class PaymentController extends Controller
 
             $auth_user = Auth::guard('web')->user();
 
-            $order = $this->create_order($auth_user, 'Paypal', 'success', $request->PayerID);
+            $this->create_order($auth_user, 'Paypal', 'success', $request->PayerID, $customerInfo);
 
             $notify_message = trans('translate.Your payment has been made successful. Thanks for your new purchase');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-            return redirect()->route('student.enrolled-courses')->with($notify_message);
+            return redirect()->route('user.dashboard')->with($notify_message);
         } else {
 
 
             $notify_message = trans('translate.Something went wrong, please try again');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
-            return redirect()->route('carts')->with($notify_message);
+            return redirect()->back()->with($notify_message);
         }
     }
 
     public function paypal_faild_payment(Request $request)
     {
-
         $notify_message = trans('translate.Something went wrong, please try again');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
-        return redirect()->route('carts')->with($notify_message);
+        return redirect()->back()->with($notify_message);
     }
 
 
@@ -191,8 +194,13 @@ class PaymentController extends Controller
     {
 
         $input = $request->all();
+
+        $customerInfo = $this->customerInfo($request);
+
         $api = new Api($this->payment_setting->razorpay_key, $this->payment_setting->razorpay_secret);
+
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
+
         if (count($input)  && !empty($input['razorpay_payment_id'])) {
             try {
                 $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount' => $payment['amount']));
@@ -200,27 +208,29 @@ class PaymentController extends Controller
 
                 $auth_user = Auth::guard('web')->user();
 
-                $order = $this->create_order($auth_user, 'Razorpay', 'success', $payId);
+                $order = $this->create_order($auth_user, 'Razorpay', 'success', $payId, $customerInfo);
 
                 $notify_message = trans('translate.Your payment has been made successful. Thanks for your new purchase');
                 $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-                return redirect()->route('student.enrolled-courses')->with($notify_message);
+                return redirect()->route('user.dashboard')->with($notify_message);
             } catch (Exception $e) {
                 Log::info('Razorpay payment : ' . $e->getMessage());
                 $notify_message = trans('translate.Something went wrong, please try again');
                 $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
-                return redirect()->route('carts')->with($notify_message);
+                return redirect()->back()->with($notify_message);
             }
         } else {
             $notify_message = trans('translate.Something went wrong, please try again');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
-            return redirect()->route('carts')->with($notify_message);
+            return redirect()->back()->with($notify_message);
         }
     }
 
 
     public function flutterwave_payment(Request $request)
     {
+
+        $customerInfo = $this->customerInfo($request);
 
         $curl = curl_init();
         $tnx_id = $request->tnx_id;
@@ -249,7 +259,7 @@ class PaymentController extends Controller
 
             $auth_user = Auth::guard('web')->user();
 
-            $order = $this->create_order($auth_user, 'Flutterwave', 'success', $tnx_id);
+            $order = $this->create_order($auth_user, 'Flutterwave', 'success', $tnx_id, $customerInfo);
 
             $notify_message = trans('translate.Your payment has been made successful. Thanks for your new purchase');
             return response()->json(['status' => 'success', 'message' => $notify_message]);
@@ -262,6 +272,8 @@ class PaymentController extends Controller
 
     public function paystack_payment(Request $request)
     {
+
+        $customerInfo = $this->customerInfo($request);
 
         $reference = $request->reference;
         $transaction = $request->tnx_id;
@@ -290,7 +302,7 @@ class PaymentController extends Controller
 
             $auth_user = Auth::guard('web')->user();
 
-            $order = $this->create_order($auth_user, 'Paystack', 'success', $transaction);
+            $order = $this->create_order($auth_user, 'Paystack', 'success', $transaction, $customerInfo);
 
             $notification = trans('translate.Your payment has been made successful. Thanks for your new purchase');
             return response()->json(['status' => 'success', 'message' => $notification]);
@@ -310,6 +322,9 @@ class PaymentController extends Controller
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
             return redirect()->back()->with($notify_message);
         }
+
+        $this->customerInfo($request);
+        $this->setCustomerInfoSession($request);
 
         $auth_user = Auth::guard('web')->user();
 
@@ -354,6 +369,8 @@ class PaymentController extends Controller
     public function mollie_callback(Request $request)
     {
 
+        $customerInfo = Session::get('customer_info');
+
         $mollie_api_key = $this->payment_setting->mollie_key;
         Mollie::api()->setApiKey($mollie_api_key);
         $payment = Mollie::api()->payments->get(session()->get('payment_id'));
@@ -361,16 +378,16 @@ class PaymentController extends Controller
 
             $auth_user = Auth::guard('web')->user();
 
-            $order = $this->create_order($auth_user, 'Mollie', 'success', session()->get('payment_id'));
+            $order = $this->create_order($auth_user, 'Mollie', 'success', session()->get('payment_id'), $customerInfo);
 
             $notify_message = trans('translate.Your payment has been made successful. Thanks for your new purchase');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-            return redirect()->route('student.enrolled-courses')->with($notify_message);
+            return redirect()->route('user.dashboard')->with($notify_message);
         } else {
 
             $notify_message = trans('translate.Something went wrong, please try again');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
-            return redirect()->route('carts')->with($notify_message);
+            return redirect()->back()->with($notify_message);
         }
     }
 
@@ -382,6 +399,9 @@ class PaymentController extends Controller
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
             return redirect()->back()->with($notify_message);
         }
+
+        $this->customerInfo($request);
+        $this->setCustomerInfoSession($request);
 
         $auth_user = Auth::guard('web')->user();
 
@@ -449,6 +469,8 @@ class PaymentController extends Controller
 
         $input = $request->all();
 
+        $customerInfo = Session::get('customer_info');
+
         $environment = $this->payment_setting->instamojo_account_mode;
         $api_key = $this->payment_setting->instamojo_api_key;
         $auth_token = $this->payment_setting->instamojo_auth_token;
@@ -480,7 +502,7 @@ class PaymentController extends Controller
 
             $notify_message = trans('translate.Something went wrong, please try again');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
-            return redirect()->route('carts')->with($notify_message);
+            return redirect()->back()->with($notify_message);
         } else {
             $data = json_decode($response);
         }
@@ -490,17 +512,17 @@ class PaymentController extends Controller
 
                 $auth_user = Auth::guard('web')->user();
 
-                $order = $this->create_order($auth_user, $service, $service_package, $package_name, $package_main_price, 'Instamojo', 'success', $request->get('payment_id'));
+                $order = $this->create_order($auth_user, 'Instamojo', 'success', $request->get('payment_id'), $customerInfo);
 
                 $notify_message = trans('translate.Your payment has been made successful. Thanks for your new purchase');
                 $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-                return redirect()->route('student.enrolled-courses')->with($notify_message);
+                return redirect()->route('user.dashboard')->with($notify_message);
             }
         } else {
 
             $notify_message = trans('translate.Something went wrong, please try again');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
-            return redirect()->route('carts')->with($notify_message);
+            return redirect()->back()->with($notify_message);
         }
     }
 
@@ -514,16 +536,18 @@ class PaymentController extends Controller
             'tnx_info.required' => trans('translate.Transaction field is required')
         ]);
 
+        $customerInfo = $this->customerInfo($request);
+
         $auth_user = Auth::guard('web')->user();
 
-        $order = $this->create_order($auth_user, 'Bank Payment', 'pending', $request->tnx_info);
+        $order = $this->create_order($auth_user, 'Bank Payment', 'pending', $request->tnx_info, $customerInfo);
 
         $notify_message = trans('translate.Your payment has been made. please wait for admin payment approval');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-        return redirect()->route('student.enrolled-courses')->with($notify_message);
+        return redirect()->route('user.dashboard')->with($notify_message);
     }
 
-    public function create_order($user, $payment_method, $payment_status, $transaction_id)
+    public function create_order($user, $payment_method, $payment_status, $transaction_id, $customerInfo = [])
     {
 
         $calculate_price = $this->calculate_price();
@@ -552,8 +576,10 @@ class PaymentController extends Controller
         $order->payment_method = $payment_method;
         $order->booking_status = $payment_status == 'success' ? 'success' : 'pending';
         $order->payment_status = $payment_status;
-        $order->customer_name = $user->name ?? '';
-        $order->customer_email = $user->email ?? '';
+        $order->customer_name = $customerInfo['customer_name'] ?? '';
+        $order->customer_email = $customerInfo['customer_email'] ?? '';
+        $order->customer_phone = $customerInfo['customer_phone'] ?? '';
+        $order->customer_address = $customerInfo['customer_address'] ?? '';
 
         $order->save();
 
@@ -563,6 +589,7 @@ class PaymentController extends Controller
         }
 
         session()->forget('payment_cart');
+        session()->forget('customer_info');
 
         return $order;
     }
@@ -588,5 +615,31 @@ class PaymentController extends Controller
             'coupon_amount' => $coupon_amount,
             'total_amount' => $total_amount,
         ];
+    }
+
+    public function customerInfo($request)
+    {
+        $auth_user = Auth::guard('web')->user();
+
+        return [
+            'customer_name' => $request->customer_name ?? $auth_user->name,
+            'customer_email' => $request->customer_email ?? $auth_user->email,
+            'customer_phone' => $request->customer_phone ?? $auth_user->phone,
+            'customer_address' => $request->customer_address ?? $auth_user->address
+        ];
+    }
+
+    public function setCustomerInfoSession($request)
+    {
+        session()->forget('customer_info');
+
+        $auth_user = Auth::guard('web')->user();
+
+        session()->put('customer_info', [
+            'customer_name' => $request->customer_name ?? $auth_user->name,
+            'customer_email' => $request->customer_email ?? $auth_user->email,
+            'customer_phone' => $request->customer_phone ?? $auth_user->phone,
+            'customer_address' => $request->customer_address ?? $auth_user->address
+        ]);
     }
 }
