@@ -30,8 +30,8 @@ windowOn.on('scroll', function () {
 });
 
 if ($('.tg-header-height').length > 0) {
-	var headerHeight = document.querySelector(".tg-header-height");      
-	var setHeaderHeight = headerHeight.offsetHeight;	
+	var headerHeight = document.querySelector(".tg-header-height");
+	var setHeaderHeight = headerHeight.offsetHeight;
 	$(".tg-header-height").each(function () {
 		$(this).css({
 			'height' : $(this).height()
@@ -197,8 +197,8 @@ $('.popup-video').magnificPopup({
 	=        tg-booking-quantity-toggle      =
 =============================================*/
 	$('.tg-booking-quantity-toggle').on('click', function (e) {
-		e.stopPropagation(); 
-		let toggle = $(this); 
+		e.stopPropagation();
+		let toggle = $(this);
 		let container = toggle.parent('.tg-hero-quantity');
 
 		if (toggle.hasClass('active')) {
@@ -258,7 +258,7 @@ $('.popup-video').magnificPopup({
 
 	var gridViewBtn = $(".grid-view");
 	var	listViewBTn = $(".list-view");
-  
+
 	$(gridViewBtn).on("click", function () {
 		$(this)
 		.addClass("active")
@@ -278,7 +278,7 @@ $('.popup-video').magnificPopup({
 		.removeClass("active");
 		$(".list-card").addClass("list-card-open");
 	});
-  
+
 
 	/*=============================================
 		=        tg-hero-slider-active	      =
@@ -410,7 +410,7 @@ $('.popup-video').magnificPopup({
 		loop: true,
 		slideToClickedSlide: true,
 	});
-	
+
 	slider.controller.control = thumbs;
 	thumbs.controller.control = slider;
 
@@ -517,7 +517,7 @@ $('.popup-video').magnificPopup({
 			},
 		},
 	});
-	
+
 	slider.controller.control = thumbs;
 	thumbs.controller.control = slider;
 
@@ -532,7 +532,7 @@ $('.popup-video').magnificPopup({
 	$("[data-width]").each(function () {
 		$(this).css("width", $(this).attr("data-width"));
 	});
-	
+
 
 /*=============================================
 	=       tg-location-su-slider	      =
@@ -572,3 +572,23 @@ var slider = new Swiper('.tg-location-su-slider', {
 	},
 });
 })(jQuery);
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const paymentItems = document.querySelectorAll(".payment_select_item");
+    const modals = document.querySelectorAll(".payment_select_modal");
+    const closeButtons = document.querySelectorAll(".close_modal_btn");
+
+    paymentItems.forEach((item, index) => {
+        item.addEventListener("click", (e) => {
+            e.preventDefault();
+            modals[index].classList.add("active");
+        });
+    });
+
+    closeButtons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+            modals[index].classList.remove("active");
+        });
+    });
+});

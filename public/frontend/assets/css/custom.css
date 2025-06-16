@@ -266,6 +266,293 @@ ul.tourex-tabs-menu li a img {
     color: var(--tg-common-yellow);
 }
 
-.tg-listing-item-wishlist.active{
+.tg-listing-item-wishlist.active {
     color: var(--tg-theme-primary);
+}
+
+
+/* payment css  */
+.payment_right {
+    box-shadow: 0 0 15px 0 #efefef;
+    background: var(--tg-common-white);
+    border: 1px solid #e9e9e9;
+    border-radius: 12px;
+    padding: 25px 30px 30px 30px;
+}
+
+.payment_right .sub_total {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.payment_right .sub_total li {
+    color: #696969;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0px;
+    border-bottom: 1px solid #E6E0FF;
+    margin: 0 20px;
+}
+
+.payment_right .sub_total li span {
+    font-weight: 700;
+}
+
+.payment_right .sub_total li .dis {
+    color: #FF4646;
+}
+
+.payment_right .sub_total li:last-of-type {
+    font-weight: 700;
+    color: var(--heading-color);
+    border: 0;
+}
+
+.payment_right .coupon_box {
+    margin: 0 20px;
+    border: 1px solid #E6E0FF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.payment_right .coupon_box .form-control {
+    border: 0;
+    color: var(--heading-color);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.payment_right .coupon_box .form-control:focus {
+    box-shadow: inherit;
+}
+
+.payment_right .coupon_box .coupon_apply_btn {
+    padding: 15px 35px;
+    border: 0;
+    color: var(--heading-color);
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    background: #EBECED;
+}
+
+.payment_right .payment_select_text h4 {
+    color: var(--heading-color);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+.payment_right .payment_select_item_main {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 14px;
+    position: relative;
+    padding: 0px;
+}
+
+.payment_right .payment_select_item_box {
+    padding: 18px 40px;
+    border: 1px solid #E6E0FF;
+    border-radius: 4px;
+    display: inline-block;
+    width: 48%;
+    transition: all linear 0.5s;
+}
+
+.payment_right .payment_select_item_box:hover {
+    border-color: var(--accent-color);
+}
+
+.payment_right .payment_select_item_thumb {
+    height: 28px;
+}
+
+.payment_right .payment_select_item_thumb img {
+    width: 100%;
+    height: 100%;
+}
+
+.payment_right .payment_select_modal_head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.payment_right .payment_select_modal_head h2 {
+    color: #000;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    margin-bottom: 20px;
+}
+
+.payment_right .payment_select_modal {
+    position: absolute;
+    padding: 12px 20px 20px 20px;
+    width: 335px;
+    z-index: 11;
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 2px 2px 50px 0px rgba(0, 0, 0, 0.1);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.payment_right .payment_select_modal.active {
+    display: block;
+}
+
+.payment_right .payment_select_modal .close_modal_btn {
+    border: 0;
+    background: transparent;
+}
+
+.payment_right .payment_select_modal_form {
+    margin-top: 25px;
+}
+
+.payment_right .payment_select_modal_form .payment_select_modal_form_item {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.payment_right .payment_select_modal_form .payment_select_modal_form_inner {
+    width: 100%;
+}
+
+.payment_right .payment_select_modal_form .form-label {
+    margin-bottom: 2px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.payment_right .payment_select_modal_form .form-control {
+    padding: 15px 15px;
+    border-radius: 10px;
+    border: 1px solid #E6E0FF;
+    background: var(--white-color);
+}
+
+.payment_right .payment_select_modal_form .form-control:focus {
+    box-shadow: inherit;
+}
+
+.payment_right .payment_select_modal_form .td_btn {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.payment_right .banck_text {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.payment_right .banck_text li {
+    color: var(--heading-color);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 175%;
+}
+
+.payment_right .banck_text li span {
+    color: #7E8BA0;
+}
+
+.payment_right .banck_text li:first-of-type {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.payment_right .banck_text li:first-of-type span {
+    color: var(--heading-color);
+    font-weight: 600;
+}
+
+@media (max-width: 767px) {
+    .payment_table .table tbody tr td .payment_box_item {
+        min-width: 300px;
+    }
+
+    .payment_right {
+        margin-left: 0;
+        margin-top: 50px;
+    }
+
+    .payment_right .payment_select_item_box {
+        width: 47%;
+        padding: 15px 20px;
+    }
+
+    .payment {
+        padding: 60px 0;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .payment_table .table tbody tr td .payment_box_item {
+        min-width: 300px;
+    }
+
+    .payment_right {
+        margin-left: 0;
+    }
+
+    .payment_right .payment_select_item_box {
+        width: 46%;
+        padding: 15px 20px;
+    }
+
+    .payment_right .payment_select_modal {
+        left: 36%;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .payment_table .table tbody tr td .payment_box_item {
+        min-width: 300px;
+    }
+
+    .payment_right {
+        margin-left: 0;
+    }
+
+    .payment_right .payment_select_item_box {
+        width: 47%;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+    .payment_right {
+        margin-left: 0;
+    }
 }

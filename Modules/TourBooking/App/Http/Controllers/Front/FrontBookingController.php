@@ -19,6 +19,8 @@ use Modules\TourBooking\App\Models\Review;
 use Modules\TourBooking\App\Models\Service;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Session;
+use Modules\Currency\App\Models\Currency;
+use Modules\PaymentGateway\App\Models\PaymentGateway;
 
 final class FrontBookingController extends Controller
 {
@@ -27,6 +29,21 @@ final class FrontBookingController extends Controller
      */
     public function bookingCheckoutView(Request $request)
     {
+
+        $payment_data = PaymentGateway::all();
+
+        foreach ($payment_data as $data_item) {
+            $payment_setting[$data_item->key] = $data_item->value;
+        }
+
+        $payment_setting = (object) $payment_setting;
+
+        $razorpay_currency = Currency::findOrFail($payment_setting->razorpay_currency_id);
+        $flutterwave_currency = Currency::findOrFail($payment_setting->flutterwave_currency_id);
+        $paystack_currency = Currency::findOrFail($payment_setting->paystack_currency_id);
+
+        $auth_user = Auth::guard('web')->user();
+
         $service = Service::where('id', $request->service_id)
             ->where('status', true)
             ->firstOrFail();
@@ -60,7 +77,29 @@ final class FrontBookingController extends Controller
             'total' => $total,
         ];
 
-        return view('tourbooking::front.bookings.checkout-view', compact('service', 'data'));
+        session()->forget('payment_cart');
+
+        session()->put('payment_cart', [
+            'service_id' => $request->service_id,
+            'check_in_date' => $request->check_in_date,
+            'check_out_date' => $request->check_out_date,
+            'check_in_time' => $request->check_in_time == 'on' ? $request->check_in_time_hidden : null,
+            'check_out_time' => $request->check_out_time == 'on' ? $request->check_out_time_hidden : null,
+            'person_count' => $request->person,
+            'child_count' => $request->children,
+            'total' => $total,
+            'extra_charges' => $totalExtraCharge ?? 0,
+        ]);
+
+        return view('tourbooking::front.bookings.checkout-view', [
+            'service' => $service,
+            'data' => $data,
+            'payment_setting' => $payment_setting,
+            'razorpay_currency' => $razorpay_currency,
+            'flutterwave_currency' => $flutterwave_currency,
+            'paystack_currency' => $paystack_currency,
+            'user' => $auth_user
+        ]);
     }
 
     /**

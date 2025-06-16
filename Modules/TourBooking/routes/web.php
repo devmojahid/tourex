@@ -12,6 +12,7 @@ use Modules\TourBooking\App\Http\Controllers\Admin\ReportController;
 use Modules\TourBooking\App\Http\Controllers\Agency\ServiceController as AgencyServiceController;
 use Modules\TourBooking\App\Http\Controllers\Front\FrontServiceController;
 use Modules\TourBooking\App\Http\Controllers\Front\FrontBookingController;
+use Modules\TourBooking\App\Http\Controllers\Front\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -173,6 +174,32 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
 
     Route::get('tourbookings', [FrontServiceController::class, 'index'])->name('tourbooking');
     Route::get('tourbookings/{slug}', [FrontServiceController::class, 'show'])->name('tourbooking.show');
+
+
+    Route::group(['as' => 'payment.', 'prefix' => 'payment', 'middleware' => ['auth:web']], function () {
+
+        Route::post('/stripe', [PaymentController::class, 'stripe_payment'])->name('stripe');
+        Route::post('/bank', [PaymentController::class, 'bank_payment'])->name('bank');
+
+        Route::get('/paypal', [PaymentController::class, 'paypal_payment'])->name('paypal');
+        Route::get('/paypal-success-payment', [PaymentController::class, 'paypal_success_payment'])->name('paypal-success-payment');
+        Route::get('/paypal-faild-payment', [PaymentController::class, 'paypal_faild_payment'])->name('paypal-faild-payment');
+
+        Route::post('/razorpay', [PaymentController::class, 'razorpay_payment'])->name('razorpay');
+
+        Route::post('/flutterwave', [PaymentController::class, 'flutterwave_payment'])->name('flutterwave');
+
+        Route::post('/paystack', [PaymentController::class, 'paystack_payment'])->name('paystack');
+
+        Route::get('/mollie', [PaymentController::class, 'mollie_payment'])->name('mollie');
+        Route::get('/mollie-callback', [PaymentController::class, 'mollie_callback'])->name('mollie-callback');
+
+
+        Route::get('/instamojo', [PaymentController::class, 'instamojo_payment'])->name('instamojo');
+        Route::get('/instamojo-callback', [PaymentController::class, 'instamojo_callback'])->name('instamojo-callback');
+
+        Route::get('/wallet', [PaymentController::class, 'wallet_payment'])->name('wallet');
+    });
 });
 
 Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middleware' => ['web']], function () {
@@ -204,7 +231,7 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middlew
     Route::get('/destinations/{slug}', [FrontServiceController::class, 'destinationDetail'])->name('destinations.show');
 
     // Booking
-    Route::get('/book/checkout/view', [FrontBookingController::class, 'bookingCheckoutView'])->name('book.checkout.view');
+    Route::get('/book/checkout/view', [FrontBookingController::class, 'bookingCheckoutView'])->name('book.checkout.view')->middleware('auth:web');
     // Route::post('/book/{slug}', [FrontBookingController::class, 'processBooking'])->name('process-booking');
     // Route::get('/booking/confirm/{code}', [FrontBookingController::class, 'confirmBooking'])->name('confirm-booking');
     // Route::get('/booking/success/{code}', [FrontBookingController::class, 'bookingSuccess'])->name('booking-success');
