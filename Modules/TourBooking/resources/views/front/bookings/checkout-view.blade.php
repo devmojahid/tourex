@@ -17,25 +17,25 @@
                             <h2 class="tg-checkout-form-title mb-30">{{ __('translate.Billing Details') }}</h2>
                             <div class="row gx-24">
                                 <div class="tg-checkout-form-input mb-25">
-                                    <label>{{ __('translate.Full Name') }}</label>
+                                    <label>{{ __('translate.Customer name') }}</label>
                                     <input class="input" type="text" value="{{ auth()->user()->name ?? '' }}"
-                                        name="name" placeholder="Full Name">
+                                        name="customer_name" placeholder="Customer name">
                                 </div>
 
                                 <div class="tg-checkout-form-input mb-25">
-                                    <label>{{ __('translate.Email') }}</label>
+                                    <label>{{ __('translate.Customer email') }}</label>
                                     <input class="input" type="email" value="{{ auth()->user()->email ?? '' }}"
-                                        name="email" placeholder="Email">
+                                        name="customer_email" placeholder="Customer email">
                                 </div>
 
                                 <div class="tg-checkout-form-input mb-25">
-                                    <label>{{ __('translate.WhatsApp Number') }}</label>
+                                    <label>{{ __('translate.Customer phone') }}</label>
                                     <input class="input" type="text" value="{{ auth()->user()->phone ?? '' }}"
-                                        name="phone" placeholder="WhatsApp Phone">
+                                        name="customer_phone" placeholder="Customer phone">
                                 </div>
                                 <div class="tg-checkout-form-input mb-25">
-                                    <label>{{ __('translate.Full Address') }}</label>
-                                    <input class="input" class="house-number" name="address" type="text"
+                                    <label>{{ __('translate.Customer address') }}</label>
+                                    <input class="input" class="house-number" name="customer_address" type="text"
                                         placeholder="{{ __('translate.House number and Street name') }}">
                                 </div>
                             </div>
@@ -45,54 +45,76 @@
                         <div class="tg-blog-sidebar top-sticky mb-30">
                             <div class="tg-blog-sidebar-box mb-30">
                                 <h2 class="tg-checkout-form-title tg-checkout-form-title-3 mb-15">Your Order</h2>
-                                <div class="tg-checkout-order-table table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="product-name">Product</th>
-                                                <th class="product-total text-end">Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {{-- @foreach ($carts as $cart)
-                                                <tr class="cart_item first">
-                                                    <td class="product-name">
-                                                        {{ Str::limit($cart->product->translate?->name, 35) }}
-                                                        <b> X </b>
-                                                        {{ $cart->quantity }}
-                                                    </td>
-                                                    <td class="product-total">
-                                                        <span
-                                                            class="amount">{{ currency($cart->product->finalPrice * $cart->quantity) }}</span>
-                                                    </td>
-                                                </tr>
-                                            @endforeach --}}
-                                        </tbody>
-                                        {{-- <tfoot>
+                                 <div class="tg-tour-about-border-doted mb-15"></div>
+                                <div>
+                                    <div>
+                                        <div class="tg-tour-about-tickets-wrap mb-15">
+                                            <div class="tg-tour-about-tickets mb-10">
+                                                <div class="tg-tour-about-tickets-adult">
+                                                    <div class="tg-tour-about-sidebar-title">Tour Price</div>
+                                                </div>
+                                                <div class="tg-tour-about-tickets-quantity">
+                                                    ${{ $service->discount_price ?? $service->full_price }}
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                            <tr class="cart-subtotal">
-                                                <th>{{ __('translate.Subtotal') }}</th>
-                                                <td class="sub_total">
-                                                    <span class="amount sub_total">{{ currency($sub_total) }}</span>
-                                                    <input type="hidden" name="subtotal" value="{{ $sub_total }}">
-                                                </td>
-                                            </tr>
-                                            <tr class="cart-subtotal">
-                                                <th>{{ __('translate.Shipping') }}</th>
-                                                <td class="shipping_cost">
-                                                    <span class="amount shipping_charge">(+){{ currency(0) }}</span>
-                                                    <input type="hidden" name="shipping_charge" value="">
-                                                </td>
-                                            </tr>
-                                            <tr class="cart-subtotal">
-                                                <th>{{ __('translate.Total') }}</th>
-                                                <td class="total">
-                                                    <span class="amount total-amount">{{ currency($sub_total) }}</span>
-                                                    <input type="hidden" name="total" value="">
-                                                </td>
-                                            </tr>
-                                        </tfoot> --}}
-                                    </table>
+                                         <div class="tg-tour-about-border-doted mb-15"></div>
+
+                                        <div class="tg-tour-about-tickets-wrap mb-15">
+                                            <span class="tg-tour-about-sidebar-title">Tickets:</span>
+
+                                            <div class="tg-tour-about-tickets mb-10">
+                                                <div class="tg-tour-about-tickets-adult">
+                                                    <span>Person</span>
+                                                    <p class="mb-0">(18+ years)</p>
+                                                </div>
+                                                <div class="tg-tour-about-tickets-quantity">
+                                                    {{ $data['personCount'] }} x {{ $service->price_per_person }} =
+                                                    ${{ number_format($data['personCount'] * $service->price_per_person, 2) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="tg-tour-about-tickets mb-10">
+                                                <div class="tg-tour-about-tickets-adult">
+                                                    <span>Children </span>
+                                                    <p class="mb-0">(13-17 years)</p>
+                                                </div>
+                                                <div class="tg-tour-about-tickets-quantity">
+                                                    {{ $data['childCount'] }} x {{ $service->child_price }} =
+                                                    ${{ number_format($data['childCount'] * $service->child_price, 2) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @if (count($data['extras']) > 0)
+                                            <div class="tg-tour-about-extra mb-10">
+                                                <span class="tg-tour-about-sidebar-title mb-10 d-inline-block">Add
+                                                    Extra:</span>
+                                                <div class="tg-filter-list">
+                                                    <ul>
+                                                        @foreach ($data['extras'] as $key => $extra)
+                                                            <li>
+                                                                <div class="checkbox d-flex">
+                                                                    <label class="tg-label">
+                                                                        {{ $extra->name }}({{ Str::title(str_replace('_', ' ', $extra->price_type)) }})
+                                                                    </label>
+                                                                </div>
+                                                                <span class="quantity">${{ $extra->price }}</span>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                    </div>
+                                     <div class="tg-tour-about-border-doted mb-15"></div>
+                                    <div
+                                        class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between">
+                                        <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
+                                        <h5 class="total-price">${{ number_format($data['total'], 2) }}</h5>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tg-checkout-form-btn">

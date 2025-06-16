@@ -27,16 +27,40 @@ final class FrontBookingController extends Controller
      */
     public function bookingCheckoutView(Request $request)
     {
-        Session::forget('bookingData');
-        Session::put('bookingData', $request->all());
-
         $service = Service::where('id', $request->service_id)
             ->where('status', true)
             ->firstOrFail();
 
-        // dd($request->all(), $service);
 
-        return view('tourbooking::front.bookings.checkout-view', compact('service'));
+        $extraCharges = ExtraCharge::select('id', 'name', 'price', 'price_type')->whereIn('id', $request->extras ?? [])
+            ->where('status', true)
+            ->get();
+
+        $totalExtraCharge = 0;
+        foreach ($extraCharges as $extraCharge) {
+            $totalExtraCharge += $extraCharge->price;
+        }
+
+        $personPrice = $request->person * $service->price_per_person;
+        $childPrice = $request->children * $service->child_price;
+
+        if ($service->discount_price) {
+            $total = $personPrice + $childPrice + $totalExtraCharge + $service->discount_price;
+        } else {
+            $total = $personPrice + $childPrice + $totalExtraCharge + $service->full_price;
+        }
+
+        $data = [
+            'personCount' => $request->person,
+            'childCount' => $request->children,
+            'extras' => $extraCharges ?? [],
+            'service' => $service,
+            'personPrice' => $personPrice,
+            'childPrice' => $childPrice,
+            'total' => $total,
+        ];
+
+        return view('tourbooking::front.bookings.checkout-view', compact('service', 'data'));
     }
 
     /**

@@ -1537,4 +1537,9 @@ return array(
   'Most Popular Tour Packages' => 'Most Popular Tour Packages',
   'Our Popular Tours' => 'Our Popular Tours',
   'See All Deal' => 'See All Deal',
+  'Booking Checkout' => 'Booking Checkout',
+  'Customer name' => 'Customer name',
+  'Customer email' => 'Customer email',
+  'Customer phone' => 'Customer phone',
+  'Customer address' => 'Customer address',
 );
