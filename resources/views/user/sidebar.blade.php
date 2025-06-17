@@ -83,7 +83,7 @@
                 </a>
             </li>
 
-            <li class="{{ Route::is('user.bookings.index') ? 'active' : '' }}">
+            <li class="{{ Route::is('user.bookings.index') || Route::is('user.bookings.details') ? 'active' : '' }}">
                 <a class="collapsed" href="{{ route('user.bookings.index') }}">
                     <span class="menu-bar__text">
                         <span class="crancy-menu-icon crancy-svg-icon__v1">
