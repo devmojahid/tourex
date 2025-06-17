@@ -410,7 +410,7 @@
                                         'items' => $paginatedReviews,
                                     ])
                                 </div>
-                                <div x-data="reviewForm()" class="tg-tour-about-review-form-wrap mb-45">
+                                <div id="reviewForm" x-data="reviewForm()" class="tg-tour-about-review-form-wrap mb-45">
                                     <h4 class="tg-tour-about-title mb-5">{{ __('translate.Leave a Reply') }}</h4>
                                     <div class="tg-tour-about-rating-category mb-20">
                                         <ul>

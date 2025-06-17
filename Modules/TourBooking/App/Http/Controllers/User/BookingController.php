@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Booking;
 use Modules\TourBooking\App\Models\Service;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 final class BookingController extends Controller
 {
@@ -32,5 +33,31 @@ final class BookingController extends Controller
             ->findOrFail($request->id);
 
         return view('tourbooking::user.booking.details', compact('booking'));
+    }
+
+    /**
+     * Cancel a booking.
+     */
+    public function cancelBooking(Request $request, $id): RedirectResponse
+    {
+        $booking = Booking::where('id', $id)
+            ->where('user_id', Auth::user()->id)
+            ->where('booking_status', '!=', 'cancelled')
+            ->where('booking_status', '!=', 'completed')
+            ->firstOrFail();
+
+        $validated = $request->validate([
+            'cancellation_reason' => 'required|string|max:500',
+        ]);
+
+        $booking->update([
+            'booking_status' => 'cancelled',
+            'cancelled_at' => now(),
+            'cancellation_reason' => $validated['cancellation_reason'],
+        ]);
+
+        // Notification logic can be added here
+
+        return redirect()->route('user.bookings.index')->with('success', 'Your booking has been cancelled.');
     }
 }

@@ -233,10 +233,6 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middlew
 
     // Booking
     Route::get('/book/checkout/view', [FrontBookingController::class, 'bookingCheckoutView'])->name('book.checkout.view')->middleware('auth:web');
-    // Route::post('/book/{slug}', [FrontBookingController::class, 'processBooking'])->name('process-booking');
-    // Route::get('/booking/confirm/{code}', [FrontBookingController::class, 'confirmBooking'])->name('confirm-booking');
-    // Route::get('/booking/success/{code}', [FrontBookingController::class, 'bookingSuccess'])->name('booking-success');
-    // Route::get('/booking/cancel/{code}', [FrontBookingController::class, 'bookingCancel'])->name('booking-cancel');
 
     // Reviews
     Route::post('/services/reviews', [FrontServiceController::class, 'storeReview'])->name('reviews.store');
@@ -265,5 +261,7 @@ Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
 
         Route::get('/bookings', [UserBookingController::class, 'index'])->name('bookings.index');
         Route::get('/bookings/details/{id}', [UserBookingController::class, 'details'])->name('bookings.details');
+        Route::post('/bookings/cancel/{id}', [UserBookingController::class, 'cancelBooking'])->name('bookings.cancel');
+
     });
 });

@@ -47,12 +47,15 @@
                                                 <tr class="odd">
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         #{{ $booking->booking_code ?? 'N/A' }}</td>
+
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         {{ Str::limit($booking->service->title, 50) }}
                                                     </td>
+
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         {{ currency($booking->total) }}
                                                     </td>
+
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         {{ $booking?->service?->location ?? 'N/A' }}
                                                     </td>

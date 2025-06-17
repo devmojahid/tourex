@@ -1559,4 +1559,9 @@ return array(
     'Booking Status' => 'Booking Status',
     'Booking Information' => 'Booking Information',
     'Your Notes' => 'Your Notes',
+    'Back to Bookings' => 'Back to Bookings',
+    'Cancel Booking' => 'Cancel Booking',
+    'Leave a Review' => 'Leave a Review',
+    'Are you sure you want to cancel this booking?' => 'Are you sure you want to cancel this booking?',
+    'Reason for Cancellation' => 'Reason for Cancellation',
 );

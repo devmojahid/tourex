@@ -168,71 +168,48 @@
                                                     </div>
                                                 @endif
 
-                                                <div class="ed-inv-table-content">
-                                                    <p class="ed-inv-table-headline">{{ __('translate.Course List') }} </p>
-                                                    <div class="ed-inv-invoice-table-main-wrapper">
-                                                        <div class="ed-inv-invoice-table-wrapper">
-                                                            <table class="ed-inv-invoice-table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>
-                                                                            {{ __('translate.SN') }}
-                                                                        </th>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h6 class="text-muted">{{ __('translate.Actions') }}</h6>
+                                                        <div class="d-flex flex-wrap gap-4">
 
-                                                                        <th>
-                                                                            {{ __('translate.Instructor') }}
-                                                                        </th>
+                                                            <div>
+                                                                <button class="btn btn-secondary">
+                                                                    <a class="text-dark"
+                                                                        href="{{ route('user.bookings.index') }}">
+                                                                        <i class="bi bi-arrow-left"></i>
+                                                                        {{ __('translate.Back to Bookings') }}
+                                                                    </a>
+                                                                </button>
+                                                            </div>
 
-                                                                        <th>
-                                                                            {{ __('translate.Course') }}
-                                                                        </th>
+                                                            <div>
+                                                                @if ($booking->booking_status == 'pending' || $booking->booking_status == 'confirmed')
+                                                                    <button type="button" class="btn btn-danger w-auto"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#cancelBookingModal">
+                                                                        <i class="bi bi-x-circle"></i>
+                                                                        {{ __('translate.Cancel Booking') }}
+                                                                    </button>
+                                                                @endif
+                                                            </div>
 
-                                                                        <th>
-                                                                            {{ __('translate.Amount') }}
-                                                                        </th>
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {{-- @foreach ($course_list as $index => $course_item)
-                                                                        <tr>
-                                                                            <td>{{ ++$index }}</td>
-                                                                            <td>{{ html_decode($course_item?->instructor?->name) }}
-                                                                            </td>
-                                                                            <td>{{ html_decode($course_item?->course?->title) }}
-                                                                            </td>
-                                                                            <td>{{ currency($course_item->total_amount) }}
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endforeach --}}
-                                                                </tbody>
-                                                            </table>
+                                                            <div>
+                                                                @if ($booking->booking_status == 'completed' && !$booking->is_reviewed)
+                                                                    <button class="btn btn-primary w-auto">
+                                                                        <a target="_blank"
+                                                                            href="{{ route('front.tourbooking.services.show', ['slug' => $booking->service->slug . '#reviewForm']) }}"
+                                                                            class="text-white">
+                                                                            <i class="bi bi-star"></i>
+                                                                            {{ __('translate.Leave a Review') }}
+                                                                        </a>
+                                                                    </button>
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="ed-inv-billing-summary d-flex justify-content-md-end  ">
-                                                    <div class="ed-inv-summary-wrapper">
-                                                        <table>
-                                                            <tr>
-                                                                <td>{{ __('translate.Subtotal') }}:</td>
-                                                                <td>{{ currency($booking->sub_total_amount) }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>{{ __('translate.Discount') }}(-):</td>
-                                                                <td>{{ currency($booking->coupon_amount) }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2">
-                                                                    <div class="ed-summry-total-sparetor"></div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>{{ __('translate.Total') }}:</td>
-                                                                <td>{{ currency($booking->total_amount) }}</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -246,4 +223,36 @@
         </div>
     </section>
     <!-- End crancy Dashboard -->
+
+    <!-- Cancel Booking Modal -->
+    @if ($booking->booking_status == 'pending' || $booking->booking_status == 'confirmed')
+        <div class="modal fade" id="cancelBookingModal" tabindex="-1" aria-labelledby="cancelBookingModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('user.bookings.cancel', ['id' => $booking->id]) }}"
+                        method="POST">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="cancelBookingModalLabel">{{ __('translate.Cancel Booking') }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-danger">{{ __('translate.Are you sure you want to cancel this booking?') }}</p>
+                            <div class="mb-3">
+                                <label for="cancellation_reason"
+                                    class="form-label">{{ __('translate.Reason for Cancellation') }}</label>
+                                <textarea class="form-control" id="cancellation_reason" name="cancellation_reason" rows="3" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                            <button type="submit" class="btn btn-danger">{{ __('translate.Cancel Booking') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
