@@ -247,6 +247,27 @@
                                                     </div>
                                                 </div>
 
+                                                @if ($extra_services->count() > 0)
+                                                    <div class="ed-inv-billing-info mt-5">
+                                                        <div class="ed-inv-info">
+                                                            <p class="ed-inv-info-title">
+                                                                {{ __('translate.Extra Services List') }}
+                                                            </p>
+                                                            <table>
+                                                                @foreach ($extra_services as $key => $extra)
+                                                                    <tr>
+                                                                        <td class="text-capitalize mr-2">
+                                                                            {{ $extra->name }} ({{ Str::title(str_replace('_', ' ', $extra->price_type)) }})
+                                                                            -- {{ currency($extra->price) }}
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+                                                @endif
+
                                                 <!-- Admin Notes Section -->
                                                 <div class="row mt-4">
                                                     <div class="col-md-12">

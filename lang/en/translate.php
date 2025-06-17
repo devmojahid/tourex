@@ -1575,4 +1575,5 @@ return array(
     'Adult Price' => 'Adult Price',
     'Child' => 'Child',
     'Extra charges' => 'Extra charges',
+    'Extra Services List' => 'Extra Services List',
 );
