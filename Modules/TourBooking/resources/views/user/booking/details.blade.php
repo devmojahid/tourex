@@ -1,11 +1,11 @@
 @extends('user.master_layout')
 @section('title')
-    <title>{{ __('translate.Invoice') }}</title>
+    <title>{{ __('translate.Booking Details') }}</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Invoice') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Invoice') }}</p>
+    <h3 class="crancy-header__title m-0">{{ __('translate.Booking Details') }}</h3>
+    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Booking Details') }}</p>
 @endsection
 
 @section('body-content')

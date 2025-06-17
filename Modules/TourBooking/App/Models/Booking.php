@@ -32,6 +32,7 @@ final class Booking extends Model
         'infants',
         'service_price',
         'child_price',
+        'adult_price',
         'infant_price',
         'extra_charges',
         'discount_amount',
@@ -74,6 +75,7 @@ final class Booking extends Model
         'children' => 'integer',
         'infants' => 'integer',
         'service_price' => 'decimal:2',
+        'adult_price' => 'decimal:2',
         'child_price' => 'decimal:2',
         'infant_price' => 'decimal:2',
         'extra_charges' => 'decimal:2',
@@ -124,7 +126,7 @@ final class Booking extends Model
         if (!$this->check_out_date) {
             return 1;
         }
-        
+
         return $this->check_in_date->diffInDays($this->check_out_date) ?: 1;
     }
 
@@ -225,12 +227,12 @@ final class Booking extends Model
     {
         $prefix = 'BK';
         $uniqueCode = $prefix . strtoupper(substr(uniqid(), -6)) . rand(10, 99);
-        
+
         // Ensure the code is unique
         while (self::where('booking_code', $uniqueCode)->exists()) {
             $uniqueCode = $prefix . strtoupper(substr(uniqid(), -6)) . rand(10, 99);
         }
-        
+
         return $uniqueCode;
     }
 }

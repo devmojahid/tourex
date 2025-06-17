@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Booking;
 use Modules\TourBooking\App\Models\Service;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Modules\TourBooking\App\Models\ExtraCharge;
 
 final class BookingController extends Controller
 {
@@ -86,11 +87,15 @@ final class BookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Booking $booking): View
+    public function show($id): View
     {
-        $booking->load(['service', 'user', 'review']);
 
-        return view('tourbooking::admin.bookings.show', compact('booking'));
+        $booking = Booking::with(['service', 'user'])->findOrFail($id);
+        $extra_services = ExtraCharge::whereIn('id', $booking->extra_services ?? [])->where('status', true)->get();
+
+        // dd($extra_services);
+
+        return view('tourbooking::admin.bookings.details', compact('booking'));
     }
 
     /**

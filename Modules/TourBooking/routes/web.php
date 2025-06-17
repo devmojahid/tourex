@@ -77,7 +77,7 @@ Route::group(['as' => 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mi
     Route::get('bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
-    Route::get('bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::get('bookings/{id}', [BookingController::class, 'show'])->name('bookings.show');
     Route::get('bookings/{booking}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
     Route::put('bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
     Route::delete('bookings/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');
@@ -85,6 +85,10 @@ Route::group(['as' => 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mi
     Route::get('bookings/{booking}/invoice', [BookingController::class, 'invoice'])->name('bookings.invoice');
     Route::get('bookings/{booking}/download-invoice', [BookingController::class, 'downloadInvoicePdf'])->name('bookings.download-invoice');
     Route::get('bookings/status/{status}', [BookingController::class, 'getByStatus'])->name('bookings.status');
+
+    Route::post('bookings/confirm', [BookingController::class, 'bookingConfirm'])->name('bookings.confirm');
+    Route::post('bookings/cancel', [BookingController::class, 'bookingCancel'])->name('bookings.cancel');
+    Route::post('bookings/add-note', [BookingController::class, 'bookingAddNote'])->name('bookings.add-note');
 
     // Destinations
     Route::resource('destinations', DestinationController::class);

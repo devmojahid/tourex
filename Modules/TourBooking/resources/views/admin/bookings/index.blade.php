@@ -65,7 +65,7 @@
                                                             class="crancy-badge crancy-table__status--paid">{{ $booking->booking_status }}</span>
                                                     </td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <a href="{{ route('user.bookings.details', ['id' => $booking->id]) }}"
+                                                        <a href="{{ route('admin.tourbooking.bookings.show', ['id' => $booking->id]) }}"
                                                             class="crancy-action__btn crancy-action__edit crancy-btn"><i
                                                                 class="fas fa-eye"></i>
                                                             {{ __('translate.Details') }}

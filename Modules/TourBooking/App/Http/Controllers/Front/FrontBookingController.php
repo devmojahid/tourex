@@ -89,6 +89,7 @@ final class FrontBookingController extends Controller
             'child_count' => $request->children,
             'total' => $total,
             'extra_charges' => $totalExtraCharge ?? 0,
+            'extra_services' => $request->extras ?? 0,
         ]);
 
         return view('tourbooking::front.bookings.checkout-view', [
