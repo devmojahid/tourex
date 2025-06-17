@@ -574,7 +574,7 @@ class PaymentController extends Controller
         $order->total  = $calculate_price['total_amount'] ?? 0;
         $order->paid_amount  = $calculate_price['total_amount'] ?? 0;
         $order->payment_method = $payment_method;
-        $order->booking_status = $payment_status == 'success' ? 'completed' : 'pending';
+        $order->booking_status = $payment_status == 'success' ? 'success' : 'pending';
         $order->payment_status = $payment_status;
         $order->customer_name = $customerInfo['customer_name'] ?? '';
         $order->customer_email = $customerInfo['customer_email'] ?? '';

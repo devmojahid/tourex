@@ -264,5 +264,6 @@ Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
     Route::group(['middleware' => 'auth:web'], function () {
 
         Route::get('/bookings', [UserBookingController::class, 'index'])->name('bookings.index');
+        Route::get('/bookings/details/{id}', [UserBookingController::class, 'details'])->name('bookings.details');
     });
 });

@@ -14,18 +14,23 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 final class BookingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+
     public function index(): View
     {
         $bookings = Booking::with(['service:id,title,location'])
             ->where('user_id', auth()->user()->id)
             ->latest()
             ->paginate(15);
-
-            // dd($bookings);
-
         return view('tourbooking::user.booking.index', compact('bookings'));
+    }
+
+    public function details(Request $request): View
+    {
+        $booking = Booking::with(['service.translation', 'user'])
+            ->where('user_id', auth()->user()->id)
+            ->findOrFail($request->id);
+
+        return view('tourbooking::user.booking.details', compact('booking'));
     }
 }
