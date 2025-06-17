@@ -1542,4 +1542,9 @@ return array(
   'Customer email' => 'Customer email',
   'Customer phone' => 'Customer phone',
   'Customer address' => 'Customer address',
+  'Bookings list' => 'Bookings list',
+  'My bookings' => 'My bookings',
+  'Bookings' => 'Bookings',
+  'Service Title' => 'Service Title',
+  'Booking Code' => 'Booking Code',
 );

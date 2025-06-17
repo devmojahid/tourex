@@ -13,6 +13,7 @@ use Modules\TourBooking\App\Http\Controllers\Agency\ServiceController as AgencyS
 use Modules\TourBooking\App\Http\Controllers\Front\FrontServiceController;
 use Modules\TourBooking\App\Http\Controllers\Front\FrontBookingController;
 use Modules\TourBooking\App\Http\Controllers\Front\PaymentController;
+use Modules\TourBooking\App\Http\Controllers\User\BookingController as UserBookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -254,5 +255,14 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middlew
         Route::get('/my-bookings/{code}/download-invoice', [FrontBookingController::class, 'downloadInvoicePdf'])->name('my-bookings.download-invoice');
         Route::post('/my-bookings/{code}/cancel', [FrontBookingController::class, 'cancelBooking'])->name('my-bookings.cancel');
         Route::post('/my-bookings/{code}/review', [FrontBookingController::class, 'leaveReview'])->name('my-bookings.review');
+    });
+});
+
+// user routes
+Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
+
+    Route::group(['middleware' => 'auth:web'], function () {
+
+        Route::get('/bookings', [UserBookingController::class, 'index'])->name('bookings.index');
     });
 });
