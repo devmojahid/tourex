@@ -32,7 +32,7 @@ final class BookingController extends Controller
     public function create(): View
     {
         $services = Service::where('status', true)->get();
-        
+
         return view('tourbooking::admin.bookings.create', compact('services'));
     }
 
@@ -73,10 +73,10 @@ final class BookingController extends Controller
 
         // Generate booking code
         $validated['booking_code'] = Booking::generateBookingCode();
-        
+
         // Calculate due amount
         $validated['due_amount'] = $validated['total'] - ($validated['paid_amount'] ?? 0);
-        
+
         $booking = Booking::create($validated);
 
         return redirect()->route('admin.tourbooking.bookings.show', $booking)
@@ -89,7 +89,7 @@ final class BookingController extends Controller
     public function show(Booking $booking): View
     {
         $booking->load(['service', 'user', 'review']);
-        
+
         return view('tourbooking::admin.bookings.show', compact('booking'));
     }
 
@@ -100,7 +100,7 @@ final class BookingController extends Controller
     {
         $booking->load(['service', 'user']);
         $services = Service::where('status', true)->get();
-        
+
         return view('tourbooking::admin.bookings.edit', compact('booking', 'services'));
     }
 
@@ -137,10 +137,10 @@ final class BookingController extends Controller
             'customer_notes' => 'nullable|string',
             'admin_notes' => 'nullable|string',
         ]);
-        
+
         // Calculate due amount
         $validated['due_amount'] = $validated['total'] - ($validated['paid_amount'] ?? 0);
-        
+
         // Set timestamps for status changes
         if ($booking->booking_status !== $validated['booking_status']) {
             switch ($validated['booking_status']) {
@@ -155,7 +155,7 @@ final class BookingController extends Controller
                     break;
             }
         }
-        
+
         $booking->update($validated);
 
         return redirect()->route('admin.tourbooking.bookings.show', $booking)
@@ -172,7 +172,7 @@ final class BookingController extends Controller
         return redirect()->route('admin.tourbooking.bookings.index')
             ->with('success', 'Booking deleted successfully.');
     }
-    
+
     /**
      * Display bookings filtered by status.
      */
@@ -182,11 +182,11 @@ final class BookingController extends Controller
             ->where('booking_status', $status)
             ->latest()
             ->paginate(15);
-            
+
         return view('tourbooking::admin.bookings.index', compact('bookings'))
             ->with('statusFilter', $status);
     }
-    
+
     /**
      * Display pending bookings.
      */
@@ -194,7 +194,7 @@ final class BookingController extends Controller
     {
         return $this->getByStatus('pending');
     }
-    
+
     /**
      * Display confirmed bookings.
      */
@@ -202,7 +202,7 @@ final class BookingController extends Controller
     {
         return $this->getByStatus('confirmed');
     }
-    
+
     /**
      * Display completed bookings.
      */
@@ -210,7 +210,7 @@ final class BookingController extends Controller
     {
         return $this->getByStatus('completed');
     }
-    
+
     /**
      * Display cancelled bookings.
      */
@@ -218,7 +218,7 @@ final class BookingController extends Controller
     {
         return $this->getByStatus('cancelled');
     }
-    
+
     /**
      * Update booking status.
      */
@@ -228,7 +228,7 @@ final class BookingController extends Controller
             'booking_status' => 'required|in:pending,confirmed,cancelled,completed',
             'admin_notes' => 'nullable|string',
         ]);
-        
+
         // Set timestamps for status changes
         if ($booking->booking_status !== $validated['booking_status']) {
             switch ($validated['booking_status']) {
@@ -243,14 +243,14 @@ final class BookingController extends Controller
                     break;
             }
         }
-        
+
         $booking->update($validated);
-        
+
         // Notification logic can be added here
-        
+
         return back()->with('success', 'Booking status updated successfully.');
     }
-    
+
     /**
      * Update payment status.
      */
@@ -262,34 +262,34 @@ final class BookingController extends Controller
             'payment_method' => 'required|string',
             'admin_notes' => 'nullable|string',
         ]);
-        
+
         // Calculate due amount
         $validated['due_amount'] = $booking->total - $validated['paid_amount'];
-        
+
         $booking->update($validated);
-        
+
         // Notification logic can be added here
-        
+
         return back()->with('success', 'Payment status updated successfully.');
     }
-    
+
     /**
      * Generate an invoice for the booking.
      */
     public function invoice(Booking $booking): View
     {
         $booking->load(['service', 'user', 'service.serviceType']);
-        
+
         return view('tourbooking::admin.bookings.invoice', compact('booking'));
     }
-    
+
     /**
      * Generate a PDF invoice for the booking.
      */
     public function downloadInvoicePdf(Booking $booking)
     {
         $booking->load(['service', 'user', 'service.serviceType']);
-        
+
         // Set paper size and orientation
         $pdf = PDF::loadView('tourbooking::admin.bookings.invoice', compact('booking'))
             ->setPaper('a4')
@@ -297,11 +297,11 @@ final class BookingController extends Controller
             ->setOption('margin-right', 10)
             ->setOption('margin-bottom', 10)
             ->setOption('margin-left', 10);
-        
+
         // Generate a filename for the PDF
         $filename = 'invoice-' . $booking->booking_code . '.pdf';
-        
+
         // Return the PDF as a download
         return $pdf->download($filename);
     }
-} 
+}
