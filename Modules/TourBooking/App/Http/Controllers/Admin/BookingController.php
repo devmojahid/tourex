@@ -87,10 +87,10 @@ final class BookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id): View
+    public function show(Booking $booking): View
     {
 
-        $booking = Booking::with(['service', 'user'])->findOrFail($id);
+        $booking->load(['service', 'user']);
 
         $extra_services = ExtraCharge::whereIn('id', $booking?->extra_services ?? [])
             ->where('status', true)

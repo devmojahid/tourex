@@ -14,6 +14,8 @@ use Modules\TourBooking\App\Http\Controllers\Front\FrontServiceController;
 use Modules\TourBooking\App\Http\Controllers\Front\FrontBookingController;
 use Modules\TourBooking\App\Http\Controllers\Front\PaymentController;
 use Modules\TourBooking\App\Http\Controllers\User\BookingController as UserBookingController;
+use Modules\TourBooking\App\Http\Controllers\Agency\BookingController as AgencyBookingController;
+use Modules\TourBooking\App\Http\Controllers\Agency\DestinationController as AgencyDestinationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,10 +79,10 @@ Route::group(['as' => 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mi
     Route::get('bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
-    Route::get('bookings/{id}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::get('bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
     Route::get('bookings/{booking}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
     Route::put('bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
-    Route::delete('bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.destroy');
+    Route::delete('bookings/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');
     Route::post('bookings/{booking}/payment-status', [BookingController::class, 'updatePaymentStatus'])->name('bookings.payment-status');
     Route::get('bookings/{booking}/invoice', [BookingController::class, 'invoice'])->name('bookings.invoice');
     Route::get('bookings/{booking}/download-invoice', [BookingController::class, 'downloadInvoicePdf'])->name('bookings.download-invoice');
@@ -151,22 +153,26 @@ Route::group(['as' => 'agency.tourbooking.', 'prefix' => 'agency/tourbooking', '
     Route::delete('services/availability/{availability}', [AgencyServiceController::class, 'deleteAvailability'])->name('services.availability.destroy');
 
     // Booking Management
-    Route::get('bookings', [BookingController::class, 'index'])->name('bookings.index');
-    Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
-    Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
-    Route::get('bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
-    Route::get('bookings/{booking}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
-    Route::put('bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
-    Route::delete('bookings/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');
-    Route::post('bookings/{booking}/payment-status', [BookingController::class, 'updatePaymentStatus'])->name('bookings.payment-status');
-    Route::get('bookings/{booking}/invoice', [BookingController::class, 'invoice'])->name('bookings.invoice');
-    Route::get('bookings/{booking}/download-invoice', [BookingController::class, 'downloadInvoicePdf'])->name('bookings.download-invoice');
-    Route::get('bookings/status/{status}', [BookingController::class, 'getByStatus'])->name('bookings.status');
+    Route::get('bookings', [AgencyBookingController::class, 'index'])->name('bookings.index');
+    Route::get('bookings/create', [AgencyBookingController::class, 'create'])->name('bookings.create');
+    Route::post('bookings', [AgencyBookingController::class, 'store'])->name('bookings.store');
+    Route::get('bookings/{booking}', [AgencyBookingController::class, 'show'])->name('bookings.show');
+    Route::get('bookings/{booking}/edit', [AgencyBookingController::class, 'edit'])->name('bookings.edit');
+    Route::put('bookings/{booking}', [AgencyBookingController::class, 'update'])->name('bookings.update');
+    Route::delete('bookings/{booking}', [AgencyBookingController::class, 'destroy'])->name('bookings.destroy');
+    Route::post('bookings/{booking}/payment-status', [AgencyBookingController::class, 'updatePaymentStatus'])->name('bookings.payment-status');
+    Route::get('bookings/{booking}/invoice', [AgencyBookingController::class, 'invoice'])->name('bookings.invoice');
+    Route::get('bookings/{booking}/download-invoice', [AgencyBookingController::class, 'downloadInvoicePdf'])->name('bookings.download-invoice');
+    Route::get('bookings/status/{status}', [AgencyBookingController::class, 'getByStatus'])->name('bookings.status');
+
+    Route::post('bookings/confirm', [AgencyBookingController::class, 'bookingConfirm'])->name('bookings.confirm');
+    Route::post('bookings/cancel', [AgencyBookingController::class, 'bookingCancel'])->name('bookings.cancel');
+    Route::post('bookings/add-note', [AgencyBookingController::class, 'bookingAddNote'])->name('bookings.add-note');
 
     // Destinations
-    Route::resource('destinations', DestinationController::class);
-    Route::put('destinations/{destination}/status', [DestinationController::class, 'updateStatus'])->name('destinations.update-status');
-    Route::put('destinations/{destination}/featured', [DestinationController::class, 'updateFeatured'])->name('destinations.update-featured');
+    Route::resource('destinations', AgencyDestinationController::class);
+    Route::put('destinations/{destination}/status', [AgencyDestinationController::class, 'updateStatus'])->name('destinations.update-status');
+    Route::put('destinations/{destination}/featured', [AgencyDestinationController::class, 'updateFeatured'])->name('destinations.update-featured');
 });
 
 /*
@@ -265,6 +271,5 @@ Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
         Route::get('/bookings', [UserBookingController::class, 'index'])->name('bookings.index');
         Route::get('/bookings/details/{id}', [UserBookingController::class, 'details'])->name('bookings.details');
         Route::post('/bookings/cancel/{id}', [UserBookingController::class, 'cancelBooking'])->name('bookings.cancel');
-
     });
 });

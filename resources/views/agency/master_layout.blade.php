@@ -21,6 +21,7 @@
 		<link rel="stylesheet" href="{{ asset('backend/css/reset.css') }}">
 		<link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
 		<link rel="stylesheet" href="{{ asset('backend/css/overview.css') }}">
+        <link rel="stylesheet" href="{{ asset('backend/css/enrollment.css') }}">
 		<link rel="stylesheet" href="{{ asset('backend/css/dev.css') }}">
         <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
 

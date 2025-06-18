@@ -1,4 +1,4 @@
-@extends('admin.master_layout')
+@extends('agency.master_layout')
 @section('title')
     <title>{{ __('translate.Bookings list') }}</title>
 @endsection
@@ -65,7 +65,7 @@
                                                             class="crancy-badge crancy-table__status--paid">{{ $booking->booking_status }}</span>
                                                     </td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <a href="{{ route('admin.tourbooking.bookings.show', $booking) }}"
+                                                        <a href="{{ route('agency.tourbooking.bookings.show', $booking->id) }}"
                                                             class="crancy-action__btn crancy-action__edit crancy-btn"><i
                                                                 class="fas fa-eye"></i>
                                                             {{ __('translate.Details') }}
@@ -102,8 +102,7 @@
                     <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
                 </div>
                 <div class="modal-footer">
-                    <form
-                        id="item_delect_confirmation" class="delet_modal_form" method="POST">
+                    <form id="item_delect_confirmation" class="delet_modal_form" method="POST">
                         @csrf
                         @method('DELETE')
 
@@ -123,8 +122,7 @@
         "use strict"
 
         function itemDeleteConfrimation(id) {
-            $("#item_delect_confirmation").attr("action", '{{ url('admin/tourbooking/bookings') }}' + "/" + id)
+            $("#item_delect_confirmation").attr("action", '{{ url('agency/tourbooking/bookings') }}' + "/" + id)
         }
-
     </script>
 @endpush

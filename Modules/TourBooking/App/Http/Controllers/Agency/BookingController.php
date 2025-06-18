@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Booking;
 use Modules\TourBooking\App\Models\Service;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Modules\TourBooking\App\Models\ExtraCharge;
 
 final class BookingController extends Controller
 {
@@ -88,9 +89,13 @@ final class BookingController extends Controller
      */
     public function show(Booking $booking): View
     {
-        $booking->load(['service', 'user', 'review']);
+        $booking->load(['service', 'user']);
 
-        return view('tourbooking::agency.bookings.show', compact('booking'));
+        $extra_services = ExtraCharge::whereIn('id', $booking?->extra_services ?? [])
+            ->where('status', true)
+            ->get();
+
+        return view('tourbooking::agency.bookings.details', compact('booking', 'extra_services'));
     }
 
     /**
@@ -169,8 +174,9 @@ final class BookingController extends Controller
     {
         $booking->delete();
 
-        return redirect()->route('agency.tourbooking.bookings.index')
-            ->with('success', 'Booking deleted successfully.');
+        $notify_message = trans('translate.Booking deleted successfully');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        return redirect()->route('agency.tourbooking.bookings.index')->with($notify_message);
     }
 
     /**
@@ -303,5 +309,40 @@ final class BookingController extends Controller
 
         // Return the PDF as a download
         return $pdf->download($filename);
+    }
+
+    public function bookingConfirm(Request $request)
+    {
+
+        $bookingId = $request->input('id');
+
+        $booking = Booking::find($bookingId);
+
+        $booking->update([
+            'booking_status' => 'confirmed',
+            'confirmed_at' => now(),
+            'admin_notes' => $request->input('confirmation_message') ?? null,
+        ]);
+
+        $notify_message = trans('translate.Booking Confirmed Successfully');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        return redirect()->back()->with($notify_message);
+    }
+
+    public function bookingCancel(Request $request)
+    {
+        $bookingId = $request->input('id');
+
+        $booking = Booking::find($bookingId);
+
+        $booking->update([
+            'booking_status' => 'cancelled',
+            'cancelled_at' => now(),
+            'cancellation_reason' => $request->input('cancellation_reason') ?? null,
+        ]);
+
+        $notify_message = trans('translate.Booking Cancelled Successfully');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        return redirect()->back()->with($notify_message);
     }
 }
