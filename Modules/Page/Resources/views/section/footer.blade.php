@@ -124,7 +124,19 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label class="crancy__item-label">{{ __('translate.Address URL') }} </label>
+                                                        <input class="crancy__item-input" type="text" name="address_url" value="{{ $footer->address_url }}">
+                                                    </div>
+                                                </div>
 
+                                                <div class="col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label class="crancy__item-label">{{ __('translate.Working Days') }} </label>
+                                                        <textarea class="crancy__item-input crancy__item-textarea" name="working_days" id="" cols="30" rows="5">{{ $footer->working_days }}</textarea>
+                                                    </div>
+                                                </div>
 
                                                 <div class="col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">

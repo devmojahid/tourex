@@ -44,6 +44,8 @@ class FooterContrllerController extends Controller
                 'playstore' => 'required|max:250',
                 'appstore' => 'required|max:250',
                 'address' => 'required|max:250',
+                'address_url' => 'nullable',
+                'working_days' => 'nullable',
                 'email' => 'required|max:250',
                 'phone' => 'required|max:250',
             ],[
@@ -68,6 +70,8 @@ class FooterContrllerController extends Controller
             $footer->copyright = $request->copyright;
             $footer->playstore = $request->playstore;
             $footer->appstore = $request->appstore;
+            $footer->address_url = $request->address_url;
+            $footer->working_days = $request->working_days;
             $footer->phone = $request->phone;
             $footer->email = $request->email;
             $footer->address = $request->address;

@@ -1,99 +1,3 @@
-<!-- Start Footer Section -->
-<footer class="td_footer td_style_1 td_color_1 d-none">
-    <div class="container">
-        <div class="td_footer_row">
-            <div class="td_footer_col">
-                <div class="td_footer_widget">
-                    <div class="td_footer_text_widget td_fs_18">
-                        <img src="{{ asset($general_setting->footer_logo) }}" alt="Logo">
-                        <p>{{ $footer->about_us }}</p>
-                    </div>
-                    <ul class="td_footer_address_widget td_medium td_mp_0">
-                        <li><i class="fa-solid fa-phone-volume"></i><a
-                                href="tel:{{ $footer->phone }}">{{ $footer->phone }}</a></li>
-                        <li><i class="fa-solid fa-location-dot"></i>{{ $footer->address }}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="td_footer_col">
-                <div class="td_footer_widget">
-                    <h2 class="td_footer_widget_title td_fs_32 td_white_color td_medium td_mb_30">
-                        {{ __('translate.Navigate') }}</h2>
-                    <ul class="td_footer_widget_menu">
-                        <li><a href="{{ route('home') }}">{{ __('translate.Home') }}</a></li>
-                        <li><a href="{{ route('about-us') }}">{{ __('translate.About') }}</a></li>
-                        <li><a href="{{ route('contact-us') }}">{{ __('translate.Contact') }}</a></li>
-                        <li><a href="{{ route('faq') }}">{{ __('translate.FAQ') }}</a></li>
-                        <li><a href="{{ route('terms-conditions') }}">{{ __('translate.Terms & Conditions') }}</a>
-                        </li>
-                        <li><a href="{{ route('privacy-policy') }}">{{ __('translate.Privacy Policy') }}</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="td_footer_col">
-                <div class="td_footer_widget">
-                    <h2 class="td_footer_widget_title td_fs_32 td_white_color td_medium td_mb_30">
-                        {{ __('translate.Categories') }}</h2>
-                    <ul class="td_footer_widget_menu">
-                        @foreach ($menu_categories->take(6) as $menu_category)
-                            <li>
-                                <a
-                                    href="{{ route('courses', ['category' => $menu_category->slug]) }}">{{ $menu_category?->name }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-            <div class="td_footer_col">
-                <div class="td_footer_widget">
-                    <h2 class="td_footer_widget_title td_fs_32 td_white_color td_medium td_mb_30">
-                        {{ __('translate.Subscribe Now') }}</h2>
-                    <div class="td_newsletter td_style_1">
-                        <p class="td_mb_20 td_opacity_7">
-                            {{ __('translate.Far far away, behind the word mountains, far from the Consonantia.') }}
-                        </p>
-                        <form action="{{ route('store-newsletter') }}" method="POST" class="td_newsletter_form">
-                            @csrf
-                            <input type="email" class="td_newsletter_input"
-                                placeholder="{{ __('translate.Email address') }}" name="email">
-                            <button type="submit" class="td_btn td_style_1 td_radius_30 td_medium">
-                                <span class="td_btn_in td_white_color td_accent_bg">
-                                    <span>{{ __('translate.Subscribe') }}</span>
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                    <div class="td_footer_social_btns td_fs_20">
-                        <a target="_blank" href="{{ $footer->facebook }}" class="td_center">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-                        <a target="_blank" href="{{ $footer->twitter }}" class="td_center">
-                            <i class="fa-brands fa-x-twitter"></i>
-                        </a>
-                        <a target="_blank" href="{{ $footer->instagram }}" class="td_center">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a target="_blank" href="{{ $footer->linkedin }}" class="td_center">
-                            <i class="fa-brands fa-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="td_footer_bottom td_fs_18">
-        <div class="container">
-            <div class="td_footer_bottom_in">
-                <p class="td_copyright mb-0">{{ $footer->copyright }}</p>
-                <ul class="td_footer_widget_menu">
-                    <li><a href="{{ route('terms-conditions') }}"> {{ __('translate.Terms & Conditions') }}</a></li>
-                    <li><a href="{{ route('privacy-policy') }}">{{ __('translate.Privacy & Policy') }}</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
-
 <footer>
     <div class="tg-footer-area tg-footer-space include-bg" data-background="{{ asset('frontend/assets/img/shape/home-1-footer-bg.jpeg') }}">
         <div class="container">
@@ -106,8 +10,9 @@
                             </div>
                             <p class="mb-20">{{ $footer->about_us }}</p>
                             <div class="tg-footer-form mb-30">
-                                <form action="#">
-                                    <input type="email" placeholder="Enter your mail">
+                                <form action="{{ route('store-newsletter') }}" method="POST">
+                                    @csrf
+                                    <input type="email" placeholder="Enter your mail" name="email">
                                     <button class="tg-footer-form-btn" type="submit">
                                         <svg width="22" height="17" viewBox="0 0 22 17" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -148,9 +53,10 @@
                         <div class="tg-footer-widget tg-footer-info mb-40">
                             <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Information') }}</h3>
                             <ul>
+                                @if ($footer->address || $footer->address_url)
                                 <li>
                                     <a class="d-flex"
-                                        href="https://www.google.com/maps/@41.6758525,-86.2531698,18.17z">
+                                        href="{{ $footer->address_url }}">
                                         <span class="mr-15">
                                             <svg width="20" height="24" viewBox="0 0 20 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -164,17 +70,21 @@
                                                     stroke-linejoin="round" />
                                             </svg>
                                         </span>
-                                        58 Street Commercial Road<br> Fratton, Australia
+                                        {{ $footer->address }}
                                     </a>
                                 </li>
+                                @endif
+                                @if ($footer->phone)
                                 <li>
-                                    <a class="d-flex" href="tel:+1238889999">
+                                    <a class="d-flex" href="tel:{{ $footer->phone }}">
                                         <span class="mr-15">
                                             <i class="fa-sharp text-white fa-solid fa-phone"></i>
                                         </span>
-                                        +123 888 9999
+                                        {{ $footer->phone }}
                                     </a>
                                 </li>
+                                @endif
+                                @if ($footer->working_days)
                                 <li class="d-flex">
                                     <span class="mr-15">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -186,10 +96,12 @@
                                         </svg>
                                     </span>
                                     <p class="mb-0">
-                                        Mon – Sat: 8 am – 5 pm,<br>
-                                        Sunday: <span class="text-white d-inline-block">CLOSED</span>
+                                        {{ $footer->working_days }}
+                                        {{-- Mon – Sat: 8 am – 5 pm,<br>
+                                        Sunday: <span class="text-white d-inline-block">CLOSED</span> --}}
                                     </p>
                                 </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
