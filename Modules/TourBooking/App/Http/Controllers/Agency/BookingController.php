@@ -20,7 +20,11 @@ final class BookingController extends Controller
      */
     public function index(): View
     {
+
+        $myServicesIds = Service::where('user_id', auth()->user()->id)->pluck('id')->toArray();
+
         $bookings = Booking::with(['service', 'user'])
+            ->whereIn('service_id', $myServicesIds)
             ->latest()
             ->paginate(15);
 
@@ -89,14 +93,22 @@ final class BookingController extends Controller
      */
     public function show(Booking $booking): View
     {
+        // Load relationships
         $booking->load(['service', 'user']);
 
+        // Check if the service belongs to the current user
+        if ($booking->service->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to booking.');
+        }
+
+        // Load extra services
         $extra_services = ExtraCharge::whereIn('id', $booking?->extra_services ?? [])
             ->where('status', true)
             ->get();
 
         return view('tourbooking::agency.bookings.details', compact('booking', 'extra_services'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -9,7 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Modules\Course\App\Models\CourseReview;
 use Modules\Course\App\Models\CourseEnrollmentList;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\TourBooking\App\Models\Booking;
+use Modules\TourBooking\App\Models\Service;
 use Modules\Wishlist\App\Models\Wishlist;
 
 class User extends Authenticatable

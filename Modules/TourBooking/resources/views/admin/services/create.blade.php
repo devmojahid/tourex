@@ -487,7 +487,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Video URL') }}</label>
-                                                        <input class="crancy__item-input" type="url" name="video_url"
+                                                        <input class="crancy__item-input" type="text" name="video_url"
                                                             value="{{ old('video_url') }}"
                                                             placeholder="YouTube or Vimeo URL">
                                                         @error('video_url')
@@ -604,7 +604,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Website') }}</label>
-                                                        <input class="crancy__item-input" type="url" name="website"
+                                                        <input class="crancy__item-input" type="text" name="website"
                                                             value="{{ old('website') }}">
                                                         @error('website')
                                                             <span class="text-danger">{{ $message }}</span>

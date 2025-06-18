@@ -24,6 +24,7 @@ use Modules\TourBooking\App\Repositories\ServiceTypeRepository;
 use Modules\Language\App\Models\Language;
 use Illuminate\Http\JsonResponse;
 use Modules\TourBooking\App\Models\Amenity;
+use Modules\TourBooking\App\Models\Destination;
 
 final class ServiceController extends Controller
 {
@@ -47,12 +48,15 @@ final class ServiceController extends Controller
      */
     public function create(): View
     {
-        $serviceTypes = $this->serviceTypeRepository->getActive();
         $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
+
+        $serviceTypes = $this->serviceTypeRepository->getActive();
 
         $enum_languages = EnumsLanguage::cases();
 
-        return view('tourbooking::agency.services.create', compact('serviceTypes', 'amenities', 'enum_languages'));
+        $destinations = Destination::select('id', 'name')->where('status', true)->get();
+
+        return view('tourbooking::agency.services.create', compact('serviceTypes', 'amenities', 'enum_languages', 'destinations'));
     }
 
     /**
@@ -72,7 +76,7 @@ final class ServiceController extends Controller
         }
 
         // Convert checkbox values
-        $booleanFields = ['deposit_required', 'is_featured', 'is_popular', 'show_on_homepage', 'status'];
+        $booleanFields = ['deposit_required', 'is_featured', 'is_popular', 'show_on_homepage', 'status', 'is_new'];
         foreach ($booleanFields as $field) {
             $data[$field] = isset($data[$field]) ? true : false;
         }
@@ -184,10 +188,14 @@ final class ServiceController extends Controller
         }
 
         $serviceTypes = $this->serviceTypeRepository->getActive();
-        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
-         $enum_languages = EnumsLanguage::cases();
 
-        return view('tourbooking::agency.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code', 'amenities', 'enum_languages'));
+        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
+
+        $enum_languages = EnumsLanguage::cases();
+
+        $destinations = Destination::select('id', 'name')->where('status', true)->get();
+
+        return view('tourbooking::agency.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code', 'amenities', 'enum_languages', 'destinations'));
     }
 
     /**
@@ -206,7 +214,7 @@ final class ServiceController extends Controller
         // Handle main service update only if we're editing in the admin language
         if ($lang_code === admin_lang()) {
             // Handle JSON fields - convert newline-separated strings to arrays
-            $jsonFields = ['included', 'excluded','facilities', 'rules', 'safety', 'social_links'];
+            $jsonFields = ['included', 'excluded', 'facilities', 'rules', 'safety', 'social_links'];
             foreach ($jsonFields as $field) {
                 if (isset($data[$field])) {
                     if (is_string($data[$field])) {
