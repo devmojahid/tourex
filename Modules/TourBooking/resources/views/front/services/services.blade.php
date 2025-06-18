@@ -1,9 +1,9 @@
 @extends('layout_inner_page2')
 
 @section('title')
-    <title>Services</title>
-    <meta name="title" content="Services">
-    <meta name="description" content="Services">
+    <title>{{ __('translate.Services') }}</title>
+    <meta name="title" content="{{ __('translate.Services') }}">
+    <meta name="description" content="{{ __('translate.Services') }}">
 @endsection
 
 @section('front-content')
@@ -25,14 +25,14 @@
                                 <div>
                                     <div class="tg-booking-form-input-group d-flex align-items-end justify-content-between">
                                         <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
-                                            <span class="tg-booking-form-title mb-5">Destinations:</span>
+                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Destinations:') }}</span>
                                             <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
                                                 <span x-show="bookingForm.destination" x-text="bookingForm.destination"
                                                     class="tg-booking-title-value">
-                                                    Where are you going . . .
+                                                    {{ __('translate.Where are you going . . .:') }}
                                                 </span>
                                                 <span x-show="!bookingForm.destination" class="tg-booking-title-value">
-                                                    Where are you going . . .
+                                                    {{ __('translate.Where are you going . . .:') }}
                                                 </span>
                                                 <span class="location">
                                                     <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
@@ -61,7 +61,7 @@
                                             </div>
                                         </div>
                                         <div class="tg-booking-form-parent-inner mr-15 mb-15">
-                                            <span class="tg-booking-form-title mb-5">Check in:</span>
+                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Check in:') }}</span>
                                             <div class="tg-booking-add-input-date p-relative">
                                                 <input x-model="bookingForm.checkIn" class="input timepicker"
                                                     name="check_in" type="text" placeholder="Check in">
@@ -77,7 +77,7 @@
                                             </div>
                                         </div>
                                         <div class="tg-booking-form-parent-inner mr-15 mb-15">
-                                            <span class="tg-booking-form-title mb-5">Check Out:</span>
+                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Check Out:') }}</span>
                                             <div class="tg-booking-add-input-date p-relative">
                                                 <input x-model="bookingForm.checkOut" class="input timepicker"
                                                     name="check_out" type="text" placeholder="Check Out">
@@ -93,9 +93,9 @@
                                             </div>
                                         </div>
                                         <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
-                                            <span class="tg-booking-form-title mb-5">Guest:</span>
+                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Guest:') }}</span>
                                             <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
-                                                <span class="tg-booking-title-value">+ Add Guests</span>
+                                                <span class="tg-booking-title-value">{{ __('translate.+ Add Guests') }}</span>
                                                 <span class="location">
                                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -116,7 +116,7 @@
                                                 class="tg-booking-form-location-list tg-quantity tg-booking-quantity-active">
                                                 <ul>
                                                     <li>
-                                                        <span class="mr-20">Rooms</span>
+                                                        <span class="mr-20">{{ __('translate.Rooms') }}</span>
                                                         <div class="tg-booking-quantity-item">
                                                             <span @click="incrementRooms" class="increment">
                                                                 <svg width="15" height="14" viewBox="0 0 15 14"
@@ -142,7 +142,7 @@
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        <span class="mr-20">Adults</span>
+                                                        <span class="mr-20">{{ __('translate.Adults') }}</span>
                                                         <div class="tg-booking-quantity-item">
                                                             <span @click="incrementAdults" class="increment">
                                                                 <svg width="15" height="14" viewBox="0 0 15 14"
@@ -168,7 +168,7 @@
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        <span class="mr-20">Children</span>
+                                                        <span class="mr-20">{{ __('translate.Children') }}</span>
                                                         <div class="tg-booking-quantity-item">
                                                             <span @click="incrementChildren" class="increment">
                                                                 <svg width="15" height="14" viewBox="0 0 15 14"
@@ -198,7 +198,7 @@
                                         </div>
                                         <div class="tg-booking-form-search-btn mb-15">
                                             <button @click="searchServices" class="bk-search-button"
-                                                type="button">Search
+                                                type="button">{{ __('translate.Search') }}
                                                 <span class="ml-5">
                                                     <svg width="14" height="14" viewBox="0 0 14 14"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -237,14 +237,14 @@
 
                                     <div>
                                         <div class="d-flex justify-content-between align-items-center mb-10">
-                                            <h4 class="tg-filter-title mb-0">Search</h4>
+                                            <h4 class="tg-filter-title mb-0">{{ __('translate.Search') }}</h4>
                                             <a class="tg-filter-reset" x-show="isFilterChanged || isBookingFilterChanged"
                                                 @click="resetFilters()" href="javascript:void(0);">Reset All</a>
                                         </div>
                                         <div class="tg-filter-search-form">
                                             <div class="p-relative">
                                                 <input class="input" x-model.debounce="filters.search" type="text"
-                                                    placeholder="Search here...">
+                                                    placeholder="{{ __('translate.Search here...') }}">
                                                 <button class="buttons" type="submit">
                                                     <svg width="14" height="14" viewBox="0 0 14 14"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">

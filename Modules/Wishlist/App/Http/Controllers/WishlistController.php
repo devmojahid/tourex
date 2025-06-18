@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use League\OAuth1\Client\Server\Server;
 use Modules\Course\App\Models\Course;
 use Modules\Ecommerce\Entities\Product;
 use Modules\TourBooking\App\Models\Service;
@@ -20,26 +21,45 @@ class WishlistController extends Controller
     public function index()
     {
 
-        $item_array = array();
-
-        $user = Auth::guard('web')->user();
-
-        $wishlists = Wishlist::where('user_id', $user->id)->get();
-
-        foreach ($wishlists as $wishlist) {
-            $item_array[] = $wishlist->item_id;
-        }
+        $wishlistIds = Wishlist::where('user_id', Auth::user()->id)
+            ->where('wishable_type', Product::class)
+            ->pluck('wishable_id')
+            ->toArray();
 
         $products = Product::with('translate')
             ->withCount('reviews')
             ->withExists('myWishlist')
             ->withAvg('reviews', 'rating')
             ->where(['status' => 1])
-            ->whereIn('id', $item_array)
+            ->whereIn('id', $wishlistIds)
             ->latest()
             ->get();
 
         return view('wishlist::index', ['products' => $products]);
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function serviceWishlist()
+    {
+
+        $wishlistIds = Wishlist::where('user_id', Auth::user()->id)
+            ->where('wishable_type', Service::class)
+            ->pluck('wishable_id')
+            ->toArray();
+
+        $services = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration', 'group_size')
+            ->whereIn('id', $wishlistIds)
+            ->withExists('myWishlist')
+            ->where('status', true)
+            ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title,short_description'])
+            ->withCount('activeReviews')
+            ->withAvg('activeReviews', 'rating')
+            ->get();
+
+        return view('wishlist::services-list', ['services' => $services]);
     }
 
     /**
