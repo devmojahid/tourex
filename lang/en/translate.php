@@ -1604,4 +1604,7 @@ return array(
     'Thank you for your business!' => 'Thank you for your business!',
     'This is a computer-generated invoice, no signature required.' => 'This is a computer-generated invoice, no signature required.',
     'INVOICE' => 'INVOICE',
+    'Booking deleted successfully' => 'Booking deleted successfully',
+    'Admin note for you' => 'Admin note for you',
+    'Cancellation reason' => 'Cancellation reason',
 );

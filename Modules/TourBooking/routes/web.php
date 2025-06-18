@@ -80,7 +80,7 @@ Route::group(['as' => 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mi
     Route::get('bookings/{id}', [BookingController::class, 'show'])->name('bookings.show');
     Route::get('bookings/{booking}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
     Route::put('bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
-    Route::delete('bookings/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');
+    Route::delete('bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.destroy');
     Route::post('bookings/{booking}/payment-status', [BookingController::class, 'updatePaymentStatus'])->name('bookings.payment-status');
     Route::get('bookings/{booking}/invoice', [BookingController::class, 'invoice'])->name('bookings.invoice');
     Route::get('bookings/{booking}/download-invoice', [BookingController::class, 'downloadInvoicePdf'])->name('bookings.download-invoice');
@@ -179,7 +179,6 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
 
     Route::get('tourbookings', [FrontServiceController::class, 'index'])->name('tourbooking');
     Route::get('tourbookings/{slug}', [FrontServiceController::class, 'show'])->name('tourbooking.show');
-
 
     Route::group(['as' => 'payment.', 'prefix' => 'payment', 'middleware' => ['auth:web']], function () {
 

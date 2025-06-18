@@ -70,6 +70,12 @@
                                                                 class="fas fa-eye"></i>
                                                             {{ __('translate.Details') }}
                                                         </a>
+                                                        <a onclick="itemDeleteConfrimation({{ $booking->id }})"
+                                                            href="javascript:;" data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal"
+                                                            class="destination crancy-btn crancy-action__btn crancy-action__edit crancy-btn delete_danger_btn"><i
+                                                                class="fas fa-trash"></i> {{ __('translate.Delete') }}
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -83,4 +89,42 @@
             </div>
         </div>
     </section>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <form
+                        id="item_delect_confirmation" class="delet_modal_form" method="POST">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@push('js_section')
+    <script>
+        "use strict"
+
+        function itemDeleteConfrimation(id) {
+            $("#item_delect_confirmation").attr("action", '{{ url('admin/tourbooking/bookings') }}' + "/" + id)
+        }
+
+    </script>
+@endpush

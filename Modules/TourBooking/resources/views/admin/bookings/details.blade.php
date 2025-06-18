@@ -33,7 +33,7 @@
                                                         <a href="{{ route('admin.tourbooking.bookings.index') }}"
                                                             class="crancy-btn"><i class="fa fa-arrow-left"></i>
                                                             {{ __('translate.Back') }}</a>
-                                                        @if ($booking->booking_status == 'pending')
+                                                        @if ($booking->booking_status == 'pending' || $booking->booking_status == 'success')
                                                             <a href="#" class="crancy-btn crancy-btn__success"
                                                                 data-bs-toggle="modal" data-bs-target="#confirmModal">
                                                                 <i class="fa fa-check"></i>

@@ -159,11 +159,20 @@
                                                     </div>
                                                 </div>
 
-                                                @if ($booking->customer_notes)
+                                                @if ($booking->admin_notes)
                                                     <div class="row mb-4">
                                                         <div class="col-md-12">
-                                                            <h6 class="text-muted">{{ __('translate.Your Notes') }}</h6>
-                                                            <p>{{ $booking->customer_notes }}</p>
+                                                            <h6 class="text-muted">{{ __('translate.Admin note for you') }}</h6>
+                                                            <p>{{ $booking->admin_notes }}</p>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if ($booking->cancellation_reason)
+                                                    <div class="row mb-4">
+                                                        <div class="col-md-12">
+                                                            <h6 class="text-muted">{{ __('translate.Cancellation reason') }}</h6>
+                                                            <p>{{ $booking->cancellation_reason }}</p>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -184,7 +193,7 @@
                                                             </div>
 
                                                             <div>
-                                                                @if ($booking->booking_status == 'pending' || $booking->booking_status == 'confirmed')
+                                                                @if ($booking->booking_status == 'pending' || $booking->booking_status == 'confirmed' || $booking->booking_status == 'success')
                                                                     <button type="button" class="btn btn-danger w-auto"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#cancelBookingModal">
@@ -195,7 +204,7 @@
                                                             </div>
 
                                                             <div>
-                                                                @if ($booking->booking_status == 'completed' && !$booking->is_reviewed)
+                                                                @if ($booking->booking_status == 'completed')
                                                                     <button class="btn btn-primary w-auto">
                                                                         <a target="_blank"
                                                                             href="{{ route('front.tourbooking.services.show', ['slug' => $booking->service->slug . '#reviewForm']) }}"
@@ -225,7 +234,7 @@
     <!-- End crancy Dashboard -->
 
     <!-- Cancel Booking Modal -->
-    @if ($booking->booking_status == 'pending' || $booking->booking_status == 'confirmed')
+    @if ($booking->booking_status == 'pending' || $booking->booking_status == 'confirmed' || $booking->booking_status == 'success')
         <div class="modal fade" id="cancelBookingModal" tabindex="-1" aria-labelledby="cancelBookingModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">

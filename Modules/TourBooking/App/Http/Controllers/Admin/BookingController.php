@@ -91,7 +91,10 @@ final class BookingController extends Controller
     {
 
         $booking = Booking::with(['service', 'user'])->findOrFail($id);
-        $extra_services = ExtraCharge::whereIn('id', $booking->extra_services ?? [])->where('status', true)->get();
+
+        $extra_services = ExtraCharge::whereIn('id', $booking?->extra_services ?? [])
+            ->where('status', true)
+            ->get();
 
         return view('tourbooking::admin.bookings.details', compact('booking', 'extra_services'));
     }
@@ -168,12 +171,14 @@ final class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Booking $booking): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
+        $booking = Booking::findOrFail($id);
         $booking->delete();
 
-        return redirect()->route('admin.tourbooking.bookings.index')
-            ->with('success', 'Booking deleted successfully.');
+        $notify_message = trans('translate.Booking deleted successfully');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        return redirect()->route('admin.tourbooking.bookings.index')->with($notify_message);
     }
 
     /**

@@ -76,7 +76,7 @@ class PaymentController extends Controller
 
         $notify_message = trans('translate.Your payment has been made successful. Thanks for your new purchase');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-        return redirect()->route('user.dashboard')->with($notify_message);
+        return redirect()->route('user.bookings.index')->with($notify_message);
     }
 
 
@@ -172,7 +172,7 @@ class PaymentController extends Controller
 
             $notify_message = trans('translate.Your payment has been made successful. Thanks for your new purchase');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-            return redirect()->route('user.dashboard')->with($notify_message);
+            return redirect()->route('user.bookings.index')->with($notify_message);
         } else {
 
 
@@ -212,7 +212,7 @@ class PaymentController extends Controller
 
                 $notify_message = trans('translate.Your payment has been made successful. Thanks for your new purchase');
                 $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-                return redirect()->route('user.dashboard')->with($notify_message);
+                return redirect()->route('user.bookings.index')->with($notify_message);
             } catch (Exception $e) {
                 Log::info('Razorpay payment : ' . $e->getMessage());
                 $notify_message = trans('translate.Something went wrong, please try again');
@@ -516,7 +516,7 @@ class PaymentController extends Controller
 
                 $notify_message = trans('translate.Your payment has been made successful. Thanks for your new purchase');
                 $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-                return redirect()->route('user.dashboard')->with($notify_message);
+                return redirect()->route('user.bookings.index')->with($notify_message);
             }
         } else {
 
@@ -544,7 +544,7 @@ class PaymentController extends Controller
 
         $notify_message = trans('translate.Your payment has been made. please wait for admin payment approval');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-        return redirect()->route('user.dashboard')->with($notify_message);
+        return redirect()->route('user.bookings.index')->with($notify_message);
     }
 
     public function create_order($user, $payment_method, $payment_status, $transaction_id, $customerInfo = [])
@@ -576,7 +576,7 @@ class PaymentController extends Controller
         $order->total  = $calculate_price['total_amount'] ?? 0;
         $order->paid_amount  = $calculate_price['total_amount'] ?? 0;
         $order->payment_method = $payment_method;
-        $order->booking_status = $payment_status == 'success' ? 'completed' : 'pending';
+        $order->booking_status = $payment_status == 'success' ? 'success' : 'pending';
         $order->payment_status = $payment_status;
         $order->customer_name = $customerInfo['customer_name'] ?? '';
         $order->customer_email = $customerInfo['customer_email'] ?? '';

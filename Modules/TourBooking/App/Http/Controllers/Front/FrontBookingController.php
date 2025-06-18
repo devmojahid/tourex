@@ -89,7 +89,7 @@ final class FrontBookingController extends Controller
             'child_count' => $request->children,
             'total' => $total,
             'extra_charges' => $totalExtraCharge ?? 0,
-            'extra_services' => $request->extras ?? 0,
+            'extra_services' => $request->extras ?? [],
         ]);
 
         return view('tourbooking::front.bookings.checkout-view', [
@@ -160,7 +160,7 @@ final class FrontBookingController extends Controller
             'total' => $priceDetails['total'],
             'paid_amount' => 0,
             'due_amount' => $priceDetails['total'],
-            'extra_services' => $validated['extra_services'] ?? null,
+            'extra_services' => $validated['extra_services'] ?? [],
             'coupon_code' => $validated['coupon_code'] ?? null,
             'payment_method' => $validated['payment_method'],
             'payment_status' => 'pending',
