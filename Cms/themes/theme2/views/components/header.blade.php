@@ -8,53 +8,7 @@
                             <nav class="tgmenu__nav tgmenu-1-space">
                                 <div
                                     class="tgmenu__navbar-wrap tgmenu__main-menu tgmenu__navbar-wrap-2 d-none d-xl-flex">
-                                    <ul class="navigation">
-                                        <li class="active menu-item-has-children"><a href="index.html">Home</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="index.html">Home One</a></li>
-                                                <li><a href="index-2.html">Home Two</a></li>
-                                                <li><a href="index-3.html">Home Three</a></li>
-                                                <li class="active"><a href="index-4.html">Home Four</a></li>
-                                                <li><a href="index-5.html">Home Five</a></li>
-                                                <li><a href="index-6.html">Home Six</a></li>
-                                                <li><a href="index-7.html">Home Saven</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children"><a href="hotel-grid.html">Features</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="hotel-grid.html">Hotel Grid</a></li>
-                                                <li><a href="tour-grid-1.html">Tour Grid One</a></li>
-                                                <li><a href="tour-grid-2.html">Tour Grid Two</a></li>
-                                                <li><a href="map-listing.html">Hotel Listing</a></li>
-                                                <li><a href="tour-details.html">Tour Details One</a></li>
-                                                <li><a href="tour-details-2.html">Tour Details Two</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children"><a href="#">Pages</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="about.html">About</a></li>
-                                                <li><a href="team.html">Team</a></li>
-                                                <li><a href="team-details.html">Team Details</a></li>
-                                                <li><a href="shop.html">Shop</a></li>
-                                                <li><a href="shop-details.html">Shop Details</a></li>
-                                                <li><a href="cart.html">Cart</a></li>
-                                                <li><a href="checkout.html">Checkout</a></li>
-                                                <li><a href="pricing.html">Pricing</a></li>
-                                                <li><a href="faq.html">Faq</a></li>
-                                                <li><a href="login.html">Log In</a></li>
-                                                <li><a href="register.html">Register</a></li>
-                                                <li><a href="error.html">Error</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children"><a href="blog-grid.html">Blogs</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="blog-grid.html">Blog Grid</a></li>
-                                                <li><a href="blog-standard.html">Blog Standard</a></li>
-                                                <li><a href="blog-details.html">Blog Details</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="contact.html">Contact</a></li>
-                                    </ul>
+                                    @include('components.common_navitems')
                                 </div>
                             </nav>
                         </div>
@@ -62,7 +16,7 @@
                     <div class="col-xl-2 col-4">
                         <div class="logo tg-header-logo text-center p-relative z-index-1">
                             <span class="tg-header-logo-bg d-none d-xl-block"></span>
-                            <a href="index.html"><img src="assets/img/logo/logo-green.png" alt="Logo"></a>
+                            <a href="{{ route('home') }}"> <img src="{{ asset($general_setting->logo) }}" alt="Logo"></a>
                         </div>
                     </div>
                     <div class="col-xl-5 col-8">
@@ -139,12 +93,13 @@
                                     </svg>
                                 </span>
                                 <div class="tg-header-contact-number d-none d-xl-block">
-                                    <span>Call Us:</span>
-                                    <a href="tel:+123595966">+123 5959 66</a>
+                                    <span>{{ __('translate.Call Us') }}:</span>
+                                    <a href="tel:{{ $footer->phone }}">{{ $footer->phone }}</a>
                                 </div>
                             </div>
                             <div class="tg-header-btn ml-20 d-none d-sm-block">
-                                <a class="tg-btn-header" href="login.html">
+                                @guest('web')
+                                <a class="tg-btn-header" href="{{ route('user.login') }}">
                                     <span>
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -153,8 +108,22 @@
                                                 fill="currentColor" />
                                         </svg>
                                     </span>
-                                    Login
+                                    {{ __('translate.Login') }}
                                 </a>
+                                @else
+                                <a class="tg-btn-header"
+                                    href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}">
+                                    <span>
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M1.7 17.2C1.5 17.2 1.3 17.1 1.2 17C1.1 16.8 1 16.7 1 16.5C1 15.1 1.4 13.7 2.1 12.4C2.8 11.2 3.9 10.1 5.1 9.4C4.6 8.8 4.2 8 4 7.2C3.9 6.4 3.9 5.5 4.1 4.8C4.3 4 4.8 3.2 5.3 2.6C5.9 2 6.6 1.5 7.3 1.3C7.9 1.1 8.5 1 9.1 1C9.3 1 9.6 1 9.8 1C10.6 1.1 11.4 1.4 12.1 1.9C12.8 2.4 13.3 3 13.7 3.7C14.1 4.4 14.3 5.2 14.3 6.1C14.3 7.3 13.9 8.5 13.1 9.4C13.7 9.8 14.3 10.2 14.9 10.7C15.7 11.5 16.2 12.3 16.7 13.3C17.1 14.3 17.3 15.3 17.3 16.4C17.3 16.6 17.2 16.8 17.1 16.9C17 17 16.8 17.1 16.6 17.1C16.5 17.1 16.4 17.1 16.3 17C16.2 17 16.1 16.9 16.1 16.8C16 16.7 16 16.7 15.9 16.6C15.9 16.5 15.8 16.4 15.8 16.3C15.8 15.4 15.6 14.6 15.3 13.8C15 13 14.5 12.3 13.8 11.7C13.2 11.2 12.6 10.7 11.9 10.4C11.1 10.9 10.2 11.2 9.1 11.2C8.1 11.2 7.1 10.9 6.3 10.4C5.2 10.9 4.2 11.7 3.5 12.8C2.8 13.9 2.4 15.1 2.4 16.4C2.4 16.6 2.3 16.8 2.2 16.9C2.1 17.1 1.9 17.2 1.7 17.2ZM9.1 2.5C8.4 2.5 7.7 2.7 7.1 3.1C6.4 3.5 6 4.1 5.7 4.7C5.4 5.4 5.3 6.1 5.5 6.9C5.6 7.6 6 8.3 6.5 8.8C7 9.3 7.7 9.7 8.4 9.8C8.6 9.8 8.9 9.9 9.1 9.9C9.6 9.9 10.1 9.8 10.5 9.6C11.2 9.3 11.7 8.9 12.2 8.2C12.6 7.6 12.8 6.9 12.8 6.2C12.8 5.2 12.4 4.3 11.7 3.6C11 2.8 10.1 2.5 9.1 2.5Z"
+                                                fill="currentColor" />
+                                        </svg>
+                                    </span>
+                                    {{ __('translate.Dashboard') }}
+                                </a>
+                                @endguest
                             </div>
                             <div class="tg-header-menu-bar lh-1 p-relative pl-20 d-block d-xl-none">
                                 <button class="tgmenu-offcanvas-open-btn mobile-nav-toggler mobile-nav-black">
@@ -169,69 +138,13 @@
             </div>
         </div>
 
-        <!-- Mobile Menu  -->
-        <div class="tgmobile__menu">
-            <nav class="tgmobile__menu-box">
-                <div class="close-btn"><i class="fa-solid fa-xmark"></i></div>
-                <div class="nav-logo">
-                    <a href="index.html"><img src="assets/img/logo/logo-green.png" alt="logo"></a>
-                </div>
-                <div class="tgmobile__search">
-                    <form action="#">
-                        <input type="text" placeholder="Search here...">
-                        <button><i class="fas fa-search"></i></button>
-                    </form>
-                </div>
-                <div class="tgmobile__menu-outer">
-                    <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
-                </div>
-                <div class="social-links">
-                    <ul class="list-wrap">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-        <div class="tgmobile__menu-backdrop"></div>
-        <!-- End Mobile Menu -->
+    <!-- Mobile Menu  -->
+    @include('components.common_mobile_menu')
+    <!-- End Mobile Menu -->
 
-        <!-- offCanvas-menu -->
-        <div class="offCanvas__info">
-            <div class="offCanvas__close-icon menu-close">
-                <button><i class="fa-sharp fa-regular fa-xmark"></i></button>
-            </div>
-            <div class="offCanvas__logo mb-30">
-                <a href="index.html"><img src="assets/img/logo/logo-green.png" alt="Logo"></a>
-            </div>
-            <div class="offCanvas__side-info mb-30">
-                <div class="contact-list mb-30">
-                    <h4>Office Address</h4>
-                    <p>123/A, Miranda City Likaoli <br> Prikano, Dope</p>
-                </div>
-                <div class="contact-list mb-30">
-                    <h4>Phone Number</h4>
-                    <p>+0989 7876 9865 9</p>
-                    <p>+(090) 8765 86543 85</p>
-                </div>
-                <div class="contact-list mb-30">
-                    <h4>Email Address</h4>
-                    <p>info@example.com</p>
-                    <p>example.mail@hum.com</p>
-                </div>
-            </div>
-            <div class="offCanvas__social-icon mt-30">
-                <a href="javascript:void(0)"><i class="fab fa-facebook-f"></i></a>
-                <a href="javascript:void(0)"><i class="fab fa-twitter"></i></a>
-                <a href="javascript:void(0)"><i class="fab fa-google-plus-g"></i></a>
-                <a href="javascript:void(0)"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="offCanvas__overly"></div>
-        <!-- offCanvas-menu-end -->
+    <!-- offCanvas-menu -->
+    @include('components.common_offcanvas')
+    <!-- offCanvas-menu-end -->
 
     </header>
     <!-- header-area-end -->
