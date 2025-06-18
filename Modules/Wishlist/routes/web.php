@@ -16,5 +16,5 @@ use Modules\Wishlist\App\Http\Controllers\WishlistController;
 
 Route::group(['as' => 'user.', 'prefix' => 'user', 'middleware' => ['auth:web', 'MaintenanceMode', 'HtmlSpecialchars']], function () {
     Route::resource('wishlist', WishlistController::class);
+    Route::get('service-wishlist', [WishlistController::class, 'serviceWishlist'])->name('wishlist.services');
 });
-

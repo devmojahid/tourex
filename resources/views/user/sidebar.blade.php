@@ -61,11 +61,10 @@
                         <span class="menu-bar__name">{{ __('translate.Order list') }}</span></span></a>
             </li>
 
-            <li class="{{ Route::is('user.wishlist.index') ? 'active' : '' }}"><a class="collapsed"
-                    href="{{ route('user.wishlist.index') }}">
-                    <span class="menu-bar__text">
+            <li class="{{ Route::is('user.wishlist.index') || Route::is('user.wishlist.services') ? 'active' : '' }}">
+                <a href="#!" class="collapsed" data-bs-toggle="collapse"
+                    data-bs-target="#menu-item__course_list"><span class="menu-bar__text">
                         <span class="crancy-menu-icon crancy-svg-icon__v1">
-
 
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -75,12 +74,30 @@
                                     stroke-linejoin="round" />
                             </svg>
 
-
                         </span>
-                        <span class="menu-bar__name">{{ __('translate.Wishlist') }}</span>
-                    </span>
 
-                </a>
+                        <span class="menu-bar__name">{{ __('translate.Wishlist') }}</span></span> <span
+                        class="crancy__toggle"></span></a></span>
+                <!-- Dropdown Menu -->
+                <div class="collapse crancy__dropdown {{ Route::is('user.wishlist.index') || Route::is('user.wishlist.services') ? 'show' : '' }}"
+                    id="menu-item__course_list" data-bs-parent="#CrancyMenu">
+                    <ul class="menu-bar__one-dropdown">
+
+                        <li>
+                            <a href="{{ route('user.wishlist.index') }}">
+                                <span class="menu-bar__text">
+                                    <span class="menu-bar__name">
+                                        {{ __('translate.Product List') }}
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li><a href="{{ route('user.wishlist.services') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Service List') }}</span></span></a>
+                        </li>
+                    </ul>
+                </div>
             </li>
 
             <li class="{{ Route::is('user.bookings.index') || Route::is('user.bookings.details') ? 'active' : '' }}">

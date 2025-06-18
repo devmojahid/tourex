@@ -1607,4 +1607,5 @@ return array(
     'Booking deleted successfully' => 'Booking deleted successfully',
     'Admin note for you' => 'Admin note for you',
     'Cancellation reason' => 'Cancellation reason',
+    'Services wishlist' => 'Services wishlist',
 );
