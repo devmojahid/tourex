@@ -1,21 +1,18 @@
-<!-- footer-area-start -->
 <footer>
-    <div class="tg-footer-area tg-footer-su-wrapper tg-footer-space include-bg"
-        data-background="{{ asset('frontend/assets/img/shape/home-1-footer-bg.jpeg') }}">
+    <div class="tg-footer-area tg-footer-space include-bg" data-background="{{ asset('frontend/assets/img/shape/home-1-footer-bg.jpeg') }}">
         <div class="container">
-            <div class="tg-footer-top mb-45">
+            <div class="tg-footer-top mb-40">
                 <div class="row">
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="tg-footer-widget mb-40">
                             <div class="tg-footer-logo mb-20">
-                                <a href="index.html"><img src="assets/img/logo/logo-white.png" alt=""></a>
+                                <a href="{{ route('home') }}"><img src="{{ asset($general_setting->footer_logo) }}" alt=""></a>
                             </div>
-                            <p class="mb-20">Pharetra maecenas felisey vestibulum
-                                convallis mollis nullam congue sittle
-                                rivers of Finland Quebec.</p>
+                            <p class="mb-20">{{ $footer->about_us }}</p>
                             <div class="tg-footer-form mb-30">
-                                <form action="#">
-                                    <input type="email" placeholder="Enter your mail">
+                                <form action="{{ route('store-newsletter') }}" method="POST">
+                                    @csrf
+                                    <input type="email" placeholder="Enter your mail" name="email">
                                     <button class="tg-footer-form-btn" type="submit">
                                         <svg width="22" height="17" viewBox="0 0 22 17" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -28,44 +25,38 @@
                                 </form>
                             </div>
                             <div class="tg-footer-social">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                                <a href="{{ $footer->facebook }}"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="{{ $footer->twitter }}"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="{{ $footer->instagram }}"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="{{ $footer->linkedin }}"><i class="fa-brands fa-pinterest-p"></i></a>
+                                <a href="{{ $footer->youtube }}"><i class="fa-brands fa-youtube"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="tg-footer-widget tg-footer-link ml-80 mb-40">
-                            <h3 class="tg-footer-widget-title mb-25">Quick Links</h3>
-                            <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Tour Guide</a></li>
-                                <li><a href="contact.html"> Contact Us</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                        <div class="tg-footer-widget tg-footer-link mb-40">
-                            <h3 class="tg-footer-widget-title mb-25">Utility Pages</h3>
-                            <ul>
-                                <li><a href="#">Style Guide</a></li>
-                                <li><a href="#">Password Protected</a></li>
-                                <li><a href="#">404 Error</a></li>
-                                <li><a href="#">Changelog</a></li>
-                                <li><a href="#">License</a></li>
-                            </ul>
+                            <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Quick Links') }}</h3>
+                            {!! wp_nav_menu([
+                                'theme_location' => 'footer_menu_1',
+                                'menu_class' => '',
+                                'container' => false,
+                                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                                'menu_id' => 'main-nav',
+                                'before' => '',
+                                'after' => '',
+                                'link_before' => '',
+                                'link_after' => '',
+                            ]) !!}
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="tg-footer-widget tg-footer-info mb-40">
-                            <h3 class="tg-footer-widget-title mb-25">Information</h3>
+                            <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Information') }}</h3>
                             <ul>
+                                @if ($footer->address || $footer->address_url)
                                 <li>
-                                    <a class="d-flex" href="https://www.google.com/maps/@41.6758525,-86.2531698,18.17z">
+                                    <a class="d-flex"
+                                        href="{{ $footer->address_url }}">
                                         <span class="mr-15">
                                             <svg width="20" height="24" viewBox="0 0 20 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -79,17 +70,21 @@
                                                     stroke-linejoin="round" />
                                             </svg>
                                         </span>
-                                        58 Street Commercial Road<br> Fratton, Australia
+                                        {{ $footer->address }}
                                     </a>
                                 </li>
+                                @endif
+                                @if ($footer->phone)
                                 <li>
-                                    <a class="d-flex" href="tel:+1238889999">
+                                    <a class="d-flex" href="tel:{{ $footer->phone }}">
                                         <span class="mr-15">
                                             <i class="fa-sharp text-white fa-solid fa-phone"></i>
                                         </span>
-                                        +123 888 9999
+                                        {{ $footer->phone }}
                                     </a>
                                 </li>
+                                @endif
+                                @if ($footer->working_days)
                                 <li class="d-flex">
                                     <span class="mr-15">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -101,11 +96,25 @@
                                         </svg>
                                     </span>
                                     <p class="mb-0">
-                                        Mon – Sat: 8 am – 5 pm,<br>
-                                        Sunday: <span class="text-white d-inline-block">CLOSED</span>
+                                        {{ $footer->working_days }}
+                                        {{-- Mon – Sat: 8 am – 5 pm,<br>
+                                        Sunday: <span class="text-white d-inline-block">CLOSED</span> --}}
                                     </p>
                                 </li>
+                                @endif
                             </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                        <div class="tg-footer-widget tg-footer-link mb-40">
+                            <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Utility Pages') }}</h3>
+                            {!! wp_nav_menu([
+                                'theme_location' => 'footer_menu_2',
+                                'menu_class' => '',
+                                'container' => false,
+                                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                                'menu_id' => 'main-nav',
+                            ]) !!}
                         </div>
                     </div>
                 </div>
@@ -113,9 +122,9 @@
         </div>
         <div class="tg-footer-copyright text-center">
             <span>
-                Copyright <a href="#">©Tourex</a> | All Right Reserved
+                {{ $footer->copyright }}
             </span>
         </div>
     </div>
 </footer>
-<!-- footer-area-end -->
+<!-- End Footer Section -->
