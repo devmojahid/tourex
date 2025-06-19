@@ -7,14 +7,13 @@
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                             <div class="tg-footer-widget mb-40">
                                 <div class="tg-footer-logo mb-20">
-                                    <a href="index.html"><img src="assets/img/logo/logo-white.png" alt=""></a>
+                                    <a href="{{ route('home') }}"><img src="{{ asset($general_setting->footer_logo) }}" alt=""></a>
                                 </div>
-                                <p class="mb-20">Pharetra maecenas felisey vestibulum
-                                    convallis mollis nullam congue sittle
-                                    rivers of Finland Quebec.</p>
+                                <p class="mb-20"{{ $footer->about_us }}</p>
                                 <div class="tg-footer-form mb-30">
-                                    <form action="#">
-                                        <input type="email" placeholder="Enter your mail">
+                                    <form action="{{ route('store-newsletter') }}" method="POST">
+                                        @csrf
+                                        <input type="email" placeholder="Enter your mail" name="email">
                                         <button class="tg-footer-form-btn" type="submit">
                                             <svg width="22" height="17" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M1.52514 8.47486H20.4749M20.4749 8.47486L13.5 1.5M20.4749 8.47486L13.5 15.4497" stroke="white" stroke-width="1.77778" stroke-linecap="round" stroke-linejoin="round" />
