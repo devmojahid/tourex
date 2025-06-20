@@ -44,7 +44,7 @@ final class DestinationController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'required|string|unique:destinations,slug|max:255',
             'description' => 'nullable|string',
-            'country' => 'nullable|string|max:100',
+            'country' => 'required|string|max:100',
             'region' => 'nullable|string|max:100',
             'city' => 'nullable|string|max:100',
             'latitude' => 'nullable|string|max:30',
@@ -52,16 +52,19 @@ final class DestinationController extends Controller
             'status' => 'nullable|boolean',
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Handle image if present
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
-
             $imagePath = $request->file('image')->store('destinations', 'public');
             $validated['image'] = $imagePath;
+        }
+
+        // Handle image if present
+        if ($request->hasFile('svg')) {
+            $imagePath = $request->file('svg')->store('destinations', 'public');
+            $validated['svg_image'] = $imagePath;
         }
 
         $validated['status'] = $request->has('status');
@@ -93,10 +96,6 @@ final class DestinationController extends Controller
      */
     public function edit(Destination $destination): View
     {
-        if ($destination->user_id !== auth()->user()->id) {
-            return abort(403);
-        }
-
         return view('tourbooking::admin.destinations.edit', compact('destination'));
     }
 
@@ -105,16 +104,11 @@ final class DestinationController extends Controller
      */
     public function update(Request $request, Destination $destination): RedirectResponse
     {
-
-        if ($destination->user_id !== auth()->user()->id) {
-            return abort(403);
-        }
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:destinations,slug,' . $destination->id,
             'description' => 'nullable|string',
-            'country' => 'nullable|string|max:100',
+            'country' => 'required|string|max:100',
             'region' => 'nullable|string|max:100',
             'city' => 'nullable|string|max:100',
             'latitude' => 'nullable|string|max:30',
@@ -122,13 +116,11 @@ final class DestinationController extends Controller
             'status' => 'nullable|boolean',
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Handle image if present
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
 
             // Delete old image if exists
             if ($destination->image) {
@@ -137,6 +129,18 @@ final class DestinationController extends Controller
 
             $imagePath = $request->file('image')->store('destinations', 'public');
             $validated['image'] = $imagePath;
+        }
+
+        // Handle image if present
+        if ($request->hasFile('svg')) {
+
+            // Delete old image if exists
+            if ($destination->image) {
+                @unlink(storage_path('app/public/' . $destination->svg_image));
+            }
+
+            $imagePath = $request->file('svg')->store('destinations', 'public');
+            $validated['svg_image'] = $imagePath;
         }
 
         $validated['status'] = $request->has('status');
@@ -157,6 +161,7 @@ final class DestinationController extends Controller
      */
     public function destroy(Destination $destination): RedirectResponse
     {
+
         // Check if there are any services associated with this destination
         if (Service::where('destination_id', $destination->id)->exists()) {
             return redirect()->route('admin.tourbooking.destinations.index')
@@ -177,7 +182,6 @@ final class DestinationController extends Controller
     public function updateStatus(Destination $destination): RedirectResponse|JsonResponse
     {
         $destination->update(['status' => !$destination->status]);
-
 
         $notify_message = trans('translate.Status updated');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');

@@ -131,8 +131,8 @@
                                                 <div class="col-lg-6 col-md-6 col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
-                                                            class="crancy__item-label">{{ __('translate.Country') }}</label>
-                                                        <input class="crancy__item-input" type="text" name="country"
+                                                            class="crancy__item-label">{{ __('translate.Country') }}*</label>
+                                                        <input required class="crancy__item-input" type="text" name="country"
                                                             id="country" value="{{ old('country') }}">
                                                         @error('country')
                                                             <span class="text-danger">{{ $message }}</span>
@@ -153,7 +153,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mg-top-30">
-                                                <div class="col-6">
+                                                <div class="col-sm-2">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Status') }}</label>
@@ -184,14 +184,38 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-5">
+                                                    <div class="crancy__item-form--group w-100 h-100">
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.SVG Image') }}</label>
+                                                        <div
+                                                            class="crancy-product-card__upload crancy-product-card__upload--border">
+                                                            <input accept="image/*" type="file" class="btn-check"
+                                                                name="svg" id="svg_img" autocomplete="off"
+                                                                onchange="previewImageSVG(event)">
+                                                            <label class="crancy-image-video-upload__label"
+                                                                for="svg_img">
+                                                                <img id="view_img_svg"
+                                                                    src="{{ isset($destination) && $destination->svg ? asset($destination->svg) : asset($general_setting->placeholder_image) }}">
+                                                                <h4 class="crancy-image-video-upload__title">
+                                                                    {{ __('translate.Click here to') }}
+                                                                    <span
+                                                                        class="crancy-primary-color">{{ __('translate.Choose File') }}</span>
+                                                                    {{ __('translate.and upload') }}
+                                                                </h4>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-5">
                                                     <div class="crancy__item-form--group w-100 h-100">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Featured Image') }}
                                                             * </label>
                                                         <div
                                                             class="crancy-product-card__upload crancy-product-card__upload--border">
-                                                            <input accept="image/*" type="file" class="btn-check"
+                                                            <input required accept="image/*" type="file" class="btn-check"
                                                                 name="image" id="input-img1" autocomplete="off"
                                                                 onchange="previewImage(event)">
                                                             <label class="crancy-image-video-upload__label"
@@ -301,6 +325,15 @@
             var reader = new FileReader();
             reader.onload = function() {
                 var output = document.getElementById('view_img');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        };
+
+        function previewImageSVG(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('view_img_svg');
                 output.src = reader.result;
             }
             reader.readAsDataURL(event.target.files[0]);

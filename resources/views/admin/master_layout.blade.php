@@ -270,6 +270,7 @@
             "use strict"
             $(document).ready(function() {
 
+
                 const session_notify_message = @json(Session::get('message'));
 
                 if (session_notify_message != null) {
@@ -294,6 +295,16 @@
 
                 if (validation_errors.length > 0) {
                     validation_errors.forEach(error => toastr.error(error));
+                }
+
+                const session_success = `{{ Session::get('success') }}`;
+                const session_error = `{{ Session::get('error') }}`;
+                if (session_success) {
+                    toastr.success(session_success);
+                }
+
+                if (session_error) {
+                    toastr.error(session_error);
                 }
 
                 $('#dataTable').DataTable();

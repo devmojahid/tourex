@@ -1608,4 +1608,7 @@ return array(
     'Admin note for you' => 'Admin note for you',
     'Cancellation reason' => 'Cancellation reason',
     'Services wishlist' => 'Services wishlist',
+    'SVG Image' => 'SVG Image',
+    'Featured updated' => 'Featured updated',
+    'Status updated' => 'Status updated',
 );

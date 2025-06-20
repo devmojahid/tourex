@@ -36,6 +36,7 @@ final class Destination extends Model
         'meta_keywords',
         'meta_description',
         'user_id',
+        'svg_image',
     ];
 
     /**

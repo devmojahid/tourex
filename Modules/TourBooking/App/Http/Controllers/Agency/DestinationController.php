@@ -45,7 +45,7 @@ final class DestinationController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'required|string|unique:destinations,slug|max:255',
             'description' => 'nullable|string',
-            'country' => 'nullable|string|max:100',
+            'country' => 'required|string|max:100',
             'region' => 'nullable|string|max:100',
             'city' => 'nullable|string|max:100',
             'latitude' => 'nullable|string|max:30',
@@ -53,23 +53,28 @@ final class DestinationController extends Controller
             'status' => 'nullable|boolean',
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Handle image if present
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
-
             $imagePath = $request->file('image')->store('destinations', 'public');
             $validated['image'] = $imagePath;
+        }
+
+        // Handle image if present
+        if ($request->hasFile('svg')) {
+            $imagePath = $request->file('svg')->store('destinations', 'public');
+            $validated['svg_image'] = $imagePath;
         }
 
         $validated['status'] = $request->has('status');
         $validated['is_featured'] = $request->has('is_featured');
         $validated['show_on_homepage'] = $request->has('show_on_homepage');
 
-        $destination = Destination::create($validated);
+        $validated['user_id'] = auth()->user()->id;
+
+        Destination::create($validated);
 
         return redirect()->route('agency.tourbooking.destinations.index')
             ->with('success', 'Destination created successfully.');
@@ -102,7 +107,7 @@ final class DestinationController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:destinations,slug,' . $destination->id,
             'description' => 'nullable|string',
-            'country' => 'nullable|string|max:100',
+            'country' => 'required|string|max:100',
             'region' => 'nullable|string|max:100',
             'city' => 'nullable|string|max:100',
             'latitude' => 'nullable|string|max:30',
@@ -110,14 +115,11 @@ final class DestinationController extends Controller
             'status' => 'nullable|boolean',
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Handle image if present
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
-
             // Delete old image if exists
             if ($destination->image) {
                 @unlink(storage_path('app/public/' . $destination->image));
@@ -125,6 +127,17 @@ final class DestinationController extends Controller
 
             $imagePath = $request->file('image')->store('destinations', 'public');
             $validated['image'] = $imagePath;
+        }
+
+        // Handle image if present
+        if ($request->hasFile('svg')) {
+            // Delete old image if exists
+            if ($destination->svg) {
+                @unlink(storage_path('app/public/' . $destination->svg_image));
+            }
+
+            $imagePath = $request->file('svg')->store('destinations', 'public');
+            $validated['svg_image'] = $imagePath;
         }
 
         $validated['status'] = $request->has('status');
