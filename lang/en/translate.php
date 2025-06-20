@@ -1614,4 +1614,6 @@ return array(
     'Where are you going . . .' => 'Where are you going . . .',
     '+ Add Guests' => '+ Add Guests',
     'All' => 'All',
+    'Tours' => 'Tours',
+    'Tour' => 'Tour',
 );

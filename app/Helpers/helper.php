@@ -347,7 +347,6 @@ function destinations()
         ->get();
 }
 
-
 function popularServices($count = 8, $isPagination = false)
 {
     $query = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration', 'group_size', 'service_type_id')
@@ -358,6 +357,19 @@ function popularServices($count = 8, $isPagination = false)
         ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title,short_description'])
         ->withCount('activeReviews')
         ->withAvg('activeReviews', 'rating')
+        ->latest();
+
+    return $isPagination ? $query->paginate($count) : $query->take($count)->get();
+}
+
+function popularDestinations($count = 4, $isPagination = false)
+{
+    $query = Destination::select('id', 'name', 'image')
+        ->where('status', true)
+        ->where('is_featured', true)
+        ->withCount(['services' => function ($query) {
+            $query->where('status', true);
+        }])
         ->latest();
 
     return $isPagination ? $query->paginate($count) : $query->take($count)->get();
