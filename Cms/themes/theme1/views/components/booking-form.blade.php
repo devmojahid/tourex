@@ -2,8 +2,6 @@
 
     $theme1_service_type = serviceTypeTab();
 
-    dd($theme1_service_type);
-
 @endphp
 
 @if ($theme1_service_type->count() > 0)
@@ -94,7 +92,7 @@
                                                 <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                                     <span class="tg-booking-form-title mb-5">Check in:</span>
                                                     <div class="tg-booking-add-input-date p-relative">
-                                                        <input class="input" name="datetime-local" type="text"
+                                                        <input class="input timepicker" name="datetime-local" type="text"
                                                             placeholder="dd/mm/yyyy">
                                                         <span>
                                                             <svg width="14" height="14" viewBox="0 0 14 14"
@@ -110,7 +108,7 @@
                                                 <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                                     <span class="tg-booking-form-title mb-5">Check Out:</span>
                                                     <div class="tg-booking-add-input-date p-relative">
-                                                        <input class="input" name="datetime-local" type="text"
+                                                        <input class="input timepicker" name="datetime-local" type="text"
                                                             placeholder="dd/mm/yyyy">
                                                         <span>
                                                             <svg width="14" height="14" viewBox="0 0 14 14"
@@ -289,4 +287,23 @@
         </div>
     </div>
     <!-- tg-booking-form-area-end -->
+
+    @push('js_section')
+        <script>
+            (function($) {
+                "use strict"
+                $(document).ready(function() {
+
+                    // Initialize timepicker
+                    $(".timepicker").flatpickr({
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: "H:i",
+                        time_24hr: true
+                    });
+                });
+            })(jQuery);
+        </script>
+    @endpush
+
 @endif
