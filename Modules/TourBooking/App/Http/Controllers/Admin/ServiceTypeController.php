@@ -44,7 +44,7 @@ final class ServiceTypeController extends Controller
         $data['status'] = $request->has('status') ? true : false;
         $data['is_featured'] = $request->has('is_featured') ? true : false;
         $data['show_on_homepage'] = $request->has('show_on_homepage') ? true : false;
-    
+
         $validated = Validator::make($data, [
             'name' => 'required|string|max:255',
             'slug' => 'required|string|unique:service_types,slug|max:255',
@@ -53,18 +53,15 @@ final class ServiceTypeController extends Controller
             'status' => 'nullable|boolean',
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ])->validate();
-        
+
         // Handle image if present
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-            
             $imagePath = $request->file('image')->store('service-types', 'public');
             $validated['image'] = $imagePath;
         }
-        
+
         $serviceType = ServiceType::create($validated);
 
         return redirect()->route('admin.tourbooking.service-types.index')
@@ -77,7 +74,7 @@ final class ServiceTypeController extends Controller
     public function show(ServiceType $serviceType): View
     {
         $serviceType->load('services');
-        
+
         return view('tourbooking::admin.service_types.show', compact('serviceType'));
     }
 
@@ -94,35 +91,30 @@ final class ServiceTypeController extends Controller
      */
     public function update(Request $request, ServiceType $serviceType): RedirectResponse
     {
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:service_types,slug,' . $serviceType->id,
             'description' => 'nullable|string',
             'icon' => 'nullable|string|max:50',
-            'status' => 'nullable|boolean',
-            'is_featured' => 'nullable|boolean',
-            'show_on_homepage' => 'nullable|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
+
         // Handle image if present
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-            
             // Delete old image if exists
             if ($serviceType->image) {
                 @unlink(storage_path('app/public/' . $serviceType->image));
             }
-            
+
             $imagePath = $request->file('image')->store('service-types', 'public');
             $validated['image'] = $imagePath;
         }
-        
-        $validated['status'] = $request->has('status');
-        $validated['is_featured'] = $request->has('is_featured');
-        $validated['show_on_homepage'] = $request->has('show_on_homepage');
-        
+
+        $validated['status'] = $request->has('status') ? true : false;
+        $validated['is_featured'] = $request->has('is_featured') ? true : false;
+        $validated['show_on_homepage'] = $request->has('show_on_homepage') ? true : false;
+
         $serviceType->update($validated);
 
         return redirect()->route('admin.tourbooking.service-types.index')
@@ -139,15 +131,17 @@ final class ServiceTypeController extends Controller
             return redirect()->route('admin.tourbooking.service-types.index')
                 ->with('error', 'Cannot delete service type because it is being used by one or more services.');
         }
-        
+
         // Delete image if exists
         if ($serviceType->image) {
             @unlink(storage_path('app/public/' . $serviceType->image));
         }
-        
+
         $serviceType->delete();
 
         return redirect()->route('admin.tourbooking.service-types.index')
             ->with('success', 'Service type deleted successfully.');
     }
-} 
+
+
+}

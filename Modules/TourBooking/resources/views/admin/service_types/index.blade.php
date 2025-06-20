@@ -99,11 +99,13 @@
                                                                 class="fa fa-eye"></i>
                                                         </a>
 
-                                                        <a href="javascript:;"
-                                                            onclick="itemDeleteConfrimation({{ $serviceType->id }})"
-                                                            class="crancy-action__btn crancy-action__delete crancy-btn delete_danger_btn"><i
-                                                                class="fa fa-trash"></i>
+                                                        <a onclick="itemDeleteConfrimation({{ $serviceType->id }})"
+                                                            href="javascript:;" data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal"
+                                                            class="destination crancy-btn crancy-action__btn crancy-action__edit crancy-btn delete_danger_btn"><i
+                                                                class="fas fa-trash"></i> {{ __('translate.Delete') }}
                                                         </a>
+
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -116,56 +118,50 @@
                 </div>
             </div>
     </section>
-@endsection
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
-            </div>
-            <div class="modal-footer">
-                <form action="" id="item_delect_confirmation" class="delet_modal_form" method="POST">
-                    @csrf
-                    @method('DELETE')
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="" id="item_delect_confirmation" class="delet_modal_form" method="POST">
+                        @csrf
+                        @method('DELETE')
 
-                    <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
-                    <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
 
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-{{-- @endsection --}}
+@endsection
 
 @push('js_section')
     <script>
-        (function($) {
-            "use strict"
-            $(document).ready(function() {
-                $('#crancy-table__service-types').DataTable({
-                    responsive: true,
-                    paging: false,
-                    info: false,
-                    searching: true,
-                    ordering: true,
-                });
-
-
-                function itemDeleteConfrimation(id) {
-                    $("#item_delect_confirmation").attr("action",
-                        '{{ url('admin/tourbooking/service-types/') }}' +
-                        "/" + id)
-                }
+        "use strict"
+        $(document).ready(function() {
+            $('#crancy-table__service-types').DataTable({
+                responsive: true,
+                paging: false,
+                info: false,
+                searching: true,
+                ordering: true,
             });
 
-        })(jQuery);
+        });
+
+        function itemDeleteConfrimation(id) {
+            $("#item_delect_confirmation").attr("action", '{{ url('admin/tourbooking/service-types') }}' + "/" + id)
+        }
     </script>
 @endpush

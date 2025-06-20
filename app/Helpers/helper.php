@@ -5,6 +5,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
+use Modules\TourBooking\App\Models\Destination;
+use Modules\TourBooking\App\Models\ServiceType;
 
 function admin_lang()
 {
@@ -325,4 +327,15 @@ function customPaginationCount($items)
     $total = $items->total();
 
     return "Showing {$from} - {$to} of {$total} entries";
+}
+
+function serviceTypeTab()
+{
+    return ServiceType::select('id', 'name', 'image', 'icon')
+        ->where('status', true)
+        ->where('is_featured', true)
+        ->where('show_on_homepage', true)
+        ->orderBy('id', 'desc')
+        ->take(6)
+        ->get();
 }
