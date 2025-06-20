@@ -1611,4 +1611,6 @@ return array(
     'SVG Image' => 'SVG Image',
     'Featured updated' => 'Featured updated',
     'Status updated' => 'Status updated',
+    'Where are you going . . .' => 'Where are you going . . .',
+    '+ Add Guests' => '+ Add Guests',
 );

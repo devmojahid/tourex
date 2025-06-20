@@ -29,10 +29,10 @@
                                             <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
                                                 <span x-show="bookingForm.destination" x-text="bookingForm.destination"
                                                     class="tg-booking-title-value">
-                                                    {{ __('translate.Where are you going . . .:') }}
+                                                    {{ __('translate.Where are you going . . .') }}
                                                 </span>
                                                 <span x-show="!bookingForm.destination" class="tg-booking-title-value">
-                                                    {{ __('translate.Where are you going . . .:') }}
+                                                    {{ __('translate.Where are you going . . .') }}
                                                 </span>
                                                 <span class="location">
                                                     <svg width="13" height="16" viewBox="0 0 13 16" fill="none"

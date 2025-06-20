@@ -333,9 +333,15 @@ function serviceTypeTab()
 {
     return ServiceType::select('id', 'name', 'image', 'icon')
         ->where('status', true)
-        ->where('is_featured', true)
         ->where('show_on_homepage', true)
         ->orderBy('id', 'desc')
         ->take(6)
+        ->get();
+}
+
+function destinations()
+{
+    return Destination::select('id', 'name')
+        ->where('status', true)
         ->get();
 }
