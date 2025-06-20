@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
 use Modules\TourBooking\App\Models\Destination;
+use Modules\TourBooking\App\Models\Service;
 use Modules\TourBooking\App\Models\ServiceType;
 
 function admin_lang()
@@ -344,4 +345,20 @@ function destinations()
     return Destination::select('id', 'name')
         ->where('status', true)
         ->get();
+}
+
+
+function popularServices($count = 8, $isPagination = false)
+{
+    $query = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration', 'group_size', 'service_type_id')
+        ->where('status', true)
+        ->where('is_popular', true)
+        ->where('show_on_homepage', true)
+        ->withExists('myWishlist')
+        ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title,short_description'])
+        ->withCount('activeReviews')
+        ->withAvg('activeReviews', 'rating')
+        ->latest();
+
+    return $isPagination ? $query->paginate($count) : $query->take($count)->get();
 }

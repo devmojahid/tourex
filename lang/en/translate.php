@@ -1613,4 +1613,5 @@ return array(
     'Status updated' => 'Status updated',
     'Where are you going . . .' => 'Where are you going . . .',
     '+ Add Guests' => '+ Add Guests',
+    'All' => 'All',
 );

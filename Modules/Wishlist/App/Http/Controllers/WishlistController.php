@@ -67,6 +67,7 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
+
         $user = Auth::guard('web')->user();
 
         $itemId = $request->item_id;
