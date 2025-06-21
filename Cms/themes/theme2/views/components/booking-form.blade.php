@@ -1,12 +1,12 @@
 @php
 
-    $theme1_service_type = serviceTypeTab();
-    $theme1_destinations = destinations();
+    $theme2_service_type = serviceTypeTab();
+    $theme2_destinations = destinations();
 
 @endphp
 
 
-@if ($theme1_service_type->count() > 0)
+@if ($theme2_service_type->count() > 0)
     <!-- tg-booking-form-area-start -->
     <div class="tg-booking-form-area tg-grey-bg pb-65">
         <div class="container">
@@ -15,7 +15,7 @@
                     <div class="tg-booking-form-wrap tg-booking-form-space">
                         <div class="tg-booking-form-tabs">
                             <div class="nav nav-tab justify-content-center" id="nav-tab" role="tablist">
-                                @foreach ($theme1_service_type as $key => $service_type)
+                                @foreach ($theme2_service_type as $key => $service_type)
                                     <button @class(['nav-links', 'active' => $loop->first]) class=""
                                         id="service_type-{{ $service_type->id }}-tab" data-bs-toggle="tab"
                                         data-bs-target="#service_type-{{ $service_type->id }}" type="button"
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="tab-content" id="nav-tabContent">
-                            @foreach ($theme1_service_type as $key => $service_type)
+                            @foreach ($theme2_service_type as $key => $service_type)
                                 <div @class(['tab-pane fade', 'show active' => $loop->first]) id="service_type-{{ $service_type->id }}"
                                     role="tabpanel" aria-labelledby="service_type-{{ $service_type->id }}-tab"
                                     tabindex="0">
@@ -72,7 +72,7 @@
                                                     <div
                                                         class="tg-booking-form-location-list tg-booking-quantity-active">
                                                         <ul class="scrool-bar scrool-height pr-5">
-                                                            @foreach ($theme1_destinations as $key => $destination)
+                                                            @foreach ($theme2_destinations as $key => $destination)
                                                                 <li
                                                                     @click="selectDestination(`{{ $destination->id }}`, `{{ $destination->name }}`)">
                                                                     <i class="fa-regular fa-location-dot"></i>
