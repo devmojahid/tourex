@@ -46,7 +46,7 @@
                                                 class="tg-booking-form-input-group d-flex align-items-end justify-content-between">
                                                 <div
                                                     class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
-                                                    <span class="tg-booking-form-title mb-5">Destinations:</span>
+                                                    <span class="tg-booking-form-title mb-5">{{ __('translate.Destinations:') }}</span>
                                                     <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
                                                         <span x-show="destination" x-text="destination"
                                                             class="tg-booking-title-value">
