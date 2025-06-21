@@ -174,5 +174,12 @@
             height: 100%;
             object-fit: cover;
         }
+        .tg-listing-item-wishlist.active {
+            color: var(--tg-theme-primary);
+        }
     </style>
+@endpush
+
+@push('js_section')
+    <script src="{{ asset('frontend/assets/js/cart.js') }}"></script>
 @endpush
