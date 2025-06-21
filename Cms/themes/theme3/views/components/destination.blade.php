@@ -1,5 +1,6 @@
 @php
     $theme3_destination = getContent('theme3_destination.content', true);
+    $home2_destination_items = popularDestinations(5, false);
 @endphp
 
 <!-- tg-location-area-start -->
@@ -30,127 +31,59 @@
                 </div>
             @endif
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="swiper-container tg-location-su-slider">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="tg-location-3-wrap  tg-location-su-wrap  p-relative mb-30 tg-round-25">
-                                <div class="tg-location-thumb tg-round-25">
-                                    <img class="w-100 tg-round-25" src="assets/img/destination/tu/des-4.jpg"
-                                        alt="location">
-                                </div>
-                                <div class="tg-location-content tg-location-su-content">
-                                    <div class="content">
-                                        <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">Paris</a></h3>
-                                        <span class="tg-location-su-duration">05 Tours</span>
+        @if ($home2_destination_items->count() > 0)
+            <div class="row">
+                <div class="col-12">
+                    <div class="swiper-container tg-location-su-slider">
+                        <div class="swiper-wrapper">
+                            @foreach ($home2_destination_items as $key => $destination_item)
+                                <div class="swiper-slide">
+                                    <div class="tg-location-3-wrap  tg-location-su-wrap  p-relative mb-30 tg-round-25">
+                                        <div class="tg-location-thumb tg-round-25">
+                                            <img class="w-100 tg-round-25"
+                                                src="{{ asset($destination_item->image ?? 'frontend/assets/img/shape/placeholder.png') }}"
+                                                alt="{{ $destination_item->name }}">
+                                        </div>
+                                        <div class="tg-location-content tg-location-su-content">
+                                            <div class="content">
+                                                <h3 class="tg-location-title mb-5">
+                                                    <a
+                                                        href="{{ route('front.tourbooking.services', ['destination_id' => $destination_item->id, 'destination' => $destination_item->name]) }}">
+                                                        {{ $destination_item->name }}
+                                                    </a>
+                                                </h3>
+                                                @if ($destination_item->tags)
+                                                    <span class="tg-location-su-duration">
+                                                        {{ Str::limit($destination_item->tags, 20) }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <a class="icons"
+                                                href="{{ route('front.tourbooking.services', ['destination_id' => $destination_item->id, 'destination' => $destination_item->name]) }}">
+                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <a class="icons" href="tour-grid-1.html">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </a>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="tg-location-3-wrap  tg-location-su-wrap  p-relative mb-30 tg-round-25">
-                                <div class="tg-location-thumb tg-round-25">
-                                    <img class="w-100 tg-round-25" src="assets/img/destination/tu/des-2.jpg"
-                                        alt="location">
-                                </div>
-                                <div class="tg-location-content tg-location-su-content">
-                                    <div class="content">
-                                        <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">Australia</a></h3>
-                                        <span class="tg-location-su-duration">05 Tours</span>
-                                    </div>
-                                    <a class="icons" href="tour-grid-1.html">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="tg-location-3-wrap  tg-location-su-wrap  p-relative mb-30 tg-round-25">
-                                <div class="tg-location-thumb tg-round-25">
-                                    <img class="w-100 tg-round-25" src="assets/img/destination/tu/des-3.jpg"
-                                        alt="location">
-                                </div>
-                                <div class="tg-location-content tg-location-su-content">
-                                    <div class="content">
-                                        <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">New York City</a>
-                                        </h3>
-                                        <span class="tg-location-su-duration">05 Tours</span>
-                                    </div>
-                                    <a class="icons" href="tour-grid-1.html">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="tg-location-3-wrap  tg-location-su-wrap  p-relative mb-30 tg-round-25">
-                                <div class="tg-location-thumb tg-round-25">
-                                    <img class="w-100 tg-round-25" src="assets/img/destination/tu/des-1.jpg"
-                                        alt="location">
-                                </div>
-                                <div class="tg-location-content tg-location-su-content">
-                                    <div class="content">
-                                        <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">Spain City</a>
-                                        </h3>
-                                        <span class="tg-location-su-duration">12 Tours</span>
-                                    </div>
-                                    <a class="icons" href="tour-grid-1.html">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="tg-location-3-wrap  tg-location-su-wrap  p-relative mb-30 tg-round-25">
-                                <div class="tg-location-thumb tg-round-25">
-                                    <img class="w-100 tg-round-25" src="assets/img/destination/tu/des-1.jpg"
-                                        alt="location">
-                                </div>
-                                <div class="tg-location-content tg-location-su-content">
-                                    <div class="content">
-                                        <h3 class="tg-location-title mb-5"><a href="tour-grid-1.html">Spain City</a>
-                                        </h3>
-                                        <span class="tg-location-su-duration">05 Tours</span>
-                                    </div>
-                                    <a class="icons" href="tour-grid-1.html">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M2 13.0969L13.0969 2M13.0969 2H2M13.0969 2V13.0969"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 </div>
 <!-- tg-location-area-end -->
+
+@push('style_section')
+    <style>
+        .tg-location-su-wrap .tg-location-thumb img {
+            height: 325px;
+        }
+    </style>
+@endpush

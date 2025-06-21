@@ -66,8 +66,7 @@
 
                                 </a>
                                 <div class="tg-listing-2-mask">
-                                    <img class="w-100" src="{{ asset('frontend/assets/img/shape/bottom-round.png') }}"
-                                        alt="">
+                                    <img class="w-100" src="{{ asset('frontend/assets/img/shape/bottom-round.png') }}">
                                 </div>
                                 <div @class([
                                     'tg-listing-item-wishlist',

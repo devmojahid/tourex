@@ -54,3 +54,12 @@
     </div>
 </div>
 <!-- tg-location-area-end -->
+
+@push('style_section')
+    <style>
+        .tg-location-thumb img {
+            min-height: 245px;
+            max-height: 245px;
+        }
+    </style>
+@endpush

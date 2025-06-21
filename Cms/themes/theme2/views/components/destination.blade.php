@@ -23,12 +23,12 @@
             @if ($home2_destination_items->count() > 0)
                 @foreach ($home2_destination_items as $key => $destination_item)
                     <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="tg-destination-item mb-30 wow fadeInUp" data-wow-delay=".{{$key + 3}}s"
+                        <div class="tg-destination-item mb-30 wow fadeInUp" data-wow-delay=".{{ $key + 3 }}s"
                             data-wow-duration=".6s">
                             <div class="tg-destination-thumb fix p-relative">
                                 <img class="w-100"
                                     src="{{ asset($destination_item->image ?? 'frontend/assets/img/shape/placeholder.png') }}"
-                                    alt="{{ $destination_item->country }}">
+                                    alt="{{ $destination_item->name }}">
                                 <div class="tg-listing-2-mask">
                                     <img class="w-100"
                                         src="{{ asset('frontend/assets/img/shape/destination-shape.png') }}">
@@ -37,11 +37,10 @@
                             <div class="tg-destination-content text-center">
                                 <div class="tg-destination-meta">
                                     <a
-                                        href="{{ route('front.tourbooking.services', ['destination_id' => $destination_item->id, 'destination' => $destination_item->name]) }}">{{ $destination_item->country }}</a>
+                                        href="{{ route('front.tourbooking.services', ['destination_id' => $destination_item->id, 'destination' => $destination_item->name]) }}">{{ $destination_item->name }}</a>
                                 </div>
                                 @if ($destination_item->tags)
                                     <div class="tg-destination-tag">
-
                                         @foreach (explode(',', $destination_item->tags) as $key => $tag)
                                             <span>{{ $tag }}</span>
                                         @endforeach
@@ -56,3 +55,15 @@
     </div>
 </div>
 <!-- tg-destination-area-end -->
+
+@push('style_section')
+    <style>
+        .tg-destination-thumb {
+            height: 203px;
+        }
+
+        .tg-listing-card-thumb {
+            height: 180px;
+        }
+    </style>
+@endpush
