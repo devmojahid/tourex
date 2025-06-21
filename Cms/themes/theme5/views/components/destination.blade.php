@@ -1,5 +1,6 @@
 @php
     $theme5_destination = getContent('theme5_destination.content', true);
+    $home5_destination_items = popularDestinations(4, false);
 @endphp
 
 <!-- tg-location-area-start -->
@@ -49,56 +50,44 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".9s">
-                <div class="tg-location-3-wrap p-relative mb-30 tg-round-25">
-                    <div class="tg-location-thumb tg-round-25">
-                        <img class="w-100 tg-round-25" src="assets/img/location/location-2/thumb.jpg" alt="location">
+        @if ($home5_destination_items->count() > 0)
+            <div class="row">
+                @foreach ($home5_destination_items as $key => $destination_item)
+                    <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".{{ $key + 3 }}s"
+                        data-wow-duration=".9s">
+                        <div class="tg-location-3-wrap p-relative mb-30 tg-round-25">
+                            <div class="tg-location-thumb tg-round-25">
+                                <img class="w-100 tg-round-25"
+                                    src="{{ asset($destination_item->image ?? 'frontend/assets/img/shape/placeholder.png') }}"
+                                    alt="{{ $destination_item->name }}">
+                            </div>
+                            <div class="tg-location-content text-center">
+                                <span class="tg-location-time">
+                                    {{ $destination_item->services_count }}
+                                    {{ $destination_item->services_count > 1 ? __('translate.Tours') : __('translate.Tour') }}</span>
+                                <h3 class="tg-location-title mb-0"><a
+                                        href="{{ route('front.tourbooking.services', ['destination_id' => $destination_item->id, 'destination' => $destination_item->name]) }}">
+                                        {{ $destination_item->name }}
+                                    </a>
+                                </h3>
+                            </div>
+                            <div class="tg-location-border"></div>
+                        </div>
                     </div>
-                    <div class="tg-location-content text-center">
-                        <span class="tg-location-time">05 Tours</span>
-                        <h3 class="tg-location-title mb-0"><a href="map-listing.html">New york City</a></h3>
-                    </div>
-                    <div class="tg-location-border"></div>
-                </div>
+                @endforeach
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
-                <div class="tg-location-3-wrap p-relative mb-30 tg-round-25">
-                    <div class="tg-location-thumb tg-round-25">
-                        <img class="w-100 tg-round-25" src="assets/img/location/location-2/thumb-2.jpg" alt="location">
-                    </div>
-                    <div class="tg-location-content text-center">
-                        <span class="tg-location-time">12 Tours</span>
-                        <h3 class="tg-location-title mb-0"><a href="map-listing.html">Australia City</a></h3>
-                    </div>
-                    <div class="tg-location-border"></div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
-                <div class="tg-location-3-wrap p-relative mb-30 tg-round-25">
-                    <div class="tg-location-thumb tg-round-25">
-                        <img class="w-100 tg-round-25" src="assets/img/location/location-2/thumb-3.jpg" alt="location">
-                    </div>
-                    <div class="tg-location-content text-center">
-                        <span class="tg-location-time">06 Tours</span>
-                        <h3 class="tg-location-title mb-0"><a href="map-listing.html">Switzerland City</a></h3>
-                    </div>
-                    <div class="tg-location-border"></div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">
-                <div class="tg-location-3-wrap p-relative mb-30 tg-round-25">
-                    <div class="tg-location-thumb tg-round-25">
-                        <img class="w-100 tg-round-25" src="assets/img/location/location-2/thumb-4.jpg" alt="location">
-                    </div>
-                    <div class="tg-location-content text-center">
-                        <span class="tg-location-time">08 Tours</span>
-                        <h3 class="tg-location-title mb-0"><a href="map-listing.html">Germany City </a></h3>
-                    </div>
-                    <div class="tg-location-border"></div>
-                </div>
-            </div>
-        </div>
+        @endif
     </div>
 </div>
 <!-- tg-location-area-end -->
+
+@push('style_section')
+    <style>
+        .tg-location-thumb {
+            height: 340px;
+        }
+        .tg-location-thumb img{
+            height: 100%;
+        }
+    </style>
+@endpush
