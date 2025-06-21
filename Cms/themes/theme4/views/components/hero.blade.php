@@ -4,7 +4,7 @@
 
     $partners = Partner::latest()->get();
 
-    $theme3_destinations = destinations();
+    $theme4_destinations = destinations();
 
 @endphp
 
@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="tg-booking-form-location-list tg-booking-quantity-active">
                                         <ul class="scrool-bar scrool-height pr-5">
-                                            @foreach ($theme3_destinations as $key => $destination)
+                                            @foreach ($theme4_destinations as $key => $destination)
                                                 <li
                                                     @click="selectDestination(`{{ $destination->id }}`, `{{ $destination->name }}`)">
                                                     <i class="fa-regular fa-location-dot"></i>
