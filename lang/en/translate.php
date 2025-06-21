@@ -1616,4 +1616,6 @@ return array(
     'All' => 'All',
     'Tours' => 'Tours',
     'Tour' => 'Tour',
+    'Destination tags' => 'Destination tags',
+    'Separator by comma. Ex: 01 Tour, 02 Hotel' => 'Separator by comma. Ex: 01 Tour, 02 Hotel',
 );

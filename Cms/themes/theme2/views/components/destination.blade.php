@@ -1,5 +1,6 @@
 @php
     $home2_destination = getContent('theme2_destination.content', true);
+    $home2_destination_items = popularDestinations();
 @endphp
 
 <!-- tg-destination-area-start -->
@@ -19,90 +20,38 @@
                     </p>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="tg-destination-item mb-30 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".6s">
-                    <div class="tg-destination-thumb fix p-relative">
-                        <img class="w-100" src="assets/img/destination/des.jpg" alt="des">
-                        <div class="tg-listing-2-mask">
-                            <img class="w-100" src="assets/img/listing/listing-2/shape.png" alt="">
+            @if ($home2_destination_items->count() > 0)
+                @foreach ($home2_destination_items as $key => $destination_item)
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="tg-destination-item mb-30 wow fadeInUp" data-wow-delay=".3s"
+                            data-wow-duration=".6s">
+                            <div class="tg-destination-thumb fix p-relative">
+                                <img class="w-100"
+                                    src="{{ asset($destination_item->image ?? 'frontend/assets/img/shape/placeholder.png') }}"
+                                    alt="{{ $destination_item->country }}">
+                                <div class="tg-listing-2-mask">
+                                    <img class="w-100"
+                                        src="{{ asset('frontend/assets/img/shape/destination-shape.png') }}">
+                                </div>
+                            </div>
+                            <div class="tg-destination-content text-center">
+                                <div class="tg-destination-meta">
+                                    <a
+                                        href="{{ route('front.tourbooking.services', ['destination_id' => $destination_item->id, 'destination' => $destination_item->name]) }}">{{ $destination_item->country }}</a>
+                                </div>
+                                @if ($destination_item->tags)
+                                    <div class="tg-destination-tag">
+
+                                        @foreach (explode(',', $destination_item->tags) as $key => $tag)
+                                            <span>{{ $tag }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                    <div class="tg-destination-content text-center">
-                        <div class="tg-destination-meta">
-                            <a href="map-listing.html">italy</a>
-                        </div>
-                        <div class="tg-destination-tag">
-                            <span>01 Tour</span>
-                            <span>02 Hotel</span>
-                            <span>04 Acitivity</span>
-                            <span>01 Restaurant</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="tg-destination-item mb-30 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".6s">
-                    <div class="tg-destination-thumb fix p-relative">
-                        <img class="w-100" src="assets/img/destination/des-2.jpg" alt="des">
-                        <div class="tg-listing-2-mask">
-                            <img class="w-100" src="assets/img/listing/listing-2/shape.png" alt="">
-                        </div>
-                    </div>
-                    <div class="tg-destination-content text-center">
-                        <div class="tg-destination-meta">
-                            <a href="map-listing.html">California</a>
-                        </div>
-                        <div class="tg-destination-tag">
-                            <span>01 Tour</span>
-                            <span>02 Hotel</span>
-                            <span>04 Acitivity</span>
-                            <span>01 Restaurant</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="tg-destination-item mb-30 wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".6s">
-                    <div class="tg-destination-thumb fix p-relative">
-                        <img class="w-100" src="assets/img/destination/des-3.jpg" alt="des">
-                        <div class="tg-listing-2-mask">
-                            <img class="w-100" src="assets/img/listing/listing-2/shape.png" alt="">
-                        </div>
-                    </div>
-                    <div class="tg-destination-content text-center">
-                        <div class="tg-destination-meta">
-                            <a href="map-listing.html">Spain</a>
-                        </div>
-                        <div class="tg-destination-tag">
-                            <span>01 Tour</span>
-                            <span>02 Hotel</span>
-                            <span>04 Acitivity</span>
-                            <span>01 Restaurant</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="tg-destination-item mb-30 wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".6s">
-                    <div class="tg-destination-thumb p-relative fix">
-                        <img class="w-100" src="assets/img/destination/des-4.jpg" alt="des">
-                        <div class="tg-listing-2-mask">
-                            <img class="w-100" src="assets/img/listing/listing-2/shape.png" alt="">
-                        </div>
-                    </div>
-                    <div class="tg-destination-content text-center">
-                        <div class="tg-destination-meta">
-                            <a href="map-listing.html">Bail</a>
-                        </div>
-                        <div class="tg-destination-tag">
-                            <span>01 Tour</span>
-                            <span>02 Hotel</span>
-                            <span>04 Acitivity</span>
-                            <span>01 Restaurant</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                @endforeach
+            @endif
         </div>
     </div>
 </div>

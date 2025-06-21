@@ -53,6 +53,7 @@ final class DestinationController extends Controller
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'tags' => 'nullable|string|max:255',
         ]);
 
         // Handle image if present
@@ -74,6 +75,7 @@ final class DestinationController extends Controller
         $validated['meta_title'] = $request->meta_title ?? null;
         $validated['meta_keywords'] = $request->meta_keywords ?? null;
         $validated['meta_description'] = $request->meta_description ?? null;
+        $validated['tags'] = $request->tags ?? null;
 
         Destination::create($validated);
 
@@ -117,6 +119,7 @@ final class DestinationController extends Controller
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'tags' => 'nullable|string|max:255',
         ]);
 
         // Handle image if present
@@ -149,6 +152,7 @@ final class DestinationController extends Controller
         $validated['meta_title'] = $request->meta_title ?? null;
         $validated['meta_keywords'] = $request->meta_keywords ?? null;
         $validated['meta_description'] = $request->meta_description ?? null;
+        $validated['tags'] = $request->tags ?? null;
 
         $destination->update($validated);
 
