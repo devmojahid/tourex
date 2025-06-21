@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Session;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Rules\Captcha;
 use Illuminate\Http\Request;
@@ -358,14 +359,18 @@ class HomeController extends Controller
     {
         // Validate theme exists
         if (!theme()->exists($theme)) {
-            return back()->with('error', 'Theme does not exist');
+            $notify_message = trans('translate.Theme not found');
+            return back()->with(['message' => $notify_message, 'alert-type' => 'error']);
         }
 
-        // Set the theme permanently as system default
-        theme()->activate($theme);
-
-        // Redirect back with success message
-        return back()->with('success', "Theme switched to {$theme}");
+        // Set the theme permanently as system default using our enhanced DB-backed approach
+        if (theme()->activate($theme)) {
+            $notify_message = trans('translate.Theme switched successfully');
+            return back()->with(['message' => $notify_message, 'alert-type' => 'success']);
+        } else {
+            $notify_message = trans('translate.Error switching theme');
+            return back()->with(['message' => $notify_message, 'alert-type' => 'error']);
+        }
     }
 
     public function teams()

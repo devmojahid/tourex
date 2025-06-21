@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class Theme
 {
@@ -69,7 +72,24 @@ class Theme
     public function getThemePath($theme = null)
     {
         $theme = $theme ?: $this->name;
-        return base_path("cms/themes/{$theme}");
+        $path = base_path("Cms/themes/{$theme}");
+        
+        // Handle case sensitivity issues in different environments
+        if (!File::exists($path)) {
+            // Try lowercase version
+            $lowercase = base_path("cms/themes/{$theme}");
+            if (File::exists($lowercase)) {
+                return $lowercase;
+            }
+            
+            // Try uppercase first letter
+            $uppercase = base_path("CMS/themes/{$theme}");
+            if (File::exists($uppercase)) {
+                return $uppercase;
+            }
+        }
+        
+        return $path;
     }
 
     /**
@@ -80,12 +100,30 @@ class Theme
     public function all()
     {
         $themes = [];
-        $themesPath = base_path('cms/themes');
-
-        if (!File::exists($themesPath)) {
+        
+        // Try different possible paths for the themes directory
+        $possiblePaths = [
+            base_path('Cms/themes'),
+            base_path('cms/themes'),
+            base_path('CMS/themes')
+        ];
+        
+        $themesPath = null;
+        
+        // Find the first valid path
+        foreach ($possiblePaths as $path) {
+            if (File::exists($path) && File::isDirectory($path)) {
+                $themesPath = $path;
+                break;
+            }
+        }
+        
+        if (!$themesPath) {
+            // Log the issue if no themes directory is found
+            Log::warning('Themes directory not found. Checked paths: ' . implode(', ', $possiblePaths));
             return $themes;
         }
-
+        
         $directories = File::directories($themesPath);
 
         foreach ($directories as $directory) {
@@ -104,7 +142,20 @@ class Theme
      */
     public function exists($theme)
     {
-        return File::exists($this->getThemePath($theme));
+        // Try different case variations of the path
+        $possiblePaths = [
+            base_path("Cms/themes/{$theme}"),
+            base_path("cms/themes/{$theme}"),
+            base_path("CMS/themes/{$theme}")
+        ];
+        
+        foreach ($possiblePaths as $path) {
+            if (File::exists($path) && File::isDirectory($path)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -119,7 +170,37 @@ class Theme
             return false;
         }
 
-        // Update the active theme in settings file
+        try {
+            // 1. Store in database (primary source of truth)
+            DB::table('settings')->updateOrInsert(
+                ['key' => 'active_theme'],
+                ['value' => $theme, 'updated_at' => now()]
+            );
+        } catch (\Exception $e) {
+            // If settings table doesn't exist yet, create it
+            try {
+                if (!Schema::hasTable('settings')) {
+                    Schema::create('settings', function ($table) {
+                        $table->id();
+                        $table->string('key')->unique();
+                        $table->text('value')->nullable();
+                        $table->timestamps();
+                    });
+                    
+                    // Insert the theme setting
+                    DB::table('settings')->insert([
+                        'key' => 'active_theme',
+                        'value' => $theme,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+                }
+            } catch (\Exception $innerEx) {
+                // Fallback to file-based approach if database operations fail
+            }
+        }
+        
+        // 2. Also update the legacy file-based settings (backward compatibility)
         $settingsPath = storage_path('app/theme_settings.json');
         $settings = [];
 
@@ -137,7 +218,7 @@ class Theme
         
         File::put($settingsPath, json_encode($settings, JSON_PRETTY_PRINT));
         
-        // Also update the current session
+        // 3. Also update the current session
         session(['selected_theme' => $theme]);
         
         // Reset the current theme instance
@@ -175,7 +256,18 @@ class Theme
      */
     public function getActive()
     {
-        // First check session for temporary theme selection
+        // First check database for active theme (most reliable source)
+        try {
+            $settingsRow = DB::table('settings')->where('key', 'active_theme')->first();
+            if ($settingsRow && $this->exists($settingsRow->value)) {
+                return $settingsRow->value;
+            }
+        } catch (\Exception $e) {
+            // If table doesn't exist yet or other DB error, continue to other methods
+            // Will be handled when activate() is called later
+        }
+        
+        // Next check session for temporary theme preview
         if (session()->has('selected_theme')) {
             $sessionTheme = session('selected_theme');
             if ($this->exists($sessionTheme)) {
@@ -183,7 +275,7 @@ class Theme
             }
         }
         
-        // Otherwise use the stored theme from settings
+        // Then check the stored JSON settings file (legacy approach)
         $settingsPath = storage_path('app/theme_settings.json');
         
         if (File::exists($settingsPath)) {
@@ -224,14 +316,26 @@ class Theme
      */
     public function loadThemeInfo($theme)
     {
-        $path = $this->getThemePath($theme) . '/theme.json';
+        $themePath = $this->getThemePath($theme);
+        $path = $themePath . '/theme.json';
         
         if (File::exists($path)) {
-            return json_decode(File::get($path), true);
+            $content = File::get($path);
+            
+            // Check if the content is valid JSON
+            $jsonData = json_decode($content, true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                return $jsonData;
+            }
+            
+            // Log error if JSON is invalid
+            Log::warning("Invalid JSON in theme.json for theme: {$theme}");
+        } else {
+            Log::info("Theme.json not found for theme: {$theme} at path: {$path}");
         }
 
         return [
-            'name' => $theme,
+            'name' => ucfirst($theme),
             'description' => 'No description available',
             'version' => '1.0.0',
             'author' => 'Unknown',

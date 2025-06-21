@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\ThemeCreateCommand;
 use App\Console\Commands\ThemeGenerateCommand;
+use App\Console\Commands\ThemeTestCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         ThemeCreateCommand::class,
         ThemeGenerateCommand::class,
+        ThemeTestCommand::class,
     ];
     
     /**
