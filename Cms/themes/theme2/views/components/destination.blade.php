@@ -23,7 +23,7 @@
             @if ($home2_destination_items->count() > 0)
                 @foreach ($home2_destination_items as $key => $destination_item)
                     <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="tg-destination-item mb-30 wow fadeInUp" data-wow-delay=".3s"
+                        <div class="tg-destination-item mb-30 wow fadeInUp" data-wow-delay=".{{$key + 3}}s"
                             data-wow-duration=".6s">
                             <div class="tg-destination-thumb fix p-relative">
                                 <img class="w-100"
