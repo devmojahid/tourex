@@ -54,6 +54,7 @@ final class DestinationController extends Controller
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'tags' => 'nullable|string|max:255',
         ]);
 
         // Handle image if present
@@ -71,6 +72,7 @@ final class DestinationController extends Controller
         $validated['status'] = $request->has('status');
         $validated['is_featured'] = $request->has('is_featured');
         $validated['show_on_homepage'] = $request->has('show_on_homepage');
+        $validated['tags'] = $request->tags ?? null;
 
         $validated['user_id'] = auth()->user()->id;
 
@@ -116,6 +118,7 @@ final class DestinationController extends Controller
             'is_featured' => 'nullable|boolean',
             'show_on_homepage' => 'nullable|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'tags' => 'nullable|string|max:255',
         ]);
 
         // Handle image if present
@@ -143,6 +146,7 @@ final class DestinationController extends Controller
         $validated['status'] = $request->has('status');
         $validated['is_featured'] = $request->has('is_featured');
         $validated['show_on_homepage'] = $request->has('show_on_homepage');
+        $validated['tags'] = $request->tags ?? null;
 
         $destination->update($validated);
 

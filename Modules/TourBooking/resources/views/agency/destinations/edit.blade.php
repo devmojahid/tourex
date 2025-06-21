@@ -144,6 +144,19 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="col-12">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Destination tags') }}</label>
+                                                        <input placeholder="{{ __('translate.Separator by comma. Ex: 01 Tour, 02 Hotel') }}"
+                                                            class="crancy__item-input" type="text" name="tags"
+                                                            id="tags" value="{{ old('tags', $destination->tags) }}">
+                                                        @error('tags')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
 
                                                 <div class="col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">

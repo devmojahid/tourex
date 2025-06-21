@@ -364,7 +364,7 @@ function popularServices($count = 8, $isPagination = false)
 
 function popularDestinations($count = 4, $isPagination = false)
 {
-    $query = Destination::select('id', 'name', 'image')
+    $query = Destination::select('id', 'name', 'country', 'image', 'tags')
         ->where('status', true)
         ->where('is_featured', true)
         ->withCount(['services' => function ($query) {
