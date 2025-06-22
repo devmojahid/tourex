@@ -92,7 +92,6 @@
         .tg-chose-2-icon img {
             width: 65px;
             height: 65px;
-            border-radius: 50%;
         }
     </style>
 @endpush
