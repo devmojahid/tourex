@@ -605,5 +605,14 @@
         span.tg-listing-item-price-discount.shape-2 {
             top: 28px;
         }
+
+        .tg-listing-card-thumb {
+            height: 212px;
+        }
+
+        .tg-listing-card-thumb img {
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 @endpush
