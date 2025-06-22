@@ -50,13 +50,3 @@
     </div>
     <!-- tp-process-area-end -->
 @endif
-
-@push('style_section')
-    <style>
-        .tg-chose-list-icon img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-        }
-    </style>
-@endpush
