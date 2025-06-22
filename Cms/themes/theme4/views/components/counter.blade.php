@@ -30,10 +30,3 @@
     <!-- tg-counter-area-end -->
 @endif
 
-@push('style_section')
-    <style>
-        .tg-counter-icon img {
-            width: 80px;
-        }
-    </style>
-@endpush
