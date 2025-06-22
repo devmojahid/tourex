@@ -23,6 +23,7 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/theme/{theme}', [HomeController::class, 'switchTheme'])->name('theme.switch');
+    Route::get('/home', [HomeController::class, 'themeVariation'])->name('theme.variation');
 
     Route::get('/about-us', [HomeController::class, 'about_us'])->name('about-us');
 

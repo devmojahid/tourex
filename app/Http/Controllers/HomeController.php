@@ -25,6 +25,7 @@ use Modules\Testimonial\App\Models\Testimonial;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
 use App\Facades\Theme;
 use Modules\Team\App\Models\Team;
+use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
@@ -402,5 +403,63 @@ class HomeController extends Controller
             'seo_setting' => $seo_setting,
             'breadcrumb_title' => $breadcrumb_title
         ]);
+    }
+
+    public function themeVariation(Request $request) 
+    {
+        try {
+            $requestedTheme = $request->query('theme');
+            
+            if (!$requestedTheme || !theme()->exists($requestedTheme)) {
+                return redirect()->route('home');
+            }
+            
+            // Create temporary theme instance
+            $tempTheme = new \App\Themes\Core\Theme($requestedTheme);
+            $themePath = $tempTheme->getThemePath($requestedTheme);
+            
+            // Prepare data (same as your existing logic)
+            $data = [];
+            $themeSettings = $tempTheme->getThemeSettings();
+            
+            foreach ($themeSettings as $key => $section) {
+                $contentKey = $key . '.content';
+                $contentData = getContent($contentKey, true);
+                if ($contentData) {
+                    $data[str_replace($requestedTheme . '_', '', $key)] = $contentData;
+                }
+            }
+            
+            $data['seo_setting'] = getContent('seo.content', true);
+            $data['social_links'] = getContent('social_links.element');
+            $data['categories'] = Category::with(['courses' => function ($query) {
+                $query->take(20);
+            }])->take(3)->get();
+            $data['theme_info'] = $tempTheme->loadThemeInfo($requestedTheme);
+            $data['current_theme'] = $requestedTheme;
+            
+            // Load theme functions
+            $functionsFile = $themePath . '/functions/functions.php';
+            if (file_exists($functionsFile)) {
+                include_once $functionsFile;
+            }
+            
+            // Register the 'theme' namespace that the theme views expect
+            $viewFactory = app('view');
+            
+            // Add the standard 'theme' namespace that theme views use
+            $viewFactory->addNamespace('theme', $themePath . '/views');
+            
+            // Also add theme-specific namespace as backup
+            $themeNamespace = 'theme_' . $requestedTheme;
+            $viewFactory->addNamespace($themeNamespace, $themePath . '/views');
+            
+            // Use the theme namespace (the one the view expects)
+            return $viewFactory->make("theme::index", $data);
+            
+        } catch (\Exception $e) {
+            \Log::error('Theme variation error: ' . $e->getMessage());
+            return redirect()->route('home');
+        }
     }
 }
