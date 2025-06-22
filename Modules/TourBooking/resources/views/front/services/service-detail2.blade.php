@@ -410,7 +410,8 @@
                                         'items' => $paginatedReviews,
                                     ])
                                 </div>
-                                <div id="reviewForm" x-data="reviewForm()" class="tg-tour-about-review-form-wrap mb-45">
+                                <div id="reviewForm" x-data="reviewForm()"
+                                    class="tg-tour-about-review-form-wrap mb-45">
                                     <h4 class="tg-tour-about-title mb-5">{{ __('translate.Leave a Reply') }}</h4>
                                     <div class="tg-tour-about-rating-category mb-20">
                                         <ul>
@@ -451,133 +452,115 @@
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-4">
-                        <div class="tg-tour-about-sidebar top-sticky mb-50">
-                            <form action="#">
+                        <div x-data="bookingForm()" class="tg-tour-about-sidebar top-sticky mb-50">
+                            <form action="{{ route('front.tourbooking.book.checkout.view') }}">
                                 <h4 class="tg-tour-about-title title-2 mb-15">Book This Tour</h4>
+
+                                <input type="hidden" name="service_id" value="{{ $service->id }}">
+
                                 <div class="tg-booking-form-parent-inner mb-10">
                                     <div class="tg-tour-about-date p-relative">
-                                        <input class="input" name="datetime-local" type="text"
-                                            placeholder="When (Date)">
+                                        <input required class="input" name="check_in_date" type="text"
+                                            placeholder="When (Date)" value="{{ now()->format('Y-m-d') }}">
                                         <span class="calender">
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M11.1111 1V3.80003M4.88888 1V3.80003M1 6.59992H15M2.55556 2.39988H13.4444C14.3036 2.39988 15 3.02668 15 3.79989V13.6C15 14.3732 14.3036 15 13.4444 15H2.55556C1.69645 15 1 14.3732 1 13.6V3.79989C1 3.02668 1.69645 2.39988 2.55556 2.39988Z"
-                                                    stroke="#560CE3" stroke-width="1.1" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
+                                            <!-- calendar icon -->
                                         </span>
                                         <span class="angle"><i class="fa-sharp fa-solid fa-angle-down"></i></span>
                                     </div>
                                 </div>
+
                                 <div class="tg-tour-about-time d-flex align-items-center mb-10">
                                     <span class="time">Time:</span>
                                     <div class="form-check mr-15">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                            id="time1" checked>
+                                        <input type="hidden" name="check_in_time_hidden"
+                                            value="{{ $service->check_in_time }}">
+                                        <input class="form-check-input" name="check_in_time" type="radio"
+                                            id="time1">
                                         <label class="form-check-label" for="time1">
-                                            12:00
+                                            {{ $service->check_in_time }}
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        <input type="hidden" name="check_out_time_hidden"
+                                            value="{{ $service->check_out_time }}">
+                                        <input class="form-check-input" name="check_out_time" type="radio"
                                             id="time2">
                                         <label class="form-check-label" for="time2">
-                                            19:00
+                                            {{ $service->check_out_time }}
                                         </label>
                                     </div>
                                 </div>
+
                                 <div class="tg-tour-about-border-doted mb-15"></div>
+
                                 <div class="tg-tour-about-tickets-wrap mb-15">
                                     <span class="tg-tour-about-sidebar-title">Tickets:</span>
+
                                     <div class="tg-tour-about-tickets mb-10">
                                         <div class="tg-tour-about-tickets-adult">
-                                            <span>Adult</span>
-                                            <p class="mb-0">(14+ years) <span>$20</span></p>
+                                            <span>Person</span>
+                                            <p class="mb-0">(18+ years) <span>${{ $service->price_per_person }}</span>
+                                            </p>
                                         </div>
                                         <div class="tg-tour-about-tickets-quantity">
-                                            <select class="select  item-first">
-                                                <option>0</option>
-                                                <option>01</option>
-                                                <option>02</option>
-                                                <option>04</option>
-                                                <option>05</option>
-                                                <option>06</option>
-                                                <option>07</option>
+                                            <select name="person" class="item-first custom-select"
+                                                x-model.number="tickets.person">
+                                                <template x-for="i in 8" :key="i">
+                                                    <option :value="i" x-text="i"></option>
+                                                </template>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="tg-tour-about-tickets mb-10">
-                                        <div class="tg-tour-about-tickets-adult">
-                                            <span>Youth </span>
-                                            <p class="mb-0">(13-17 years) <span>$20</span></p>
-                                        </div>
-                                        <div class="tg-tour-about-tickets-quantity">
-                                            <select class="select  item-first">
-                                                <option>0</option>
-                                                <option>01</option>
-                                                <option>02</option>
-                                                <option>04</option>
-                                                <option>05</option>
-                                                <option>06</option>
-                                                <option>07</option>
-                                            </select>
-                                        </div>
-                                    </div>
+
                                     <div class="tg-tour-about-tickets mb-10">
                                         <div class="tg-tour-about-tickets-adult">
                                             <span>Children </span>
-                                            <p class="mb-0">(13-17 years) <span>$15</span></p>
+                                            <p class="mb-0">(13-17 years) <span>${{ $service->child_price }}</span></p>
                                         </div>
                                         <div class="tg-tour-about-tickets-quantity">
-                                            <select class="select  item-first">
-                                                <option>0</option>
-                                                <option>01</option>
-                                                <option>02</option>
-                                                <option>04</option>
-                                                <option>05</option>
-                                                <option>06</option>
-                                                <option>07</option>
+                                            <select name="children" class="item-first custom-select"
+                                                x-model.number="tickets.children">
+                                                <template x-for="i in 8" :key="i">
+                                                    <option :value="i - 1" x-text="i - 1"></option>
+                                                </template>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="tg-tour-about-border-doted mb-15"></div>
-                                <div class="tg-tour-about-extra mb-10">
-                                    <span class="tg-tour-about-sidebar-title mb-10 d-inline-block">Add Extra:</span>
-                                    <div class="tg-filter-list">
-                                        <ul>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="amenities">
-                                                    <label for="amenities" class="tg-label">Service per booking</label>
-                                                </div>
-                                                <span class="quantity">$30.00</span>
-                                            </li>
-                                            <li>
-                                                <div class="checkbox d-flex">
-                                                    <input class="tg-checkbox" type="checkbox" id="amenities-2">
-                                                    <label for="amenities-2" class="tg-label">Service per person</label>
-                                                </div>
-                                                <span class="quantity">$20.00</span>
-                                            </li>
-                                            <li>
-                                                <span class="adult">Adult:</span>
-                                                <span class="quantity">$15.00</span>
-                                            </li>
-                                            <li>
-                                                <span class="adult">Youth:</span>
-                                                <span class="quantity">$20.00</span>
-                                            </li>
-                                        </ul>
+
+                                @if ($service->extraCharges->count() > 0)
+                                    <div class="tg-tour-about-extra mb-10">
+                                        <span class="tg-tour-about-sidebar-title mb-10 d-inline-block">Add Extra:</span>
+                                        <div class="tg-filter-list">
+                                            <ul>
+                                                @foreach ($service->extraCharges as $key => $extra)
+                                                    <li>
+                                                        <div class="checkbox d-flex">
+                                                            <input name="extras[]" value="{{ $extra->id }}"
+                                                                class="tg-checkbox" type="checkbox"
+                                                                x-model="extras.charge_{{ $key }}"
+                                                                id="charge_{{ $key }}">
+                                                            <label for="charge_{{ $key }}" class="tg-label">
+                                                                {{ $extra->name }}({{ Str::title(str_replace('_', ' ', $extra->price_type)) }})
+                                                            </label>
+                                                        </div>
+                                                        <span class="quantity">${{ $extra->price }}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="tg-tour-about-border-doted mb-15"></div>
+                                    <div class="tg-tour-about-border-doted mb-15"></div>
+                                @endif
+
                                 <div
                                     class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
                                     <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
-                                    <h5 class="total-price">$300.00</h5>
+                                    <h5 class="total-price" x-text="`$${totalCost}`"></h5>
                                 </div>
+
                                 <button type="submit" class="tg-btn tg-btn-switch-animation w-100">Book now</button>
                             </form>
                         </div>
@@ -709,6 +692,38 @@
                 }
             }
         }
+
+        function bookingForm() {
+            return {
+                tickets: {
+                    person: 1,
+                    children: 0
+                },
+                pricePerPerson: {{ $service->price_per_person }},
+                pricePerChild: {{ $service->child_price }},
+                extras: {
+                    @foreach ($service->extraCharges as $key => $extra)
+                        charge_{{ $key }}: false,
+                    @endforeach
+                },
+                extrasPrice: {
+                    @foreach ($service->extraCharges as $key => $extra)
+                        charge_{{ $key }}: {{ $extra->price }},
+                    @endforeach
+                },
+                get totalCost() {
+                    let total = {{ $service?->discount_price ?? $service?->full_price }};
+                    total += this.tickets.person * this.pricePerPerson;
+                    total += this.tickets.children * this.pricePerChild;
+                    for (let key in this.extras) {
+                        if (this.extras[key]) {
+                            total += this.extrasPrice[key];
+                        }
+                    }
+                    return total.toFixed(2);
+                },
+            }
+        }
     </script>
 @endpush
 
@@ -736,6 +751,29 @@
 
         .tg-tour-details-gallery-thumb img {
             height: 430px;
+        }
+
+        .custom-select {
+            min-width: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #d6d6d6;
+            border-radius: 24px;
+            padding: 1px 14px;
+            font-weight: 400;
+            font-size: 16px;
+            color: var(--tg-grey-1);
+        }
+
+        .custom-select:focus {
+            outline: none;
+            border-color: #560CE3;
+        }
+
+        .calender-active.open .flatpickr-innerContainer .flatpickr-days .flatpickr-day.today,
+        .flatpickr-calendar.open .flatpickr-innerContainer .flatpickr-days .flatpickr-day.selected {
+            color: var(--tg-common-white) !important;
+            background-color: var(--tg-theme-primary) !important;
         }
     </style>
 @endpush
