@@ -796,5 +796,19 @@
         span.tg-listing-item-price-discount.shape-3 {
             top: 48px;
         }
+
+        .tg-listing-card-thumb {
+            height: 180px;
+        }
+
+        .tg-listing-card-thumb img {
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .list-card.list-card-open .tg-listing-card-thumb img {
+            max-width: 317px;
+            min-width: 317px;
+        }
     </style>
 @endpush

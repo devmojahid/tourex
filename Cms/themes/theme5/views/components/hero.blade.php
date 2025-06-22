@@ -3,6 +3,9 @@
     $theme5_hero = getContent('theme5_hero.content', true);
 
     $partners = Partner::latest()->get();
+
+    $theme5_destinations = destinations();
+
 @endphp
 
 <!-- tg-hero-area-start -->
@@ -18,13 +21,19 @@
             </div>
             <div class="col-12">
                 <div class="tg-booking-form-item tg-booking-form-3 mb-45">
-                    <form action="#">
+                    <form x-data="bookingForm()" @submit.prevent="submitForm">
                         <div class="tg-booking-form-input-group d-flex align-items-end justify-content-between">
                             <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
                                 <span class="tg-booking-form-title mb-5">{{ __('translate.Destinations:') }}</span>
                                 <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
-                                    <span
-                                        class="tg-booking-title-value">{{ __('translate.Where are you going . . .') }}</span>
+
+                                    <span x-show="destination" x-text="destination" class="tg-booking-title-value">
+                                        {{ __('translate.Where are you going . . .') }}
+                                    </span>
+                                    <span x-show="!destination" class="tg-booking-title-value">
+                                        {{ __('translate.Where are you going . . .') }}
+                                    </span>
+
                                     <span class="location">
                                         <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -41,33 +50,21 @@
                                 </div>
                                 <div class="tg-booking-form-location-list tg-booking-quantity-active">
                                     <ul class="scrool-bar scrool-height pr-5">
-                                        <li>
-                                            <i class="fa-regular fa-location-dot"></i>
-                                            <span>Chicago</span>
-                                        </li>
-                                        <li>
-                                            <i class="fa-regular fa-location-dot"></i>
-                                            <span>Los Angeles</span>
-                                        </li>
-                                        <li>
-                                            <i class="fa-regular fa-location-dot"></i>
-                                            <span>London</span>
-                                        </li>
-                                        <li>
-                                            <i class="fa-regular fa-location-dot"></i>
-                                            <span>Paris</span>
-                                        </li>
-                                        <li>
-                                            <i class="fa-regular fa-location-dot"></i>
-                                            <span>Dubai</span>
-                                        </li>
+                                        @foreach ($theme5_destinations as $key => $destination)
+                                            <li
+                                                @click="selectDestination(`{{ $destination->id }}`, `{{ $destination->name }}`)">
+                                                <i class="fa-regular fa-location-dot"></i>
+                                                <span>{{ $destination->name }}</span>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
                             <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                 <span class="tg-booking-form-title mb-5">{{ __('translate.Check in:') }}</span>
                                 <div class="tg-booking-add-input-date p-relative">
-                                    <input class="input" name="datetime-local" type="text" placeholder="dd/mm/yyyy">
+                                    <input x-model="check_in" class="input timepicker" name="datetime-local"
+                                        type="text" placeholder="12.00">
                                     <span>
                                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +79,8 @@
                             <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                 <span class="tg-booking-form-title mb-5">{{ __('translate.Check Out:') }}</span>
                                 <div class="tg-booking-add-input-date p-relative">
-                                    <input class="input" name="datetime-local" type="text" placeholder="dd/mm/yyyy">
+                                    <input x-model="check_out" class="input timepicker" name="datetime-local"
+                                        type="text" placeholder="12.10">
                                     <span>
                                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -117,32 +115,9 @@
                                 <div class="tg-booking-form-location-list tg-quantity tg-booking-quantity-active">
                                     <ul>
                                         <li>
-                                            <span class="mr-20">Rooms</span>
+                                            <span class="mr-20">{{ __('translate.Rooms') }}</span>
                                             <div class="tg-booking-quantity-item">
-                                                <span class="increment">
-                                                    <svg width="15" height="14" viewBox="0 0 15 14"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M1.21924 7H13.3836" stroke="currentColor"
-                                                            stroke-width="1.5" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                        <path d="M7.30176 13V1" stroke="currentColor" stroke-width="1.5"
-                                                            stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                </span>
-                                                <input class="tg-quantity-input" type="text" value="1">
-                                                <span class="decrement">
-                                                    <svg width="14" height="2" viewBox="0 0 14 2"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M1 1H13" stroke="currentColor" stroke-width="1.5"
-                                                            stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="mr-20">Adults</span>
-                                            <div class="tg-booking-quantity-item">
-                                                <span class="increment">
+                                                <span @click="incrementRooms" class="increment">
                                                     <svg width="15" height="14" viewBox="0 0 15 14"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M1.21924 7H13.3836" stroke="currentColor"
@@ -153,8 +128,9 @@
                                                             stroke-linejoin="round" />
                                                     </svg>
                                                 </span>
-                                                <input class="tg-quantity-input" type="text" value="1">
-                                                <span class="decrement">
+                                                <input x-bind:value="rooms" class="tg-quantity-input"
+                                                    type="text">
+                                                <span @click="decrementRooms" class="decrement">
                                                     <svg width="14" height="2" viewBox="0 0 14 2"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M1 1H13" stroke="currentColor" stroke-width="1.5"
@@ -164,9 +140,9 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <span class="mr-20">Children</span>
+                                            <span class="mr-20">{{ __('translate.Adults') }}</span>
                                             <div class="tg-booking-quantity-item">
-                                                <span class="increment">
+                                                <span @click="incrementAdults" class="increment">
                                                     <svg width="15" height="14" viewBox="0 0 15 14"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M1.21924 7H13.3836" stroke="currentColor"
@@ -177,8 +153,34 @@
                                                             stroke-linejoin="round" />
                                                     </svg>
                                                 </span>
-                                                <input class="tg-quantity-input" type="text" value="0">
-                                                <span class="decrement">
+                                                <input x-bind:value="adults" class="tg-quantity-input"
+                                                    type="text">
+                                                <span @click="decrementAdults" class="decrement">
+                                                    <svg width="14" height="2" viewBox="0 0 14 2"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1 1H13" stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round" stroke-linejoin="round" />
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="mr-20">{{ __('translate.Children') }}</span>
+                                            <div class="tg-booking-quantity-item">
+                                                <span @click="incrementChildren" class="increment">
+                                                    <svg width="15" height="14" viewBox="0 0 15 14"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1.21924 7H13.3836" stroke="currentColor"
+                                                            stroke-width="1.5" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                        <path d="M7.30176 13V1" stroke="currentColor"
+                                                            stroke-width="1.5" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                    </svg>
+                                                </span>
+                                                <input x-bind:value="children" class="tg-quantity-input"
+                                                    type="text">
+                                                <span @click="decrementChildren" class="decrement">
                                                     <svg width="14" height="2" viewBox="0 0 14 2"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M1 1H13" stroke="currentColor" stroke-width="1.5"
@@ -188,9 +190,6 @@
                                             </div>
                                         </li>
                                     </ul>
-                                    <div class="tg-booking-form-search-btn mt-15 ">
-                                        <button class="bk-search-button w-100" type="submit">Ok</button>
-                                    </div>
                                 </div>
                             </div>
                             <div class="tg-booking-form-search-btn mb-15">
@@ -241,3 +240,81 @@
     </div>
 </div>
 <!-- tg-hero-area-end -->
+
+@push('js_section')
+    <script>
+        (function($) {
+            "use strict"
+            $(document).ready(function() {
+
+                // Initialize timepicker
+                $(".timepicker").flatpickr({
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                    time_24hr: true
+                });
+            });
+        })(jQuery);
+    </script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+        function bookingForm() {
+            return {
+                destination: '',
+                destination_id: '',
+                check_in: '',
+                check_out: '',
+                rooms: '',
+                adults: '',
+                children: '',
+
+                selectDestination(destinationId, destinationName) {
+                    this.destination_id = destinationId;
+                    this.destination = destinationName;
+                },
+
+                incrementRooms() {
+                    this.rooms++;
+                },
+                decrementRooms() {
+                    if (this.rooms > 0) {
+                        this.rooms--;
+                    }
+                },
+                incrementAdults() {
+                    this.adults++;
+                },
+                decrementAdults() {
+                    if (this.adults > 0) {
+                        this.adults--;
+                    }
+                },
+                incrementChildren() {
+                    this.children++;
+                },
+                decrementChildren() {
+                    if (this.children > 0) {
+                        this.children--;
+                    }
+                },
+
+                submitForm() {
+                    const params = new URLSearchParams({
+                        destination: this.destination,
+                        destination_id: this.destination_id,
+                        check_in: this.check_in,
+                        check_out: this.check_out,
+                        rooms: this.rooms,
+                        adults: this.adults,
+                        children: this.children
+                    });
+
+                    window.location.href = `{{ route('front.tourbooking.services') }}?` + params.toString();
+                }
+            }
+        }
+    </script>
+@endpush

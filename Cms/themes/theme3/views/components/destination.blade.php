@@ -1,6 +1,6 @@
 @php
     $theme3_destination = getContent('theme3_destination.content', true);
-    $home2_destination_items = popularDestinations(5, false);
+    $home3_destination_items = popularDestinations(5, false);
 @endphp
 
 <!-- tg-location-area-start -->
@@ -31,12 +31,12 @@
                 </div>
             @endif
         </div>
-        @if ($home2_destination_items->count() > 0)
+        @if ($home3_destination_items->count() > 0)
             <div class="row">
                 <div class="col-12">
                     <div class="swiper-container tg-location-su-slider">
                         <div class="swiper-wrapper">
-                            @foreach ($home2_destination_items as $key => $destination_item)
+                            @foreach ($home3_destination_items as $key => $destination_item)
                                 <div class="swiper-slide">
                                     <div class="tg-location-3-wrap  tg-location-su-wrap  p-relative mb-30 tg-round-25">
                                         <div class="tg-location-thumb tg-round-25">

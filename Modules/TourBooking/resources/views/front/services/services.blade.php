@@ -25,7 +25,8 @@
                                 <div>
                                     <div class="tg-booking-form-input-group d-flex align-items-end justify-content-between">
                                         <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
-                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Destinations:') }}</span>
+                                            <span
+                                                class="tg-booking-form-title mb-5">{{ __('translate.Destinations:') }}</span>
                                             <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
                                                 <span x-show="bookingForm.destination" x-text="bookingForm.destination"
                                                     class="tg-booking-title-value">
@@ -77,7 +78,8 @@
                                             </div>
                                         </div>
                                         <div class="tg-booking-form-parent-inner mr-15 mb-15">
-                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Check Out:') }}</span>
+                                            <span
+                                                class="tg-booking-form-title mb-5">{{ __('translate.Check Out:') }}</span>
                                             <div class="tg-booking-add-input-date p-relative">
                                                 <input x-model="bookingForm.checkOut" class="input timepicker"
                                                     name="check_out" type="text" placeholder="Check Out">
@@ -95,7 +97,8 @@
                                         <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
                                             <span class="tg-booking-form-title mb-5">{{ __('translate.Guest:') }}</span>
                                             <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
-                                                <span class="tg-booking-title-value">{{ __('translate.+ Add Guests') }}</span>
+                                                <span
+                                                    class="tg-booking-title-value">{{ __('translate.+ Add Guests') }}</span>
                                                 <span class="location">
                                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -761,6 +764,19 @@
 
         .tg-listing-item-wishlist.active svg {
             color: var(--tg-theme-primary);
+        }
+
+        .tg-listing-card-thumb {
+            height: 190px;
+        }
+        .tg-listing-card-thumb img {
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .list-card.list-card-open .tg-listing-card-thumb img {
+            max-width: 317px;
+            min-width: 317px;
         }
     </style>
 @endpush

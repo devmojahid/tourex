@@ -494,7 +494,7 @@
     </script>
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
     </script>
     <script>
         document.addEventListener('alpine:init', () => {
@@ -745,6 +745,20 @@
 
         span.tg-listing-item-price-discount.shape {
             top: 0;
+        }
+
+        .tg-listing-card-thumb {
+            height: 180px;
+        }
+
+        .tg-listing-card-thumb img {
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .list-card.list-card-open .tg-listing-card-thumb img {
+            max-width: 317px;
+            min-width: 317px;
         }
     </style>
 @endpush

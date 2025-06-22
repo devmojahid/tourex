@@ -1621,4 +1621,6 @@ return array(
     'Location:' => 'Location:',
     'Select location' => 'Select location',
     'Rooms' => 'Rooms',
+    '% Offer' => '% Offer',
+    'Sale offer' => 'Sale offer',
 );
