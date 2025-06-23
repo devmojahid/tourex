@@ -4,19 +4,22 @@
         <div class="container-fluid container-1790">
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="tg-header-top-info d-flex align-items-center">
-                        <a href="https://www.google.com/maps/@41.6758525,-86.2531698,18.17z"><i
-                                class="mr-5 fa-regular fa-location-dot"></i> 178 makr street, 8007 Australia</a>
-                        <span class="tg-header-dvdr mr-20 ml-20"></span>
-                        <a href="mailto:info@tourex.com"><i class="mr-5 fa-regular fa-envelope"></i> info@tourex.com</a>
-                    </div>
+                    @if ($footer->address || $footer->email)
+                        <div class="tg-header-top-info d-flex align-items-center">
+                            <a href="{{ $footer->address_url }}"><i
+                                    class="mr-5 fa-regular fa-location-dot"></i> {{ $footer->address }}</a>
+                            <span class="tg-header-dvdr mr-20 ml-20"></span>
+                            <a href="mailto:{{ $footer->email }}"><i class="mr-5 fa-regular fa-envelope"></i> {{ $footer->email }}</a>
+                        </div>
+                    @endif
                 </div>
                 <div class="col-lg-6">
                     <div class="tg-header-top-social d-flex align-items-center justify-content-end">
                         <span>Follow us:</span>
                         <ul>
+                            @if ($footer->facebook_url)
                             <li>
-                                <a href="#">
+                                <a href="{{ $footer->facebook_url }}">
                                     <svg width="9" height="16" viewBox="0 0 9 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -25,8 +28,10 @@
                                     </svg>
                                 </a>
                             </li>
+                            @endif
+                            @if ($footer->twitter_url)
                             <li>
-                                <a href="#">
+                                <a href="{{ $footer->twitter_url }}">
                                     <svg width="13" height="14" viewBox="0 0 13 14" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -39,8 +44,10 @@
                                     </svg>
                                 </a>
                             </li>
+                            @endif
+                            @if ($footer->linkedin_url)
                             <li>
-                                <a href="#">
+                                <a href="{{ $footer->linkedin_url }}">
                                     <svg width="15" height="16" viewBox="0 0 15 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -49,8 +56,10 @@
                                     </svg>
                                 </a>
                             </li>
+                            @endif
+                            @if ($footer->instagram_url)
                             <li>
-                                <a href="#">
+                                <a href="{{ $footer->instagram_url }}">
                                     <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -59,6 +68,7 @@
                                     </svg>
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

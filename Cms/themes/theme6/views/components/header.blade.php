@@ -44,18 +44,22 @@
             <div class="tg-header-top tg-header-top-space tg-primary-bg d-none d-lg-block">
                 <div class="container">
                     <div class="row">
+                        @if ($footer->address)
                         <div class="col-lg-6">
                             <div class="tg-header-top-info d-flex align-items-center">
-                                <a href="https://www.google.com/maps/@41.6758525,-86.2531698,18.17z"><i class="mr-5 fa-regular fa-location-dot"></i> 178 makr street, 8007 Australia</a>
+                                <a href="{{ $footer->address_url }}"><i class="mr-5 fa-regular fa-location-dot"></i> {{ $footer->address }}</a>
                                 <span class="tg-header-dvdr mr-10 ml-10"></span>
-                                <a href="mailto:info@Tourex.com"><i class="mr-5 fa-regular fa-envelope"></i> info@Tourex.com</a>
+                                <a href="mailto:#"><i class="mr-5 fa-regular fa-envelope"></i> #</a>
                             </div>
                         </div>
+                        @endif
                         <div class="col-lg-6">
                             <div class="tg-header-top-info d-flex align-items-center justify-content-end">
-                                <a href="tel:+123595966"><i class="fa-sharp fa-regular fa-phone"></i> +123 5959 66</a>
+                                @if ($footer->phone)
+                                <a href="tel:{{ $footer->phone }}"><i class="fa-sharp fa-regular fa-phone"></i> {{ $footer->phone }}</a>
+                                @endif
                                 <span class="tg-header-dvdr mr-10 ml-10"></span>
-                                <a href="login.html"><i class="fa-regular fa-user"></i> Login</a>
+                                <a href="{{ route('login') }}"><i class="fa-regular fa-user"></i> {{ __('translate.Login') }}</a>
                             </div>
                         </div>
                     </div>
@@ -67,57 +71,11 @@
                         <div class="col-lg-8 col-5">
                             <div class="tgmenu__wrap d-flex align-items-center">
                                 <div class="logo flex-auto">
-                                    <a href="index.html"><img src="assets/img/logo/logo-green.png" alt="Logo"></a>
+                                    <a href="{{ route('home') }}"><img src="{{ asset($general_setting->logo) }}" alt="Logo"></a>
                                 </div>
                                 <nav class="tgmenu__nav  ml-90 d-none d-xl-block">
                                     <div class="tgmenu__navbar-wrap tgmenu__main-menu tgmenu__navbar-wrap-4 d-none d-xl-flex">
-                                        <ul class="navigation">
-                                            <li class="active menu-item-has-children"><a href="index.html">Home</a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="index.html">Home One</a></li>
-                                                    <li><a href="index-2.html">Home Two</a></li>
-                                                    <li><a href="index-3.html">Home Three</a></li>
-                                                    <li><a href="index-4.html">Home Four</a></li>
-                                                    <li><a href="index-5.html">Home Five</a></li>
-                                                    <li class="active"><a href="index-6.html">Home Six</a></li>
-                                                    <li><a href="index-7.html">Home Saven</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children"><a href="hotel-grid.html">Features</a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="hotel-grid.html">Hotel Grid</a></li>
-                                                    <li><a href="tour-grid-1.html">Tour Grid One</a></li>
-                                                    <li><a href="tour-grid-2.html">Tour Grid Two</a></li>
-                                                    <li><a href="map-listing.html">Hotel Listing</a></li>
-                                                    <li><a href="tour-details.html">Tour Details One</a></li>
-                                                    <li><a href="tour-details-2.html">Tour Details Two</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children"><a href="#">Pages</a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="about.html">About</a></li>
-                                                    <li><a href="team.html">Team</a></li>
-                                                    <li><a href="team-details.html">Team Details</a></li>
-                                                    <li><a href="shop.html">Shop</a></li>
-                                                    <li><a href="shop-details.html">Shop Details</a></li>
-                                                    <li><a href="cart.html">Cart</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
-                                                    <li><a href="pricing.html">Pricing</a></li>
-                                                    <li><a href="faq.html">Faq</a></li>
-                                                    <li><a href="login.html">Log In</a></li>
-                                                    <li><a href="register.html">Register</a></li>
-                                                    <li><a href="error.html">Error</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children"><a href="blog-grid.html">Blogs</a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="blog-grid.html">Blog Grid</a></li>
-                                                    <li><a href="blog-standard.html">Blog Standard</a></li>
-                                                    <li><a href="blog-details.html">Blog Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="contact.html">Contact</a></li>
-                                        </ul>
+                                        @include('components.common_navitems')
                                     </div>
                                 </nav>
                             </div>
@@ -196,69 +154,13 @@
             </div>
         </div>
 
-        <!-- Mobile Menu  -->
-        <div class="tgmobile__menu">
-            <nav class="tgmobile__menu-box">
-                <div class="close-btn"><i class="fa-solid fa-xmark"></i></div>
-                <div class="nav-logo">
-                    <a href="index.html"><img src="assets/img/logo/logo-green.png" alt="logo"></a>
-                </div>
-                <div class="tgmobile__search">
-                    <form action="#">
-                        <input type="text" placeholder="Search here...">
-                        <button><i class="fas fa-search"></i></button>
-                    </form>
-                </div>
-                <div class="tgmobile__menu-outer">
-                    <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
-                </div>
-                <div class="social-links">
-                    <ul class="list-wrap">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-        <div class="tgmobile__menu-backdrop"></div>
-        <!-- End Mobile Menu -->
+    <!-- Mobile Menu  -->
+    @include('components.common_mobile_menu')
+    <!-- End Mobile Menu -->
 
-        <!-- offCanvas-menu -->
-        <div class="offCanvas__info">
-            <div class="offCanvas__close-icon menu-close">
-                <button><i class="fa-sharp fa-regular fa-xmark"></i></button>
-            </div>
-            <div class="offCanvas__logo mb-30">
-                <a href="index.html"><img src="assets/img/logo/logo-green.png" alt="Logo"></a>
-            </div>
-            <div class="offCanvas__side-info mb-30">
-                <div class="contact-list mb-30">
-                    <h4>Office Address</h4>
-                    <p>123/A, Miranda City Likaoli <br> Prikano, Dope</p>
-                </div>
-                <div class="contact-list mb-30">
-                    <h4>Phone Number</h4>
-                    <p>+0989 7876 9865 9</p>
-                    <p>+(090) 8765 86543 85</p>
-                </div>
-                <div class="contact-list mb-30">
-                    <h4>Email Address</h4>
-                    <p>info@example.com</p>
-                    <p>example.mail@hum.com</p>
-                </div>
-            </div>
-            <div class="offCanvas__social-icon mt-30">
-                <a href="javascript:void(0)"><i class="fab fa-facebook-f"></i></a>
-                <a href="javascript:void(0)"><i class="fab fa-twitter"></i></a>
-                <a href="javascript:void(0)"><i class="fab fa-google-plus-g"></i></a>
-                <a href="javascript:void(0)"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="offCanvas__overly"></div>
-        <!-- offCanvas-menu-end -->
+    <!-- offCanvas-menu -->
+    @include('components.common_offcanvas')
+    <!-- offCanvas-menu-end -->
 
     </header>
     <!-- header-area-end -->

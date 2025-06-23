@@ -25,11 +25,21 @@
                                 </form>
                             </div>
                             <div class="tg-footer-social">
-                                <a href="{{ $footer->facebook }}"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="{{ $footer->twitter }}"><i class="fa-brands fa-twitter"></i></a>
-                                <a href="{{ $footer->instagram }}"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="{{ $footer->linkedin }}"><i class="fa-brands fa-pinterest-p"></i></a>
-                                <a href="{{ $footer->youtube }}"><i class="fa-brands fa-youtube"></i></a>
+                                @if ($footer->facebook)
+                                    <a href="{{ $footer->facebook }}"><i class="fa-brands fa-facebook-f"></i></a>
+                                @endif
+                                @if ($footer->twitter)
+                                    <a href="{{ $footer->twitter }}"><i class="fa-brands fa-twitter"></i></a>
+                                @endif
+                                @if ($footer->instagram)
+                                    <a href="{{ $footer->instagram }}"><i class="fa-brands fa-instagram"></i></a>
+                                @endif
+                                @if ($footer->linkedin)
+                                    <a href="{{ $footer->linkedin }}"><i class="fa-brands fa-linkedin-in"></i></a>
+                                @endif
+                                @if ($footer->youtube)
+                                    <a href="{{ $footer->youtube }}"><i class="fa-brands fa-youtube"></i></a>
+                                @endif
                             </div>
                         </div>
                     </div>
