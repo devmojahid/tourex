@@ -103,11 +103,3 @@
     </div>
     <!-- tg-chose-us-area-end -->
 @endif
-
-@push('style_section')
-    <style>
-        .tg-chose-list-icon img {
-            width: 65px;
-        }
-    </style>
-@endpush

@@ -108,14 +108,4 @@
         </div>
     </div>
     <!-- tg-chose-us-area-end -->
-
-    @push('style_section')
-        <style>
-            .tg-chose-list-icon img {
-                min-width: 65px;
-                width: 65px;
-                height: 65px;
-            }
-        </style>
-    @endpush
 @endif
