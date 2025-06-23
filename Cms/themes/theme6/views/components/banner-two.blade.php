@@ -59,3 +59,11 @@
     </div>
 </div>
 <!-- tg-banner-area-end -->
+
+@push('style_section')
+    <style>
+        .tg-banner-4-spacing {
+            background-size: cover;
+        }
+    </style>
+@endpush
