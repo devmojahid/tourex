@@ -30,7 +30,7 @@
                     $('#minicartContent').html(data.view);
                 },
                 error: function() {
-                    $('#minicartContent').html('Error loading cart items');
+                    $('#minicartContent').html('<div class="text-center">Error loading cart items</div>');
                 }
             });
         }

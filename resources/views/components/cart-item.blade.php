@@ -16,7 +16,7 @@
             </div>
         </div>
     @empty
-        <div>{{ __('translate.Product not found') }}</div>
+        <div class="text-center">{{ __('translate.Cart is empty') }}</div>
     @endforelse
 </div>
 

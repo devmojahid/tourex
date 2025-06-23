@@ -1626,4 +1626,5 @@ return array(
     'Add to wishlist' => 'Add to wishlist',
     'Product not found' => 'Product not found',
     'Checkout' => 'Checkout',
+    'Cart is empty' => 'Cart is empty',
 );
