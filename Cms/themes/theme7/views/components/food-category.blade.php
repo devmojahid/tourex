@@ -1,5 +1,6 @@
 @php
     $theme7_food_category = getContent('theme7_food_category.content', true);
+    $home7_destination_items = popularDestinations(4, false);
 @endphp
 
 <!-- tg-foods-area-start -->
@@ -19,47 +20,36 @@
         </div>
         <div
             class="row gx-30 row-cols-xl-5 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 justify-content-center align-items-center">
-            <div class="col wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
-                <div class="tg-foods-wrap text-center mb-30">
-                    <div class="fix tg-foods-thumb mb-15">
-                        <img src="assets/img/foods/food-2.jpg" alt="">
+            @if ($home7_destination_items != null && $home7_destination_items->count() > 0)
+                @foreach ($home7_destination_items as $key => $destination_item)
+                    <div class="col wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
+                        <div class="tg-foods-wrap text-center mb-30">
+                            <div class="fix tg-foods-thumb mb-15">
+                                <img src="{{ asset($destination_item->image ?? 'frontend/assets/img/shape/placeholder.png') }}"
+                                    alt="{{ $destination_item->name }}">
+                            </div>
+                            <h3 class="w-100 tg-foods-title">
+                                <a
+                                    href="{{ route('front.tourbooking.services', ['destination_id' => $destination_item->id, 'destination' => $destination_item->name]) }}">
+                                    {{ $destination_item->name }}
+                                    <span>({{ $destination_item->services_count }})</span>
+                                </a>
+                            </h3>
+                        </div>
                     </div>
-                    <h3 class="w-100 tg-foods-title"><a href="#">American <span>(05)</span></a></h3>
-                </div>
-            </div>
-            <div class="col wow fadeInUp" data-wow-delay=".4s" data-wow-duration="1s">
-                <div class="tg-foods-wrap text-center mb-30">
-                    <div class="fix tg-foods-thumb mb-15">
-                        <img src="assets/img/foods/food-3.jpg" alt="">
-                    </div>
-                    <h3 class="w-100 tg-foods-title"><a href="#">Mexican <span>(12)</span></a></h3>
-                </div>
-            </div>
-            <div class="col wow fadeInUp" data-wow-delay=".5s" data-wow-duration="1s">
-                <div class="tg-foods-wrap text-center mb-30">
-                    <div class="fix tg-foods-thumb mb-15">
-                        <img src="assets/img/foods/food-4.jpg" alt="">
-                    </div>
-                    <h3 class="w-100 tg-foods-title"><a href="#">Italian <span>(11)</span></a></h3>
-                </div>
-            </div>
-            <div class="col wow fadeInUp" data-wow-delay=".6s" data-wow-duration="1s">
-                <div class="tg-foods-wrap text-center mb-30">
-                    <div class="fix tg-foods-thumb mb-15">
-                        <img src="assets/img/foods/food-1.jpg" alt="">
-                    </div>
-                    <h3 class="w-100 tg-foods-title"><a href="#">Vegetarians <span>(04)</span></a></h3>
-                </div>
-            </div>
-            <div class="col wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
-                <div class="tg-foods-wrap text-center mb-30">
-                    <div class="fix tg-foods-thumb mb-15">
-                        <img src="assets/img/foods/food-5.jpg" alt="">
-                    </div>
-                    <h3 class="w-100 tg-foods-title"><a href="#">Japanese <span>(13)</span></a></h3>
-                </div>
-            </div>
+                @endforeach
+            @endif
+
         </div>
     </div>
 </div>
 <!-- tg-foods-area-end -->
+
+@push('style_section')
+    <style>
+        .tg-foods-thumb img {
+            height: 201px;
+            width: 201px;
+        }
+    </style>
+@endpush
