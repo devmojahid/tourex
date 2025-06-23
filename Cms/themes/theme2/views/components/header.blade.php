@@ -23,65 +23,7 @@
                         <div
                             class="tg-menu-right-action tg-menu-right-action-2 d-flex align-items-center justify-content-end">
                             <div class="tg-header-cart p-relative d-none d-xl-block">
-                                <button class="cart-button">
-                                    <span>
-                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_194_1282)">
-                                                <path
-                                                    d="M8.32345 18.255C8.32402 18.4888 8.25349 18.7175 8.12077 18.9123C7.98805 19.107 7.79909 19.259 7.57775 19.3492C7.35642 19.4393 7.11263 19.4635 6.87718 19.4188C6.64174 19.374 6.42519 19.2622 6.25488 19.0976C6.08458 18.9329 5.96816 18.7228 5.92033 18.4937C5.8725 18.2646 5.8954 18.0269 5.98614 17.8105C6.07688 17.5941 6.23139 17.4087 6.43016 17.2778C6.62893 17.1469 6.86304 17.0764 7.10292 17.0751H7.11261C7.43375 17.0751 7.74173 17.1994 7.96881 17.4207C8.19588 17.642 8.32345 17.9421 8.32345 18.255ZM14.862 17.0751H14.8523C14.5303 17.0763 14.222 17.202 13.995 17.4246C13.768 17.6471 13.6408 17.9483 13.6415 18.2621C13.6421 18.5759 13.7705 18.8766 13.9984 19.0983C14.2263 19.32 14.5352 19.4444 14.8572 19.4444C15.1792 19.4444 15.488 19.32 15.7159 19.0983C15.9438 18.8766 16.0722 18.5759 16.0728 18.2621C16.0735 17.9483 15.9464 17.6471 15.7193 17.4246C15.4923 17.202 15.184 17.0763 14.862 17.0751ZM19.4002 6.44784L18.418 12.2684C18.3936 12.6937 18.28 13.1096 18.0841 13.4905C17.8882 13.8713 17.6142 14.2089 17.2791 14.4825C16.944 14.7561 16.5549 14.9597 16.1358 15.0809C15.7167 15.2021 15.2766 15.2383 14.8426 15.1871H6.83557C6.19525 15.1845 5.57714 14.9581 5.0935 14.5492C4.60986 14.1402 4.29277 13.5758 4.19981 12.9584L2.7342 2.9844C2.69188 2.70429 2.54809 2.4482 2.32885 2.26242C2.10961 2.07664 1.82939 1.97346 1.53886 1.97152H1.28119C1.08851 1.97152 0.903722 1.89693 0.767476 1.76415C0.63123 1.63138 0.554688 1.4513 0.554688 1.26354C0.554688 1.07577 0.63123 0.895692 0.767476 0.76292C0.903722 0.630148 1.08851 0.555557 1.28119 0.555557H1.53886C2.17918 0.558209 2.79729 0.784566 3.28093 1.19352C3.76457 1.60247 4.08166 2.16689 4.17462 2.78428L4.26374 3.38748H16.78C17.1702 3.38742 17.5557 3.47092 17.9091 3.63205C18.2626 3.79318 18.5754 4.02802 18.8254 4.31996C19.0755 4.6119 19.2566 4.9538 19.3561 5.3215C19.4556 5.6892 19.4701 6.07371 19.4002 6.44784ZM17.7089 5.22822C17.5955 5.09535 17.4535 4.98842 17.293 4.91501C17.1325 4.8416 16.9573 4.80351 16.78 4.80344H4.47104L5.63345 12.7583C5.67595 13.0395 5.82071 13.2965 6.04137 13.4824C6.26202 13.6683 6.54387 13.7708 6.83557 13.7712H14.8426C16.3925 13.7712 16.7664 13.2048 16.9863 12.0277L17.9685 6.20618C18.002 6.0346 17.9961 5.85793 17.9513 5.68884C17.9064 5.51975 17.8236 5.36244 17.7089 5.22822ZM13.3896 8.57933H9.51492C9.32224 8.57933 9.13745 8.65392 9.00121 8.78669C8.86496 8.91946 8.78842 9.09954 8.78842 9.28731C8.78842 9.47508 8.86496 9.65515 9.00121 9.78792C9.13745 9.9207 9.32224 9.99529 9.51492 9.99529H13.3896C13.5823 9.99529 13.7671 9.9207 13.9033 9.78792C14.0396 9.65515 14.1161 9.47508 14.1161 9.28731C14.1161 9.09954 14.0396 8.91946 13.9033 8.78669C13.7671 8.65392 13.5823 8.57933 13.3896 8.57933Z"
-                                                    fill="currentColor" />
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_194_1282">
-                                                    <rect width="20" height="20" fill="currentColor" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </span>
-                                    <span class="tg-header-cart-count">0</span>
-                                </button>
-                                <div class="minicart">
-                                    <div class="cart-content-wrap d-flex align-items-center justify-content-between">
-                                        <div class="cart-img-info d-flex align-items-center">
-                                            <div class="cart-thumb">
-                                                <a href="shop.html"> <img src="assets/img/shop/sm-product-1.jpg"
-                                                        alt=""></a>
-                                            </div>
-                                            <div class="cart-content">
-                                                <h5 class="cart-title"><a href="shop.html">Camera nstax</a></h5>
-                                                <span> $ 120 <del>$220</del></span>
-                                            </div>
-                                        </div>
-                                        <div class="cart-del-icon">
-                                            <span><i class="fa-light fa-trash-can"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="cart-content-wrap d-flex justify-content-between align-items-center">
-                                        <div class="cart-img-info  d-flex align-items-center">
-                                            <div class="cart-thumb">
-                                                <a href="shop.html"> <img src="assets/img/shop/sm-product-2.jpg"
-                                                        alt=""></a>
-                                            </div>
-                                            <div class="cart-content">
-                                                <h5 class="cart-title"><a href="shop.html">Halo Smartwatch</a></h5>
-                                                <span> $230 <del>$399 </del></span>
-                                            </div>
-                                        </div>
-                                        <div class="cart-del-icon">
-                                            <span><i class="fa-light fa-trash-can"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="cart-total-price d-flex align-items-center justify-content-between">
-                                        <span>Total:</span>
-                                        <span>$100.0</span>
-                                    </div>
-                                    <div class="minicart-btn">
-                                        <a class="cart-btn mb-10" href="cart.html"><span>Shopping Cart</span></a>
-                                        <a class="cart-btn cart-btn-black"
-                                            href="checkout.html"><span>Checkout</span></a>
-                                    </div>
-                                </div>
+                                @include('components.cart')
                             </div>
                             <div class="tg-header-contact-info ml-20 d-flex align-items-center">
                                 <span class="tg-header-contact-icon mr-5 d-none d-xl-block">
