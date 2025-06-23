@@ -81,6 +81,8 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
         Route::delete('/cart/{id}', 'destroy')->name('delete');
         Route::post('update', 'update')->name('update');
         Route::get('get-cart-total', 'getCartTotal')->name('getCartTotal');
+        Route::get('cart-items', 'cartItems')->name('cart_items');
+        Route::get('remove-item', 'removeItem')->name('remove_item');
     });
 
     // Checkout Controller

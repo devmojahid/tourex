@@ -14,6 +14,7 @@ use Modules\Category\Entities\Category;
 use Modules\Page\App\Models\CustomPage;
 use Modules\Blog\App\Models\BlogCategory;
 use Modules\Currency\App\Models\Currency;
+use Modules\Ecommerce\Entities\Cart;
 use Modules\Language\App\Models\Language;
 use Modules\Wishlist\App\Models\Wishlist;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
@@ -33,13 +34,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        try{
-            $setting = Cache::rememberForever('setting', function(){
+        try {
+            $setting = Cache::rememberForever('setting', function () {
                 $setting_data = GlobalSetting::get();
 
                 $setting = array();
 
-                foreach($setting_data as $data_item){
+                foreach ($setting_data as $data_item) {
                     $setting[$data_item->key] = $data_item->value;
                 }
 
@@ -54,7 +55,7 @@ class AppServiceProvider extends ServiceProvider
             config(['app.timezone' => $timezone_setting->timezone ?? 'UTC']);
             date_default_timezone_set($timezone_setting->timezone ?? 'UTC');
 
-            View::composer('*', function($view){
+            View::composer('*', function ($view) {
 
                 $general_setting = Cache::get('setting');
 
@@ -74,9 +75,17 @@ class AppServiceProvider extends ServiceProvider
 
                     $wishlist_arrays = Wishlist::where('user_id', $user_d)->pluck('item_id');
 
-                    foreach($wishlist_arrays as $wishlist_item){
+                    foreach ($wishlist_arrays as $wishlist_item) {
                         $wishlist_array[] = $wishlist_item;
                     }
+                }
+
+                $user = auth()->guard('web')->user();
+
+                if ($user) {
+                    $cartCount = Cart::with('product')->where('user_id', $user->id)->count();
+                } else {
+                    $cartCount = Cart::with('product')->where('session_id', session()->getId())->count();
                 }
 
                 $view->with('general_setting', $general_setting);
@@ -87,26 +96,25 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('menu_categories', $menu_categories);
                 $view->with('footer_blog_categories', $footer_blog_categories);
                 $view->with('wishlist_array', $wishlist_array);
-
+                $view->with('cartCount', $cartCount ?? 0);
             });
 
             // Share theme data with all views
             if (app()->bound('theme')) {
                 $theme = app('theme');
                 $currentTheme = $theme->current();
-                
+
                 view()->share('currentTheme', $currentTheme);
                 view()->share('themeInfo', $theme->loadThemeInfo($currentTheme));
-                
+
                 // Also share theme assets
                 if ($currentTheme && $theme->exists($currentTheme)) {
                     $themeAssets = $theme->getAssets();
                     view()->share('themeAssets', $themeAssets);
                 }
             }
-
-        }catch(Exception $ex){
-            Log::info('AppServiceProvider : '. $ex->getMessage());
+        } catch (Exception $ex) {
+            Log::info('AppServiceProvider : ' . $ex->getMessage());
 
             Artisan::call('optimize:clear');
         }

@@ -41,7 +41,7 @@ function addToCart(productId, element) {
         },
         success: function (response) {
             if (response.success) {
-                $('.cart-count').text(response.totalCartItem);
+                $('.cart-count, .tg-header-cart-count').text(response.totalCartItem);
                 toastr.success(response.message);
             } else {
                 toastr.error(response.message);

@@ -1623,4 +1623,7 @@ return array(
     'Rooms' => 'Rooms',
     '% Offer' => '% Offer',
     'Sale offer' => 'Sale offer',
+    'Add to wishlist' => 'Add to wishlist',
+    'Product not found' => 'Product not found',
+    'Checkout' => 'Checkout',
 );

@@ -32,6 +32,68 @@ class CartController extends Controller
         return view('ecommerce::frontend.cart', compact('seo_setting', 'carts', 'breadcrumb_title'));
     }
 
+    public function cartItems()
+    {
+
+        $user = auth()->guard('web')->user();
+
+        if ($user) {
+            $carts = Cart::with('product')->where('user_id', $user->id)->get();
+        } else {
+            $session_id = session()->getId();
+            $carts = Cart::with('product')->where('session_id', $session_id)->get();
+        }
+
+        $total = 0;
+
+        $items = $carts->map(function ($item) use (&$total) {
+            $product = $item->product;
+
+            if ($product->offer_price) {
+                $discount = ($product->price * $product->offer_price) / 100;
+                $price = $product->price - $discount;
+            } else {
+                $price = $product->price;
+            }
+
+            $subtotal = $price * $item->quantity;
+
+            $total += $subtotal;
+
+            return [
+                'cart_id' => $item->id,
+                'title' => $product->translate->name,
+                'slug' => $product->slug,
+                'image' => $product->thumbnail_image,
+                'price_display' => $product->price_display
+            ];
+        });
+
+        $cartView = view('components.cart-item', compact('items', 'total'))->render();
+
+        return response()->json([
+            'view' => $cartView,
+        ]);
+    }
+
+    public function removeItem(Request $request)
+    {
+        $cart = Cart::where('id', $request->cart_id)->first();
+
+        if ($cart) {
+            $cart->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Item removed from cart successfully'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Item not found in cart'
+            ]);
+        }
+    }
+
     public function addToCart(Request $request)
     {
         try {
@@ -49,9 +111,9 @@ class CartController extends Controller
 
             $product = Product::active()->findOrFail($request->product_id);
 
-           $userId = auth()->id();
-           $sessionId = session()->get('session_id', session()->getId());
-           session()->put('session_id', session()->getId());
+            $userId = auth()->id();
+            $sessionId = session()->get('session_id', session()->getId());
+            session()->put('session_id', session()->getId());
 
             DB::beginTransaction();
 
@@ -82,12 +144,10 @@ class CartController extends Controller
                     'totalCartItem' => $totalCartItems,
                     'notification' => $notification
                 ]);
-
             } catch (\Exception $e) {
                 DB::rollBack();
                 throw $e;
             }
-
         } catch (\Exception $e) {
             Log::error('Cart Addition Error: ' . $e->getMessage());
             return response()->json([
@@ -127,7 +187,6 @@ class CartController extends Controller
                 'message' => trans('translate.Item removed from cart successfully'),
                 'notification' => $notification
             ]);
-
         } catch (ModelNotFoundException $e) {
             $notification = [
                 'messege' => trans('translate.Cart item not found'),
@@ -139,7 +198,6 @@ class CartController extends Controller
                 'message' => trans('translate.Cart item not found'),
                 'notification' => $notification
             ], 404);
-
         } catch (\Exception $e) {
             \Log::error('Cart deletion error: ' . $e->getMessage());
 
@@ -208,6 +266,4 @@ class CartController extends Controller
             'notification' => $notification
         ], 400);
     }
-
-
 }
