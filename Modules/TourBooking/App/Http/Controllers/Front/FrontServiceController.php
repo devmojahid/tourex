@@ -13,6 +13,7 @@ use Illuminate\Support\Js;
 use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Amenity;
 use Modules\TourBooking\App\Models\AmenityTranslation;
+use Modules\TourBooking\App\Models\Booking;
 use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Review;
 use Modules\TourBooking\App\Models\Service;
@@ -643,6 +644,29 @@ final class FrontServiceController extends Controller
                 [
                     'success' => false,
                     'message' => 'You must be logged in to submit a review.',
+                ]
+            );
+        }
+
+        $existingBooking = Booking::where('service_id', $request->service_id)
+            ->where('user_id', Auth::id())
+            ->where('booking_status', 'confirmed')
+            ->first();
+
+        if (!$existingBooking) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'You must have a completed booking to submit a review.',
+                ]
+            );
+        }
+
+        if (Review::where('service_id', $request->service_id)->where('user_id', Auth::id())->exists()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'You have already submitted a review for this service.',
                 ]
             );
         }

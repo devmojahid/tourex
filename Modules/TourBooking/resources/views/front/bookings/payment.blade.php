@@ -79,18 +79,17 @@
                             </div>
 
                             <button type="submit" class="tg-btn tg-btn-switch-animation mt-20 w-100">
-                                <span class="td_btn_in td_white_color td_accent_bg">
-                                    <span>{{ __('translate.Pay Now') }}</span>
-                                    <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor"
-                                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path
-                                            d="M15.157 11.4142C15.157 11.4142 16.0887 5.2748 15.157 4.34311C14.2253 3.41142 8.08594 4.34314 8.08594 4.34314"
-                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                            stroke-linejoin="round"></path>
-                                    </svg>
-                                </span>
+
+                                <span>{{ __('translate.Pay Now') }}</span>
+                                <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path
+                                        d="M15.157 11.4142C15.157 11.4142 16.0887 5.2748 15.157 4.34311C14.2253 3.41142 8.08594 4.34314 8.08594 4.34314"
+                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
                             </button>
                         </form>
                     </div>
@@ -241,19 +240,18 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="td_btn td_style_1 td_radius_30 td_medium td_with_shadow">
-                                <span class="td_btn_in td_white_color td_accent_bg">
-                                    <span>{{ __('translate.Submit Now') }}</span>
-                                    <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor"
-                                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path
-                                            d="M15.157 11.4142C15.157 11.4142 16.0887 5.2748 15.157 4.34311C14.2253 3.41142 8.08594 4.34314 8.08594 4.34314"
-                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                            stroke-linejoin="round"></path>
-                                    </svg>
-                                </span>
+                            <button type="submit" class="tg-btn tg-btn-switch-animation w-100">
+
+                                <span>{{ __('translate.Submit Now') }}</span>
+                                <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path
+                                        d="M15.157 11.4142C15.157 11.4142 16.0887 5.2748 15.157 4.34311C14.2253 3.41142 8.08594 4.34314 8.08594 4.34314"
+                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
                             </button>
                         </form>
                     </div>
