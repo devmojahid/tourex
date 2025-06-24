@@ -25,7 +25,7 @@
                     <div class="col wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
                         <div class="tg-foods-wrap text-center mb-30">
                             <div class="fix tg-foods-thumb mb-15">
-                                <img src="{{ asset($destination_item->image ?? 'frontend/assets/img/shape/placeholder.png') }}"
+                                <img src="{{ asset('storage/' . $destination_item->image) }}"
                                     alt="{{ $destination_item->name }}">
                             </div>
                             <h3 class="w-100 tg-foods-title">
