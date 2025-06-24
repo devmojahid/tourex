@@ -611,7 +611,7 @@ final class ServiceController extends Controller
             // Validate bulk data
             $request->validate([
                 'dates' => 'required|array',
-                'dates.*' => 'date',
+                'dates.*' => 'required|date',
                 'start_time' => 'nullable|date_format:H:i',
                 'end_time' => 'nullable|date_format:H:i|after_or_equal:start_time',
                 'available_spots' => 'nullable|integer|min:1',
@@ -640,7 +640,7 @@ final class ServiceController extends Controller
                     'date' => $date,
                     'start_time' => $request->start_time,
                     'end_time' => $request->end_time,
-                    'is_available' => $request->has('is_available'),
+                    'is_available' => $request->has('is_available') ? true : false,
                     'available_spots' => $request->available_spots,
                     'special_price' => $request->special_price,
                     'notes' => $request->notes,
@@ -691,7 +691,7 @@ final class ServiceController extends Controller
 
         $data = $request->all();
         $data['service_id'] = $service->id;
-        $data['is_available'] = $request->has('is_available');
+        $data['is_available'] = $request->has('is_available') ? true : false;
 
         // Check for existing availability on the same date
         $existingAvailability = Availability::where('service_id', $service->id)
@@ -730,7 +730,7 @@ final class ServiceController extends Controller
         ]);
 
         $data = $request->all();
-        $data['is_available'] = $request->has('is_available');
+        $data['is_available'] = $request->has('is_available') ? true : false;
 
         // Check for existing availability on the same date (excluding this one)
         $existingAvailability = Availability::where('service_id', $availability->service_id)

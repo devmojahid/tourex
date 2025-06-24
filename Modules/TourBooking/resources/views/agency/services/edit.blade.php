@@ -598,7 +598,7 @@
                                                             multiple>
                                                             @foreach ($amenities as $amenity)
                                                                 <option value="{{ $amenity->translation->id }}"
-                                                                    @selected(is_array($translation->amenities) && in_array($amenity->translation->id, $translation->amenities ?? []))>
+                                                                    @selected(is_array($translation->amenities ?? null) && in_array($amenity->translation->id, ($translation->amenities ?? [])))>
                                                                     {{ $amenity->translation->name }}
                                                                 </option>
                                                             @endforeach

@@ -509,7 +509,7 @@ final class FrontBookingController extends Controller
                     ->where('booking_status', '!=', 'cancelled')
                     ->whereDate('check_in_date', $checkInDate)
                     ->sum('children');
-                    
+
                 if ($existingBookingsCount >= $availability->available_spots) {
                     throw new \Exception('Not enough spots available for the selected date.');
                 }

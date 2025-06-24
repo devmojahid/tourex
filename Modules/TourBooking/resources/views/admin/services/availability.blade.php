@@ -272,7 +272,7 @@
                                                                         <td>
                                                                             @if($availability->is_available)
                                                                                 <span class="badge bg-success">{{ __('translate.Available') }}</span>
-                                                                            @else
+                                                                        @else
                                                                                 <span class="badge bg-danger">{{ __('translate.Unavailable') }}</span>
                                                                         @endif
                                                                     </td>
@@ -383,7 +383,7 @@
                                                                         <label>{{ __('translate.Status') }}</label>
                                                                         <div class="form-check form-switch mt-2">
                                                                             <input class="form-check-input" type="checkbox"
-                                                                                name="is_available" id="is_available" checked>
+                                                                                name="is_available" id="is_available" value="1" checked>
                                                                             <label class="form-check-label"
                                                                                 for="is_available">{{ __('translate.Available') }}</label>
                                                                         </div>
@@ -458,10 +458,10 @@
                         </div>
                         <div class="form-group mb-3">
                             <label>{{ __('translate.Status') }}</label>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" name="is_available" id="edit_is_available">
-                                <label class="form-check-label" for="edit_is_available">{{ __('translate.Available') }}</label>
-                            </div>
+                                                                <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" name="is_available" id="edit_is_available" value="1">
+                                        <label class="form-check-label" for="edit_is_available">{{ __('translate.Available') }}</label>
+                                    </div>
                         </div>
                         <div class="form-group mb-3">
                             <label>{{ __('translate.Notes') }}</label>
@@ -490,7 +490,7 @@
                     method="POST">
                     @csrf
                     <input type="hidden" name="bulk" value="1">
-                    <input type="hidden" name="dates" id="bulk_dates" value="">
+                    <input type="hidden" name="dates[]" id="bulk_dates">
                     <div class="modal-body">
                         <div class="alert alert-info">
                             <p>{{ __('translate.You are about to configure availability for') }}
@@ -537,7 +537,7 @@
                                     <label>{{ __('translate.Status') }}</label>
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" name="is_available"
-                                            id="bulk_is_available" checked>
+                                            id="bulk_is_available" value="1" checked>
                                         <label class="form-check-label"
                                             for="bulk_is_available">{{ __('translate.Available') }}</label>
                                     </div>
@@ -676,7 +676,14 @@
                         $("#clearSelectionBtn").show();
                         $("#bulkManageBtn").prop("disabled", false);
                         $("#bulkDateCount").text(count);
-                        $("#bulk_dates").val(JSON.stringify(selectedDates));
+                        
+                        // Clear previous hidden inputs for dates
+                        $('input[name="dates[]"]').remove();
+                        
+                        // Create hidden inputs for each date
+                        selectedDates.forEach(function(date) {
+                            $('#bulkManageForm').append('<input type="hidden" name="dates[]" value="' + date + '">');
+                        });
                     } else {
                         $("#selectedDatesContainer").hide();
                         $("#clearSelectionBtn").hide();
