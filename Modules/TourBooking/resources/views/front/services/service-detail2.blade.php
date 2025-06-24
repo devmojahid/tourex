@@ -323,10 +323,11 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="tg-tour-about-review-wrap mb-45">
-                                    <h4 class="tg-tour-about-title mb-15">{{ __('translate.Customer Reviews') }}</h4>
 
-                                    @if ($reviews->count() > 0)
+                                @if ($reviews->count() > 0)
+                                    <div class="tg-tour-about-review-wrap mb-45">
+                                        <h4 class="tg-tour-about-title mb-15">{{ __('translate.Customer Reviews') }}</h4>
+
                                         <div class="tg-tour-about-review">
                                             <div class="head-reviews">
                                                 <div class="review-left">
@@ -361,9 +362,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endif
-                                </div>
-                                <div class="tg-tour-about-border mb-35"></div>
+                                    </div>
+                                    <div class="tg-tour-about-border mb-35"></div>
+                                @endif
+
                                 <div class="tg-tour-about-cus-review-wrap mb-25">
                                     <h4 class="tg-tour-about-title mb-40">
                                         {{ __($reviews->count()) }}
