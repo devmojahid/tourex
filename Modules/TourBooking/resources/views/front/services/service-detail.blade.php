@@ -359,12 +359,14 @@
                                                         data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
                                                             <div class="row pb-5">
-                                                                <div class="col-md-4 mb-5">
-                                                                    <img src="{{ asset($itinerary->image) }}"
-                                                                        alt="{{ $itinerary->title }}"
-                                                                        class="itinerary-image">
-                                                                </div>
-                                                                <div class="col-md-8 mb-5">
+                                                                @if ($itinerary->image)
+                                                                    <div class="col-md-4 mb-5">
+                                                                        <img src="{{ asset($itinerary->image) }}"
+                                                                            alt="{{ $itinerary->title }}"
+                                                                            class="itinerary-image">
+                                                                    </div>
+                                                                @endif
+                                                                <div class="{{ $itinerary->image ? 'col-md-8' : 'col-12' }} mb-5">
 
                                                                     @if ($itinerary?->description)
                                                                         <div>
