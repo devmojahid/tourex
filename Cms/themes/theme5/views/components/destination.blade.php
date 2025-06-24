@@ -58,7 +58,7 @@
                         <div class="tg-location-3-wrap p-relative mb-30 tg-round-25">
                             <div class="tg-location-thumb tg-round-25">
                                 <img class="w-100 tg-round-25"
-                                    src="{{ asset($destination_item->image ?? 'frontend/assets/img/shape/placeholder.png') }}"
+                                    src="{{ asset('storage/' . $destination_item->image) }}"
                                     alt="{{ $destination_item->name }}">
                             </div>
                             <div class="tg-location-content text-center">

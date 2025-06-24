@@ -56,7 +56,7 @@
                             <span class="borders"></span>
                             <span class="icon">
                                 @if ($service_type->image)
-                                    <img width="19" height="12" src="{{ asset($service_type->image) }}">
+                                    <img width="19" height="12" src="{{ asset('storage/' . $service_type->image) }}">
                                 @elseif ($service_type->icon)
                                     <i class="{{ $service_type->icon }}"></i>
                                 @endif

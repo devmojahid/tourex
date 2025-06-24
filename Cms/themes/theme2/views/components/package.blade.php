@@ -3,6 +3,7 @@
     $theme2_popular_services = popularServices();
 @endphp
 
+
 <!-- tg-listing-area-start -->
 <div class="tg-listing-area tg-grey-bg pt-140 pb-130 p-relative z-index-9">
     <img class="tg-listing-2-shape d-none d-sm-block" src="{{ asset('frontend/assets/img/shape/map-shape-5.png') }}"
@@ -36,7 +37,7 @@
                             <div class="tg-listing-card-thumb tg-listing-2-card-thumb fix p-relative">
                                 <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
                                     <img class="tg-card-border w-100"
-                                        src="{{ asset($service?->thumbnail?->file_path ?? 'frontend/assets/img/shape/placeholder.png') }}"
+                                        src="{{ asset('storage/' . $service?->thumbnail?->file_path) }}"
                                         alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
 
                                     @if ($service?->discount_price)

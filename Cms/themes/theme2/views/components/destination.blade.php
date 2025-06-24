@@ -27,7 +27,7 @@
                             data-wow-duration=".6s">
                             <div class="tg-destination-thumb fix p-relative">
                                 <img class="w-100"
-                                    src="{{ asset($destination_item->image ?? 'frontend/assets/img/shape/placeholder.png') }}"
+                                    src="{{ asset('storage/' . $destination_item->image) }}"
                                     alt="{{ $destination_item->name }}">
                                 <div class="tg-listing-2-mask">
                                     <img class="w-100"

@@ -28,9 +28,9 @@ use Modules\TourBooking\App\Http\Controllers\Agency\DestinationController as Age
 |
 */
 
-Route::group([], function () {
-    Route::resource('tourbooking', TourBookingController::class)->names('tourbooking');
-});
+// Route::group([], function () {
+//     Route::resource('tourbooking', TourBookingController::class)->names('tourbooking');
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -100,14 +100,6 @@ Route::group(['as' => 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mi
     // amenities
     Route::resource('amenities', AmenitiesController::class);
     Route::put('amenities/{amenity}/status', [AmenitiesController::class, 'updateStatus'])->name('amenities.update-status');
-
-    // // Coupons
-    // Route::resource('coupons', CouponController::class);
-
-    // // Reviews
-    // Route::resource('reviews', ReviewController::class)->except(['create', 'store']);
-    // Route::put('reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
-    // Route::put('reviews/{review}/reject', [ReviewController::class, 'reject'])->name('reviews.reject');
 
     // // Reports
     // Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
