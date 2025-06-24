@@ -425,6 +425,9 @@ div.edc-searchbar-clickaway {
     background-position: calc(100% - 20px) calc(1em - 6px), calc(100% + -15px) calc(1em - 6px) !important;
 }
 
+.tg-tour-about-review-form .textarea {
+    line-height: 1.6;
+}
 
 /* responsive */
 
