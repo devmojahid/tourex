@@ -35,13 +35,13 @@
                                     </svg>
                                 </span>
                                 <div class="tg-header-contact-number d-none d-xl-block">
-                                    <span>{{ __('translate.Call Us') }}:</span>   
+                                    <span>{{ __('translate.Call Us') }}:</span>
                                     <a href="tel:{{ $footer->phone }}">{{ $footer->phone }}</a>
                                 </div>
                             </div>
                             <div class="tg-header-btn ml-20 d-none d-sm-block">
                                 @guest('web')
-                                <a class="tg-btn-header" href="{{ route('login') }}">
+                                <a class="tg-btn-header" href="{{ route('user.login') }}">
                                     <span>
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
