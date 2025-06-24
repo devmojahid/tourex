@@ -101,7 +101,16 @@ Route::group(['as' => 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mi
     Route::resource('amenities', AmenitiesController::class);
     Route::put('amenities/{amenity}/status', [AmenitiesController::class, 'updateStatus'])->name('amenities.update-status');
 
-    // // Reports
+    // Coupons
+    // Route::resource('coupons', CouponController::class);
+
+    // Reviews
+    Route::get('reviews', [ServiceController::class, 'review_list'])->name('reviews.index');
+    Route::get('review/detail/{id}', [ServiceController::class, 'review_detail'])->name('reviews.detail');
+    Route::delete('review/delete/{id}', [ServiceController::class, 'review_delete'])->name('reviews.delete');
+    Route::put('review/approve/{id}', [ServiceController::class, 'review_approve'])->name('reviews.approve');
+
+    // Reports
     // Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     // Route::get('reports/bookings', [ReportController::class, 'bookings'])->name('reports.bookings');
     // Route::get('reports/revenue', [ReportController::class, 'revenue'])->name('reports.revenue');

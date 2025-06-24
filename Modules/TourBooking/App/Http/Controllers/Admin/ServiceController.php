@@ -25,14 +25,14 @@ use Modules\Language\App\Models\Language;
 use Illuminate\Http\JsonResponse;
 use Modules\TourBooking\App\Models\Amenity;
 use Modules\TourBooking\App\Models\Destination;
+use Modules\TourBooking\App\Models\Review;
 
 final class ServiceController extends Controller
 {
     public function __construct(
         private ServiceRepository $serviceRepository,
         private ServiceTypeRepository $serviceTypeRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of services.
@@ -188,12 +188,12 @@ final class ServiceController extends Controller
 
         $enum_languages = EnumsLanguage::cases();
 
-         $destinations = Destination::select('id', 'name')->where('status', true)->get();
+        $destinations = Destination::select('id', 'name')->where('status', true)->get();
 
         return view('tourbooking::admin.services.edit', compact('service', 'serviceTypes', 'translation', 'lang_code', 'amenities', 'enum_languages', 'destinations'));
     }
 
-   /**
+    /**
      * Update the specified service in storage.
      */
     public function update(ServiceRequest $request, Service $service): RedirectResponse
@@ -215,7 +215,9 @@ final class ServiceController extends Controller
                             // Not JSON, treat as newline-separated string
                             $lines = array_filter(
                                 array_map('trim', explode("\n", $data[$field])),
-                                function($line) { return $line !== ''; }
+                                function ($line) {
+                                    return $line !== '';
+                                }
                             );
                             $data[$field] = json_encode(array_values($lines));
                         }
@@ -259,7 +261,9 @@ final class ServiceController extends Controller
                         // Not JSON, treat as newline-separated string
                         $lines = array_filter(
                             array_map('trim', explode("\n", $data[$field])),
-                            function($line) { return $line !== ''; }
+                            function ($line) {
+                                return $line !== '';
+                            }
                         );
                         $translationData[$field] = json_encode(array_values($lines));
                     } else {
@@ -813,5 +817,32 @@ final class ServiceController extends Controller
         }]);
 
         return view('tourbooking::admin.services.media', compact('service'));
+    }
+
+    public function review_list()
+    {
+        $reviews = Review::with('service')->latest()->get();
+
+        return view('tourbooking::admin.review.index', ['reviews' => $reviews]);
+    }
+
+    public function review_detail($id)
+    {
+
+        $review = Review::with('service')->findOrFail($id);
+
+        return view('tourbooking::admin.review.details', ['review' => $review]);
+    }
+
+    public function review_delete($id)
+    {
+        Review::findOrFail($id)->delete();
+        return redirect()->route('admin.tourbooking.reviews.index')->with('success', 'Review deleted successfully');
+    }
+
+    public function review_approve($id)
+    {
+        Review::findOrFail($id)->update(['status' => 1]);
+        return redirect()->route('admin.tourbooking.reviews.index')->with('success', 'Review approved successfully');
     }
 }

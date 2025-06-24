@@ -364,7 +364,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6 col-12">
+                                                <div class="col-lg-4 col-md-6 col-12 d-none">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Infant Price') }}</label>
@@ -382,7 +382,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6 col-12">
+                                                <div class="col-lg-4 col-md-6 col-12 d-none">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Security Deposit') }}</label>
@@ -400,7 +400,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-6 col-md-6 col-12">
+                                                <div class="col-lg-6 col-md-6 col-12 d-none">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Deposit Required') }}</label>
@@ -417,7 +417,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-6 col-md-6 col-12">
+                                                <div class="col-lg-6 col-md-6 col-12 d-none">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Deposit Percentage') }}</label>

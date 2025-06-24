@@ -1627,4 +1627,7 @@ return array(
     'Product not found' => 'Product not found',
     'Checkout' => 'Checkout',
     'Cart is empty' => 'Cart is empty',
+    'Review list' => 'Review list',
+    'Ratting' => 'Ratting',
+    'Media deleted successfully' => 'Media deleted successfully',
 );
