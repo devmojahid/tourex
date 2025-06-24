@@ -101,21 +101,22 @@ Route::group(['as' => 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'mi
     Route::resource('amenities', AmenitiesController::class);
     Route::put('amenities/{amenity}/status', [AmenitiesController::class, 'updateStatus'])->name('amenities.update-status');
 
-    // // Coupons
-    // Route::resource('coupons', CouponController::class);
+    // Coupons
+    Route::resource('coupons', CouponController::class);
 
-    // // Reviews
-    // Route::resource('reviews', ReviewController::class)->except(['create', 'store']);
-    // Route::put('reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
-    // Route::put('reviews/{review}/reject', [ReviewController::class, 'reject'])->name('reviews.reject');
+    // Reviews
+    Route::get('reviews', [ServiceController::class, 'review_list'])->name('reviews.index');
+    Route::get('review/detail/{id}', [ServiceController::class, 'review_detail'])->name('reviews.detail');
+    Route::delete('review/delete/{id}', [ServiceController::class, 'review_delete'])->name('reviews.delete');
+    Route::put('review/approve/{id}', [ServiceController::class, 'review_approve'])->name('reviews.approve');
 
-    // // Reports
-    // Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-    // Route::get('reports/bookings', [ReportController::class, 'bookings'])->name('reports.bookings');
-    // Route::get('reports/revenue', [ReportController::class, 'revenue'])->name('reports.revenue');
-    // Route::get('reports/services', [ReportController::class, 'services'])->name('reports.services');
-    // Route::get('reports/popular-destinations', [ReportController::class, 'popularDestinations'])->name('reports.popular-destinations');
-    // Route::get('reports/export/{type}', [ReportController::class, 'export'])->name('reports.export');
+    // Reports
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/bookings', [ReportController::class, 'bookings'])->name('reports.bookings');
+    Route::get('reports/revenue', [ReportController::class, 'revenue'])->name('reports.revenue');
+    Route::get('reports/services', [ReportController::class, 'services'])->name('reports.services');
+    Route::get('reports/popular-destinations', [ReportController::class, 'popularDestinations'])->name('reports.popular-destinations');
+    Route::get('reports/export/{type}', [ReportController::class, 'export'])->name('reports.export');
 });
 
 /*
