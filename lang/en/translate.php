@@ -1629,4 +1629,5 @@ return array(
     'Cart is empty' => 'Cart is empty',
     'Review list' => 'Review list',
     'Ratting' => 'Ratting',
+    'Media deleted successfully' => 'Media deleted successfully',
 );
