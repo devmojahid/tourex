@@ -74,25 +74,18 @@
                                                                             </div>
                                                                         @endif
 
-
-
-
                                                                     </div>
                                                                 </td>
-
-
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Invoice No') }}:</td>
                                                                 <td>#{{ $order->order_id }}</td>
                                                             </tr>
 
-
                                                             <tr>
                                                                 <td>{{ __('translate.Created at') }}:</td>
                                                                 <td>{{ $order->created_at->format('d M, Y') }}</td>
                                                             </tr>
-
 
                                                             <tr>
                                                                 <td>{{ __('translate.Gateway') }}:</td>
@@ -275,7 +268,6 @@
     </section>
 
 
-
     <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -308,7 +300,7 @@
         "use strict"
 
         function itemDeleteConfrimation(id) {
-            $("#item_delect_confirmation").attr("action", '{{ url('admin/order-delete/') }}' + "/" + id)
+            $("#item_delect_confirmation").attr("action", '{{ url('admin/ecommerce/order/order-delete/') }}' + "/" + id)
         }
     </script>
 @endpush

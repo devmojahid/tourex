@@ -33,6 +33,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/ecommerce', 'middleware' => [
         Route::get('view/{id}', 'show')->name('show');
         Route::patch('update-status/{id}', 'updateStatus')->name('updateStatus');
         Route::patch('payment-status/{id}', 'paymentStatus')->name('paymentStatus');
+        Route::delete('order-delete/{id}', 'orderDelete')->name('order-delete');
     });
 
     // Shipping Method Controller

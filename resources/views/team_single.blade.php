@@ -50,7 +50,7 @@
                                             <h5 class="tg-team-progress-title">{{ $skill['title'] }}</h5>
                                             <div class="tg-team-progress">
                                                 <div class="progress-bar wow slideInLeft" data-wow-duration="2s"
-                                                    data-wow-delay=".1s" role="progressbar" data-width="87%"
+                                                    data-wow-delay=".1s" role="progressbar" data-width="{{ $skill['percentage'] ?? 0 }}%"
                                                     aria-valuenow="{{ $skill['percentage'] }}" aria-valuemin="0" aria-valuemax="100">
                                                     <span>{{ $skill['percentage'] }}%</span>
                                                 </div>
