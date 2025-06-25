@@ -115,4 +115,13 @@ class OrderController extends Controller
 
         return back()->with($notification);
     }
+
+    public function orderDelete($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->delete();
+        $notification =  trans('translate.Order deleted successfully');
+        $notification = array('messege' => $notification, 'alert-type' => 'success');
+        return redirect()->route('admin.order.index')->with($notification);
+    }
 }
