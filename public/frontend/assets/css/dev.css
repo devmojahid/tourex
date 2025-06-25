@@ -434,6 +434,13 @@ div.edc-searchbar-clickaway {
     background-size: cover;
 }
 
+.tg-team-details-thumb {
+    background: #f1f1f1;
+    padding: 30px;
+    padding-bottom: 0;
+    border-radius: 30px;
+}
+
 /* responsive */
 
 @media screen and (min-width: 992px) {
@@ -448,6 +455,7 @@ div.edc-searchbar-clickaway {
         align-items: center;
         gap: 100px;
     }
+
     .td_site_header.td_style_1 .td_main_header_in,
     .td_theme_2 .td_site_header.td_style_1 .td_top_header_in {
         flex-wrap: nowrap;
@@ -464,6 +472,7 @@ div.edc-searchbar-clickaway {
     .td_theme_3 .td_site_header.td_style_1 .td_main_header_right {
         padding-right: 30px;
     }
+
     .td_sign_thumb {
         padding-right: 0px;
     }
@@ -473,15 +482,19 @@ div.edc-searchbar-clickaway {
     .td_theme_3 .td_site_header.td_style_1 .td_main_header_right {
         padding-right: 20px;
     }
+
     .td_tab_links.td_style_2.td_type_2 a {
         padding: 8px 24px;
     }
+
     .td_course_details .td_tab_links.td_style_2.td_type_2 {
         margin-bottom: 20px;
     }
+
     .td_tab_links.td_style_2.td_type_2 {
         gap: 0;
     }
+
     .td_sign_thumb {
         display: none;
     }
@@ -491,31 +504,40 @@ div.edc-searchbar-clickaway {
     .td_type_3 .top_bar-curr-lang-wrapper {
         display: none;
     }
+
     .td_btns_group {
         gap: 30px 20px;
     }
+
     .td_site_header.td_style_1.td_type_2 .td_wishlist_btn {
         display: none;
     }
+
     .td_hero_icon_btns {
         display: flex;
         gap: 10px;
     }
+
     .td_faq_1 .td_faq_1_right {
         margin-top: 0;
     }
+
     .instructors {
         padding: 50px 0;
     }
+
     .edc-line-sperator {
         display: none;
     }
+
     .td_form_card.td_style_1 {
         padding: 20px 20px;
     }
+
     .td_fs_20.td_fs_sm_16 {
         font-size: 16px;
     }
+
     .td_course_details .audio-item {
         display: block;
     }
