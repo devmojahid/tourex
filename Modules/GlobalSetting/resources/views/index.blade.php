@@ -730,7 +730,7 @@
                                                                                         <div class="row">
                                                                                             <div class="col-md-4">
                                                                                                 <div class="crancy__item-form--group mg-top-20">
-                                                                                                    <label class="crancy__item-label">{{ __('translate.Home4 Logo') }}</label>
+                                                                                                    <label class="crancy__item-label">{{ __('translate.Secondary Logo') }}</label>  
                                                                                                     <div class="crancy-product-card__upload crancy-product-card__upload--border">
                                                                                                         <input type="file" class="btn-check" name="secondary_logo" id="input-img-secondary_logo" autocomplete="off" onchange="secondaryLogo(event)">
                                                                                                         <label class="crancy-image-video-upload__label" for="input-img-secondary_logo">
@@ -742,83 +742,6 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-
-
-
-
-                                                                                    <div class="col-12">
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-4">
-                                                                                                <div class="crancy__item-form--group mg-top-20">
-                                                                                                    <label class="crancy__item-label">{{ __('translate.Home4 Footer Logo') }}</label>
-                                                                                                    <div class="crancy-product-card__upload crancy-product-card__upload--border">
-                                                                                                        <input type="file" class="btn-check" name="secondary_footer_logo" id="input-img-secondary_footer_logo" autocomplete="off" onchange="secondaryFooterLogo(event)">
-                                                                                                        <label class="crancy-image-video-upload__label" for="input-img-secondary_footer_logo">
-                                                                                                            <img id="view_secondary_footer_logo" src="{{ asset($general_setting->secondary_footer_logo) }}" class="home2_explore_img">
-                                                                                                            <h4 class="crancy-image-video-upload__title">{{ __('translate.Click here to') }} <span class="crancy-primary-color">{{ __('translate.Choose File') }}</span> {{ __('translate.and upload') }} </h4>
-                                                                                                        </label>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div class="col-12">
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-4">
-                                                                                                <div class="crancy__item-form--group mg-top-20">
-                                                                                                    <label class="crancy__item-label">{{ __('translate.Home4 Menu Logo') }}</label>
-                                                                                                    <div class="crancy-product-card__upload crancy-product-card__upload--border">
-                                                                                                        <input type="file" class="btn-check" name="secondary_navmenu_logo" id="input-img-secondary_navmenu_logo" autocomplete="off" onchange="secondaryMenuLogo(event)">
-                                                                                                        <label class="crancy-image-video-upload__label" for="input-img-secondary_navmenu_logo">
-                                                                                                            <img id="view_secondary_navmenu_logo" src="{{ asset($general_setting->secondary_navmenu_logo) }}" class="home2_explore_img">
-                                                                                                            <h4 class="crancy-image-video-upload__title">{{ __('translate.Click here to') }} <span class="crancy-primary-color">{{ __('translate.Choose File') }}</span> {{ __('translate.and upload') }} </h4>
-                                                                                                        </label>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div class="col-12">
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-4">
-                                                                                                <div class="crancy__item-form--group mg-top-20">
-                                                                                                    <label class="crancy__item-label">{{ __('translate.Home3 Menu Logo') }}</label>
-                                                                                                    <div class="crancy-product-card__upload crancy-product-card__upload--border">
-                                                                                                        <input type="file" class="btn-check" name="home3_logo" id="input-img-home3_logo" autocomplete="off" onchange="home3Logo(event)">
-                                                                                                        <label class="crancy-image-video-upload__label" for="input-img-home3_logo">
-                                                                                                            <img id="view_home3_logo" src="{{ asset($general_setting->home3_logo) }}" class="home2_explore_img">
-                                                                                                            <h4 class="crancy-image-video-upload__title">{{ __('translate.Click here to') }} <span class="crancy-primary-color">{{ __('translate.Choose File') }}</span> {{ __('translate.and upload') }} </h4>
-                                                                                                        </label>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div class="col-12">
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-4">
-                                                                                                <div class="crancy__item-form--group mg-top-20">
-                                                                                                    <label class="crancy__item-label">{{ __('translate.Home3 Footer Logo') }}</label>
-                                                                                                    <div class="crancy-product-card__upload crancy-product-card__upload--border">
-                                                                                                        <input type="file" class="btn-check" name="home3_footer_logo" id="input-img-home3_footer_logo" autocomplete="off" onchange="home3FooterLogo(event)">
-                                                                                                        <label class="crancy-image-video-upload__label" for="input-img-home3_footer_logo">
-                                                                                                            <img id="view_home3_footer_logo" src="{{ asset($general_setting->home3_footer_logo ?? '') }}" class="home2_explore_img">
-                                                                                                            <h4 class="crancy-image-video-upload__title">{{ __('translate.Click here to') }} <span class="crancy-primary-color">{{ __('translate.Choose File') }}</span> {{ __('translate.and upload') }} </h4>
-                                                                                                        </label>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-
-
-
-
-
 
                                                                                     <div class="col-12">
                                                                                         <div class="row">
