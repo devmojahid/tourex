@@ -9,7 +9,6 @@ use App\Rules\Captcha;
 use Illuminate\Http\Request;
 use Modules\FAQ\App\Models\Faq;
 use Modules\Blog\App\Models\Blog;
-use Modules\Course\App\Models\Course;
 use Modules\Page\App\Models\ContactUs;
 use Modules\Category\Entities\Category;
 use Modules\Page\App\Models\CustomPage;

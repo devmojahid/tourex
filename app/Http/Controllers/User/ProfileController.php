@@ -6,19 +6,11 @@ use Illuminate\Http\Request;
 use Auth, File, Image, Str, Hash;
 use App\Http\Controllers\Controller;
 use Modules\Coupon\App\Models\Coupon;
-use Modules\Course\App\Models\Course;
 use Modules\Wishlist\App\Models\Wishlist;
-use Modules\Course\App\Models\CourseModule;
-use Modules\Course\App\Models\CourseReview;
 use App\Http\Requests\PasswordChangeRequest;
 use Modules\Coupon\App\Models\CouponHistory;
 use App\Http\Requests\BecomeAgencyRequest;
-use Modules\Course\App\Models\LessonChecklist;
-use Modules\Course\App\Models\CourseEnrollment;
 use App\Http\Requests\EditStudentProfileRequest;
-use Modules\Course\App\Models\CourseTranslation;
-use Modules\Course\App\Models\CourseModuleLesson;
-use Modules\Course\App\Models\CourseEnrollmentList;
 use Modules\SupportTicket\App\Models\SupportTicket;
 use Modules\SupportTicket\App\Models\MessageDocument;
 use Modules\PaymentWithdraw\App\Models\SellerWithdraw;
@@ -196,42 +188,7 @@ class ProfileController extends Controller
         Coupon::where('seller_id', $user_id)->delete();
         CouponHistory::where('seller_id', $user_id)->delete();
         CouponHistory::where('buyer_id', $user_id)->delete();
-
-        $courses = Course::where('user_id', $user_id)->get();
-
-        foreach ($courses as $course) {
-            CourseEnrollmentList::where('course_id', $course->id)->delete();
-            $modules = CourseModule::where('course_id', $course->id)->get();
-            foreach ($modules as $module) {
-                CourseModuleLesson::where('course_module_id', $module->id)->delete();
-                $module->delete();
-            }
-
-            LessonChecklist::where('course_id', $course->id)->delete();
-            CourseTranslation::where('course_id', $course->id)->delete();
-            CourseReview::where('course_id', $course->id)->delete();
-
-            $old_image = $course->thumb_image;
-            if ($old_image) {
-                if (File::exists(public_path() . '/' . $old_image)) unlink(public_path() . '/' . $old_image);
-            }
-
-            $course->delete();
-        }
-
-        $enrollments = CourseEnrollment::where('student_id', $user_id)->get();
-
-        foreach ($enrollments as $enrollment) {
-            CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)->delete();
-            $enrollment->delete();
-        }
-
-        CourseEnrollmentList::where('instructor_id', $user_id)->delete();
-
-
-        CourseReview::where('student_id', $user_id)->delete();
-        LessonChecklist::where('student_id', $user_id)->delete();
-        CourseReview::where('instructor_id', $user_id)->delete();
+        
         SellerWithdraw::where('seller_id', $user_id)->delete();
         Wishlist::where('user_id', $user_id)->delete();
 

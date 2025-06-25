@@ -11,8 +11,7 @@ use Modules\FAQ\App\Models\FaqTranslation;
 use Modules\Page\App\Models\PrivacyPolicy;
 use Modules\Blog\App\Models\BlogTranslation;
 use Modules\Page\App\Models\TermAndCondition;
-use Modules\Page\App\Models\FooterTranslation;
-use Modules\Course\App\Models\CourseTranslation;
+use Modules\Page\App\Models\FooterTranslation;  
 use Modules\Category\Entities\CategoryTranslation;
 use Modules\Page\App\Models\CustomPageTranslation;
 use Modules\FAQ\App\Http\Controllers\FAQController;
@@ -26,12 +25,10 @@ use Modules\Testimonial\App\Models\TestimonialTrasnlation;
 use Modules\Page\App\Http\Controllers\CustomPageController;
 use Modules\Blog\App\Http\Controllers\BlogCategoryController;
 use Modules\Course\App\Http\Controllers\Admin\CourseController;
-use Modules\CourseLanguage\App\Models\CourseLanguageTranslation;
 use Modules\Page\App\Http\Controllers\FooterContrllerController;
 use Modules\Page\App\Http\Controllers\TermsConditiondController;
 use Modules\CourseLevel\App\Http\Controllers\CourseLevelController;
 use Modules\Testimonial\App\Http\Controllers\TestimonialController;
-use Modules\CourseLanguage\App\Http\Controllers\CourseLanguageController;
 
 class LanguageController extends Controller
 {
@@ -103,9 +100,6 @@ class LanguageController extends Controller
 
         $level_lang = new CourseLevelController();
         $level_lang->setup_language($request->lang_code);
-
-        $course_lanague_lang = new CourseLanguageController();
-        $course_lanague_lang->setup_language($request->lang_code);
 
         /** generate local language */
 
@@ -214,11 +208,9 @@ class LanguageController extends Controller
         TermAndCondition::where('lang_code' , $language->lang_code)->delete();
         TestimonialTrasnlation::where('lang_code' , $language->lang_code)->delete();
         CategoryTranslation::where('lang_code' , $language->lang_code)->delete();
-        CourseTranslation::where('lang_code' , $language->lang_code)->delete();
         FooterTranslation::where('lang_code' , $language->lang_code)->delete();
         CustomPageTranslation::where('lang_code' , $language->lang_code)->delete();
         CourseLevelTranslation::where('lang_code' , $language->lang_code)->delete();
-        CourseLanguageTranslation::where('lang_code' , $language->lang_code)->delete();
 
         $path = base_path().'/lang'.'/'.$language->lang_code;
 

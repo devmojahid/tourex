@@ -15,14 +15,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Modules\Coupon\App\Models\Coupon;
-use Modules\Course\App\Models\Course;
 use Modules\Wishlist\App\Models\Wishlist;
-use Modules\Course\App\Models\CourseReview;
 use Modules\Coupon\App\Models\CouponHistory;
-use Modules\Course\App\Models\LessonChecklist;
-use Modules\Course\App\Models\CourseEnrollment;
 use Modules\EmailSetting\App\Models\EmailTemplate;
-use Modules\Course\App\Models\CourseEnrollmentList;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
 use Modules\SupportTicket\App\Models\SupportTicket;
 use Modules\SupportTicket\App\Models\MessageDocument;
@@ -115,15 +110,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user_id = $user->id;
 
-        $total_courses = Course::where('user_id', $user_id)->count();
-
-        $enrollment_count = CourseEnrollment::where('student_id', $user_id)->count();
-
-        if($total_courses > 0 || $enrollment_count > 0){
-            $notify_message = trans('translate.You can not delete this user, multiple courses available under this user');
-            $notify_message = array('message'=>$notify_message,'alert-type'=>'error');
-            return redirect()->route('admin.user-list')->with($notify_message);
-        }
 
         $user_image = $user->image;
 
@@ -135,18 +121,6 @@ class UserController extends Controller
         CouponHistory::where('seller_id', $user_id)->delete();
         CouponHistory::where('buyer_id', $user_id)->delete();
 
-        $enrollments = CourseEnrollment::where('student_id', $user_id)->get();
-
-        foreach($enrollments as $enrollment){
-            CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)->delete();
-            $enrollment->delete();
-        }
-
-        CourseEnrollmentList::where('instructor_id', $user_id)->delete();
-
-        CourseReview::where('student_id', $user_id)->delete();
-        LessonChecklist::where('student_id', $user_id)->delete();
-        CourseReview::where('instructor_id', $user_id)->delete();
         SellerWithdraw::where('seller_id', $user_id)->delete();
         Wishlist::where('user_id', $user_id)->delete();
 

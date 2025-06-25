@@ -699,7 +699,7 @@
 
 
             <li
-                class="{{ Route::is('admin.certificatebuilder') || Route::is('admin.cookie-consent') || Route::is('admin.error-image') || Route::is('admin.login-image') || Route::is('admin.breadcrumb') || Route::is('admin.social-login') || Route::is('admin.default-avatar') || Route::is('admin.maintenance-mode') || Route::is('admin.admin-login-image') ? 'active' : '' }}">
+                class="{{ Route::is('admin.cookie-consent') || Route::is('admin.error-image') || Route::is('admin.login-image') || Route::is('admin.breadcrumb') || Route::is('admin.social-login') || Route::is('admin.default-avatar') || Route::is('admin.maintenance-mode') || Route::is('admin.admin-login-image') ? 'active' : '' }}">
                 <a href="#!" class="collapsed" data-bs-toggle="collapse"
                     data-bs-target="#menu-item__apps"><span class="menu-bar__text">
                         <span class="crancy-menu-icon crancy-svg-icon__v1">

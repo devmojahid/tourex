@@ -4,10 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
-use Modules\Course\App\Models\Course;
 use Illuminate\Notifications\Notifiable;
-use Modules\Course\App\Models\CourseReview;
-use Modules\Course\App\Models\CourseEnrollmentList;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;

@@ -4,30 +4,28 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use Modules\Course\App\Models\CourseEnrollment;
-use Modules\Course\App\Models\CourseEnrollmentList;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
 
 class DashboardController extends Controller
 {
     public function dashboard(){
 
-        $enrollments_report = CourseEnrollment::where('payment_status', 'success')->get();
+        // $enrollments_report = CourseEnrollment::where('payment_status', 'success')->get();
 
-        $total_income = $enrollments_report->sum('total_amount');
+        // $total_income = $enrollments_report->sum('total_amount');
 
-        $total_sold = CourseEnrollmentList::whereHas('course_enrollment', function($query) {
-            $query->where('payment_status', 'success');
-        })->count();
+        // $total_sold = CourseEnrollmentList::whereHas('course_enrollment', function($query) {
+        //     $query->where('payment_status', 'success');
+        // })->count();
 
         $commission_type = GlobalSetting::where('key', 'commission_type')->value('value');
         $commission_per_sale = GlobalSetting::where('key', 'commission_per_sale')->value('value');
 
         $total_commission = 0.00;
-        $net_income = $total_income;
+        $net_income = $total_income ?? 0;
         if($commission_type == 'commission'){
-            $total_commission = ($commission_per_sale / 100) * $total_income;
-            $net_income = $total_income - $total_commission;
+            $total_commission = ($commission_per_sale / 100) * ($total_income ?? 0);
+            $net_income = ($total_income ?? 0) - $total_commission;
         }
 
         $lable = array();
@@ -48,8 +46,8 @@ class DashboardController extends Controller
                 $date = $start->addDays(1)->format('Y-m-d');
             };
 
-            $sum = CourseEnrollment::whereDate('created_at', $date)->sum('total_amount');
-            $data[] = $sum;
+            // $sum = CourseEnrollment::whereDate('created_at', $date)->sum('total_amount');
+            $data[] = $sum ?? 0;
             $lable[] = $i;
 
         }
@@ -59,16 +57,16 @@ class DashboardController extends Controller
 
 
 
-        $enrollments = CourseEnrollment::with('student', 'course_list')->latest()->take(10)->get();
+        // $enrollments = CourseEnrollment::with('student', 'course_list')->latest()->take(10)->get();
 
         return view('admin.dashboard', [
             'lable' => $lable,
             'data' => $data,
-            'enrollments' => $enrollments,
-            'total_income' => $total_income,
+            'enrollments' => $enrollments ?? [],
+            'total_income' => $total_income ?? 0,
             'total_commission' => $total_commission,
             'net_income' => $net_income,
-            'total_sold' => $total_sold,
+            'total_sold' => $total_sold ?? 0,
         ]);
     }
 }

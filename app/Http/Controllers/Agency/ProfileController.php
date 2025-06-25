@@ -7,20 +7,12 @@ use Illuminate\Http\Request;
 use Auth, File, Image, Str, Hash;
 use App\Http\Controllers\Controller;
 use Modules\Coupon\App\Models\Coupon;
-use Modules\Course\App\Models\Course;
 use Modules\Wishlist\App\Models\Wishlist;
-use Modules\Course\App\Models\CourseModule;
-use Modules\Course\App\Models\CourseReview;
 use App\Http\Requests\PasswordChangeRequest;
 use Modules\Coupon\App\Models\CouponHistory;
 use App\Http\Requests\BecomeAgencyRequest;
-use Modules\Course\App\Models\LessonChecklist;
-use Modules\Course\App\Models\CourseEnrollment;
 use Modules\NoticeBoard\App\Models\NoticeBoard;
 use App\Http\Requests\EditStudentProfileRequest;
-use Modules\Course\App\Models\CourseTranslation;
-use Modules\Course\App\Models\CourseModuleLesson;
-use Modules\Course\App\Models\CourseEnrollmentList;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
 use Modules\SupportTicket\App\Models\SupportTicket;
 use Modules\SupportTicket\App\Models\MessageDocument;
@@ -34,18 +26,11 @@ class ProfileController extends Controller
 
         $user = Auth::guard('web')->user();
 
-        $enrollments = CourseEnrollmentList::with('course_enrollment.student')->where('instructor_id', $user->id)->latest()->take(10)->get();
-
         $withdraw_list = SellerWithdraw::where('seller_id', $user->id)->get();
 
-        $total_income = CourseEnrollmentList::whereHas('course_enrollment', function ($query) {
-            $query->where('payment_status', 'success');
-        })->where('instructor_id', $user->id)->sum('total_amount');
+        $total_income = 0;
 
-        $course_sale_qty = CourseEnrollmentList::whereHas('course_enrollment', function ($query) {
-            $query->where('payment_status', 'success');
-        })->where('instructor_id', $user->id)->count();
-
+        $course_sale_qty = 0;
 
         $commission_type = GlobalSetting::where('key', 'commission_type')->value('value');
         $commission_per_sale = GlobalSetting::where('key', 'commission_per_sale')->value('value');
@@ -65,7 +50,7 @@ class ProfileController extends Controller
 
         $pending_withdraw = SellerWithdraw::where('seller_id', $user->id)->where('status', 'pending')->sum('total_amount');
 
-        $total_active_course = Course::where('approved_by_admin', 'approved')->where('user_id', $user->id)->count();
+        $total_active_course = 0;
 
         $lable = array();
         $data = array();
@@ -85,9 +70,7 @@ class ProfileController extends Controller
                 $date = $start->addDays(1)->format('Y-m-d');
             };
 
-            $sum = CourseEnrollmentList::whereHas('course_enrollment', function ($query) {
-                $query->where('payment_status', 'success');
-            })->where('instructor_id', $user->id)->whereDate('created_at', $date)->sum('total_amount');
+            $sum = 0;
             $data[] = $sum;
             $lable[] = $i;
         }
@@ -107,7 +90,7 @@ class ProfileController extends Controller
             'pending_withdraw' => $pending_withdraw,
             'course_sale_qty' => $course_sale_qty,
             'total_active_course' => $total_active_course,
-            'enrollments' => $enrollments,
+            'enrollments' => [],
         ]);
     }
 
@@ -262,42 +245,7 @@ class ProfileController extends Controller
         CouponHistory::where('seller_id', $user_id)->delete();
         CouponHistory::where('buyer_id', $user_id)->delete();
 
-        $courses = Course::where('user_id', $user_id)->get();
-
-        foreach ($courses as $course) {
-            CourseEnrollmentList::where('course_id', $course->id)->delete();
-            $modules = CourseModule::where('course_id', $course->id)->get();
-            foreach ($modules as $module) {
-                CourseModuleLesson::where('course_module_id', $module->id)->delete();
-                $module->delete();
-            }
-
-            LessonChecklist::where('course_id', $course->id)->delete();
-            CourseTranslation::where('course_id', $course->id)->delete();
-            CourseReview::where('course_id', $course->id)->delete();
-
-            $old_image = $course->thumb_image;
-            if ($old_image) {
-                if (File::exists(public_path() . '/' . $old_image)) unlink(public_path() . '/' . $old_image);
-            }
-
-            $course->delete();
-        }
-
-        $enrollments = CourseEnrollment::where('student_id', $user_id)->get();
-
-        foreach ($enrollments as $enrollment) {
-            CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)->delete();
-            $enrollment->delete();
-        }
-
-        CourseEnrollmentList::where('instructor_id', $user_id)->delete();
-
-
-        CourseReview::where('student_id', $user_id)->delete();
-        LessonChecklist::where('student_id', $user_id)->delete();
-        CourseReview::where('instructor_id', $user_id)->delete();
-        NoticeBoard::where('instructor_id', $user_id)->delete();
+        NoticeBoard::where('user_id', $user_id)->delete();
         SellerWithdraw::where('seller_id', $user_id)->delete();
         Wishlist::where('user_id', $user_id)->delete();
 
