@@ -39,19 +39,19 @@
                                                         <table>
                                                             <tr>
                                                                 <td>{{ __('translate.Name') }}:</td>
-                                                                <td>{{ __($order->address['name']) }}</td>
+                                                                <td>{{ __($order?->address['name']) }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Phone') }}:</td>
-                                                                <td>{{ __($order->address['phone']) }}</td>
+                                                                <td>{{ __($order?->address['phone']) }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Email') }}:</td>
-                                                                <td>{{ __($order->address['email']) }}</td>
+                                                                <td>{{ __($order?->address['email']) }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Address') }}: </td>
-                                                                <td>{{ __($order->address['address']) }}</td>
+                                                                <td>{{ __($order?->address['address']) }}</td>
                                                             </tr>
                                                         </table>
 
