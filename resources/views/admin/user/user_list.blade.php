@@ -5,7 +5,7 @@
 
 @section('body-header')
     <h3 class="crancy-header__title m-0">{{ $title }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Manage Student') }} >> {{ $title }}</p>
+    <p class="crancy-header__text">{{ __('translate.Manage User') }} >> {{ $title }}</p>
 @endsection
 
 @section('body-content')

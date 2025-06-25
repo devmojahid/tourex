@@ -253,15 +253,6 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middlew
     // Coupons
     Route::post('/validate-coupon', [FrontBookingController::class, 'validateCoupon'])->name('validate-coupon');
 
-    // User Bookings (Protected by auth middleware)
-    Route::group(['middleware' => ['auth:web']], function () {
-        Route::get('/my-bookings', [FrontBookingController::class, 'myBookings'])->name('my-bookings');
-        Route::get('/my-bookings/{code}', [FrontBookingController::class, 'bookingDetails'])->name('my-bookings.show');
-        Route::get('/my-bookings/{code}/invoice', [FrontBookingController::class, 'invoice'])->name('my-bookings.invoice');
-        Route::get('/my-bookings/{code}/download-invoice', [FrontBookingController::class, 'downloadInvoicePdf'])->name('my-bookings.download-invoice');
-        Route::post('/my-bookings/{code}/cancel', [FrontBookingController::class, 'cancelBooking'])->name('my-bookings.cancel');
-        Route::post('/my-bookings/{code}/review', [FrontBookingController::class, 'leaveReview'])->name('my-bookings.review');
-    });
 });
 
 // user routes

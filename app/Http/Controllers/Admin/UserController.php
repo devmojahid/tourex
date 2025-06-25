@@ -28,6 +28,7 @@ use Modules\SupportTicket\App\Models\SupportTicket;
 use Modules\SupportTicket\App\Models\MessageDocument;
 use Modules\PaymentWithdraw\App\Models\SellerWithdraw;
 use Modules\SupportTicket\App\Models\SupportTicketMessage;
+use Modules\TourBooking\App\Models\Booking;
 
 class UserController extends Controller
 {
@@ -40,7 +41,7 @@ class UserController extends Controller
 
         $users = User::where('status', 'enable')->latest()->get();
 
-        $title = trans('translate.Student List');
+        $title = trans('translate.User List');
 
         return view('admin.user.user_list', ['users' => $users, 'title' => $title]);
     }
@@ -49,7 +50,7 @@ class UserController extends Controller
 
         $users = User::where('status', 'disable')->latest()->get();
 
-        $title = trans('translate.Pending Student');
+        $title = trans('translate.Pending User');
 
         return view('admin.user.user_list', ['users' => $users, 'title' => $title]);
     }
@@ -58,24 +59,22 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        $enrolled_courses = CourseEnrollmentList::whereHas('course_enrollment', function($query) use($user) {
-            $query->where('payment_status', 'success')->where('student_id', $user->id);
-        })->get();
+        $wallet_balance = 0.0;
 
-        $enrolled_course_qty = $enrolled_courses->count();
+        $totalConfirmedBookingCount = Booking::where('user_id', $user->id)->where('booking_status', 'confirmed')->count();
+        $confirmAmount = Booking::where('user_id', $user->id)->where('booking_status', 'confirmed')->sum('total');
 
-        $enrolled_course_amount = CourseEnrollment::where('payment_status', 'success')->where('student_id', $user->id)->sum('total_amount');
-
-        $wallet_balance = 0.00;
-
-        $enrollments = CourseEnrollment::with('course_list')->where('student_id', $user->id)->latest()->get();
+        $user_bookings = Booking::with(['service:id,title,location'])
+            ->where('user_id', $user->id)
+            ->latest()
+            ->get();
 
         return view('admin.user.user_show', [
             'user' => $user,
-            'enrolled_course_qty' => $enrolled_course_qty,
-            'enrolled_course_amount' => $enrolled_course_amount,
+            'total_confirmed_booking' => $totalConfirmedBookingCount,
+            'confirm_amount' => $confirmAmount,
             'wallet_balance' => $wallet_balance,
-            'enrollments' => $enrollments,
+            'user_bookings' => $user_bookings
         ]);
 
     }
@@ -156,23 +155,23 @@ class UserController extends Controller
             $ticket_messages = SupportTicketMessage::with('documents')->where('support_ticket_id', $support_ticket->id)->get();
 
             foreach($ticket_messages as $ticket_message){
-    
+
                 $documents = MessageDocument::where('message_id', $ticket_message->id)->where('model_name', 'SupportTicketMessage')->get();
                 foreach($documents as $document){
                     $exist_file_name = $document->file_name;
                     if($exist_file_name){
                         if(File::exists(public_path('uploads/custom-images').'/'.$exist_file_name))unlink(public_path('uploads/custom-images').'/'.$exist_file_name);
                     }
-    
+
                     $document->delete();
                 }
-    
+
                 $ticket_message->delete();
             }
-    
+
             $support_ticket->delete();
         }
-        
+
         $user->delete();
 
         $notify_message = trans('translate.Delete Successfully');
@@ -200,7 +199,7 @@ class UserController extends Controller
 
         $users = User::where('status', 'enable')->where('is_seller', 1)->latest()->get();
 
-        $title = trans('translate.Seller List');
+        $title = trans('translate.Agency List');
 
         return view('admin.seller.seller_list', ['users' => $users, 'title' => $title]);
     }

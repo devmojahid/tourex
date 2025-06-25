@@ -1582,5 +1582,11 @@
   'Cart is empty' => 'Cart is empty',
   'Review list' => 'Review list',
   'Ratting' => 'Ratting',
-  'Media deleted successfully' => 'Media deleted successfully 1',
+  'Media deleted successfully' => 'Media deleted successfully',
+  'Manage Agency' => 'Manage Agency',
+  'Agency List' => 'Agency List',
+  'Manage User' => 'Manage User',
+  'User Details' => 'User Details',
+  'Booking List' => 'Booking List',
+  'Booking' => 'Booking',
 );
