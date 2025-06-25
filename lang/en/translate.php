@@ -1589,4 +1589,7 @@
   'User Details' => 'User Details',
   'Booking List' => 'Booking List',
   'Booking' => 'Booking',
+  'Agency Joining Request' => 'Agency Joining Request',
+  'Agency Joining Details' => 'Agency Joining Details',
+  'Bookings List' => 'Bookings List',
 );

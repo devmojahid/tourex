@@ -29,6 +29,7 @@ use Modules\SupportTicket\App\Models\MessageDocument;
 use Modules\PaymentWithdraw\App\Models\SellerWithdraw;
 use Modules\SupportTicket\App\Models\SupportTicketMessage;
 use Modules\TourBooking\App\Models\Booking;
+use Modules\TourBooking\App\Models\Service;
 
 class UserController extends Controller
 {
@@ -218,7 +219,7 @@ class UserController extends Controller
 
         $users = User::where('instructor_joining_request', 'pending')->latest()->get();
 
-        $title = trans('translate.Instructor Joining Request');
+    $title = trans('translate.Agency Joining Request');
 
         return view('admin.seller.seller_joining_request', ['users' => $users, 'title' => $title]);
     }
@@ -294,9 +295,11 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        $total_income = CourseEnrollmentList::whereHas('course_enrollment', function($query) {
-            $query->where('payment_status', 'success');
-        })->where('instructor_id', $user->id)->sum('total_amount');
+        $myServicesIds = Service::where('user_id', $user->id)->pluck('id')->toArray();
+
+        $total_income = Booking::whereIn('service_id', $myServicesIds)
+            ->where('payment_status', 'success')
+            ->sum('total');
 
         $commission_type = GlobalSetting::where('key', 'commission_type')->value('value');
         $commission_per_sale = GlobalSetting::where('key', 'commission_per_sale')->value('value');
@@ -316,7 +319,10 @@ class UserController extends Controller
 
         $pending_withdraw = SellerWithdraw::where('seller_id', $user->id)->where('status', 'pending')->sum('total_amount');
 
-        $courses = Course::with('category')->where('approved_by_admin', '!=', 'draft')->where('user_id', $user->id)->latest()->get();
+        $agency_bookings = Booking::with(['service', 'user'])
+            ->whereIn('service_id', $myServicesIds)
+            ->latest()
+            ->get();
 
         return view('admin.seller.seller_show', [
             'user' => $user,
@@ -326,7 +332,7 @@ class UserController extends Controller
             'current_balance' => $current_balance,
             'total_withdraw_amount' => $total_withdraw_amount,
             'pending_withdraw' => $pending_withdraw,
-            'courses' => $courses,
+            'agency_bookings' => $agency_bookings
         ]);
 
     }

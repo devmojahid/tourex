@@ -26,7 +26,7 @@ final class BookingController extends Controller
         $bookings = Booking::with(['service', 'user'])
             ->whereIn('service_id', $myServicesIds)
             ->latest()
-            ->paginate(15);
+            ->get();
 
         return view('tourbooking::agency.bookings.index', compact('bookings'));
     }
