@@ -430,6 +430,10 @@ div.edc-searchbar-clickaway {
     padding-top: 10px;
 }
 
+.tg-banner-4-spacing {
+    background-size: cover;
+}
+
 /* responsive */
 
 @media screen and (min-width: 992px) {
