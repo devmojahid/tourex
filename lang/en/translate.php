@@ -1620,4 +1620,5 @@
   'No availabilities found' => 'No availabilities found',
   'Bulk Availability Management' => 'Bulk Availability Management',
   'Are you sure you want to delete availability for' => 'Are you sure you want to delete availability for',
-);
+  'Secondary Logo' => 'Secondary Logo',
+  );
