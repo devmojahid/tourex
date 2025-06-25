@@ -1630,4 +1630,6 @@
   'Agency Joining Request' => 'Agency Joining Request',
   'Agency Joining Details' => 'Agency Joining Details',
   'Bookings List' => 'Bookings List',
+  'Quick Links' => 'Quick Links',
+  'Utility Pages' => 'Utility Pages',
 );
