@@ -8,7 +8,7 @@
                             <div class="logo mr-25">
                                 <a class="logo-1" href="{{ route('home') }}"><img src="{{ asset($general_setting->logo) }}"
                                         alt="Logo"></a>
-                                <a class="logo-2 d-none" href="{{ route('home') }}"><img src="{{ asset($general_setting->logo) }}"
+                                <a class="logo-2 d-none" href="{{ route('home') }}"><img src="{{ asset($general_setting->secondary_logo) }}"
                                         alt="Logo"></a>
                             </div>
                             <button class="tgmenu-offcanvas-open-btn menu-tigger d-none d-xl-block">
