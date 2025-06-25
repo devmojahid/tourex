@@ -1632,4 +1632,6 @@
   'Bookings List' => 'Bookings List',
   'Quick Links' => 'Quick Links',
   'Utility Pages' => 'Utility Pages',
+  'Latest Bookings' => 'Latest Bookings',
+  'Total Booking' => 'Total Booking',
 );
