@@ -182,42 +182,6 @@
 
     <!-- tg-cta-area-start -->
     <div class="tg-cta-area-area tg-cta-space pt-125 z-index-9 p-relative">
-        <img class="tg-cta-price-shape d-none d-lg-block" src="assets/img/about/details/shape.png" alt="">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="tg-cta-wrap include-bg" data-background="assets/img/cta/banner.jpg">
-                        <div class="row align-items-end">
-                            <div class="col-lg-3 d-none d-lg-block">
-                                <div class="tg-cta-thumb pt-50 ml-60">
-                                    <img src="assets/img/cta/phone.png" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-5 col-md-6">
-                                <div class="tg-cta-content">
-                                    <h5 class="tg-section-subtitle text-white mb-10">Explore Tour</h5>
-                                    <h2 class="mb-15 tg-cta-title text-white text-capitalize">Download Our App <br> Form
-                                        Google & App Store!</h2>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="tg-cta-apps">
-                                    <a class="mb-20 d-inline-block mr-5" href="#"><img
-                                            src="assets/img/cta/google.png" alt=""></a>
-                                    <a class="mb-20 d-inline-block" href="#"><img src="assets/img/cta/app.png"
-                                            alt=""></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- tg-cta-area-end -->
-
-    <!-- tg-cta-area-start -->
-    <div class="tg-cta-area-area tg-cta-space pt-125 z-index-9 p-relative">
         <img class="tg-cta-price-shape d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/hill.png') }}"
             alt="">
         <img class="tg-cta-price-shape-2 d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/tree.png') }}"
