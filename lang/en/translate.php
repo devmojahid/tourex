@@ -1592,4 +1592,6 @@
   'Agency Joining Request' => 'Agency Joining Request',
   'Agency Joining Details' => 'Agency Joining Details',
   'Bookings List' => 'Bookings List',
+  'Latest Bookings' => 'Latest Bookings',
+  'Total Booking' => 'Total Booking',
 );

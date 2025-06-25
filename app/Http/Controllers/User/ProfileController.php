@@ -23,6 +23,7 @@ use Modules\SupportTicket\App\Models\SupportTicket;
 use Modules\SupportTicket\App\Models\MessageDocument;
 use Modules\PaymentWithdraw\App\Models\SellerWithdraw;
 use Modules\SupportTicket\App\Models\SupportTicketMessage;
+use Modules\TourBooking\App\Models\Booking;
 
 class ProfileController extends Controller
 {
@@ -31,27 +32,29 @@ class ProfileController extends Controller
 
         $user = Auth::guard('web')->user();
 
-        $enrollments = CourseEnrollment::with('course_list')->where('student_id', $user->id)->take(10)->get();
-
-        $complete_transaction = CourseEnrollment::with('course_list')->where('student_id', $user->id)->where('payment_status', 'success')->sum('total_amount');
-        $rejected_transaction = CourseEnrollment::with('course_list')->where('student_id', $user->id)->where('payment_status', 'rejected')->sum('total_amount');
-
-        $enrolled_corse = CourseEnrollmentList::whereHas('course_enrollment', function ($query) use ($user) {
-            $query->where('payment_status', 'success')->where('student_id', $user->id);;
-        })->count();
-
         $wishlists = Wishlist::where('user_id', $user->id)->count();
 
         $support_tickets = SupportTicket::where('author_id', $user->id)->where('admin_type', 'admin')->latest()->count();
 
+        $bookings = Booking::with(['service:id,title,location'])
+            ->where('user_id', auth()->user()->id)
+            ->latest()
+            ->take(15)
+            ->get();
+
+        $booking =  Booking::where('user_id', auth()->user()->id)
+            ->where('booking_status', 'confirmed');
+
+        $total_booking = $booking->count();
+        $total_transaction = $booking->sum('total');
+
 
         return view('user.dashboard', [
-            'enrollments' => $enrollments,
-            'enrolled_corse' => $enrolled_corse,
-            'complete_transaction' => $complete_transaction,
-            'rejected_transaction' => $rejected_transaction,
             'wishlists' => $wishlists,
             'support_tickets' => $support_tickets,
+            'bookings' => $bookings,
+            'total_booking' => $total_booking,
+            'total_transaction' => $total_transaction
         ]);
     }
 
