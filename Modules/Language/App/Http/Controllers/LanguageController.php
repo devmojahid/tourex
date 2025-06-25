@@ -232,14 +232,15 @@ class LanguageController extends Controller
     }
 
     public function theme_language(Request $request){
+        $langPath = base_path('lang/'.$request->lang_code.'/translate.php');
 
-        if(!File::exists('lang/'.$request->lang_code.'/translate.php')){
+        if(!File::exists($langPath)){
             $notify_message = trans('translate.Requested language does not exist');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
             return redirect()->route('admin.language.index')->with($notify_message);
         }
 
-        $data = include('lang/'.$request->lang_code.'/translate.php');
+        $data = include($langPath);
 
         return view('language::theme_language', [
             'data' => $data
@@ -250,28 +251,66 @@ class LanguageController extends Controller
 
 
     public function update_theme_language (Request $request){
+        $langPath = base_path('lang/'.$request->lang_code.'/translate.php');
 
-
-        if(!File::exists('lang/'.$request->lang_code.'/translate.php')){
+        if(!File::exists($langPath)){
             $notify_message = trans('translate.Requested language does not exist');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
             return redirect()->route('admin.language.index')->with($notify_message);
         }
 
-        $dataArray = [];
+        // Get existing translations to preserve them
+        $existingTranslations = [];
+        if(File::exists($langPath)) {
+            $existingTranslations = include($langPath);
+        }
+        
+        // Merge existing translations with updated ones
+        // Only update the submitted keys, preserve all others
+        $dataArray = $existingTranslations;
         foreach($request->values as $index => $value){
             $dataArray[$index] = $value;
         }
 
-        file_put_contents('lang/'.$request->lang_code.'/translate.php', "");
-        $dataArray = var_export($dataArray, true);
-        file_put_contents('lang/'.$request->lang_code.'/translate.php', "<?php\n return {$dataArray};\n ?>");
+        try {
+            // Write the updated translations back to the file using stream writing for larger files
+            $handle = fopen($langPath, 'w');
+            if ($handle) {
+                // Write the PHP opening tag and array opening
+                fwrite($handle, "<?php\n return array (\n");
+                
+                // Write each key-value pair
+                foreach ($dataArray as $key => $value) {
+                    // Properly escape the key and value for PHP
+                    $escapedKey = addslashes($key);
+                    $escapedValue = addslashes($value);
+                    fwrite($handle, "  '{$escapedKey}' => '{$escapedValue}',\n");
+                }
+                
+                // Close the array and PHP tag
+                fwrite($handle, ");\n");
+                fclose($handle);
+                
+                $notify_message = trans('translate.Updated successfully');
+                $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+            } else {
+                // Failed to open file
+                $notify_message = trans('translate.Failed to update translations');
+                $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
+            }
+        } catch (\Exception $e) {
+            // Log the error
+            \Log::error('Translation update error: ' . $e->getMessage());
+            
+            $notify_message = trans('translate.Failed to update translations') . ' - ' . $e->getMessage();
+            $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
+        }
 
-        $notify_message = trans('translate.Updated successfully');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-        return redirect()->back()->with($notify_message);
-
-
+        // Redirect back with the page parameter to stay on the current page
+        return redirect()->route('admin.theme-language', [
+            'lang_code' => $request->lang_code,
+            'page' => $request->page
+        ])->with($notify_message);
     }
 
 

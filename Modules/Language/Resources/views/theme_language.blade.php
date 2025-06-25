@@ -77,10 +77,47 @@
                     <div class="crancy-body">
                         <!-- Dashboard Inner -->
                         <div class="crancy-dsinner">
+                            @php
+                                // Paginate the translations to improve performance and avoid form size limitations
+                                $perPage = 100;
+                                $currentPage = request('page', 1);
+                                $dataArray = collect($data);
+                                $paginatedData = $dataArray->forPage($currentPage, $perPage);
+                                $lastPage = ceil($dataArray->count() / $perPage);
+                            @endphp
+                            
+                            <div class="row mb-5">
+                                <div class="col-12 mg-top-30">
+                                    <div class="crancy-product-card translation_main_box">
+                                        <div class="mb-4">
+                                            <div class="alert alert-info">
+                                                <p>Showing translations {{ ($currentPage - 1) * $perPage + 1 }} to {{ min($currentPage * $perPage, $dataArray->count()) }} of {{ $dataArray->count() }}</p>
+                                                <p><strong>Note:</strong> You must save each page separately before moving to another page.</p>
+                                            </div>
+                                            
+                                            <div class="pagination mb-3">
+                                                @for ($i = 1; $i <= $lastPage; $i++)
+                                                    <a href="{{ route('admin.theme-language', ['lang_code' => request('lang_code'), 'page' => $i]) }}" 
+                                                    class="btn {{ $currentPage == $i ? 'btn-primary' : 'btn-outline-primary' }} me-1">
+                                                        {{ $i }}
+                                                    </a>
+                                                @endfor
+                                            </div>
+                                            
+                                            <!-- Quick search within current page -->
+                                            <div class="mb-3">
+                                                <input type="text" id="translationSearch" class="form-control" placeholder="Search in current page...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <form action="{{ route('admin.update-theme-language') }}" method="POST">
                                 @csrf
-
+                                
                                 <input type="hidden" name="lang_code" value="{{ request()->get('lang_code') }}">
+                                <input type="hidden" name="page" value="{{ $currentPage }}">
 
                                 <div class="row">
                                     <div class="col-12">
@@ -91,8 +128,8 @@
                                             </div>
 
                                             <div class="row mg-top-30">
-                                                @foreach ($data as $index => $value)
-                                                    <div class="col-12">
+                                                @foreach ($paginatedData as $index => $value)
+                                                    <div class="col-12 translation-item">
                                                         <div class="crancy__item-form--group mg-top-form-20">
                                                             <label class="crancy__item-label">{{ $index }} </label>
                                                             <input class="crancy__item-input" type="text" name="values[{{ $index }}]"  value="{{ $value }}">
@@ -118,3 +155,29 @@
     </section>
     <!-- End crancy Dashboard -->
 @endsection
+
+@push('js_section')
+<script>
+    // Simple client-side search functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('translationSearch');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const items = document.querySelectorAll('.translation-item');
+                
+                items.forEach(item => {
+                    const label = item.querySelector('.crancy__item-label').textContent.toLowerCase();
+                    const input = item.querySelector('.crancy__item-input').value.toLowerCase();
+                    
+                    if (label.includes(searchTerm) || input.includes(searchTerm)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+    });
+</script>
+@endpush
