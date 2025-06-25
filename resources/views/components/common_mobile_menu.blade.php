@@ -5,12 +5,6 @@
             <a href="{{ route('home') }}"><img src="{{ asset($general_setting->secondary_logo) }}"
                     alt="logo"></a>
         </div>
-        <div class="tgmobile__search">
-            <form action="{{ route('courses') }}">
-                <input type="text" name="search" placeholder="{{ __('translate.Search here...') }}">
-                <button><i class="fas fa-search"></i></button>
-            </form>
-        </div>
         <div class="tgmobile__menu-outer">
             <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
         </div>

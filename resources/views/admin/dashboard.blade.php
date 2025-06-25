@@ -23,7 +23,7 @@
                                     <div class="crancy-ecom-card crancy-ecom-card__v2">
                                         <div class="flex-main">
                                             <span>
-                                                @include('course::admin.svg.total_sale')
+                                                {{-- @include('course::admin.svg.total_sale') --}}
                                             </span>
                                             <div class="flex-1">
                                                 <div class="crancy-ecom-card__heading">
@@ -49,7 +49,7 @@
                                     <div class="crancy-ecom-card crancy-ecom-card__v2">
                                         <div class="flex-main">
                                             <span>
-                                                @include('course::admin.svg.admin_earning')
+                                                {{-- @include('course::admin.svg.admin_earning') --}}
                                             </span>
                                             <div class="flex-1">
                                                 <div class="crancy-ecom-card__heading">
@@ -75,7 +75,7 @@
                                     <div class="crancy-ecom-card crancy-ecom-card__v2">
                                         <div class="flex-main">
                                             <span>
-                                                @include('course::admin.svg.instructor_earning')
+                                                {{-- @include('course::admin.svg.instructor_earning') --}}
                                             </span>
                                             <div class="flex-1">
                                                 <div class="crancy-ecom-card__heading">
@@ -100,7 +100,7 @@
                                     <div class="crancy-ecom-card crancy-ecom-card__v2">
                                         <div class="flex-main">
                                             <span>
-                                                @include('course::admin.svg.total_sold')
+                                                {{-- @include('course::admin.svg.total_sold') --}}
                                             </span>
                                             <div class="flex-1">
                                                 <div class="crancy-ecom-card__heading">
@@ -213,7 +213,8 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title"><a href="{{ route('admin.course-enrollment', $enrollment->order_id) }}">#{{ $enrollment->order_id }}</a></h4>
+                                                        {{-- <h4 class="crancy-table__product-title"><a href="{{ route('admin.course-enrollment', $enrollment->order_id) }}">#{{ $enrollment->order_id }}</a></h4> --}}
+                                                        <h4 class="crancy-table__product-title"><a href="#">#{{ $enrollment->order_id }}</a></h4>
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
@@ -251,7 +252,8 @@
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
 
-                                                        <a href="{{ route('admin.course-enrollment', $enrollment->order_id) }}" class="crancy-btn mb-1 xl:mb-0"><i class="fas fa-eye"></i> {{ __('translate.Detail') }}</a>
+                                                        {{-- <a href="{{ route('admin.course-enrollment', $enrollment->order_id) }}" class="crancy-btn mb-1 xl:mb-0"><i class="fas fa-eye"></i> {{ __('translate.Detail') }}</a> --}}
+                                                        <a href="#" class="crancy-btn mb-1 xl:mb-0"><i class="fas fa-eye"></i> {{ __('translate.Detail') }}</a>
 
                                                         <a onclick="itemDeleteConfrimation({{ $enrollment->id }})" href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="crancy-btn delete_danger_btn"><i class="fas fa-trash"></i> </a>
 

@@ -439,12 +439,6 @@
             $("#item_delect_confirmation").attr("action", '{{ url('admin/user-delete/') }}' + "/" + id)
         }
 
-        function courseDeleteConfrimation(id) {
-            $("#item_delect_confirmation").attr("action", '{{ url('admin/courses/') }}' + "/" + id)
-        }
-
-
-
         function manageStatus(id) {
             var appMODE = "{{ env('APP_MODE') }}"
             if (appMODE == 'DEMO') {
