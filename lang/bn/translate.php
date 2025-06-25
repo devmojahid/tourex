@@ -13,7 +13,7 @@
   'Email' => 'ইমেইল',
   'Password' => 'পাসওয়ার্ড',
   'Login Now' => 'এখন প্রবেশ করুন',
-  'Welcome to Educve' => 'এডুকভে স্বাগতম',
+  'Welcome to Tourex' => 'এডুকভে স্বাগতম',
   'Dashboard' => 'ড্যাশবোর্ড',
   'Total Sale' => 'মোট বিক্রয়',
   'Admin Earnings' => 'অ্যাডমিন আয়',

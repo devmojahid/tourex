@@ -521,7 +521,7 @@
                     validation_errors.forEach(error => toastr.error(error));
                 }
 
-                if (localStorage.getItem('educve-cookie') != '1') {
+                if (localStorage.getItem('tourex-cookie') != '1') {
                     $('.cookie_consent_modal').removeClass('d-none');
                 }
 
@@ -530,7 +530,7 @@
                 });
 
                 $('.cookie_consent_accept_btn').on('click', function() {
-                    localStorage.setItem('educve-cookie', '1');
+                    localStorage.setItem('tourex-cookie', '1');
                     $('.cookie_consent_modal').addClass('d-none');
                 });
 

@@ -52,7 +52,7 @@
 										@if ($has_super_admin)
 											<div class="crancy-wc__heading pd-btm-20">
 												<h3 class="crancy-wc__form-title crancy-wc__form-title__one m-0">{{ __('translate.Login Here') }}</h3>
-												<p>{{ __('translate.Welcome to Educve Admin Panel') }}</p>
+												<p>{{ __('translate.Welcome to Tourex Admin Panel') }}</p>
 											</div>
 											<!-- Sign in Form -->
 											<form class="crancy-wc__form-main" action="{{ route('admin.store-login') }}" method="post">
@@ -89,7 +89,7 @@
 										@else
 											<div class="crancy-wc__heading pd-btm-20">
 												<h3 class="crancy-wc__form-title crancy-wc__form-title__one m-0">{{ __('translate.Create Admin Account') }}</h3>
-												<p>{{ __('translate.Welcome to Educve Admin Panel') }}</p>
+												<p>{{ __('translate.Welcome to Tourex Admin Panel') }}</p>
 											</div>
 											<!-- Sign in Form -->
 											<form class="crancy-wc__form-main" action="{{ route('admin.store-register') }}" method="post">
