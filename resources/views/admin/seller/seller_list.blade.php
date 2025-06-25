@@ -5,7 +5,7 @@
 
 @section('body-header')
     <h3 class="crancy-header__title m-0">{{ $title }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Manage Seller') }} >> {{ $title }}</p>
+    <p class="crancy-header__text">{{ __('translate.Manage Agency') }} >> {{ $title }}</p>
 @endsection
 
 @section('body-content')
@@ -20,8 +20,10 @@
                             <div class="crancy-table crancy-table--v3 mg-top-30">
 
                                 <div class="crancy-customer-filter">
-                                    <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
-                                        <div class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
+                                    <div
+                                        class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
+                                        <div
+                                            class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
                                             <h4 class="crancy-product-card__title">{{ $title }}</h4>
                                         </div>
                                     </div>
@@ -30,30 +32,31 @@
                                 <!-- crancy Table -->
                                 <div id="crancy-table__main_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
 
-                                    <table class="crancy-table__main crancy-table__main-v3 dataTable no-footer" id="dataTable">
+                                    <table class="crancy-table__main crancy-table__main-v3 dataTable no-footer"
+                                        id="dataTable">
                                         <!-- crancy Table Head -->
                                         <thead class="crancy-table__head">
                                             <tr>
 
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting" >
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
                                                     {{ __('translate.Serial') }}
                                                 </th>
 
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Name') }}
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
+                                                    {{ __('translate.Agency Name') }}
                                                 </th>
 
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting" >
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
                                                     {{ __('translate.Email') }}
                                                 </th>
 
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting" >
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
                                                     {{ __('translate.Phone') }}
                                                 </th>
 
 
 
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting" >
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
                                                     {{ __('translate.Status') }}
                                                 </th>
 
@@ -73,30 +76,43 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title">{{ html_decode($user->name) }}</h4>
+                                                        <h4 class="crancy-table__product-title">
+                                                            {{ html_decode($user->agency_name) }}</h4>
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title">{{ html_decode($user->email) }}</h4>
+                                                        <h4 class="crancy-table__product-title">
+                                                            {{ html_decode($user->email) }}</h4>
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title">{{ html_decode($user->phone) }}</h4>
+                                                        <h4 class="crancy-table__product-title">
+                                                            {{ html_decode($user->phone) }}</h4>
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <div class="crancy-ptabs__notify-switch  crancy-ptabs__notify-switch--two">
+                                                        <div
+                                                            class="crancy-ptabs__notify-switch  crancy-ptabs__notify-switch--two">
                                                             <label class="crancy__item-switch">
-                                                            <input onClick="manageStatus({{ $user->id }})" name="status" type="checkbox" {{ $user->status == 'enable' ? 'checked' : '' }}>
-                                                            <span class="crancy__item-switch--slide crancy__item-switch--round"></span>
+                                                                <input onClick="manageStatus({{ $user->id }})"
+                                                                    name="status" type="checkbox"
+                                                                    {{ $user->status == 'enable' ? 'checked' : '' }}>
+                                                                <span
+                                                                    class="crancy__item-switch--slide crancy__item-switch--round"></span>
                                                             </label>
                                                         </div>
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <a href="{{ route('admin.seller-show', $user->id ) }}" class="crancy-btn"><i class="fas fa-eye"></i> {{ __('translate.Show') }}</a>
+                                                        <a href="{{ route('admin.seller-show', $user->id) }}"
+                                                            class="crancy-btn"><i class="fas fa-eye"></i>
+                                                            {{ __('translate.Show') }}</a>
 
-                                                        <a onclick="itemDeleteConfrimation({{ $user->id }})" href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="crancy-btn delete_danger_btn"><i class="fas fa-trash"></i> </a>
+                                                        <a onclick="itemDeleteConfrimation({{ $user->id }})"
+                                                            href="javascript:;" data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal"
+                                                            class="crancy-btn delete_danger_btn"><i
+                                                                class="fas fa-trash"></i> </a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -119,7 +135,7 @@
 
 
 
-  <!-- Delete Confirmation Modal -->
+    <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -135,7 +151,8 @@
                         @csrf
                         @method('DELETE')
 
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
                         <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
 
                     </form>
@@ -143,34 +160,34 @@
             </div>
         </div>
     </div>
-
-
 @endsection
 
 @push('js_section')
     <script>
         "use strict"
-        function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/user-delete/") }}'+"/"+id)
+
+        function itemDeleteConfrimation(id) {
+            $("#item_delect_confirmation").attr("action", '{{ url('admin/user-delete/') }}' + "/" + id)
         }
 
-        function manageStatus(id){
+        function manageStatus(id) {
             var appMODE = "{{ env('APP_MODE') }}"
-            if(appMODE == 'DEMO'){
+            if (appMODE == 'DEMO') {
                 toastr.error('This Is Demo Version. You Can Not Change Anything');
                 return;
             }
 
             $.ajax({
-                type:"put",
-                data: { _token : '{{ csrf_token() }}' },
-                url:"{{url('/admin/user-status/') }}"+"/"+id,
-                success:function(response){
+                type: "put",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                url: "{{ url('/admin/user-status/') }}" + "/" + id,
+                success: function(response) {
                     toastr.success(response)
                 },
-                error:function(err){}
+                error: function(err) {}
             })
         }
-
     </script>
 @endpush

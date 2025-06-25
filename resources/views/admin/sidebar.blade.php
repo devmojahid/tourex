@@ -183,7 +183,7 @@
 
 
                         </span>
-                        <span class="menu-bar__name">{{ __('translate.Manage Instructor') }}</span></span> <span
+                        <span class="menu-bar__name">{{ __('translate.Manage Agency') }}</span></span> <span
                         class="crancy__toggle"></span></a></span>
                 <!-- Dropdown Menu -->
                 <div class="collapse crancy__dropdown {{ Route::is('admin.seller-list') || Route::is('admin.pending-seller') || Route::is('admin.seller-show') || Route::is('admin.seller-joining-request') || Route::is('admin.seller-joining-detail') ? 'show' : '' }}"
@@ -191,7 +191,7 @@
                     <ul class="menu-bar__one-dropdown">
 
                         <li><a href="{{ route('admin.seller-list') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Instructor List') }}</span></span></a>
+                                        class="menu-bar__name">{{ __('translate.Agency List') }}</span></span></a>
                         </li>
 
                         <li><a href="{{ route('admin.seller-joining-request') }}"><span class="menu-bar__text"><span
@@ -220,7 +220,7 @@
 
 
                         </span>
-                        <span class="menu-bar__name">{{ __('translate.Manage Student') }}</span></span> <span
+                        <span class="menu-bar__name">{{ __('translate.Manage User') }}</span></span> <span
                         class="crancy__toggle"></span></a></span>
                 <!-- Dropdown Menu -->
                 <div class="collapse crancy__dropdown {{ Route::is('admin.user-list') || Route::is('admin.pending-user') || Route::is('admin.user-show') ? 'show' : '' }}"
@@ -228,11 +228,11 @@
                     <ul class="menu-bar__one-dropdown">
 
                         <li><a href="{{ route('admin.user-list') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Student List') }}</span></span></a>
+                                        class="menu-bar__name">{{ __('translate.User List') }}</span></span></a>
                         </li>
 
                         <li><a href="{{ route('admin.pending-user') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Pending Student') }}</span></span></a>
+                                        class="menu-bar__name">{{ __('translate.Pending User') }}</span></span></a>
                         </li>
 
 

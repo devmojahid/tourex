@@ -1621,4 +1621,13 @@
   'Bulk Availability Management' => 'Bulk Availability Management',
   'Are you sure you want to delete availability for' => 'Are you sure you want to delete availability for',
   'Secondary Logo' => 'Secondary Logo',
-  );
+  'Manage Agency' => 'Manage Agency',
+  'Agency List' => 'Agency List',
+  'Manage User' => 'Manage User',
+  'User Details' => 'User Details',
+  'Booking List' => 'Booking List',
+  'Booking' => 'Booking',
+  'Agency Joining Request' => 'Agency Joining Request',
+  'Agency Joining Details' => 'Agency Joining Details',
+  'Bookings List' => 'Bookings List',
+);

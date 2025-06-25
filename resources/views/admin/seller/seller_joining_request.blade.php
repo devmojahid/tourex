@@ -40,15 +40,19 @@
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Name') }}
+                                                    {{ __('translate.Agency Name') }}
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Email') }}
+                                                    {{ __('translate.Country') }}
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Experience') }}
+                                                    {{ __('translate.State') }}
+                                                </th>
+
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting" >
+                                                    {{ __('translate.City') }}
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
@@ -71,19 +75,22 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title"><a target="_blank" href="{{ route('admin.user-show', $user->id) }}">{{ html_decode($user->name) }}</a></h4>
+                                                        <h4 class="crancy-table__product-title"><a target="_blank" href="{{ route('admin.user-show', $user->id) }}">{{ html_decode($user?->agency_name) }}</a></h4>
 
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title">{{ html_decode($user->email) }}</h4>
+                                                        <h4 class="crancy-table__product-title">{{ $user?->country }}</h4>
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title">{{ html_decode($user->instructor_experience) }} {{ __('translate.Years') }}</h4>
+                                                        <h4 class="crancy-table__product-title">{{ $user?->state }}</h4>
                                                     </td>
 
 
+                                                    <td class="crancy-table__column-2 crancy-table__data-2">
+                                                        <h4 class="crancy-table__product-title">{{ $user?->city }}</h4>
+                                                    </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($user->instructor_joining_request == 'approved')

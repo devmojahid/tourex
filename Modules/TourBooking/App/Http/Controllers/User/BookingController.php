@@ -22,7 +22,7 @@ final class BookingController extends Controller
         $bookings = Booking::with(['service:id,title,location'])
             ->where('user_id', auth()->user()->id)
             ->latest()
-            ->paginate(15);
+            ->get();
         return view('tourbooking::user.booking.index', compact('bookings'));
     }
 

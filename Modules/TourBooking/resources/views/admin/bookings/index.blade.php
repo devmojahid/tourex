@@ -20,7 +20,7 @@
                                 <div class="crancy-customer-filter">
                                     <div
                                         class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
-                                        <h4 class="crancy-product-card__title">{{ __('translate.My bookings') }}</h4>
+                                        <h4 class="crancy-product-card__title">{{ __('translate.Bookings list') }}</h4>
                                     </div>
                                 </div>
 
@@ -82,6 +82,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+
                             </div>
                         </div>
                     </div>
