@@ -1634,4 +1634,12 @@
   'Utility Pages' => 'Utility Pages',
   'Latest Bookings' => 'Latest Bookings',
   'Total Booking' => 'Total Booking',
+  'Hotel Grid' => 'Hotel Grid',
+  'Tour Grid One' => 'Tour Grid One',
+  'Tour Grid Two' => 'Tour Grid Two',
+  'Hotel Listing' => 'Hotel Listing',
+  'Booking Service Layout' => 'Booking Service Layout',
+  'Booking Service Detail Layout' => 'Booking Service Detail Layout',
+  'Tour Details One' => 'Tour Details One',
+  'Tour Details Two' => 'Tour Details Two',
 );

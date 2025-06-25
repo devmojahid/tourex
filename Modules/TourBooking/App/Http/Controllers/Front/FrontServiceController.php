@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Js;
 use Illuminate\View\View;
+use Modules\GlobalSetting\App\Models\GlobalSetting;
 use Modules\TourBooking\App\Models\Amenity;
 use Modules\TourBooking\App\Models\AmenityTranslation;
 use Modules\TourBooking\App\Models\Booking;
@@ -179,57 +180,31 @@ final class FrontServiceController extends Controller
     /**
      * Display all services.
      */
-    public function allServices()
+    public function allServices(Request $request)
     {
+
+        $selected_service_layout = GlobalSetting::where('key', 'booking_service_theme')?->first()?->value;
+
+        $requestView = $request->view;
+        if ($requestView == 'hotel_grid' || $selected_service_layout == 'hotel_grid') {
+            $serviceView = 'tourbooking::front.services.services';
+        } elseif ($requestView == 'tour_grid_one' || $selected_service_layout == 'tour_grid_one') {
+            $serviceView = 'tourbooking::front.services.services2';
+        } elseif ($requestView == 'tour_grid_two' || $selected_service_layout == 'tour_grid_two') {
+            $serviceView = 'tourbooking::front.services.services3';
+        } elseif ($requestView == 'hotel_listing' || $selected_service_layout == 'hotel_listing') {
+            $serviceView = 'tourbooking::front.services.services4';
+        } else {
+            $serviceView = 'tourbooking::front.services.services';
+        }
+
         $serviceTypes = $this->serviceTypeRepository->getActiveNameId();
 
         $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
         $languages = Language::cases();
         $destinations = Destination::where('status', true)->get();
 
-        return view('tourbooking::front.services.services', compact('serviceTypes', 'amenities', 'languages', 'destinations'));
-    }
-
-    /**
-     * Display all services.
-     */
-    public function allServicesTwo()
-    {
-        $serviceTypes = $this->serviceTypeRepository->getActiveNameId();
-
-        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
-        $languages = Language::cases();
-        $destinations = Destination::where('status', true)->get();
-
-        return view('tourbooking::front.services.services2', compact('serviceTypes', 'amenities', 'languages', 'destinations'));
-    }
-
-    /**
-     * Display all services.
-     */
-    public function allServicesThree()
-    {
-        $serviceTypes = $this->serviceTypeRepository->getActiveNameId();
-
-        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
-        $languages = Language::cases();
-        $destinations = Destination::where('status', true)->get();
-
-        return view('tourbooking::front.services.services3', compact('serviceTypes', 'amenities', 'languages', 'destinations'));
-    }
-
-    /**
-     * Display all services.
-     */
-    public function allServicesFour()
-    {
-        $serviceTypes = $this->serviceTypeRepository->getActiveNameId();
-
-        $amenities = Amenity::where('status', true)->with('translation:id,amenity_id,lang_code,name')->get();
-        $languages = Language::cases();
-        $destinations = Destination::where('status', true)->get();
-
-        return view('tourbooking::front.services.services4', compact('serviceTypes', 'amenities', 'languages', 'destinations'));
+        return view($serviceView, compact('serviceTypes', 'amenities', 'languages', 'destinations'));
     }
 
     /**
@@ -369,8 +344,19 @@ final class FrontServiceController extends Controller
     /**
      * Display a specific service's details.
      */
-    public function serviceDetail(string $slug): View
+    public function serviceDetail(Request $request, string $slug): View
     {
+
+        $selected_service_layout = GlobalSetting::where('key', 'booking_service_detail_theme')?->first()?->value;
+
+        $requestView = $request->view;
+        if ($requestView == 'tour_detail_one' || $selected_service_layout == 'tour_detail_one') {
+            $serviceView = 'tourbooking::front.services.service-detail';
+        } elseif ($requestView == 'tour_detail_two' || $selected_service_layout == 'tour_detail_two') {
+            $serviceView = 'tourbooking::front.services.service-detail2';
+        }else {
+            $serviceView = 'tourbooking::front.services.service-detail';
+        }
 
         $service = Service::where('slug', $slug)
             ->where('status', true)
@@ -391,86 +377,11 @@ final class FrontServiceController extends Controller
             ->withExists('myWishlist')
             ->firstOrFail();
 
-        // 1. Get approved reviews with rating_attributes for the specific service
-        $reviews = Review::select('id', 'service_id', 'rating_attributes')
-            ->where('service_id', $service->id)
-            ->where('status', true)
-            ->get();
-
-        // 2. Calculate overall average rating
-        $avgRating = Review::where('service_id', $service->id)
-            ->where('status', true)
-            ->avg('rating');
-
-        // 3. Calculate average per rating category
-        $categories = [];
-
-        foreach ($reviews as $review) {
-            $attributes = $review->rating_attributes; // Ensure it's an array
-
-            if (!is_array($attributes)) continue;
-
-            foreach ($attributes as $attr) {
-                $category = $attr['category'];
-                $rating = floatval($attr['rating']);
-
-                if (!isset($categories[$category])) {
-                    $categories[$category] = ['total' => 0, 'count' => 0];
-                }
-
-                $categories[$category]['total'] += $rating;
-                $categories[$category]['count']++;
-            }
-        }
-
-        // 4. Format average rating per category
-        $averageRatings = collect($categories)->map(function ($data, $category) {
-            $avg = $data['total'] / $data['count'];
-            return [
-                'category' => $category,
-                'average' => round($avg, 1),
-                'percent' => round(($avg / 5) * 100),
-            ];
-        })->values()->toArray();
-
-        // 5. Paginated reviews with user info
-        $paginatedReviews = Review::where('service_id', $service->id)
-            ->where('status', true)
-            ->with('user:id,name,image')
-            ->latest()
-            ->paginate(14);
-
-        $popularServices = $this->popularServices($service);
-
-        return view('tourbooking::front.services.service-detail', compact('service', 'paginatedReviews', 'averageRatings', 'reviews', 'avgRating', 'popularServices'));
-    }
-
-    /**
-     * Display a specific service's details.
-     */
-    public function serviceDetailTwo(string $slug): View
-    {
-
-        $service = Service::where('slug', $slug)
-            ->where('status', true)
-            ->with([
-                'translation',
-                'media:id,service_id,file_name,file_path,is_thumbnail',
-                'serviceType:id,name',
-                'extraCharges',
-                'availabilities',
-                'itineraries' => function ($query) {
-                    $query->orderBy('day_number');
-                }
-            ])
-            ->withCount('activeReviews')
-            ->withAvg('activeReviews', 'rating')
-            ->withExists('myWishlist')
-            ->firstOrFail();
+            // dd($service);
 
         $amenities = [];
-        if ($service->amenities) {
-            $amenities = AmenityTranslation::select('id', 'name')->whereIn('id', $service->amenities)->get();
+        if ( is_array($service->amenities) && $service->amenities) {
+            $amenities = AmenityTranslation::select('id', 'name')->whereIn('id', $service->amenities ?? [])->get();
         }
 
         // 1. Get approved reviews with rating_attributes for the specific service
@@ -524,8 +435,7 @@ final class FrontServiceController extends Controller
 
         $popularServices = $this->popularServices($service);
 
-
-        return view('tourbooking::front.services.service-detail2', compact('service', 'paginatedReviews', 'averageRatings', 'reviews', 'avgRating', 'amenities', 'popularServices'));
+        return view($serviceView, compact('service', 'paginatedReviews', 'averageRatings', 'reviews', 'avgRating', 'popularServices', 'amenities'));
     }
 
     public function popularServices()

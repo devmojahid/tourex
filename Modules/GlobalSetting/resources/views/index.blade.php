@@ -200,17 +200,28 @@
 
                                                                                     <div class="col-12">
                                                                                         <div class="crancy__item-form--group  mg-top-form-20">
-                                                                                            <label class="crancy__item-label">{{ __('translate.Course Layout') }}</label>
-                                                                                            <select class="form-select crancy__item-input" name="course_theme">
-                                                                                                <option {{ $general_setting->course_theme == 'all_theme' ? 'selected' : '' }} value="all_theme">{{ __('translate.All Layout') }}</option>
-                                                                                                <option {{ $general_setting->course_theme == 'with_sidebar' ? 'selected' : '' }} value="with_sidebar">{{ __('translate.With Sidebar') }}</option>
-
-                                                                                                <option {{ $general_setting->course_theme == 'without_sidebar' ? 'selected' : '' }} value="without_sidebar">{{ __('translate.Without Sidebar') }}</option>
-
+                                                                                            <label class="crancy__item-label">{{ __('translate.Booking Service Layout') }}</label>
+                                                                                            <select class="form-select crancy__item-input" name="booking_service_theme">
+                                                                                                <option {{ $general_setting?->booking_service_theme == 'all_theme' ? 'selected' : '' }} value="all_theme">{{ __('translate.All Layout') }}</option>
+                                                                                                <option {{ $general_setting?->booking_service_theme == 'hotel_grid' ? 'selected' : '' }} value="hotel_grid">{{ __('translate.Hotel Grid') }}</option>
+                                                                                                <option {{ $general_setting?->booking_service_theme == 'tour_grid_one' ? 'selected' : '' }} value="tour_grid_one">{{ __('translate.Tour Grid One') }}</option>
+                                                                                                <option {{ $general_setting?->booking_service_theme == 'tour_grid_two' ? 'selected' : '' }} value="tour_grid_two">{{ __('translate.Tour Grid Two') }}</option>
+                                                                                                <option {{ $general_setting?->booking_service_theme == 'hotel_listing' ? 'selected' : '' }} value="hotel_listing">{{ __('translate.Hotel Listing') }}</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>
 
+                                                                                    <div class="col-12">
+                                                                                        <div class="crancy__item-form--group  mg-top-form-20">
+                                                                                            <label class="crancy__item-label">{{ __('translate.Booking Service Detail Layout') }}</label>
+                                                                                            <select class="form-select crancy__item-input" name="booking_service_detail_theme">
+                                                                                                <option {{ $general_setting?->booking_service_detail_theme == 'all_theme' ? 'selected' : '' }} value="all_theme">{{ __('translate.All Layout') }}</option>
+                                                                                                <option {{ $general_setting?->booking_service_detail_theme == 'tour_detail_one' ? 'selected' : '' }} value="tour_detail_one">{{ __('translate.Tour Details One') }}</option>
+                                                                                                <option {{ $general_setting?->booking_service_detail_theme == 'tour_detail_two' ? 'selected' : '' }} value="tour_detail_two">{{ __('translate.Tour Details Two') }}</option>
+
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
 
                                                                                     <div class="col-12">
                                                                                         <div class="crancy__item-form--group mg-top-form-20">
@@ -730,7 +741,7 @@
                                                                                         <div class="row">
                                                                                             <div class="col-md-4">
                                                                                                 <div class="crancy__item-form--group mg-top-20">
-                                                                                                    <label class="crancy__item-label">{{ __('translate.Secondary Logo') }}</label>  
+                                                                                                    <label class="crancy__item-label">{{ __('translate.Secondary Logo') }}</label>
                                                                                                     <div class="crancy-product-card__upload crancy-product-card__upload--border">
                                                                                                         <input type="file" class="btn-check" name="secondary_logo" id="input-img-secondary_logo" autocomplete="off" onchange="secondaryLogo(event)">
                                                                                                         <label class="crancy-image-video-upload__label" for="input-img-secondary_logo">

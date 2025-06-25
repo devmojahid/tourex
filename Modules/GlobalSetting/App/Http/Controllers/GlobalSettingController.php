@@ -72,7 +72,8 @@ class GlobalSettingController extends Controller
 
         GlobalSetting::where('key', 'selected_theme')->update(['value' => $request->selected_theme]);
         GlobalSetting::where('key', 'blog_theme')->update(['value' => $request->blog_theme]);
-        GlobalSetting::where('key', 'course_theme')->update(['value' => $request->course_theme]);
+        GlobalSetting::where('key', 'booking_service_theme')->update(['value' => $request->booking_service_theme]);
+        GlobalSetting::where('key', 'booking_service_detail_theme')->update(['value' => $request->booking_service_detail_theme]);
         GlobalSetting::where('key', 'app_name')->update(['value' => $request->app_name]);
         GlobalSetting::where('key', 'contact_message_mail')->update(['value' => $request->contact_message_mail]);
         GlobalSetting::where('key', 'timezone')->update(['value' => $request->timezone]);
