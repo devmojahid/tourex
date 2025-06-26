@@ -5,6 +5,7 @@
 
 @endphp
 
+
 @if ($theme1_service_type->count() > 0)
     <!-- tg-booking-form-area-start -->
     <div class="tg-booking-form-area tg-booking-form-space pb-105">
@@ -83,11 +84,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="tg-booking-form-parent-inner mr-15 mb-15">
-                                                    <span class="tg-booking-form-title mb-5">{{ __('translate.Check in:') }}</span>
+                                                    <span
+                                                        class="tg-booking-form-title mb-5">{{ __('translate.Check in:') }}</span>
                                                     <div class="tg-booking-add-input-date p-relative">
                                                         <input x-model="check_in" class="input timepicker"
-                                                            name="datetime-local" type="text"
-                                                            placeholder="12.00">
+                                                            name="datetime-local" type="text" placeholder="12.00">
                                                         <span>
                                                             <svg width="14" height="14" viewBox="0 0 14 14"
                                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,11 +101,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="tg-booking-form-parent-inner mr-15 mb-15">
-                                                    <span class="tg-booking-form-title mb-5">{{ __('translate.Check Out:') }}</span>
+                                                    <span
+                                                        class="tg-booking-form-title mb-5">{{ __('translate.Check Out:') }}</span>
                                                     <div class="tg-booking-add-input-date p-relative">
                                                         <input x-model="check_out" class="input timepicker"
-                                                            name="datetime-local" type="text"
-                                                            placeholder="12.10">
+                                                            name="datetime-local" type="text" placeholder="12.10">
                                                         <span>
                                                             <svg width="14" height="14" viewBox="0 0 14 14"
                                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -121,8 +122,28 @@
                                                     <span
                                                         class="tg-booking-form-title mb-5">{{ __('translate.Guest:') }}</span>
                                                     <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
-                                                        <span
-                                                            class="tg-booking-title-value">{{ __('translate.+ Add Guests') }}</span>
+                                                        <div>
+                                                            <!-- Show this when no values are selected -->
+                                                            <span x-show="!rooms && !adults && !children"
+                                                                class="tg-booking-title-value">
+                                                                {{ __('translate.+ Add Guests') }}
+                                                            </span>
+
+                                                            <!-- Show this when any value exists -->
+                                                            <span x-show="rooms || adults || children"
+                                                                class="tg-booking-title-value">
+                                                                <template x-if="rooms">
+                                                                    <span x-text="rooms + ' Room'"></span>
+                                                                </template>
+                                                                <template x-if="adults">
+                                                                    <span x-text="', ' + adults + ' Adult'"></span>
+                                                                </template>
+                                                                <template x-if="children">
+                                                                    <span x-text="', ' + children + ' Child'"></span>
+                                                                </template>
+                                                            </span>
+                                                        </div>
+
                                                         <span class="location">
                                                             <svg width="16" height="16" viewBox="0 0 16 16"
                                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
