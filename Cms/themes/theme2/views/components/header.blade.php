@@ -16,7 +16,7 @@
                     <div class="col-xl-2 col-4">
                         <div class="logo tg-header-logo text-center p-relative z-index-1">
                             <span class="tg-header-logo-bg d-none d-xl-block"></span>
-                            <a href="{{ route('home') }}"> <img src="{{ asset($general_setting->logo) }}" alt="Logo"></a>
+                            <a href="{{ route('home') }}"> <img src="{{ asset($general_setting->secondary_logo) }}" alt="Logo"></a>
                         </div>
                     </div>
                     <div class="col-xl-5 col-8">

@@ -41,7 +41,7 @@
                 <!-- Logo -->
                 <div class="logo crancy-sidebar-padding pd-right-0">
                     <a class="crancy-logo" href="{{ route('agency.dashboard') }}">
-                        <img src="{{ asset($general_setting->logo) }}" alt="logo">
+                        <img src="{{ asset($general_setting->secondary_logo) }}" alt="logo">
                     </a>
                     <div id="crancy__sicon" class="crancy__sicon close-icon">
                         <span>

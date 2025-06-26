@@ -184,7 +184,7 @@ final class FrontServiceController extends Controller
     {
 
         $selected_service_layout = GlobalSetting::where('key', 'booking_service_theme')?->first()?->value;
-
+        $breadcrumb_title = trans('translate.All Services');
         $requestView = $request->view;
         if ($requestView == 'hotel_grid' || $selected_service_layout == 'hotel_grid') {
             $serviceView = 'tourbooking::front.services.services';
@@ -204,7 +204,7 @@ final class FrontServiceController extends Controller
         $languages = Language::cases();
         $destinations = Destination::where('status', true)->get();
 
-        return view($serviceView, compact('serviceTypes', 'amenities', 'languages', 'destinations'));
+        return view($serviceView, compact('serviceTypes', 'amenities', 'languages', 'destinations', 'breadcrumb_title'));
     }
 
     /**
