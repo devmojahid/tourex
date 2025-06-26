@@ -158,21 +158,11 @@
 
                             </div>
 
-
                             <div class="overview-profile-inner">
-
-                                @if ($user->is_seller == 1)
-                                    <a target="_blank" href="{{ route('instructors', $user->username) }}"
-                                        class="crancy-btn crancy-full-width mg-top-20"> <i class="fas fa-eye    "></i>
-                                        {{ __('translate.Go To Public Profile') }}</a>
-                                @endif
-
 
                                 <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#editModal"
                                     class="crancy-btn crancy-full-width mg-top-20 user_edit_btn"> <i
                                         class="fas fa-edit    "></i> {{ __('translate.Edit Profile') }}</a>
-
-
 
                                 <a onclick="itemDeleteConfrimation({{ $user->id }})" href="javascript:;"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal"
