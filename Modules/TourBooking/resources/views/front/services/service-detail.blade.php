@@ -12,7 +12,7 @@
 
         <!-- tg-breadcrumb-area-start -->
         <div class="tg-breadcrumb-spacing-3 include-bg p-relative fix"
-            data-background="assets/img/breadcrumb/breadcrumb-2.jpg">
+            data-background="{{ asset($general_setting->secondary_breadcrumb_image ?? $general_setting->breadcrumb_image) }}">
             <div class="tg-hero-top-shadow"></div>
         </div>
         <div class="tg-breadcrumb-list-2-wrap">

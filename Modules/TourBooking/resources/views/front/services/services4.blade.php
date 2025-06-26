@@ -8,7 +8,7 @@
 
 @section('front-content')
     <!-- tg-breadcrumb-area-start -->
-    <div class="tg-breadcrumb-spacing-3 include-bg p-relative fix" data-background="assets/img/breadcrumb/breadcrumb-2.jpg">
+    <div class="tg-breadcrumb-spacing-3 include-bg p-relative fix" data-background="{{ asset($general_setting->breadcrumb_image) }}">
         <div class="tg-hero-top-shadow"></div>
     </div>
     <!-- tg-breadcrumb-area-end -->

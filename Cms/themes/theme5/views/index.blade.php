@@ -1,4 +1,9 @@
 @extends('theme::layouts.app')
+@section('title')
+    <title>{{ $seo_setting->seo_title }}</title>
+    <meta name="title" content="{{ $seo_setting->seo_title }}">
+    <meta name="description" content="{!! strip_tags(clean($seo_setting->seo_description)) !!}">
+@endsection
 @section('front-content')
 
     {{-- hero section --}}

@@ -189,7 +189,7 @@
                         <div class="col-lg-8 col-5">
                             <div class="tgmenu__wrap d-flex align-items-center">
                                 <div class="logo flex-auto">
-                                    <a href="{{ route('home') }}"><img src="{{ asset($general_setting->logo) }}"
+                                    <a href="{{ route('home') }}"><img src="{{ asset($general_setting->secondary_logo) }}"
                                             alt="Logo">
                                     </a>
                                 </div>

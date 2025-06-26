@@ -32,6 +32,10 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         try {
+            $seo_setting = SeoSetting::where('id', 1)->first();
+
+            $breadcrumb_title = trans('translate.Home');
+
             // Check if there's a theme parameter in the request for theme preview
             if ($request->has('theme')) {
                 $requestedTheme = $request->get('theme');
@@ -59,7 +63,8 @@ class HomeController extends Controller
             }
 
             // Add common data needed by all themes
-            $data['seo_setting'] = getContent('seo.content', true);
+            $data['seo_setting'] = $seo_setting;
+            $data['breadcrumb_title'] = $breadcrumb_title;
             $data['social_links'] = getContent('social_links.element');
             $data['categories'] = Category::with(['courses' => function ($query) {
                 $query->take(20);
@@ -68,6 +73,8 @@ class HomeController extends Controller
             // Add theme information
             $data['theme_info'] = theme()->loadThemeInfo($selectedTheme);
             $data['current_theme'] = $selectedTheme;
+
+            // dd($data);
 
             // Return the theme view
             return theme()->view('index', $data);
@@ -429,7 +436,12 @@ class HomeController extends Controller
                 }
             }
 
-            $data['seo_setting'] = getContent('seo.content', true);
+            $seo_setting = SeoSetting::where('id', 1)->first();
+            $breadcrumb_title = trans('translate.Home');
+
+            $data['seo_setting'] = $seo_setting;
+            $data['breadcrumb_title'] = $breadcrumb_title;
+
             $data['social_links'] = getContent('social_links.element');
             $data['categories'] = Category::with(['courses' => function ($query) {
                 $query->take(20);
@@ -450,8 +462,8 @@ class HomeController extends Controller
             $viewFactory->addNamespace('theme', $themePath . '/views');
 
             // Also add theme-specific namespace as backup
-            $themeNamespace = 'theme_' . $requestedTheme;
-            $viewFactory->addNamespace($themeNamespace, $themePath . '/views');
+            // $themeNamespace = 'theme_' . $requestedTheme;
+            // $viewFactory->addNamespace($themeNamespace, $themePath . '/views');
 
             // Use the theme namespace (the one the view expects)
             return $viewFactory->make("theme::index", $data);

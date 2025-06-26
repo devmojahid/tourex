@@ -1,4 +1,4 @@
-@extends('layout_inner_page')
+@extends('layout_inner_page2')
 
 @section('title')
     <title>Services</title>
