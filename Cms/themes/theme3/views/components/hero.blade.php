@@ -152,8 +152,29 @@
                                                     </defs>
                                                 </svg>
                                             </span>
-                                            <span
-                                                class="tg-booking-title-value">{{ __('translate.+ Add Guests') }}</span>
+
+                                            <div>
+                                                <!-- Show this when no values are selected -->
+                                                <span x-show="!rooms && !adults && !children"
+                                                    class="tg-booking-title-value">
+                                                    {{ __('translate.+ Add Guests') }}
+                                                </span>
+
+                                                <!-- Show this when any value exists -->
+                                                <span x-show="rooms || adults || children"
+                                                    class="tg-booking-title-value">
+                                                    <template x-if="rooms">
+                                                        <span class="tg-booking-title-value m-0" x-text="rooms + ' Room'"></span>
+                                                    </template>
+                                                    <template x-if="adults">
+                                                        <span class="tg-booking-title-value m-0" x-text="', ' + adults + ' Adult'"></span>
+                                                    </template>
+                                                    <template x-if="children">
+                                                        <span class="tg-booking-title-value m-0" x-text="', ' + children + ' Child'"></span>
+                                                    </template>
+                                                </span>
+                                            </div>
+
                                             <span class="angle-down">
                                                 <svg width="14" height="8" viewBox="0 0 14 8" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">

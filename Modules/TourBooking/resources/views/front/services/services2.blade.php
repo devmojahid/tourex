@@ -91,7 +91,29 @@
                                     <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
                                         <span class="tg-booking-form-title mb-5">Guest:</span>
                                         <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
-                                            <span class="tg-booking-title-value">+ Add Guests</span>
+                                            <div>
+                                                <!-- Show this when no values are selected -->
+                                                <span
+                                                    x-show="!bookingForm.rooms && !bookingForm.adults && !bookingForm.children"
+                                                    class="tg-booking-title-value">
+                                                    {{ __('translate.+ Add Guests') }}
+                                                </span>
+
+                                                <!-- Show this when any value exists -->
+                                                <span
+                                                    x-show="bookingForm.rooms || bookingForm.adults || bookingForm.children"
+                                                    class="tg-booking-title-value">
+                                                    <template x-if="bookingForm.rooms">
+                                                        <span x-text="bookingForm.rooms + ' Room'"></span>
+                                                    </template>
+                                                    <template x-if="bookingForm.adults">
+                                                        <span x-text="', ' + bookingForm.adults + ' Adult'"></span>
+                                                    </template>
+                                                    <template x-if="bookingForm.children">
+                                                        <span x-text="', ' + bookingForm.children + ' Child'"></span>
+                                                    </template>
+                                                </span>
+                                            </div>
                                             <span class="location">
                                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">

@@ -1647,4 +1647,7 @@
   'Product Wishlist' => 'Product Wishlist',
   'Drag and drop items to reorder. Click on an item to edit its properties.' => 'Drag and drop items to reorder. Click on an item to edit its properties.',
   'Standard' => 'Standard',
+  'Check in' => 'Check in',
+  'Reset All' => 'Reset All',
+  'Sort by' => 'Sort by',
 );

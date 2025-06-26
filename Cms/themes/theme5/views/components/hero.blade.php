@@ -95,7 +95,25 @@
                             <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
                                 <span class="tg-booking-form-title mb-5">{{ __('translate.Guest:') }}</span>
                                 <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
-                                    <span class="tg-booking-title-value">+ {{ __('translate.Add Guests') }}</span>
+                                    <div>
+                                        <!-- Show this when no values are selected -->
+                                        <span x-show="!rooms && !adults && !children" class="tg-booking-title-value">
+                                            {{ __('translate.+ Add Guests') }}
+                                        </span>
+
+                                        <!-- Show this when any value exists -->
+                                        <span x-show="rooms || adults || children" class="tg-booking-title-value">
+                                            <template x-if="rooms">
+                                                <span x-text="rooms + ' Room'"></span>
+                                            </template>
+                                            <template x-if="adults">
+                                                <span x-text="', ' + adults + ' Adult'"></span>
+                                            </template>
+                                            <template x-if="children">
+                                                <span x-text="', ' + children + ' Child'"></span>
+                                            </template>
+                                        </span>
+                                    </div>
                                     <span class="location">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -275,7 +293,6 @@
                     this.destination_id = destinationId;
                     this.destination = destinationName;
                 },
-
                 incrementRooms() {
                     this.rooms++;
                 },

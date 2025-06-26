@@ -233,7 +233,7 @@ $('.popup-video').magnificPopup({
 		=        Date and time js	      =
 	=============================================*/
 
-	$('.decrement').on('click', function () {
+	$('.decrement2').on('click', function () {
 		var $input = $(this).parent().find('input');
 		var count = parseInt($input.val()) - 1;
 		count = count < 1 ? 1 : count;
@@ -242,7 +242,7 @@ $('.popup-video').magnificPopup({
 		return false;
 	});
 
-	$('.increment').on('click', function () {
+	$('.increment2').on('click', function () {
 		var $input = $(this).parent().find('input');
 		$input.val(parseInt($input.val()) + 1);
 		$input.change();
