@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\SupportTicket\App\Http\Controllers\Support\Instructor;
+namespace Modules\SupportTicket\App\Http\Controllers\Support\Seller;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +21,7 @@ class SupportTicketController extends Controller
 
         $support_tickets = SupportTicket::where('author_id', $user->id)->where('admin_type', 'admin')->latest()->get();
 
-        return view('supportticket::support.instructor.index', [
+        return view('supportticket::support.seller.index', [
             'support_tickets' => $support_tickets
         ]);
     }
@@ -31,7 +31,7 @@ class SupportTicketController extends Controller
      */
     public function create()
     {
-        return view('supportticket::support.instructor.create');
+        return view('supportticket::support.seller.create');
     }
 
     /**
@@ -98,7 +98,7 @@ class SupportTicketController extends Controller
         $ticket_messages = SupportTicketMessage::with('documents')->where('support_ticket_id', $support_ticket->id)->get();
         $last_message = SupportTicketMessage::with('documents')->where('support_ticket_id', $support_ticket->id)->latest()->first();
 
-        return view('supportticket::support.instructor.show', [
+        return view('supportticket::support.seller.show', [
             'support_ticket' => $support_ticket,
             'ticket_messages' => $ticket_messages,
             'last_message' => $last_message,

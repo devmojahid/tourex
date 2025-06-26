@@ -102,8 +102,8 @@
             </li>
 
             <li
-                class="{{ Route::is('agency.teacher-supports') || Route::is('agency.teacher-support') ? 'active' : '' }}">
-                <a class="collapsed" href="{{ route('agency.teacher-supports') }}">
+                class="{{ Route::is('agency.agency-supports') || Route::is('agency.agency-support') ? 'active' : '' }}">
+                <a class="collapsed" href="{{ route('agency.agency-supports') }}">
                     <span class="menu-bar__text">
                         <span class="crancy-menu-icon crancy-svg-icon__v1">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"

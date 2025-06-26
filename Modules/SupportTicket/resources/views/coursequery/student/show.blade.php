@@ -114,7 +114,7 @@
 
                                             @endforeach
 
-                                            <form action="{{ route('user.teacher-support-message', $support_ticket->id) }}" method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('user.agency-support-message', $support_ticket->id) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row">
                                                     <div class="col-12">

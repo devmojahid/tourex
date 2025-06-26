@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\SupportTicket\App\Http\Controllers\CourseQuery\Instructor;
+namespace Modules\SupportTicket\App\Http\Controllers\ServiceQuery\Seller;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use Modules\SupportTicket\App\Models\MessageDocument;
 use Modules\SupportTicket\App\Models\SupportTicketMessage;
 use Modules\TourBooking\App\Models\Service;
 
-class CourseQueryController extends Controller
+class ServiceQueryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class CourseQueryController extends Controller
             $query->where('user_id', $user->id);
         })->where('admin_type', 'instructor')->latest()->get();
 
-        return view('supportticket::coursequery.instructor.index', [
+        return view('supportticket::coursequery.seller.index', [
             'support_tickets' => $support_tickets
         ]);
     }
@@ -51,7 +51,7 @@ class CourseQueryController extends Controller
 
         $service = Service::with('seller')->findOrFail($support_ticket->service_id);
 
-        return view('supportticket::coursequery.instructor.show', [
+        return view('supportticket::coursequery.seller.show', [
             'support_ticket' => $support_ticket,
             'ticket_messages' => $ticket_messages,
             'last_message' => $last_message,
@@ -90,7 +90,7 @@ class CourseQueryController extends Controller
         if ($request->hasFile('documents')) {
             foreach ($request->documents as $index => $request_file) {
                 $extention = $request_file->getClientOriginalExtension();
-                $file_name = 'teacher-support-' . time() . $index . '.' . $extention;
+                $file_name = 'agency-support-' . time() . $index . '.' . $extention;
                 $destinationPath = public_path('uploads/custom-images/');
                 $request_file->move($destinationPath, $file_name);
 
@@ -117,6 +117,6 @@ class CourseQueryController extends Controller
 
         $notify_message = trans('translate.Ticket Closed Successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-        return redirect()->route('agency.teacher-supports')->with($notify_message);
+        return redirect()->route('agency.agency-supports')->with($notify_message);
     }
 }

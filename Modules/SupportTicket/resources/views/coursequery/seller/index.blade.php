@@ -95,7 +95,7 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <a href="{{ route('agency.teacher-support', $support_ticket->ticket_id) }}" class="crancy-btn"><i class="far fa-message"></i>{{ __('translate.Chat') }}</a>
+                                                        <a href="{{ route('agency.agency-support', $support_ticket->ticket_id) }}" class="crancy-btn"><i class="far fa-message"></i>{{ __('translate.Chat') }}</a>
                                                     </td>
                                                 </tr>
                                             @endforeach

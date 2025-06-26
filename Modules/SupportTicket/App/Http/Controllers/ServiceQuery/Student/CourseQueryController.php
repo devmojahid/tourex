@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\SupportTicket\App\Http\Controllers\CourseQuery\Student;
+namespace Modules\SupportTicket\App\Http\Controllers\ServiceQuery\Student;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -97,7 +97,7 @@ class CourseQueryController extends Controller
         if ($request->hasFile('documents')) {
             foreach ($request->documents as $index => $request_file) {
                 $extention = $request_file->getClientOriginalExtension();
-                $file_name = 'teacher-support-' . time() . $index . '.' . $extention;
+                $file_name = 'agency-support-' . time() . $index . '.' . $extention;
                 $destinationPath = public_path('uploads/custom-images/');
                 $request_file->move($destinationPath, $file_name);
 
@@ -172,7 +172,7 @@ class CourseQueryController extends Controller
         if ($request->hasFile('documents')) {
             foreach ($request->documents as $index => $request_file) {
                 $extention = $request_file->getClientOriginalExtension();
-                $file_name = 'teacher-support-' . time() . $index . '.' . $extention;
+                $file_name = 'agency-support-' . time() . $index . '.' . $extention;
                 $destinationPath = public_path('uploads/custom-images/');
                 $request_file->move($destinationPath, $file_name);
 
