@@ -46,7 +46,7 @@
                                 @if (count($themes) > 0)
                                     @foreach ($themes as $theme_name => $theme_info)
                                         <div class="col-lg-4 col-md-6 col-12">
-                                            <div class="crancy-theme-card bg-white crancy-shadow">
+                                            <div class="crancy-theme-card bg-white crancy-shadow mb-4 br-4">
                                                 <div class="crancy-theme-card__img">
                                                     @if (file_exists(base_path("cms/themes/{$theme_name}/screenshot.png")))
                                                         <img src="{{ asset("cms/themes/{$theme_name}/screenshot.png") }}"
