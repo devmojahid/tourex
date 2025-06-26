@@ -29,7 +29,7 @@ class CourseQueryController extends Controller
             ->latest()
             ->get();
 
-        return view('supportticket::coursequery.student.index', [
+        return view('supportticket::servicequery.student.index', [
             'support_tickets' => $support_tickets
         ]);
     }
@@ -54,7 +54,7 @@ class CourseQueryController extends Controller
             ->where('booking_status', 'confirmed')
             ->get();
 
-        return view('supportticket::coursequery.student.create', [
+        return view('supportticket::servicequery.student.create', [
             'courses' => $courses,
             'confirm_booking' => $confirm_booking
         ]);
@@ -134,7 +134,7 @@ class CourseQueryController extends Controller
 
         $service = Service::with('seller')->findOrFail($support_ticket->service_id);
 
-        return view('supportticket::coursequery.student.show', [
+        return view('supportticket::servicequery.student.show', [
             'support_ticket' => $support_ticket,
             'ticket_messages' => $ticket_messages,
             'last_message' => $last_message,

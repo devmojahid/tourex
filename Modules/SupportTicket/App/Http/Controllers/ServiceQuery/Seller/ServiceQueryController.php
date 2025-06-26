@@ -25,7 +25,7 @@ class ServiceQueryController extends Controller
             $query->where('user_id', $user->id);
         })->where('admin_type', 'instructor')->latest()->get();
 
-        return view('supportticket::coursequery.seller.index', [
+        return view('supportticket::servicequery.seller.index', [
             'support_tickets' => $support_tickets
         ]);
     }
@@ -51,7 +51,7 @@ class ServiceQueryController extends Controller
 
         $service = Service::with('seller')->findOrFail($support_ticket->service_id);
 
-        return view('supportticket::coursequery.seller.show', [
+        return view('supportticket::servicequery.seller.show', [
             'support_ticket' => $support_ticket,
             'ticket_messages' => $ticket_messages,
             'last_message' => $last_message,
