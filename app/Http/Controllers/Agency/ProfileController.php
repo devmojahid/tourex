@@ -28,14 +28,19 @@ class ProfileController extends Controller
 
         $user = Auth::guard('web')->user();
 
-        $withdraw_list = SellerWithdraw::where('seller_id', $user->id)->get();
-
         $servicesIds = Service::where('user_id', $user->id)->pluck('id')->toArray();
+
+        $bookings = Booking::with(['service', 'user'])
+            ->whereIn('service_id', $servicesIds)
+            ->latest()
+            ->take(10)
+            ->get();
 
         $total_income = 0;
         $total_income = Booking::whereIn('service_id', $servicesIds)->where('payment_status', 'success')->sum('total');
 
-        $course_sale_qty = 0;
+        $confirm_booking  = Booking::whereIn('service_id', $servicesIds)->where('booking_status', 'confirmed')->count();
+        $total_services = Service::where('user_id', $user->id)->count();
 
         $commission_type = GlobalSetting::where('key', 'commission_type')->value('value');
         $commission_per_sale = GlobalSetting::where('key', 'commission_per_sale')->value('value');
@@ -54,8 +59,6 @@ class ProfileController extends Controller
         $current_balance = $net_income - $total_withdraw_amount;
 
         $pending_withdraw = SellerWithdraw::where('seller_id', $user->id)->where('status', 'pending')->sum('total_amount');
-
-        $total_active_course = 0;
 
         $lable = array();
         $data = array();
@@ -93,9 +96,9 @@ class ProfileController extends Controller
             'current_balance' => $current_balance,
             'total_withdraw_amount' => $total_withdraw_amount,
             'pending_withdraw' => $pending_withdraw,
-            'course_sale_qty' => $course_sale_qty,
-            'total_active_course' => $total_active_course,
-            'enrollments' => [],
+            'confirm_booking' => $confirm_booking,
+            'total_services' => $total_services,
+            'bookings' => $bookings ?? [],
         ]);
     }
 

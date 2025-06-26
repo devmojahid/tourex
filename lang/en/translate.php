@@ -1500,7 +1500,7 @@
   'Customer phone' => 'Customer phone',
   'Customer address' => 'Customer address',
   'Bookings list' => 'Bookings list',
-  'My bookings' => 'My bookings 2',
+  'My bookings' => 'My bookings',
   'Bookings' => 'Bookings',
   'Service Title' => 'Service Title',
   'Booking Code' => 'Booking Code',
@@ -1642,4 +1642,6 @@
   'Booking Service Detail Layout' => 'Booking Service Detail Layout',
   'Tour Details One' => 'Tour Details One',
   'Tour Details Two' => 'Tour Details Two',
+  'Total Services' => 'Total Services',
+  'Booking Statistics' => 'Booking Statistics',
 );
