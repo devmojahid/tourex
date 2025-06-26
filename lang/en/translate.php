@@ -1,6 +1,6 @@
 <?php
  return array (
-  'Contact Us' => 'Contact Us 2 1',
+  'Contact Us' => 'Contact Us',
   'View All Program' => 'View All Program',
   'Get In Touch' => 'Get In Touch',
   'or' => 'or',

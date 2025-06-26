@@ -24,7 +24,6 @@
             </li>
 
             @include('tourbooking::admin.sidebar')
-            @include('coupon::sidebar')
 
             <li
                 class="{{ Route::is('admin.withdraw-methods.*') || Route::is('admin.withdraw-list.*') ? 'active' : '' }}">

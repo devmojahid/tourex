@@ -31,7 +31,6 @@ class SupportTicketController extends Controller
     public function show($ticket_id)
     {
 
-
         $support_ticket = SupportTicket::where('ticket_id', $ticket_id)->firstOrFail();
 
         $ticket_messages = SupportTicketMessage::with('documents')->where('support_ticket_id', $support_ticket->id)->get();
