@@ -116,7 +116,7 @@
                     <div class="col-lg-7">
                         <div class="tg-tour-details-video-thumb mb-15">
                             @if (isset($thumbnails[0]))
-                                <img class="w-100" src="{{ asset($thumbnails[0]->file_path) }}"
+                                <img class="w-100" src="{{ asset('storage/' . $thumbnails[0]->file_path) }}"
                                     alt="{{ $thumbnails[0]->caption }}">
                             @else
                                 <img class="w-100" src="{{ asset('frontend/assets/img/shape/placeholder.png') }}"
@@ -132,7 +132,7 @@
                             <div class="col-12">
                                 <div class="tg-tour-details-video-thumb p-relative mb-15">
                                     @if (isset($nonThumbnails[0]))
-                                        <img class="w-100" src="{{ asset($nonThumbnails[0]->file_path) }}"
+                                        <img class="w-100" src="{{ asset('storage/' . $nonThumbnails[0]->file_path) }}"
                                             alt="{{ $nonThumbnails[0]->caption }}">
                                         <div class="tg-tour-details-video-inner text-center">
                                             <a class="tg-video-play popup-video tg-pulse-border"
@@ -156,7 +156,7 @@
                                 @if (isset($nonThumbnails[$i]))
                                     <div class="col-lg-6 col-md-6">
                                         <div class="tg-tour-details-video-thumb mb-15">
-                                            <img class="w-100" src="{{ asset($nonThumbnails[$i]->file_path) }}"
+                                            <img class="w-100" src="{{ asset('storage/' . $nonThumbnails[$i]->file_path) }}"    
                                                 alt="{{ $nonThumbnails[$i]->caption }}">
                                         </div>
                                     </div>
@@ -360,7 +360,7 @@
                                                         <div class="accordion-body">
                                                             <div class="row pb-5">
                                                                 <div class="col-md-4 mb-5">
-                                                                    <img src="{{ asset($itinerary->image) }}"
+                                                                    <img src="{{ asset('storage/' . $itinerary->image) }}"
                                                                         alt="{{ $itinerary->title }}"
                                                                         class="itinerary-image">
                                                                 </div>

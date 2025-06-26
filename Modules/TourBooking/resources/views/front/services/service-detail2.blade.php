@@ -118,7 +118,7 @@
                                             <div class="swiper-slide">
                                                 <div class="tg-tour-details-gallery-thumb">
                                                     <img class="w-100"
-                                                        src="{{ asset('storage/' . $thumbnails[0]->file_path) }}"
+                                                        src="{{ asset('storage/' . $thumbnails[0]->file_path) }}"   
                                                         alt="{{ $thumbnails[0]->caption }}">
                                                 </div>
                                             </div>
