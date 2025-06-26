@@ -28,10 +28,6 @@
 
             @include('tourbooking::agency.sidebar')
 
-            @include('course::instructor.sidebar')
-
-            @include('course::instructor.enrollment.sidebar')
-
             @include('paymentwithdraw::seller.sidebar')
 
 

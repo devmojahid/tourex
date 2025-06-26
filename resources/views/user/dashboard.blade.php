@@ -19,7 +19,7 @@
                     <div class="crancy-ecom-card crancy-ecom-card__v2">
                         <div class="flex-main">
                             <span>
-                                @include('course::instructor.svg.total_earning')
+                                @include('svg.total_earning')
                             </span>
                             <div class="flex-1">
                                 <div class="crancy-ecom-card__heading">
@@ -44,7 +44,7 @@
                     <div class="crancy-ecom-card crancy-ecom-card__v2">
                         <div class="flex-main">
                             <span>
-                                @include('course::instructor.svg.available_balance')
+                                @include('svg.available_balance')
                             </span>
                             <div class="flex-1">
                                 <div class="crancy-ecom-card__heading">
@@ -69,7 +69,7 @@
                     <div class="crancy-ecom-card crancy-ecom-card__v2">
                         <div class="flex-main">
                             <span>
-                                @include('course::instructor.svg.net_earning')
+                                @include('svg.net_earning')
                             </span>
                             <div class="flex-1">
                                 <div class="crancy-ecom-card__heading">
@@ -95,7 +95,7 @@
                     <div class="crancy-ecom-card crancy-ecom-card__v2">
                         <div class="flex-main">
                             <span>
-                                @include('course::instructor.svg.wishlist_icon')
+                                @include('svg.wishlist_icon')
                             </span>
                             <div class="flex-1">
                                 <div class="crancy-ecom-card__heading">

@@ -17,7 +17,8 @@
                     <div class="crancy-body">
                         <!-- Dashboard Inner -->
                         <div class="crancy-dsinner">
-                            <form action="{{ route('user.agency-support.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('user.agency-support.store') }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="row">
@@ -25,9 +26,11 @@
                                         <!-- Product Card -->
                                         <div class="crancy-product-card">
                                             <div class="create_new_btn_inline_box">
-                                                <h4 class="crancy-product-card__title">{{ __('translate.Create Ticket') }}</h4>
+                                                <h4 class="crancy-product-card__title">{{ __('translate.Create Ticket') }}
+                                                </h4>
 
-                                                <a href="{{ route('user.agency-support.index') }}" class="crancy-btn "><i class="fa fa-list"></i> {{ __('translate.Ticket List') }}</a>
+                                                <a href="{{ route('user.agency-support.index') }}" class="crancy-btn "><i
+                                                        class="fa fa-list"></i> {{ __('translate.Ticket List') }}</a>
                                             </div>
 
                                             <div class="row mg-top-30">
@@ -36,11 +39,15 @@
 
                                                 <div class="col-12">
                                                     <div class="crancy__item-form--group mg-top-form-25">
-                                                        <label class="crancy__item-label">{{ __('translate.Course') }} * </label>
-                                                        <select class="form-select crancy__item-input" name="course_id">
+                                                        <label class="crancy__item-label">{{ __('translate.Service') }} *
+                                                        </label>
+                                                        <select class="form-select crancy__item-input" name="service_id">
                                                             <option value="">{{ __('translate.Select') }}</option>
-                                                            @foreach ($courses as $course)
-                                                                <option  {{ $course->id == old('course_id') ? 'selected' : '' }} value="{{ $course->id }}">{{ html_decode($course?->title) }}</option>
+                                                            @foreach ($confirm_booking as $booking)
+                                                                <option
+                                                                    {{ $booking->service->id == old('service_id') ? 'selected' : '' }}
+                                                                    value="{{ $booking->service->id }}">
+                                                                    {{ html_decode($booking->service->title) }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -48,33 +55,40 @@
 
                                                 <div class="col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label class="crancy__item-label">{{ __('translate.Subject') }} * </label>
-                                                        <input class="crancy__item-input" type="text" name="subject" id="subject" value="{{ old('subject') }}">
+                                                        <label class="crancy__item-label">{{ __('translate.Subject') }} *
+                                                        </label>
+                                                        <input class="crancy__item-input" type="text" name="subject"
+                                                            id="subject" value="{{ old('subject') }}">
                                                     </div>
                                                 </div>
 
 
                                                 <div class="col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label class="crancy__item-label">{{ __('translate.Message') }} * </label>
+                                                        <label class="crancy__item-label">{{ __('translate.Message') }} *
+                                                        </label>
 
-                                                        <textarea class="crancy__item-input crancy__item-textarea summernote"  name="message" id="message">{{ html_decode(old('message')) }}</textarea>
+                                                        <textarea class="crancy__item-input crancy__item-textarea summernote" name="message" id="message">{{ html_decode(old('message')) }}</textarea>
 
                                                     </div>
                                                 </div>
 
                                                 <div class="col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20 edu_support_files">
-                                                        <label class="crancy__item-label">{{ __('translate.Attachements') }} </label>
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Attachements') }}
+                                                        </label>
 
-                                                        <input class="form-control h-auto " type="file" name="documents[]" id="formFileMultiple" multiple>
+                                                        <input class="form-control h-auto " type="file"
+                                                            name="documents[]" id="formFileMultiple" multiple>
                                                     </div>
                                                 </div>
 
 
                                             </div>
 
-                                            <button class="crancy-btn mg-top-25" type="submit">{{ __('translate.Create Ticket') }}</button>
+                                            <button class="crancy-btn mg-top-25"
+                                                type="submit">{{ __('translate.Create Ticket') }}</button>
 
                                         </div>
                                         <!-- End Product Card -->

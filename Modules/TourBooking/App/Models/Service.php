@@ -343,4 +343,8 @@ final class Service extends Model
     {
         return $this->hasOne(Wishlist::class, 'wishable_id', 'id')->where('user_id', auth()->id());
     }
+
+    public function seller(){
+        return $this->belongsTo(User::class, 'user_id')->select('id', 'name', 'email', 'image', 'username');
+    }
 }

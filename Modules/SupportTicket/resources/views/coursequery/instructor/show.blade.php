@@ -113,7 +113,7 @@
 
                                             @endforeach
 
-                                            <form action="{{ route('instructor.teacher-support-message', $support_ticket->id) }}" method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('agency.teacher-support-message', $support_ticket->id) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row">
                                                     <div class="col-12">
@@ -152,13 +152,13 @@
                                             <ul class="crancy-tinfo__list">
 
                                                 <li class="crancy-tinfo__list--item">
-                                                    <span class="crancy-tinfo__title">{{ __('translate.Student') }}</span>
+                                                    <span class="crancy-tinfo__title">{{ __('translate.User') }}</span>
                                                     <span class="crancy-tinfo__title--value">{{ html_decode($support_ticket?->author?->name) }}</span>
                                                 </li>
 
                                                 <li class="crancy-tinfo__list--item">
-                                                    <span class="crancy-tinfo__title">{{ __('translate.Course') }}</span>
-                                                    <span class="crancy-tinfo__title--value">{{ html_decode($course?->title) }}</span>
+                                                    <span class="crancy-tinfo__title">{{ __('translate.Service') }}</span>
+                                                    <span class="crancy-tinfo__title--value">{{ html_decode($service?->title) }}</span>
                                                 </li>
 
                                                 <li class="crancy-tinfo__list--item">
@@ -234,7 +234,7 @@
                     <p>{{ __('translate.Are you realy want to close this ticket?') }}</p>
                 </div>
                 <div class="modal-footer">
-                    <form action="{{ route('instructor.teacher-support-close', $support_ticket->id) }}" class="delet_modal_form" method="POST">
+                    <form action="{{ route('agency.teacher-support-close', $support_ticket->id) }}" class="delet_modal_form" method="POST">
                         @csrf
                         @method('PUT')
 

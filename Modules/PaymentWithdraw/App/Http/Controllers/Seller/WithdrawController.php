@@ -12,6 +12,8 @@ use Modules\Course\App\Models\CourseEnrollmentList;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
 use Modules\PaymentWithdraw\App\Models\SellerWithdraw;
 use Modules\PaymentWithdraw\App\Models\WithdrawMethod;
+use Modules\TourBooking\App\Models\Booking;
+use Modules\TourBooking\App\Models\Service;
 
 class WithdrawController extends Controller
 {
@@ -25,16 +27,16 @@ class WithdrawController extends Controller
 
         $withdraw_list = SellerWithdraw::where('seller_id', $user->id)->latest()->get();
 
-        $total_income = CourseEnrollmentList::whereHas('course_enrollment', function($query) {
-            $query->where('payment_status', 'success');
-        })->where('instructor_id', $user->id)->sum('total_amount');
+        $servicesIds = Service::where('user_id', $user->id)->pluck('id')->toArray();
+
+        $total_income = Booking::whereIn('service_id', $servicesIds)->where('payment_status', 'success')->sum('total');
 
         $commission_type = GlobalSetting::where('key', 'commission_type')->value('value');
         $commission_per_sale = GlobalSetting::where('key', 'commission_per_sale')->value('value');
 
         $total_commission = 0.00;
         $net_income = $total_income;
-        if($commission_type == 'commission'){
+        if ($commission_type == 'commission') {
             $total_commission = ($commission_per_sale / 100) * $total_income;
             $net_income = $total_income - $total_commission;
         }
@@ -77,7 +79,7 @@ class WithdrawController extends Controller
             'method_id' => 'required|exists:withdraw_methods,id',
             'amount' => 'required|numeric',
             'description' => 'required',
-        ],[
+        ], [
             'method_id.required' => trans('translate.Method is required'),
             'amount.required' => trans('translate.Amount is required'),
             'amount.numeric' => trans('translate.Amount should be numeric'),
@@ -92,25 +94,25 @@ class WithdrawController extends Controller
 
         $already_withdraw_amount = $withdraw_list->sum('total_amount');
 
-        $my_income = CourseEnrollmentList::whereHas('course_enrollment', function($query) {
-            $query->where('payment_status', 'success');
-        })->where('instructor_id', $user->id)->sum('total_amount');
+        $servicesIds = Service::where('user_id', $user->id)->pluck('id')->toArray();
+
+        $my_income = $total_income = Booking::whereIn('service_id', $servicesIds)->where('payment_status', 'success')->sum('total');;
 
         $commission_type = GlobalSetting::where('key', 'commission_type')->value('value');
         $commission_per_sale = GlobalSetting::where('key', 'commission_per_sale')->value('value');
 
         $total_commission = 0.00;
         $net_income = $my_income;
-        if($commission_type == 'commission'){
+        if ($commission_type == 'commission') {
             $total_commission = ($commission_per_sale / 100) * $my_income;
             $net_income = $my_income - $total_commission;
         }
 
         $current_balance = $net_income - $already_withdraw_amount;
 
-        if($request->amount > $current_balance){
-            $notify_message= trans('translate.You do not have enough balance for withdraw');
-            $notify_message=array('message'=>$notify_message,'alert-type'=>'error');
+        if ($request->amount > $current_balance) {
+            $notify_message = trans('translate.You do not have enough balance for withdraw');
+            $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
             return redirect()->back()->with($notify_message);
         }
 
@@ -128,11 +130,9 @@ class WithdrawController extends Controller
         $new_withdraw->description = $request->description;
         $new_withdraw->save();
 
-        $notify_message= trans('translate.Withdraw request has been send. please awaiting for admin approval');
-        $notify_message=array('message'=>$notify_message,'alert-type'=>'success');
+        $notify_message = trans('translate.Withdraw request has been send. please awaiting for admin approval');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         return redirect()->route('seller.my-withdraw.index')->with($notify_message);
-
-
     }
 
 
@@ -147,5 +147,4 @@ class WithdrawController extends Controller
             'withdraw' => $withdraw
         ]);
     }
-
 }

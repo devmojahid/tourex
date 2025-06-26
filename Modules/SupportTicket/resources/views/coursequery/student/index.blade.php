@@ -47,20 +47,16 @@
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Course') }}
+                                                    {{ __('translate.Service') }}
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
                                                     {{ __('translate.Subject') }}
                                                 </th>
 
-
-
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
                                                     {{ __('translate.Ticket Id') }}
                                                 </th>
-
-
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
                                                     {{ __('translate.Status') }}
@@ -87,15 +83,12 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title">{{ html_decode($support_ticket?->course?->title) }}</h4>
+                                                        <h4 class="crancy-table__product-title">{{ html_decode($support_ticket?->service?->title) }}</h4>
                                                     </td>
-
-
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         <h4 class="crancy-table__product-title">#{{ $support_ticket->ticket_id }}</h4>
                                                     </td>
-
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($support_ticket->status == 'open')
@@ -106,7 +99,7 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <a href="{{ route('user.teacher-support.show', $support_ticket->ticket_id) }}" class="crancy-btn"><i class="far fa-message"></i> {{ __('translate.Chat') }}</a>
+                                                        <a href="{{ route('user.agency-support.show', $support_ticket->ticket_id) }}" class="crancy-btn"><i class="far fa-message"></i> {{ __('translate.Chat') }}</a>
                                                     </td>
                                                 </tr>
                                             @endforeach
