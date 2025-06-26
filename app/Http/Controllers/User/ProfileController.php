@@ -38,7 +38,9 @@ class ProfileController extends Controller
             ->where('booking_status', 'confirmed');
 
         $total_booking = $booking->count();
-        $total_transaction = $booking->sum('total');
+        $total_transaction = Booking::where('user_id', auth()->user()->id)
+            ->where('payment_status', 'success')
+            ->sum('total');
 
 
         return view('user.dashboard', [
@@ -188,7 +190,7 @@ class ProfileController extends Controller
         Coupon::where('seller_id', $user_id)->delete();
         CouponHistory::where('seller_id', $user_id)->delete();
         CouponHistory::where('buyer_id', $user_id)->delete();
-        
+
         SellerWithdraw::where('seller_id', $user_id)->delete();
         Wishlist::where('user_id', $user_id)->delete();
 

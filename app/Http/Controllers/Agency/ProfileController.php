@@ -18,6 +18,8 @@ use Modules\SupportTicket\App\Models\SupportTicket;
 use Modules\SupportTicket\App\Models\MessageDocument;
 use Modules\PaymentWithdraw\App\Models\SellerWithdraw;
 use Modules\SupportTicket\App\Models\SupportTicketMessage;
+use Modules\TourBooking\App\Models\Booking;
+use Modules\TourBooking\App\Models\Service;
 
 class ProfileController extends Controller
 {
@@ -28,7 +30,10 @@ class ProfileController extends Controller
 
         $withdraw_list = SellerWithdraw::where('seller_id', $user->id)->get();
 
+        $servicesIds = Service::where('user_id', $user->id)->pluck('id')->toArray();
+
         $total_income = 0;
+        $total_income = Booking::whereIn('service_id', $servicesIds)->where('payment_status', 'success')->sum('total');
 
         $course_sale_qty = 0;
 

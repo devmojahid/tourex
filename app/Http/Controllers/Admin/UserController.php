@@ -58,7 +58,7 @@ class UserController extends Controller
         $wallet_balance = 0.0;
 
         $totalConfirmedBookingCount = Booking::where('user_id', $user->id)->where('booking_status', 'confirmed')->count();
-        $confirmAmount = Booking::where('user_id', $user->id)->where('booking_status', 'confirmed')->sum('total');
+        $confirmAmount = Booking::where('user_id', $user->id)->where('payment_status', 'success')->sum('total');
 
         $user_bookings = Booking::with(['service:id,title,location'])
             ->where('user_id', $user->id)
