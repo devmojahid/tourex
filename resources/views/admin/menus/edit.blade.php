@@ -61,13 +61,6 @@
             font-size: 14px;
         }
 
-        .add-menu-item-form {
-            background: #f7f7f7;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
         .nestable-menu {
             margin-top: 20px;
         }
@@ -84,6 +77,7 @@
             border-radius: 4px;
             border: 1px solid #eee;
         }
+
     </style>
 @endpush
 
@@ -212,7 +206,7 @@
                                                     </div>
 
                                                     <button type="submit"
-                                                        class="btn btn-success">{{ __('translate.Add Item') }}</button>
+                                                        class="btn btn-primary">{{ __('translate.Add Item') }}</button>
                                                 </form>
                                             </div>
                                         </div>

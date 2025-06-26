@@ -99,6 +99,11 @@
         .modal-lg {
             max-width: 800px;
         }
+        .availability-flex {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
     </style>
 @endpush
 
@@ -297,7 +302,7 @@
                                                                             <span class="text-muted">-</span>
                                                                         @endif
                                                                     </td>
-                                                                    <td>
+                                                                    <td class="availability-flex">
                                                                             <button type="button" class="btn btn-sm btn-primary edit-availability"
                                                                                 data-id="{{ $availability->id }}"
                                                                                 data-date="{{ $availability->date }}"
