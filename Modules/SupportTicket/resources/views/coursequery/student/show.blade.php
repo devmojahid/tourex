@@ -155,23 +155,19 @@
                                             <ul class="crancy-tinfo__list">
 
                                                 <li class="crancy-tinfo__list--item">
-                                                    <span class="crancy-tinfo__title">{{ __('translate.Instructor') }}</span>
-                                                    <span class="crancy-tinfo__title--value">{{ html_decode($course?->instructor?->name) }}</span>
+                                                    <span class="crancy-tinfo__title">{{ __('translate.Seller') }}</span>
+                                                    <span class="crancy-tinfo__title--value">{{ html_decode($service?->seller?->name) }}</span>
                                                 </li>
 
                                                 <li class="crancy-tinfo__list--item">
-                                                    <span class="crancy-tinfo__title">{{ __('translate.Course') }}</span>
-                                                    <span class="crancy-tinfo__title--value">{{ html_decode($course?->title) }}</span>
+                                                    <span class="crancy-tinfo__title">{{ __('translate.Service') }}</span>
+                                                    <span class="crancy-tinfo__title--value">{{ html_decode($service?->title) }}</span>
                                                 </li>
-
-
 
                                                 <li class="crancy-tinfo__list--item">
                                                     <span class="crancy-tinfo__title">{{ __('translate.Ticket Id') }}</span>
                                                     <span class="crancy-tinfo__title--value  crancy-color1">#{{ $support_ticket->ticket_id }}</span>
                                                 </li>
-
-
 
                                                 <li class="crancy-tinfo__list--item">
                                                     <span class="crancy-tinfo__title">{{ __('translate.Time') }}</span>

@@ -1644,4 +1644,5 @@
   'Tour Details Two' => 'Tour Details Two',
   'Total Services' => 'Total Services',
   'Booking Statistics' => 'Booking Statistics',
+  'Product Wishlist' => 'Product Wishlist',
 );

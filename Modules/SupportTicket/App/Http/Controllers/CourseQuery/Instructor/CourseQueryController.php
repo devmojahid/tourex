@@ -20,7 +20,7 @@ class CourseQueryController extends Controller
 
         $user = Auth::guard('web')->user();
 
-        $support_tickets = SupportTicket::withWhereHas('course', function($query) use($user){
+        $support_tickets = SupportTicket::withWhereHas('service', function($query) use($user){
             $query->where('user_id', $user->id);
         })->where('admin_type', 'instructor')->latest()->get();
 

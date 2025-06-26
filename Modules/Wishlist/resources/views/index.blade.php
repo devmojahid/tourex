@@ -1,12 +1,12 @@
 @extends('user.master_layout')
 
 @section('title')
-    <title>{{ __('translate.Wihslist') }}</title>
+    <title>{{ __('translate.Product Wishlist') }}</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Wihslist') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Wihslist') }}</p>
+    <h3 class="crancy-header__title m-0">{{ __('translate.Product Wishlist') }}</h3>
+    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Product Wishlist') }}</p>
 @endsection
 
 @section('body-content')
@@ -23,14 +23,17 @@
                                     <div class="ed-watch-content-wrapper">
                                         <div class="ed-watch-content-main-wrapper">
                                             <div class="row">
-                                                @foreach ($products as $product)
+                                                @forelse ($products as $product)
                                                     <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
                                                         <div class="mb-4">
                                                             @include('ecommerce::frontend.partials.product_item')
                                                         </div>
                                                     </div>
-                                                @endforeach
-
+                                                @empty
+                                                    <div class="col-12">
+                                                        Data Not found.
+                                                    </div>
+                                                @endforelse
                                             </div>
                                         </div>
                                     </div>
