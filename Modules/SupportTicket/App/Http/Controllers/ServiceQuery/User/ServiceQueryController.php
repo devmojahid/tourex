@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\SupportTicket\App\Http\Controllers\ServiceQuery\Student;
+namespace Modules\SupportTicket\App\Http\Controllers\ServiceQuery\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,7 +13,7 @@ use Modules\SupportTicket\App\Models\SupportTicketMessage;
 use Modules\TourBooking\App\Models\Booking;
 use Modules\TourBooking\App\Models\Service;
 
-class CourseQueryController extends Controller
+class ServiceQueryController extends Controller
 {
     /**
      * Display a listing of the resource.

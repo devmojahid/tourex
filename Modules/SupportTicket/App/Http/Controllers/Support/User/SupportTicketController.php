@@ -21,7 +21,7 @@ class SupportTicketController extends Controller
 
         $support_tickets = SupportTicket::where('author_id', $user->id)->where('admin_type', 'admin')->latest()->get();
 
-        return view('supportticket::support.student.index', [
+        return view('supportticket::support.user.index', [
             'support_tickets' => $support_tickets
         ]);
     }
@@ -31,7 +31,7 @@ class SupportTicketController extends Controller
      */
     public function create()
     {
-        return view('supportticket::support.student.create');
+        return view('supportticket::support.user.create');
     }
 
     /**
@@ -99,7 +99,7 @@ class SupportTicketController extends Controller
         $last_message = SupportTicketMessage::with('documents')->where('support_ticket_id', $support_ticket->id)->latest()->first();
 
 
-        return view('supportticket::support.student.show', [
+        return view('supportticket::support.user.show', [
             'support_ticket' => $support_ticket,
             'ticket_messages' => $ticket_messages,
             'last_message' => $last_message,

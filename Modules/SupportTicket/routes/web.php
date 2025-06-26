@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\SupportTicket\App\Http\Controllers\ServiceQuery\Student\CourseQueryController as StudentCourseQueryController;
+use Modules\SupportTicket\App\Http\Controllers\ServiceQuery\User\ServiceQueryController as UserServiceQueryController;
 use Modules\SupportTicket\App\Http\Controllers\ServiceQuery\Seller\ServiceQueryController as SellerServiceQueryController;
 use Modules\SupportTicket\App\Http\Controllers\Support\Admin\SupportTicketController as AdminSupportTicketController;
 use Modules\SupportTicket\App\Http\Controllers\Support\User\SupportTicketController as UserSupportTicketController;
@@ -27,8 +27,8 @@ Route::group(['as' => 'user.', 'prefix' => 'user', 'middleware' => ['auth:web', 
     Route::resource('support-ticket', UserSupportTicketController::class);
     Route::post('support-ticket-message/{id}', [UserSupportTicketController::class, 'support_ticket_message'])->name('support-ticket-message');
 
-    Route::resource('agency-support', StudentCourseQueryController::class);
-    Route::post('agency-support-message/{id}', [StudentCourseQueryController::class, 'support_ticket_message'])->name('agency-support-message');
+    Route::resource('agency-support', UserServiceQueryController::class);
+    Route::post('agency-support-message/{id}', [UserServiceQueryController::class, 'support_ticket_message'])->name('agency-support-message');
 });
 
 
