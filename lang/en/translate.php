@@ -17,7 +17,7 @@
   'Dashboard' => 'Dashboard',
   'Total Sale' => 'Total Sale',
   'Admin Earnings' => 'Admin Earnings',
-  'Instructor Earnings' => 'Instructor Earnings',
+  'Seller Earnings' => 'Seller Earnings',
   'Total Sold' => 'Total Sold',
   'Order Statitics' => 'Order Statitics',
   'Latest Enrollments' => 'Latest Enrollments',

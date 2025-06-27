@@ -85,7 +85,7 @@
                                                 <div class="crancy-ecom-card__heading">
                                                     <div class="crancy-ecom-card__icon">
                                                         <h4 class="crancy-ecom-card__title">
-                                                            {{ __('translate.Instructor Earnings') }} </h4>
+                                                            {{ __('translate.Seller Earnings') }} </h4>
                                                     </div>
 
                                                 </div>

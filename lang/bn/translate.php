@@ -17,7 +17,7 @@
   'Dashboard' => 'ড্যাশবোর্ড',
   'Total Sale' => 'মোট বিক্রয়',
   'Admin Earnings' => 'অ্যাডমিন আয়',
-  'Instructor Earnings' => 'প্রশিক্ষক আয়',
+  'Seller Earnings' => 'সেলার আয়',
   'Total Sold' => 'মোট বিক্রি',
   'Order Statitics' => 'অর্ডার পরিসংখ্যান',
   'Latest Enrollments' => 'সর্বশেষ তালিকাভুক্তি',
