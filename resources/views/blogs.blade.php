@@ -19,11 +19,11 @@
                                     <div class="tg-blog-grid-item mb-30">
                                         <div class="tg-blog-standard-thumb mb-15">
                                             <a href="{{ route('blog', $blog->slug) }}"><img class="w-100"
-                                                    src="{{ asset($blog->image) }}" alt="{{ $blog?->title }}"></a>
+                                                    src="{{ asset($blog->image) }}" alt="{{ $blog?->translate?->title }}"></a>
                                         </div>
                                         <div class="tg-blog-standard-content">
                                             <h2 class="tg-blog-standard-title">
-                                                <a href="{{ route('blog', $blog->slug) }}">{{ $blog?->title }}</a>
+                                                <a href="{{ route('blog', $blog->slug) }}">{{ $blog?->translate?->title }}</a>
                                             </h2>
                                             <div class="tg-blog-standard-date mb-10">
                                                 <span>
@@ -53,11 +53,11 @@
                                                             stroke="#560CE3" stroke-width="1.06667" stroke-linecap="round"
                                                             stroke-linejoin="round" />
                                                     </svg>
-                                                    {{ $blog->reading_time }} mins Read
+                                                    {{ $blog->->translate?->reading_time }}
                                                 </span>
                                             </div>
                                             <p class="mb-20 tg-blog-standard-para">
-                                                {{ $blog?->short_description }}
+                                                {{ $blog?->translate?->short_description }}
                                             </p>
                                             <div class="tg-blog-sidebar-btn">
                                                 <a href="{{ route('blog', $blog->slug) }}"
