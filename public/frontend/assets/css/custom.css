@@ -121,6 +121,11 @@
     transform: translate(-50%, -50%);
 }
 
+/* blog css  */
+.tg-blog-details-review-form textarea.textarea {
+    padding-top: 11px;
+}
+
 ul.tourex-tabs-menu li a {
     height: 110px;
     width: 125px;
