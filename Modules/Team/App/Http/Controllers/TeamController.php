@@ -35,6 +35,7 @@ class TeamController extends Controller
                 'name' => 'required|string',
                 'slug' => 'required|string|unique:teams,slug',
                 'image' => 'required|image',
+                'image_detail' => 'nullable|image',
                 'description' => 'required|string',
                 'designation' => 'required|string',
                 'mail' => 'required|email',
@@ -69,6 +70,15 @@ class TeamController extends Controller
                 ->encode('webp', 80)
                 ->save(public_path() . '/' . $image_name);
             $team->image = $image_name;
+        }
+
+        if ($request->image_detail) {
+            $image_name = 'team' . date('-Y-m-d-h-i-s-') . rand(999, 9999) . '.webp';
+            $image_name = 'uploads/custom-images/' . $image_name;
+            Image::make($request->image_detail)
+                ->encode('webp', 80)
+                ->save(public_path() . '/' . $image_name);
+            $team->image_details = $image_name;
         }
 
         $team->slug = $request->slug;
@@ -175,6 +185,21 @@ class TeamController extends Controller
                 }
             }
 
+            if ($request->image_detail) {
+                $old_image = $team->image_details;
+                $image_name = 'team' . date('-Y-m-d-h-i-s-') . rand(999, 9999) . '.webp';
+                $image_name = 'uploads/custom-images/' . $image_name;
+                Image::make($request->image_detail)
+                    ->encode('webp', 80)
+                    ->save(public_path() . '/' . $image_name);
+                $team->image_details = $image_name;
+                $team->save();
+
+                if ($old_image) {
+                    if (File::exists(public_path() . '/' . $old_image)) unlink(public_path() . '/' . $old_image);
+                }
+            }
+
             $team->slug = $request->slug;
             $team->mail = $request->mail;
             $team->phone_number = $request->phone_number;
@@ -221,10 +246,16 @@ class TeamController extends Controller
     {
         $team = Team::findOrFail($id);
         $old_image = $team->image;
+        $old_image2 = $team->image_details;
 
         if ($old_image) {
             if (File::exists(public_path() . '/' . $old_image)) unlink(public_path() . '/' . $old_image);
         }
+
+        if ($old_image2) {
+            if (File::exists(public_path() . '/' . $old_image2)) unlink(public_path() . '/' . $old_image2);
+        }
+
         TeamTranslation::where('team_id', $id)->delete();
         $team->delete();
 
