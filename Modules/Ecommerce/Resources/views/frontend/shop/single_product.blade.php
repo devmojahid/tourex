@@ -14,13 +14,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-5 col-lg-6">
-                    <div class="tourex-tab-slider" data-aos="fade-up" data-aos-duration="800">
+                    <div class="tourex-tab-slider mb-40" data-aos="fade-up" data-aos-duration="800">
                         @if (count($product->galleries) > 0)
                             <div class="tourex-tabs-container">
                                 <div class="tourex-tabs-wrapper">
                                     @foreach ($product->galleries as $gallery)
                                         <div id="item{{ $loop->index + 1 }}" class="tabContent">
-                                            <img src="{{ asset($gallery->image) }}" alt="Image"> 
+                                            <img src="{{ asset($gallery->image) }}" alt="Image">
                                         </div>
                                     @endforeach
                                 </div>
