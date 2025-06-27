@@ -135,21 +135,6 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
 
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
 
-    // Route::get('link', function () {
-    //     Artisan::call('storage:link');
-    //     return 'done';
-    // });
-
-    // Route::get('clear', function () {
-    //     Artisan::call('o:c');
-    //     return 'done';
-    // });
-
-    // Route::get('migrate', function () {
-    //     Artisan::call('migrate');
-    //     return 'done';
-    // });
-
     Route::get('login', [LoginController::class, 'custom_login_page'])->name('login');
     Route::post('store-login', [LoginController::class, 'store_login'])->name('store-login');
     Route::post('store-register', [LoginController::class, 'store_register'])->name('store-register');
