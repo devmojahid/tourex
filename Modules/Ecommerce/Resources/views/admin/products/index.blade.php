@@ -77,19 +77,19 @@
                                                 </td>
 
                                                 <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">{{ Str::limit($product->translate->name, 20) }}</h4>
+                                                    <h4 class="crancy-table__product-title">{{ Str::limit($product?->translate?->name, 20) }}</h4>
                                                 </td>
 
                                                 <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">{{ currency($product->finalPrice) }}</h4>
+                                                    <h4 class="crancy-table__product-title">{{ currency($product?->finalPrice) }}</h4>
                                                 </td>
 
                                                 <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">{{ $product->category?->translate?->name }}</h4>
+                                                    <h4 class="crancy-table__product-title">{{ $product?->category?->translate?->name }}</h4>
                                                 </td>
 
                                                 <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">{{ $product->brand?->translate?->name }}</h4>
+                                                    <h4 class="crancy-table__product-title">{{ $product?->brand?->translate?->name }}</h4>
                                                 </td>
 
                                                 <td class="crancy-table__column-2 crancy-table__data-2">

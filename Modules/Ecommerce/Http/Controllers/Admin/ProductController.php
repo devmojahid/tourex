@@ -213,7 +213,7 @@ class ProductController extends Controller
         ProductTranslation::where('product_id', $id)->delete();
         ProductReview::where('product_id', $id)->delete();
         Cart::where('product_id', $id)->delete();
-        Wishlist::where('product_id', $id)->delete();
+        Wishlist::where('wishable_id', $id)->where('wishable_type', Product::class)->delete();
 
         $galleries = ProductGallery::where('product_id', $id)->get();
         foreach ($galleries as $gallery) {
