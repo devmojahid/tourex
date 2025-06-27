@@ -33,7 +33,7 @@ class ProductController extends Controller
                 })
                 ->active()
                 ->latest()
-                ->paginate(8);
+                ->paginate(9);
 
             // Get brands with translation
             $brands = Brand::with('translate')->withCount('products')->get();
@@ -54,7 +54,7 @@ class ProductController extends Controller
                 ->limit(4)
                 ->get();
 
-            $seo_setting = SeoSetting::where('id', 4)->first();
+            $seo_setting = SeoSetting::where('id', 11)->first();
 
             $breadcrumb_title = trans('translate.Shop Page');
 
