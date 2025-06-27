@@ -19,11 +19,13 @@
                                     <div class="tg-blog-grid-item mb-30">
                                         <div class="tg-blog-standard-thumb mb-15">
                                             <a href="{{ route('blog', $blog->slug) }}"><img class="w-100"
-                                                    src="{{ asset($blog->image) }}" alt="{{ $blog?->translate?->title }}"></a>
+                                                    src="{{ asset($blog->image) }}"
+                                                    alt="{{ $blog?->translate?->title }}"></a>
                                         </div>
                                         <div class="tg-blog-standard-content">
                                             <h2 class="tg-blog-standard-title">
-                                                <a href="{{ route('blog', $blog->slug) }}">{{ $blog?->translate?->title }}</a>
+                                                <a
+                                                    href="{{ route('blog', $blog->slug) }}">{{ $blog?->translate?->title }}</a>
                                             </h2>
                                             <div class="tg-blog-standard-date mb-10">
                                                 <span>
@@ -45,16 +47,18 @@
                                                     </svg>
                                                     {{ $blog->created_at->format('d-m-Y') }}
                                                 </span>
-                                                <span>
-                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M7.99979 3.73329V7.99996L10.8442 9.42218M15.1109 8.00003C15.1109 11.9274 11.9271 15.1111 7.99978 15.1111C4.07242 15.1111 0.888672 11.9274 0.888672 8.00003C0.888672 4.07267 4.07242 0.888916 7.99978 0.888916C11.9271 0.888916 15.1109 4.07267 15.1109 8.00003Z"
-                                                            stroke="#560CE3" stroke-width="1.06667" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                    </svg>
-                                                    {{ $blog->translate?->reading_time }}
-                                                </span>
+                                                @if ($blog->translate?->reading_time)
+                                                    <span>
+                                                        <svg width="16" height="16" viewBox="0 0 16 16"
+                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M7.99979 3.73329V7.99996L10.8442 9.42218M15.1109 8.00003C15.1109 11.9274 11.9271 15.1111 7.99978 15.1111C4.07242 15.1111 0.888672 11.9274 0.888672 8.00003C0.888672 4.07267 4.07242 0.888916 7.99978 0.888916C11.9271 0.888916 15.1109 4.07267 15.1109 8.00003Z"
+                                                                stroke="#560CE3" stroke-width="1.06667"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg>
+                                                        {{ $blog->translate?->reading_time }}
+                                                    </span>
+                                                @endif
                                             </div>
                                             <p class="mb-20 tg-blog-standard-para">
                                                 {{ $blog?->translate?->short_description }}
