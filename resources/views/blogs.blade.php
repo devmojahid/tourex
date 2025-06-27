@@ -53,7 +53,7 @@
                                                             stroke="#560CE3" stroke-width="1.06667" stroke-linecap="round"
                                                             stroke-linejoin="round" />
                                                     </svg>
-                                                    {{ $blog->->translate?->reading_time }}
+                                                    {{ $blog->translate?->reading_time }}
                                                 </span>
                                             </div>
                                             <p class="mb-20 tg-blog-standard-para">
