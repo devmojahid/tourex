@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-lg-5">
                     <div class="tg-team-details-thumb mb-30">
-                        <img class="w-100" src="{{ asset($team->image) }}" alt="{{ $team->translate->name }}">
+                        <img class="w-100" src="{{ asset($team->image_details ?? $team->image) }}" alt="{{ $team->translate->name }}">
                     </div>
                 </div>
                 <div class="col-lg-7">
