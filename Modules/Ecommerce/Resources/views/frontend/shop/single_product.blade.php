@@ -20,7 +20,7 @@
                                 <div class="tourex-tabs-wrapper">
                                     @foreach ($product->galleries as $gallery)
                                         <div id="item{{ $loop->index + 1 }}" class="tabContent">
-                                            <img src="{{ asset($gallery->image) }}" alt="Image">
+                                            <img src="{{ asset($gallery->image) }}" alt="Image"> 
                                         </div>
                                     @endforeach
                                 </div>
