@@ -48,8 +48,8 @@
                                         <div class="col-lg-4 col-md-6 col-12">
                                             <div class="crancy-theme-card bg-white crancy-shadow mb-4 br-4">
                                                 <div class="crancy-theme-card__img">
-                                                    @if (file_exists(base_path("cms/themes/{$theme_name}/screenshot.png")))
-                                                        <img src="{{ asset("cms/themes/{$theme_name}/screenshot.png") }}"
+                                                    @if (file_exists(public_path('backend/img/theme/' . $theme_name . '.png')))
+                                                        <img src="{{ asset('backend/img/theme/' . $theme_name . '.png') }}"
                                                             alt="{{ $theme_info['name'] ?? $theme_name }}">
                                                     @else
                                                         <img src="{{ asset('backend/img/placeholder-image.jpg') }}"

@@ -170,7 +170,7 @@
                                                                                         </div>
                                                                                     </div>
 
-                                                                                    <div class="col-12 d-done">
+                                                                                    <div class="col-12 d-none">
                                                                                         <div class="crancy__item-form--group  mg-top-form-20">
                                                                                             <label class="crancy__item-label">{{ __('translate.Select Theme') }}</label>
                                                                                             <select class="form-select crancy__item-input" name="selected_theme">

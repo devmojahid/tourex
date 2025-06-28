@@ -1651,4 +1651,5 @@
   'Reset All' => 'Reset All',
   'Sort by' => 'Sort by',
   'Team Member Detail Image' => 'Team Member Detail Image',
+  'Agency logo' => 'Agency logo',
 );
