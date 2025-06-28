@@ -42,7 +42,8 @@
                     <div class="tg-blog-item mb-25">
                         <div class="tg-blog-thumb fix left-side-img">
                             <a href="{{ route('blog', ['slug' => $firstBlog->slug]) }}">
-                                <img class="w-100" src="{{ asset($firstBlog->image) }}" alt="{{ $firstBlog?->translate?->title }}">
+                                <img class="w-100" src="{{ asset($firstBlog->image) }}"
+                                    alt="{{ $firstBlog?->translate?->title }}">
                             </a>
                         </div>
                         <div class="tg-blog-content p-relative">
@@ -119,3 +120,14 @@
     </div>
 </div>
 <!-- blog-area-end -->
+@push('style_section')
+    <style>
+        .tg-blog-thumb.fix.left-side-img img {
+            height: 260px;
+        }
+
+        .tg-blog-thumb.fix.right-side-img img {
+            height: 167px;
+        }
+    </style>
+@endpush
