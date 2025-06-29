@@ -156,7 +156,8 @@
                                 @if (isset($nonThumbnails[$i]))
                                     <div class="col-lg-6 col-md-6">
                                         <div class="tg-tour-details-video-thumb mb-15">
-                                            <img class="w-100" src="{{ asset('storage/' . $nonThumbnails[$i]->file_path) }}"    
+                                            <img class="w-100"
+                                                src="{{ asset('storage/' . $nonThumbnails[$i]->file_path) }}"
                                                 alt="{{ $nonThumbnails[$i]->caption }}">
                                         </div>
                                     </div>
@@ -346,8 +347,8 @@
                                             @foreach ($service?->itineraries as $itinerary)
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header">
-                                                        <button class="accordion-button" type="button"
-                                                            data-bs-toggle="collapse"
+                                                        <button @class(['accordion-button', 'collapsed' => !$loop->first]) class="accordion-button"
+                                                            type="button" data-bs-toggle="collapse"
                                                             data-bs-target="#collapse_{{ $itinerary->id }}"
                                                             aria-expanded="true"
                                                             aria-controls="collapse_{{ $itinerary->id }}">
@@ -359,12 +360,14 @@
                                                         data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
                                                             <div class="row pb-5">
-                                                                <div class="col-md-4 mb-5">
-                                                                    <img src="{{ asset('storage/' . $itinerary->image) }}"
-                                                                        alt="{{ $itinerary->title }}"
-                                                                        class="itinerary-image">
-                                                                </div>
-                                                                <div class="col-md-8 mb-5">
+                                                                @if ($itinerary?->image)
+                                                                    <div class="col-md-4 mb-5">
+                                                                        <img src="{{ asset('storage/' . $itinerary->image) }}"
+                                                                            alt="{{ $itinerary->title }}"
+                                                                            class="itinerary-image">
+                                                                    </div>
+                                                                @endif
+                                                                <div @class([ 'col-12 mb-5' => !$itinerary?->image , 'col-md-8 mb-5' => $itinerary?->image])>
 
                                                                     @if ($itinerary?->description)
                                                                         <div>
@@ -518,7 +521,8 @@
                                         'items' => $paginatedReviews,
                                     ])
                                 </div>
-                                <div id="reviewForm" x-data="reviewForm()" class="tg-tour-about-review-form-wrap mb-45">
+                                <div id="reviewForm" x-data="reviewForm()"
+                                    class="tg-tour-about-review-form-wrap mb-45">
                                     <h4 class="tg-tour-about-title mb-5">{{ __('translate.Leave a Reply') }}</h4>
                                     <div class="tg-tour-about-rating-category mb-20">
                                         <ul>
@@ -583,7 +587,8 @@
                                 <div class="tg-tour-about-time d-flex align-items-center mb-10">
                                     <span class="time">Time:</span>
                                     <div class="form-check mr-15">
-                                        <input type="hidden" name="check_in_time_hidden" value="{{ $service->check_in_time }}">
+                                        <input type="hidden" name="check_in_time_hidden"
+                                            value="{{ $service->check_in_time }}">
                                         <input class="form-check-input" name="check_in_time" type="radio"
                                             id="time1">
                                         <label class="form-check-label" for="time1">
@@ -591,7 +596,8 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input type="hidden" name="check_out_time_hidden" value="{{ $service->check_out_time }}">
+                                        <input type="hidden" name="check_out_time_hidden"
+                                            value="{{ $service->check_out_time }}">
                                         <input class="form-check-input" name="check_out_time" type="radio"
                                             id="time2">
                                         <label class="form-check-label" for="time2">
@@ -703,7 +709,7 @@
                 const availabilities = @json($service?->availabilities);
                 const availableDates = availabilities.map(item => item.date);
                 const availabilityMap = {};
-                
+
                 // Create a map of date -> availability details for quick lookup
                 availabilities.forEach(item => {
                     availabilityMap[item.date] = {
@@ -726,26 +732,26 @@
                         updateAvailabilityInfo(dateStr);
                     }
                 });
-                
+
                 // Function to update availability information when a date is selected
                 function updateAvailabilityInfo(dateStr) {
                     const availInfo = $('#availability-info');
                     const bookBtn = $('button[type="submit"]');
                     const availabilityInput = $('#selected-availability-id');
-                    
+
                     if (dateStr && availabilityMap[dateStr]) {
                         const info = availabilityMap[dateStr];
                         const availId = availabilities.find(a => a.date === dateStr).id;
-                        
+
                         // Store the selected availability ID
                         availabilityInput.val(availId);
-                        
+
                         // Create information display
                         let html = '<div class="alert alert-info mt-2 mb-0">';
-                        
+
                         if (info.spots !== null) {
                             html += `<p class="mb-1"><strong>Available spots:</strong> ${info.spots}</p>`;
-                            
+
                             // Disable booking if no spots available
                             if (info.spots <= 0) {
                                 html += '<p class="text-danger mb-0">No spots available for this date!</p>';
@@ -757,19 +763,21 @@
                             html += '<p class="mb-1">Spots available for booking</p>';
                             bookBtn.prop('disabled', false);
                         }
-                        
+
                         if (info.start_time && info.end_time) {
-                            html += `<p class="mb-1"><strong>Time:</strong> ${info.start_time.substring(0,5)} - ${info.end_time.substring(0,5)}</p>`;
+                            html +=
+                                `<p class="mb-1"><strong>Time:</strong> ${info.start_time.substring(0,5)} - ${info.end_time.substring(0,5)}</p>`;
                         }
-                        
+
                         if (info.special_price) {
-                            html += `<p class="mb-1"><strong>Special price:</strong> $${info.special_price}</p>`;
+                            html +=
+                            `<p class="mb-1"><strong>Special price:</strong> $${info.special_price}</p>`;
                         }
-                        
+
                         if (info.notes) {
                             html += `<p class="mb-0"><strong>Notes:</strong> ${info.notes}</p>`;
                         }
-                        
+
                         html += '</div>';
                         availInfo.html(html).show();
                     } else {
@@ -778,7 +786,7 @@
                         bookBtn.prop('disabled', false);
                     }
                 }
-                
+
                 // Initial call in case a date is pre-selected
                 const initialDate = $('input[name="check_in_date"]').val();
                 if (initialDate) {
