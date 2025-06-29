@@ -14,20 +14,20 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-5 col-lg-6">
-                    <div class="tourex-tab-slider" data-aos="fade-up" data-aos-duration="800">
+                    <div class="tourex-tab-slider mb-40" data-aos="fade-up" data-aos-duration="800">
                         @if (count($product->galleries) > 0)
                             <div class="tourex-tabs-container">
                                 <div class="tourex-tabs-wrapper">
                                     @foreach ($product->galleries as $gallery)
                                         <div id="item{{ $loop->index + 1 }}" class="tabContent">
-                                            <img src="{{ asset($gallery->image) }}" alt="Image"> 
+                                            <img src="{{ asset($gallery->image) }}" alt="Image">
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
                             <ul class="tourex-tabs-menu">
                                 @foreach ($product->galleries as $gallery)
-                                    <li {{ $loop->first ? 'class=active' : '' }}>
+                                    <li @class(['active' => $loop->first])>
                                         <a href="#item{{ $loop->index + 1 }}">
                                             <img src="{{ asset($gallery->image) }}" alt="Image">
                                         </a>
@@ -90,7 +90,7 @@
                             <div class="tg-product-details-quantity mb-30">
                                 <span class="quantity mb-5 d-inline-block">{{ __('translate.Quantity') }}</span>
                                 <div class="tg-booking-quantity-item">
-                                    <span class="decrement">
+                                    <span class="decrement decrement2">
                                         <svg width="14" height="2" viewBox="0 0 14 2" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path d="M1 1H13" stroke="currentColor" stroke-width="1.5"
@@ -98,7 +98,7 @@
                                         </svg>
                                     </span>
                                     <input name="quantity" class="tg-quantity-input" type="text" value="1">
-                                    <span class="increment">
+                                    <span class="increment increment2">
                                         <svg width="15" height="14" viewBox="0 0 15 14" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path d="M1.21924 7H13.3836" stroke="currentColor" stroke-width="1.5"
@@ -297,7 +297,6 @@
                                                 </div>
 
                                                 @if (auth()->user())
-                                                    <div class="tg-tour-about-border mb-45"></div>
                                                     <div class="tg-tour-about-review-form-wrap">
                                                         <h4 class="tg-tour-about-title mb-15">
                                                             {{ __('translate.Leave a Reply') }}</h4>
@@ -372,6 +371,15 @@
 
     @push('style_section')
         <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+        <style>
+            ul.tourex-tabs-menu li a {
+                border: 2px solid transparent;
+            }
+
+            ul.tourex-tabs-menu li.active a {
+                border-color: var(--tg-theme-primary);
+            }
+        </style>
     @endpush
 
     @push('js_section')

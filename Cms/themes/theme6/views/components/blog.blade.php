@@ -11,7 +11,8 @@
 @endphp
 
 <!-- blog-area-start -->
-<div class="tg-blog-area pt-130 pb-110 include-bg p-relative z-index-1" data-background="{{ asset('frontend/assets/img/shape/blog-shape-bg.jpg') }}">
+<div class="tg-blog-area pt-130 pb-110 include-bg p-relative z-index-1"
+    data-background="{{ asset('frontend/assets/img/shape/blog-shape-bg.jpg') }}">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -77,7 +78,8 @@
 
                 <div class="col-12 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
                     <div class="tg-blog-bottom text-center pt-15">
-                        <p> {{ __('translate.Want to see our Recent News & Updates.') }} <a href="{{ route('blogs') }}">{{ __('translate.Click here to View More') }}</a>
+                        <p> {{ __('translate.Want to see our Recent News & Updates.') }} <a
+                                href="{{ route('blogs') }}">{{ __('translate.Click here to View More') }}</a>
                         </p>
                     </div>
                 </div>
@@ -86,3 +88,10 @@
     </div>
 </div>
 <!-- blog-area-end -->
+@push('style_section')
+    <style>
+        .tg-blog-thumb.p-relative.fix.mb-20 img {
+            height: 220px;
+        }
+    </style>
+@endpush

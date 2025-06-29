@@ -32,6 +32,7 @@
                                                             <div class="crancy__item-form--group w-100 h-100">
                                                                 <label
                                                                     class="crancy__item-label">{{ __('translate.Thumbnail Image') }}
+                                                                    (170px X 222px)
                                                                     * </label>
                                                                 <div
                                                                     class="crancy-product-card__upload crancy-product-card__upload--border">
@@ -41,6 +42,29 @@
                                                                     <label class="crancy-image-video-upload__label"
                                                                         for="input-img1">
                                                                         <img id="view_img"
+                                                                            src="{{ asset($general_setting->placeholder_image) }}">
+                                                                        <h4 class="crancy-image-video-upload__title">
+                                                                            {{ __('translate.Click here to') }} <span
+                                                                                class="crancy-primary-color">{{ __('translate.Choose File') }}</span>
+                                                                            {{ __('translate.and upload') }} </h4>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="crancy__item-form--group w-100 h-100">
+                                                                <label
+                                                                class="crancy__item-label">{{ __('translate.Team Member Detail Image') }}
+                                                                    (496px X 550px)
+                                                                </label>
+                                                                <div
+                                                                    class="crancy-product-card__upload crancy-product-card__upload--border">
+                                                                    <input type="file" class="btn-check" name="image_detail"
+                                                                        id="image_detail" autocomplete="off"
+                                                                        onchange="previewImageDetail(event)">
+                                                                    <label class="crancy-image-video-upload__label"
+                                                                        for="image_detail">
+                                                                        <img id="image_detail_view"
                                                                             src="{{ asset($general_setting->placeholder_image) }}">
                                                                         <h4 class="crancy-image-video-upload__title">
                                                                             {{ __('translate.Click here to') }} <span
@@ -130,7 +154,8 @@
 
                                                 <div class="col-md-6">
                                                     <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label class="crancy__item-label">{{ __('translate.Twitter URL') }}
+                                                        <label
+                                                            class="crancy__item-label">{{ __('translate.Twitter URL') }}
                                                         </label>
                                                         <input class="crancy__item-input" type="text" name="twitter"
                                                             id="twitter" value="{{ old('twitter') }}">
@@ -307,6 +332,16 @@
             var reader = new FileReader();
             reader.onload = function() {
                 var output = document.getElementById('view_img');
+                output.src = reader.result;
+            }
+
+            reader.readAsDataURL(event.target.files[0]);
+        };
+
+        function previewImageDetail(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('image_detail_view');
                 output.src = reader.result;
             }
 

@@ -4,7 +4,7 @@
             <button><i class="fa-sharp fa-regular fa-xmark"></i></button>
         </div>
         <div class="offCanvas__logo mb-30">
-            <a href="{{ route('home') }}"><img src="{{ asset($general_setting->secondary_navmenu_logo) }}"
+            <a href="{{ route('home') }}"><img src="{{ asset($general_setting?->secondary_logo) }}"
                     alt="Logo"></a>
         </div>
         <div class="offCanvas__side-info mb-30">

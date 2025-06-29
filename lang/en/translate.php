@@ -1652,4 +1652,8 @@
   'Sort by' => 'Sort by',
   'Delete Menu Item' => 'Delete Menu Item',
   'Are you sure you want to delete this menu item? All sub-items will also be deleted.' => 'Are you sure you want to delete this menu item? All sub-items will also be deleted.',
+  'Team Member Detail Image' => 'Team Member Detail Image',
+  'Agency logo' => 'Agency logo',
+  'No menus found' => 'No menus found',
+  'Create your first menu' => 'Create your first menu',
 );

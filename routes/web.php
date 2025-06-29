@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\RegisterController as UserRegisterController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
 use App\Http\Controllers\Agency\ProfileController as AgencyProfileController;
 use App\Http\Controllers\User\OrderController;
+use Illuminate\Support\Facades\Artisan;
 
 Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function () {
 

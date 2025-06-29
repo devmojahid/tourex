@@ -65,3 +65,10 @@
     </div>
 </div>
 <!-- blog-area-end -->
+@push('style_section')
+    <style>
+        .tg-blog-thumb.p-relative.fix.mb-25 img {
+            height: 260px;
+        }
+    </style>
+@endpush

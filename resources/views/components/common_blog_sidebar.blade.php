@@ -71,34 +71,6 @@
           </div>
       @endforeach
   </div>
-  <div class="tg-blog-ads p-relative mb-40">
-      <img class="w-100" src="assets/img/blog/sidebar/ads.jpg" alt="ads">
-      <div class="tg-blog-ads-btn">
-          <a href="tour-details.html" class="tg-btn tg-btn-transparent tg-btn-switch-animation">
-              <span class="d-flex align-items-center justify-content-center">
-                  <span class="btn-text">Book Now</span>
-                  <span class="btn-icon ml-5">
-                      <svg width="17" height="14" viewBox="0 0 17 14" fill="none"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path
-                              d="M1.00019 7.00005H16.16M16.16 7.00005L10.5801 1.42017M16.16 7.00005L10.5801 12.5799"
-                              stroke="#020615" stroke-width="1.42222" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                      </svg>
-                  </span>
-                  <span class="btn-icon ml-5">
-                      <svg width="17" height="14" viewBox="0 0 17 14" fill="none"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path
-                              d="M1.00019 7.00005H16.16M16.16 7.00005L10.5801 1.42017M16.16 7.00005L10.5801 12.5799"
-                              stroke="#020615" stroke-width="1.42222" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                      </svg>
-                  </span>
-              </span>
-          </a>
-      </div>
-  </div>
   <div class="tg-blog-sidebar-tag tg-blog-sidebar-box">
       <h5 class="tg-blog-sidebar-title mb-25">{{ __('translate.Tags') }}</h5>
       <div class="tg-blog-sidebar-tag-list">
