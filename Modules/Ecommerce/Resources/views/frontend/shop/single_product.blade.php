@@ -90,7 +90,7 @@
                             <div class="tg-product-details-quantity mb-30">
                                 <span class="quantity mb-5 d-inline-block">{{ __('translate.Quantity') }}</span>
                                 <div class="tg-booking-quantity-item">
-                                    <span class="decrement">
+                                    <span class="decrement decrement2">
                                         <svg width="14" height="2" viewBox="0 0 14 2" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path d="M1 1H13" stroke="currentColor" stroke-width="1.5"
@@ -98,7 +98,7 @@
                                         </svg>
                                     </span>
                                     <input name="quantity" class="tg-quantity-input" type="text" value="1">
-                                    <span class="increment">
+                                    <span class="increment increment2">
                                         <svg width="15" height="14" viewBox="0 0 15 14" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path d="M1.21924 7H13.3836" stroke="currentColor" stroke-width="1.5"
