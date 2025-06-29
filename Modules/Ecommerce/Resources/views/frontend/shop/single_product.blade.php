@@ -374,11 +374,11 @@
         <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
         <style>
             ul.tourex-tabs-menu li a {
-                border: 1px solid transparent;
+                border: 2px solid transparent;
             }
 
             ul.tourex-tabs-menu li.active a {
-                border: 1px solid var(--tg-theme-primary);
+                border-color: var(--tg-theme-primary);
             }
         </style>
     @endpush
