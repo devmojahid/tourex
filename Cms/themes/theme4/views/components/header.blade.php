@@ -81,7 +81,7 @@
                 <div class="col-lg-8 col-5">
                     <div class="tgmenu__wrap d-flex align-items-center">
                         <div class="logo flex-auto">
-                            <a href="{{ route('home') }}"><img src="{{ asset($general_setting->logo) }}" alt="Logo"></a>
+                            <a href="{{ route('home') }}"><img src="{{ asset($general_setting->secondary_logo) }}" alt="Logo"></a>
                         </div>
                         <nav class="tgmenu__nav  ml-160 d-none d-xl-block">
                             <div class="tgmenu__navbar-wrap tgmenu__main-menu tgmenu__navbar-wrap-4 d-none d-xl-flex">
