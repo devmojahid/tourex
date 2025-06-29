@@ -1652,4 +1652,6 @@
   'Sort by' => 'Sort by',
   'Team Member Detail Image' => 'Team Member Detail Image',
   'Agency logo' => 'Agency logo',
+  'No menus found' => 'No menus found',
+  'Create your first menu' => 'Create your first menu',
 );
