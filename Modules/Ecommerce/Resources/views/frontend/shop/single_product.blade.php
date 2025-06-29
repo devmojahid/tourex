@@ -27,7 +27,7 @@
                             </div>
                             <ul class="tourex-tabs-menu">
                                 @foreach ($product->galleries as $gallery)
-                                    <li {{ $loop->first ? 'class=active' : '' }}>
+                                    <li @class(['active' => $loop->first])>
                                         <a href="#item{{ $loop->index + 1 }}">
                                             <img src="{{ asset($gallery->image) }}" alt="Image">
                                         </a>
@@ -372,6 +372,15 @@
 
     @push('style_section')
         <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+        <style>
+            ul.tourex-tabs-menu li a {
+                border: 1px solid transparent;
+            }
+
+            ul.tourex-tabs-menu li.active a {
+                border: 1px solid var(--tg-theme-primary);
+            }
+        </style>
     @endpush
 
     @push('js_section')
