@@ -1,7 +1,7 @@
 @extends('layout_inner_page')
 
 @section('title')
-    <title>{{ env('APP_NAME') }} || {{ __('translate.404 Error Page') }}</title>
+    <title>{{ $general_setting->app_name }} || {{ __('translate.404 Error Page') }}</title>
 @endsection
 
 @section('front-content')
