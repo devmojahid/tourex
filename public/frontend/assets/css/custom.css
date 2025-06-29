@@ -127,8 +127,8 @@
 }
 
 ul.tourex-tabs-menu li a {
-    height: 110px;
-    width: 125px;
+    height: 100px;
+    width: 114px;
     display: block;
     padding: 16px;
     background: var(--tg-grey-7);
