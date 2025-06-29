@@ -297,7 +297,6 @@
                                                 </div>
 
                                                 @if (auth()->user())
-                                                    <div class="tg-tour-about-border mb-45"></div>
                                                     <div class="tg-tour-about-review-form-wrap">
                                                         <h4 class="tg-tour-about-title mb-15">
                                                             {{ __('translate.Leave a Reply') }}</h4>
