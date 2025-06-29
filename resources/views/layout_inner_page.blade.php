@@ -244,28 +244,28 @@
                         </div>
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                             <div class="tg-footer-widget tg-footer-link ml-80 mb-40">
-                                <h3 class="tg-footer-widget-title mb-25">Quick Links</h3>
-                                <ul>
-                                    <li><a href="{{ route('home') }}">{{ __('translate.Home') }}</a></li>
-                                    <li><a href="{{ route('about-us') }}">{{ __('translate.About') }}</a></li>
-                                    <li><a href="{{ route('contact-us') }}">{{ __('translate.Contact') }}</a></li>
-                                    <li><a href="{{ route('faq') }}">{{ __('translate.FAQ') }}</a></li>
-                                    <li><a
-                                            href="{{ route('terms-conditions') }}">{{ __('translate.Terms & Conditions') }}</a>
-                                    </li>
-                                    <li><a
-                                            href="{{ route('privacy-policy') }}">{{ __('translate.Privacy Policy') }}</a>
-                                    </li>
-                                </ul>
+                                <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Quick Links') }}</h3>
+                                {!! wp_nav_menu([
+                                    'theme_location' => 'footer_menu_1',
+                                    'menu_class' => '',
+                                    'container' => false,
+                                    'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                                    'menu_id' => 'main-nav',
+                                    'before' => '',
+                                    'after' => '',
+                                    'link_before' => '',
+                                    'link_after' => '',
+                                ]) !!}
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                             <div class="tg-footer-widget tg-footer-info mb-40">
-                                <h3 class="tg-footer-widget-title mb-25">Information</h3>
+                                <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Information') }}</h3>
                                 <ul>
+                                    @if ($footer->address || $footer->address_url)
                                     <li>
                                         <a class="d-flex"
-                                            href="https://www.google.com/maps/@41.6758525,-86.2531698,18.17z">
+                                            href="{{ $footer->address_url }}">
                                             <span class="mr-15">
                                                 <svg width="20" height="24" viewBox="0 0 20 24"
                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -279,17 +279,21 @@
                                                         stroke-linejoin="round" />
                                                 </svg>
                                             </span>
-                                            58 Street Commercial Road<br> Fratton, Australia
+                                            {{ $footer->address }}
                                         </a>
                                     </li>
+                                    @endif
+                                    @if ($footer->phone)
                                     <li>
                                         <a class="d-flex" href="tel:+1238889999">
                                             <span class="mr-15">
                                                 <i class="fa-sharp text-white fa-solid fa-phone"></i>
                                             </span>
-                                            +123 888 9999
+                                            {{ $footer->phone }}
                                         </a>
                                     </li>
+                                    @endif
+                                    @if ($footer->working_days)
                                     <li class="d-flex">
                                         <span class="mr-15">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -301,28 +305,23 @@
                                             </svg>
                                         </span>
                                         <p class="mb-0">
-                                            Mon – Sat: 8 am – 5 pm,<br>
-                                            Sunday: <span class="text-white d-inline-block">CLOSED</span>
+                                            {{ $footer->working_days }}
                                         </p>
                                     </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                             <div class="tg-footer-widget tg-footer-link mb-40">
-                                <h3 class="tg-footer-widget-title mb-25">Utility Pages</h3>
-                                <ul>
-                                    <li><a href="{{ route('home') }}">{{ __('translate.Home') }}</a></li>
-                                    <li><a href="{{ route('about-us') }}">{{ __('translate.About') }}</a></li>
-                                    <li><a href="{{ route('contact-us') }}">{{ __('translate.Contact') }}</a></li>
-                                    <li><a href="{{ route('faq') }}">{{ __('translate.FAQ') }}</a></li>
-                                    <li><a
-                                            href="{{ route('terms-conditions') }}">{{ __('translate.Terms & Conditions') }}</a>
-                                    </li>
-                                    <li><a
-                                            href="{{ route('privacy-policy') }}">{{ __('translate.Privacy Policy') }}</a>
-                                    </li>
-                                </ul>
+                                <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Utility Pages') }}</h3>
+                                {!! wp_nav_menu([
+                                    'theme_location' => 'footer_menu_2',
+                                    'menu_class' => '',
+                                    'container' => false,
+                                    'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                                    'menu_id' => 'main-nav',
+                                ]) !!}
                             </div>
                         </div>
                     </div>
