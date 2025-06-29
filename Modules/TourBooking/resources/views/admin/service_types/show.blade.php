@@ -145,7 +145,7 @@
                                                                                             class="crancy-badge crancy-badge-danger">{{ __('translate.Inactive') }}</span>
                                                                                     @endif
                                                                                 </td>
-                                                                                <td>
+                                                                                <td class="text-center d-flex justify-content-center gap-2">
                                                                                     <a href="{{ route('admin.tourbooking.services.edit', $service->id) }}"
                                                                                         class="crancy-btn crancy-btn__primary crancy-btn__sm">
                                                                                         <i class="fa fa-edit"></i>

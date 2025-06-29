@@ -14,7 +14,7 @@ class DashboardController extends Controller
 
         $booking = Booking::where('payment_status', 'success');
         $total_income = $booking->sum('total');
-        $total_booking = Booking::where('booking_status', 'confirmed')->count();
+        $total_booking = Booking::where('payment_status', 'success')->count();
 
         $commission_type = GlobalSetting::where('key', 'commission_type')->value('value');
         $commission_per_sale = GlobalSetting::where('key', 'commission_per_sale')->value('value');
@@ -44,7 +44,7 @@ class DashboardController extends Controller
                 $date = $start->addDays(1)->format('Y-m-d');
             };
 
-            // $sum = CourseEnrollment::whereDate('created_at', $date)->sum('total_amount');
+            $sum = Booking::whereDate('created_at', $date)->where('payment_status', 'success')->sum('total');
             $data[] = $sum ?? 0;
             $lable[] = $i;
         }

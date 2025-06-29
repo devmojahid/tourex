@@ -1650,4 +1650,6 @@
   'Check in' => 'Check in',
   'Reset All' => 'Reset All',
   'Sort by' => 'Sort by',
+  'Delete Menu Item' => 'Delete Menu Item',
+  'Are you sure you want to delete this menu item? All sub-items will also be deleted.' => 'Are you sure you want to delete this menu item? All sub-items will also be deleted.',
 );

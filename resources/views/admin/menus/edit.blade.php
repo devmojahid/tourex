@@ -399,9 +399,11 @@
                     <form id="deleteItemForm" action="" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('translate.Cancel') }}</button>
-                        <button type="submit" class="btn btn-danger">{{ __('translate.Delete') }}</button>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('translate.Cancel') }}</button>
+                            <button type="submit" class="btn btn-danger">{{ __('translate.Delete') }}</button>
+                        </div>
                     </form>
                 </div>
             </div>

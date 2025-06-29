@@ -39,7 +39,7 @@ class ProfileController extends Controller
         $total_income = 0;
         $total_income = Booking::whereIn('service_id', $servicesIds)->where('payment_status', 'success')->sum('total');
 
-        $confirm_booking  = Booking::whereIn('service_id', $servicesIds)->where('booking_status', 'confirmed')->count();
+        $confirm_booking  = Booking::whereIn('service_id', $servicesIds)->where('payment_status', 'confirmed')->count();
         $total_services = Service::where('user_id', $user->id)->count();
 
         $commission_type = GlobalSetting::where('key', 'commission_type')->value('value');
@@ -78,7 +78,7 @@ class ProfileController extends Controller
                 $date = $start->addDays(1)->format('Y-m-d');
             };
 
-            $sum = 0;
+            $sum = Booking::whereDate('created_at', $date)->where('payment_status', 'success')->sum('total');
             $data[] = $sum;
             $lable[] = $i;
         }

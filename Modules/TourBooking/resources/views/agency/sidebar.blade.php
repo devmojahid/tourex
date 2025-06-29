@@ -1,4 +1,3 @@
-@dump('agency sidebar')
 <h4 class="admin-menu__title pt-2">{{ __('translate.Booking Services') }}</h4>
 <li
     class="{{ Route::is('agency.tourbooking.services.index') || Route::is('agency.tourbooking.services.create') || Route::is('agency.tourbooking.services.edit') ? 'active' : '' }}">
