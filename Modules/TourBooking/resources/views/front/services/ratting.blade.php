@@ -9,3 +9,15 @@
         )
     </span>
 </div>
+
+@push('style_section')
+    <style>
+        .tg-listing-card-review i {
+            color: #9c9c9c;
+        }
+
+        .tg-listing-card-review .active {
+            color: var(--tg-common-yellow);
+        }
+    </style>
+@endpush

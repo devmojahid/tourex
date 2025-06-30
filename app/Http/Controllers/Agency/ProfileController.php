@@ -78,7 +78,10 @@ class ProfileController extends Controller
                 $date = $start->addDays(1)->format('Y-m-d');
             };
 
-            $sum = Booking::whereDate('created_at', $date)->where('payment_status', 'success')->sum('total');
+            $sum = Booking::whereDate('created_at', $date)
+                ->whereIn('service_id', $servicesIds)
+                ->where('payment_status', 'success')
+                ->sum('total');
             $data[] = $sum;
             $lable[] = $i;
         }

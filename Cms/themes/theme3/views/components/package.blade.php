@@ -133,7 +133,7 @@
                                         </span>
                                         <span class="tg-listing-rating-percent">
                                             ({{ __($service?->active_reviews_count ?? 0) }}
-                                            {{ __($service?->active_reviews_avg_rating > 1 ? __('translate.Reviews') : __('translate.Review')) }})
+                                            {{ __($service?->active_reviews_count > 1 ? __('translate.Reviews') : __('translate.Review')) }})
                                         </span>
                                     </div>
                                 </div>
