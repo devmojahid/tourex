@@ -166,8 +166,8 @@
                                     </span>
                                 </div>
                                 <div class="tg-listing-card-review space">
-                                    <span class="tg-listing-rating-icon"><i
-                                            class="fa-sharp fa-solid fa-star {{ $service?->active_reviews_avg_rating > 0 ? 'active' : '' }}"></i></span>
+                                    <span class="tg-listing-rating-icon {{ $service?->active_reviews_avg_rating > 0 ? 'active' : '' }}"><i
+                                            class="fa-sharp fa-solid fa-star"></i></span>
                                     <span class="tg-listing-rating-percent">
                                         ({{ __($service?->active_reviews_count ?? 0) }}
                                         {{ __($service?->active_reviews_count > 1 ? __('translate.Reviews') : __('translate.Review')) }})
@@ -201,6 +201,14 @@
 
         .tg-listing-item-wishlist.active {
             color: var(--tg-theme-primary);
+        }
+
+        .tg-listing-rating-icon {
+            color: rgb(183, 183, 183);
+        }
+
+        .tg-listing-rating-icon.active {
+            color: var(--tg-common-yellow);
         }
     </style>
 @endpush
