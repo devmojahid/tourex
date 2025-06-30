@@ -21,7 +21,7 @@
 
                             @if ($footer->facebook)
                                 <li>
-                                    <a href="{{ $footer->facebook_url }}">
+                                    <a href="{{ $footer->facebook }}">
                                         <svg width="9" height="16" viewBox="0 0 9 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -33,7 +33,7 @@
                             @endif
                             @if ($footer->twitter)
                                 <li>
-                                    <a href="{{ $footer->twitter_url }}">
+                                    <a href="{{ $footer->twitter }}">
                                         <svg width="13" height="14" viewBox="0 0 13 14" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -49,7 +49,7 @@
                             @endif
                             @if ($footer->linkedin)
                                 <li>
-                                    <a href="{{ $footer->linkedin_url }}">
+                                    <a href="{{ $footer->twitter }}">
                                         <svg width="15" height="16" viewBox="0 0 15 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -61,7 +61,7 @@
                             @endif
                             @if ($footer->instagram)
                                 <li>
-                                    <a href="{{ $footer->instagram_url }}">
+                                    <a href="{{ $footer->instagram }}">
                                         <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
