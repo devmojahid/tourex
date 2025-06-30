@@ -41,7 +41,7 @@
 						<div class="crancy-wc__form-inner-flex">
 						<div class="crancy-wc__form-inner">
 							<div class="crancy-wc__logo">
-								<a href="{{ route('home') }}"><img src="{{ asset($general_setting->logo) }}" alt="#"></a>
+								<a href="{{ route('home') }}"><img src="{{ asset($general_setting->secondary_logo) }}" alt="#"></a>
 							</div>
 
 							<div class="crancy-wc__form-inside-df">
