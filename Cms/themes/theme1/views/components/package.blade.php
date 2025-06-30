@@ -56,7 +56,7 @@
                             <span class="borders"></span>
                             <span class="icon">
                                 @if ($service_type->image)
-                                    <img width="19" height="12" src="{{ asset($service_type->image) }}">    
+                                    <img width="19" height="12" src="{{ asset($service_type->image) }}">
                                 @elseif ($service_type->icon)
                                     <i class="{{ $service_type->icon }}"></i>
                                 @endif
@@ -170,7 +170,7 @@
                                             class="fa-sharp fa-solid fa-star {{ $service?->active_reviews_avg_rating > 0 ? 'active' : '' }}"></i></span>
                                     <span class="tg-listing-rating-percent">
                                         ({{ __($service?->active_reviews_count ?? 0) }}
-                                        {{ __($service?->active_reviews_avg_rating > 1 ? __('translate.Reviews') : __('translate.Review')) }})
+                                        {{ __($service?->active_reviews_count > 1 ? __('translate.Reviews') : __('translate.Review')) }})
                                     </span>
                                 </div>
                             </div>
