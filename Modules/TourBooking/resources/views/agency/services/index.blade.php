@@ -99,10 +99,6 @@
                                                             {{ __('translate.Edit') }}
                                                         </a>
 
-                                                        {{-- <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal{{ $service->id }}"
-                                                            class="crancy-action__btn crancy-action__delete"><i
-                                                                class="fa fa-trash"></i></a> --}}
                                                         <a onclick="itemDeleteConfrimation({{ $service->id }})"
                                                             href="javascript:;" data-bs-toggle="modal"
                                                             data-bs-target="#exampleModal"
