@@ -100,7 +100,7 @@
                                                         <li>
                                                             <div class="checkbox d-flex">
                                                                 <label class="tg-label">
-                                                                    {{ $extra->name }}({{ Str::title(str_replace('_', ' ', $extra->price_type)) }})
+                                                                    {{ $extra->name }}
                                                                 </label>
                                                             </div>
                                                             <span class="quantity">${{ $extra->price }}</span>

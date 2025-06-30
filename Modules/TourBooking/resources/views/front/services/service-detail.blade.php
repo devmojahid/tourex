@@ -658,7 +658,7 @@
                                                                 x-model="extras.charge_{{ $key }}"
                                                                 id="charge_{{ $key }}">
                                                             <label for="charge_{{ $key }}" class="tg-label">
-                                                                {{ $extra->name }}({{ Str::title(str_replace('_', ' ', $extra->price_type)) }})
+                                                                {{ $extra->name }}
                                                             </label>
                                                         </div>
                                                         <span class="quantity">${{ $extra->price }}</span>
