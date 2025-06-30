@@ -259,6 +259,14 @@
 </div>
 <!-- tg-hero-area-end -->
 
+@push('style_section')
+    <style>
+        .tg-brand-items img {
+            filter: brightness(0) invert(1);
+        }
+    </style>
+@endpush
+
 @push('js_section')
     <script>
         (function($) {
