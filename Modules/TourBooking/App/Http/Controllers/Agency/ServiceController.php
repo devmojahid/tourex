@@ -39,6 +39,7 @@ final class ServiceController extends Controller
     public function index(): View
     {
         $services = $this->serviceRepository->getPaginated(15, ['user_id' => auth()->user()->id]);
+        dd($services);
 
         return view('tourbooking::agency.services.index', compact('services'));
     }
