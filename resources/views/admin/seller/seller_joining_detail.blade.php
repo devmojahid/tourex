@@ -68,7 +68,7 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <img src="{{ asset($user?->agency_logo) }}" alt="">
+                                                        <img width="300" src="{{ asset($user?->agency_logo) }}" alt="">
                                                     </td>
 
                                                 </tr>
