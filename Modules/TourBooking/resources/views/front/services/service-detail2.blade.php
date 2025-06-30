@@ -118,7 +118,7 @@
                                             <div class="swiper-slide">
                                                 <div class="tg-tour-details-gallery-thumb">
                                                     <img class="w-100"
-                                                        src="{{ asset('storage/' . $thumbnails[0]->file_path) }}"   
+                                                        src="{{ asset('storage/' . $thumbnails[0]->file_path) }}"
                                                         alt="{{ $thumbnails[0]->caption }}">
                                                 </div>
                                             </div>
@@ -127,8 +127,7 @@
                                         @foreach ($nonThumbnails as $thumb)
                                             <div class="swiper-slide">
                                                 <div class="tg-tour-details-gallery-thumb">
-                                                    <img class="w-100"
-                                                        src="{{ asset('storage/' . $thumb->file_path) }}"
+                                                    <img class="w-100" src="{{ asset('storage/' . $thumb->file_path) }}"
                                                         alt="{{ $thumb->caption ?? '' }}">
                                                 </div>
                                             </div>
@@ -468,6 +467,7 @@
                                             <!-- calendar icon -->
                                         </span>
                                         <span class="angle"><i class="fa-sharp fa-solid fa-angle-down"></i></span>
+                                        <input type="hidden" name="availability_id" id="selected-availability-id">
                                     </div>
                                 </div>
 
@@ -586,9 +586,8 @@
 @push('js_section')
     <script>
         (function($) {
-            "use strict"
+            "use strict";
             $(document).ready(function() {
-
                 // Initialize timepicker
                 $(".timepicker").flatpickr({
                     enableTime: true,
@@ -596,6 +595,95 @@
                     dateFormat: "H:i",
                     time_24hr: true
                 });
+
+                // Extract available dates from PHP data
+                const availabilities = @json($service?->availabilities ?? []);
+                const availableDates = availabilities.map(item => item.date);
+                const availabilityMap = {};
+
+                // Create a map of date -> availability details for quick lookup
+                availabilities.forEach(item => {
+                    availabilityMap[item.date] = {
+                        spots: item.available_spots,
+                        special_price: item.special_price,
+                        notes: item.notes,
+                        start_time: item.start_time,
+                        end_time: item.end_time,
+                        is_available: item.is_available
+                    };
+                });
+
+                // Initialize date picker with available dates only
+                const datePicker = flatpickr("input[name='check_in_date']", {
+                    dateFormat: "Y-m-d",
+                    disableMobile: "true",
+                    minDate: "today",
+                    enable: availableDates,
+                    onChange: function(selectedDates, dateStr) {
+                        updateAvailabilityInfo(dateStr);
+                    }
+                });
+
+                // Function to update availability information when a date is selected
+                function updateAvailabilityInfo(dateStr) {
+                    const availInfo = $('#availability-info');
+                    const bookBtn = $('button[type="submit"]');
+                    const availabilityInput = $('#selected-availability-id');
+
+                    if (dateStr && availabilityMap[dateStr]) {
+                        const info = availabilityMap[dateStr];
+                        const availId = availabilities.find(a => a.date === dateStr)?.id;
+
+                        // Store the selected availability ID
+                        availabilityInput.val(availId || '');
+
+                        // Create information display
+                        let html = '<div class="alert alert-info mt-2 mb-0">';
+
+                        if (info.spots !== null) {
+                            html += `<p class="mb-1"><strong>Available spots:</strong> ${info.spots}</p>`;
+
+                            // Disable booking if no spots available
+                            if (info.spots <= 0) {
+                                html += '<p class="text-danger mb-0">No spots available for this date!</p>';
+                                bookBtn.prop('disabled', true);
+                            } else {
+                                bookBtn.prop('disabled', false);
+                            }
+                        } else {
+                            html += '<p class="mb-1">Spots available for booking</p>';
+                            bookBtn.prop('disabled', false);
+                        }
+
+                        if (info.start_time && info.end_time) {
+                            html +=
+                                `<p class="mb-1"><strong>Time:</strong> ${info.start_time.substring(0,5)} - ${info.end_time.substring(0,5)}</p>`;
+                        }
+
+                        if (info.special_price) {
+                            html +=
+                                `<p class="mb-1"><strong>Special price:</strong> $${info.special_price}</p>`;
+                        }
+
+                        if (info.notes) {
+                            html += `<p class="mb-0"><strong>Notes:</strong> ${info.notes}</p>`;
+                        }
+
+                        html += '</div>';
+                        availInfo.html(html).show();
+                    } else {
+                        availInfo.hide().html('');
+                        availabilityInput.val('');
+                        bookBtn.prop('disabled', false);
+                    }
+                }
+
+                // Initial call in case a date is pre-selected
+                const initialDate = $('input[name="check_in_date"]').val();
+                if (initialDate) {
+                    updateAvailabilityInfo(initialDate);
+                }
+
             });
         })(jQuery);
     </script>

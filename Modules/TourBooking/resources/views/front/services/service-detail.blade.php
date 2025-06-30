@@ -695,7 +695,7 @@
 @push('js_section')
     <script>
         (function($) {
-            "use strict"
+            "use strict";
             $(document).ready(function() {
                 // Initialize timepicker
                 $(".timepicker").flatpickr({
@@ -706,7 +706,7 @@
                 });
 
                 // Extract available dates from PHP data
-                const availabilities = @json($service?->availabilities);
+                const availabilities = @json($service?->availabilities ?? []);
                 const availableDates = availabilities.map(item => item.date);
                 const availabilityMap = {};
 
@@ -741,10 +741,10 @@
 
                     if (dateStr && availabilityMap[dateStr]) {
                         const info = availabilityMap[dateStr];
-                        const availId = availabilities.find(a => a.date === dateStr).id;
+                        const availId = availabilities.find(a => a.date === dateStr)?.id;
 
                         // Store the selected availability ID
-                        availabilityInput.val(availId);
+                        availabilityInput.val(availId || '');
 
                         // Create information display
                         let html = '<div class="alert alert-info mt-2 mb-0">';
@@ -820,7 +820,7 @@
                     {
                         name: 'Services',
                         rating: 0
-                    },
+                    }
                 ],
                 hoverRating: 0,
                 hoverIndex: null,
@@ -871,7 +871,7 @@
                                 'X-Requested-With': 'XMLHttpRequest',
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
                                     'content'),
-                                'Content-Type': 'application/json',
+                                'Content-Type': 'application/json'
                             },
                             body: JSON.stringify(data)
                         })
@@ -889,7 +889,7 @@
                             toastr.error('{{ __('An error occurred. Please try again later.') }}');
                         });
                 }
-            }
+            };
         }
 
         function bookingForm() {
@@ -898,8 +898,8 @@
                     person: 1,
                     children: 0
                 },
-                pricePerPerson: {{ $service->price_per_person }},
-                pricePerChild: {{ $service->child_price }},
+                pricePerPerson: {{ $service->price_per_person ?? 0 }},
+                pricePerChild: {{ $service->child_price ?? 0 }},
                 extras: {
                     @foreach ($service->extraCharges as $key => $extra)
                         charge_{{ $key }}: false,
@@ -907,11 +907,11 @@
                 },
                 extrasPrice: {
                     @foreach ($service->extraCharges as $key => $extra)
-                        charge_{{ $key }}: {{ $extra->price }},
+                        charge_{{ $key }}: {{ $extra->price ?? 0 }},
                     @endforeach
                 },
                 get totalCost() {
-                    let total = {{ $service?->discount_price ?? $service?->full_price }};
+                    let total = {{ $service?->discount_price ?? $service?->full_price ?? 0 }};
                     total += this.tickets.person * this.pricePerPerson;
                     total += this.tickets.children * this.pricePerChild;
                     for (let key in this.extras) {
@@ -920,8 +920,8 @@
                         }
                     }
                     return total.toFixed(2);
-                },
-            }
+                }
+            };
         }
     </script>
 @endpush
