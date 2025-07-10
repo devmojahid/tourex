@@ -10,6 +10,7 @@ use Modules\FAQ\App\Models\Faq;
 use Cache, Image, File, Artisan;
 use Modules\Blog\App\Models\Blog;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\Coupon\App\Models\Coupon;
 use Modules\Course\App\Models\Course;
 use Modules\Category\Entities\Category;
@@ -41,12 +42,18 @@ use Modules\Course\App\Models\CourseEnrollmentList;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
 use Modules\SupportTicket\App\Models\SupportTicket;
 use Modules\Blog\App\Models\BlogCategoryTranslation;
+use Modules\Brand\Entities\Brand;
+use Modules\Brand\Entities\BrandTranslation;
 use Modules\ContactMessage\App\Models\ContactMessage;
 use Modules\PaymentGateway\App\Models\PaymentGateway;
 use Modules\SupportTicket\App\Models\MessageDocument;
 use Modules\PaymentWithdraw\App\Models\SellerWithdraw;
 use Modules\PaymentWithdraw\App\Models\WithdrawMethod;
 use Modules\CourseLevel\App\Models\CourseLevelTranslation;
+use Modules\Ecommerce\Entities\Cart;
+use Modules\Ecommerce\Entities\Order;
+use Modules\Ecommerce\Entities\Product;
+use Modules\Ecommerce\Entities\ProductGallery;
 use Modules\SupportTicket\App\Models\SupportTicketMessage;
 use Modules\Testimonial\App\Models\TestimonialTrasnlation;
 use Modules\GlobalSetting\App\Http\Requests\TawkChatRequest;
@@ -56,6 +63,16 @@ use Modules\GlobalSetting\App\Http\Requests\FacebookPixelRequest;
 use Modules\GlobalSetting\App\Http\Requests\GeneralSettingRequest;
 use Modules\GlobalSetting\App\Http\Requests\GoogleAnalyticRequest;
 use Modules\GlobalSetting\App\Http\Requests\GoogleRecaptchaRequest;
+use Modules\TourBooking\App\Models\Amenity;
+use Modules\TourBooking\App\Models\AmenityTranslation;
+use Modules\TourBooking\App\Models\Availability;
+use Modules\TourBooking\App\Models\Booking;
+use Modules\TourBooking\App\Models\Destination;
+use Modules\TourBooking\App\Models\DestinationTranslation;
+use Modules\TourBooking\App\Models\ExtraCharge;
+use Modules\TourBooking\App\Models\Review;
+use Modules\TourBooking\App\Models\Service;
+use Modules\TourBooking\App\Models\ServiceTranslation;
 
 class GlobalSettingController extends Controller
 {
@@ -292,16 +309,19 @@ class GlobalSettingController extends Controller
 
     public function database_clear(){
 
+        // Disable foreign key checks
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         Blog::truncate();
         BlogCategory::truncate();
         BlogCategoryTranslation::truncate();
-        BlogComment::truncate();    
+        BlogComment::truncate();
         BlogTranslation::truncate();
         Category::truncate();
         CategoryTranslation::truncate();
         ContactMessage::truncate();
         Coupon::truncate();
-        CouponHistory::truncate();  
+        CouponHistory::truncate();
         CustomPage::truncate();
         CustomPageTranslation::truncate();
         Faq::truncate();
@@ -311,13 +331,28 @@ class GlobalSettingController extends Controller
         SellerWithdraw::truncate();
         Testimonial::truncate();
         TestimonialTrasnlation::truncate();
+        Booking::truncate();
+        Review::truncate();
         User::truncate();
         Wishlist::truncate();
         WithdrawMethod::truncate();
         SupportTicket::truncate();
         SupportTicketMessage::truncate();
         MessageDocument::truncate();
-        NoticeBoard::truncate();
+        Amenity::truncate();
+        AmenityTranslation::truncate();
+        Availability::truncate();
+        Brand::truncate();
+        BrandTranslation::truncate();
+        Cart::truncate();
+        Order::truncate();
+        ExtraCharge::truncate();
+        Destination::truncate();
+        DestinationTranslation::truncate();
+        Service::truncate();
+        ServiceTranslation::truncate();
+        Product::truncate();
+        ProductGallery::truncate();
 
 
         PrivacyPolicy::where('lang_code', '!=', 'en')->delete();
@@ -352,6 +387,8 @@ class GlobalSettingController extends Controller
         PaymentGateway::where('key', 'paystack_currency_id')->update(['value' => 1]);
         PaymentGateway::where('key', 'instamojo_currency_id')->update(['value' => 1]);
 
+        // Re-enable foreign key checks
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $notify_message = trans('translate.Database clear successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
