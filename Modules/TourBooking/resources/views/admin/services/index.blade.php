@@ -72,12 +72,12 @@
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($service->discount_price)
                                                             <span
-                                                                class="text-decoration-line-through">{{ $service->full_price }}</span>
-                                                            {{ $service->discount_price }}
+                                                                class="text-decoration-line-through">{{ currency($service->full_price) }}</span>
+                                                            {{ currency($service->discount_price) }}
                                                         @elseif($service->full_price)
-                                                            {{ $service->full_price }}
+                                                            {{ currency($service->full_price) }}
                                                         @elseif($service->price_per_person)
-                                                            {{ $service->price_per_person }}
+                                                            {{ currency($service->price_per_person) }}
                                                             {{ __('translate.per person') }}
                                                         @else
                                                             N/A

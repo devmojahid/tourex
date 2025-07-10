@@ -614,7 +614,7 @@
                                     <div class="tg-tour-about-tickets mb-10">
                                         <div class="tg-tour-about-tickets-adult">
                                             <span>Person</span>
-                                            <p class="mb-0">(18+ years) <span>${{ $service->price_per_person }}</span>
+                                            <p class="mb-0">(18+ years) <span>{{ currency($service->price_per_person) }}</span>
                                             </p>
                                         </div>
                                         <div class="tg-tour-about-tickets-quantity">
@@ -630,7 +630,7 @@
                                     <div class="tg-tour-about-tickets mb-10">
                                         <div class="tg-tour-about-tickets-adult">
                                             <span>Children </span>
-                                            <p class="mb-0">(13-17 years) <span>${{ $service->child_price }}</span></p>
+                                            <p class="mb-0">(13-17 years) <span>{{ currency($service->child_price) }}</span></p>
                                         </div>
                                         <div class="tg-tour-about-tickets-quantity">
                                             <select name="children" class="item-first custom-select"
@@ -661,7 +661,7 @@
                                                                 {{ $extra->name }}
                                                             </label>
                                                         </div>
-                                                        <span class="quantity">${{ $extra->price }}</span>
+                                                        <span class="quantity">{{ currency($extra->price) }}</span>
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -673,7 +673,8 @@
                                 <div
                                     class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
                                     <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
-                                    <h5 class="total-price" x-text="`$${totalCost}`"></h5>
+                                    <h5 class="total-price" x-text="`{{ session('currency_icon') }}${ {{ session('currency_rate') }} * totalCost}`"></h5>
+
                                 </div>
 
                                 <button type="submit" class="tg-btn tg-btn-switch-animation w-100">Book now</button>

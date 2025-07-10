@@ -346,7 +346,7 @@ class HomeController extends Controller
     public function currency_switcher(Request $request)
     {
 
-        $request_currency = Currency::where('currency_code', $request->currency_code)->first();
+        $request_currency = Currency::where('currency_code', $request->currency_code ?? 'USD')->first();
 
         Session::put('currency_name', $request_currency->currency_name);
         Session::put('currency_code', $request_currency->currency_code);

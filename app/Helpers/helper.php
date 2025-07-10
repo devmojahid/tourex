@@ -55,6 +55,13 @@ function currency($amount)
     return $amount;
 }
 
+function currency_price($amount)
+{
+    $currency_rate = Session::get('currency_rate');
+    $amount = $amount * $currency_rate;
+    return $amount;
+}
+
 
 function revenue_calculate($total_income)
 {
