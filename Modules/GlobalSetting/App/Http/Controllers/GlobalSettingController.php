@@ -55,6 +55,8 @@ use Modules\Ecommerce\Entities\Cart;
 use Modules\Ecommerce\Entities\Order;
 use Modules\Ecommerce\Entities\Product;
 use Modules\Ecommerce\Entities\ProductGallery;
+use Modules\Ecommerce\Entities\ProductReview;
+use Modules\Ecommerce\Entities\ProductTranslation;
 use Modules\SupportTicket\App\Models\SupportTicketMessage;
 use Modules\Testimonial\App\Models\TestimonialTrasnlation;
 use Modules\GlobalSetting\App\Http\Requests\TawkChatRequest;
@@ -64,6 +66,7 @@ use Modules\GlobalSetting\App\Http\Requests\FacebookPixelRequest;
 use Modules\GlobalSetting\App\Http\Requests\GeneralSettingRequest;
 use Modules\GlobalSetting\App\Http\Requests\GoogleAnalyticRequest;
 use Modules\GlobalSetting\App\Http\Requests\GoogleRecaptchaRequest;
+use Modules\Team\App\Models\Team;
 use Modules\TourBooking\App\Models\Amenity;
 use Modules\TourBooking\App\Models\AmenityTranslation;
 use Modules\TourBooking\App\Models\Availability;
@@ -73,7 +76,9 @@ use Modules\TourBooking\App\Models\DestinationTranslation;
 use Modules\TourBooking\App\Models\ExtraCharge;
 use Modules\TourBooking\App\Models\Review;
 use Modules\TourBooking\App\Models\Service;
+use Modules\TourBooking\App\Models\ServiceMedia;
 use Modules\TourBooking\App\Models\ServiceTranslation;
+use Modules\TourBooking\App\Models\ServiceType;
 
 class GlobalSettingController extends Controller
 {
@@ -351,8 +356,13 @@ class GlobalSettingController extends Controller
             DestinationTranslation::truncate();
             Service::truncate();
             ServiceTranslation::truncate();
+            ServiceType::truncate();
             Product::truncate();
             ProductGallery::truncate();
+            ProductReview::truncate();
+            ProductTranslation::truncate();
+            ServiceMedia::truncate();
+            Team::truncate();
 
 
             PrivacyPolicy::where('lang_code', '!=', 'en')->delete();
