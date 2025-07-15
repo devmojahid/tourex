@@ -61,7 +61,9 @@ function currency($amount)
 
 function currency_price($amount)
 {
-    $currency_rate = Session::get('currency_rate');
+    $defaultCurrency = Currency::where('is_default', 'yes')->first();
+
+    $currency_rate = $defaultCurrency?->currency_rate ?? Session::get('currency_rate', 1);
     $amount = $amount * $currency_rate;
     return $amount;
 }
