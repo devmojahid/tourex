@@ -36,11 +36,6 @@ function currency($amount)
 
     $defaultCurrency = Currency::where('is_default', 'yes')->first();
 
-    // $currency_icon = Session::get('currency_icon');
-    // $currency_code = Session::get('currency_code');
-    // $currency_rate = Session::get('currency_rate');
-    // $currency_position = Session::get('currency_position');
-
     $currency_icon = $defaultCurrency?->currency_icon ?? Session::get('currency_icon');
     $currency_code = $defaultCurrency?->currency_code ?? Session::get('currency_code');
     $currency_rate = $defaultCurrency?->currency_rate ?? Session::get('currency_rate');
