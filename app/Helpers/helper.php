@@ -68,6 +68,16 @@ function currency_price($amount)
     return $amount;
 }
 
+function default_currency()
+{
+    $defaultCurrency = Currency::where('is_default', 'yes')->first();
+    return [
+        'currency_rate' => $defaultCurrency?->currency_rate ?? 1,
+        'currency_icon' => $defaultCurrency?->currency_icon ?? '$',
+        'currency_position' => $defaultCurrency?->currency_position ?? 'before_price',
+        'currency_code' => $defaultCurrency?->currency_code ?? 'USD',
+    ];
+}
 
 function revenue_calculate($total_income)
 {

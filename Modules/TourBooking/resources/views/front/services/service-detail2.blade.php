@@ -560,7 +560,7 @@
                                 <div
                                     class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
                                     <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
-                                    <h5 class="total-price" x-text="`{{ session('currency_icon') }}${ {{ session('currency_rate') }} * totalCost}`"></h5>
+                                    <h5 class="total-price" x-text="`{{ default_currency()['currency_icon'] }}${ {{ default_currency()['currency_rate'] }} * totalCost}`"></h5>
                                 </div>
 
                                 <button type="submit" class="tg-btn tg-btn-switch-animation w-100">Book now</button>
