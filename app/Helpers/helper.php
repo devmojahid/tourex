@@ -4,7 +4,9 @@ use App\Models\Frontend;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Modules\Currency\App\Models\Currency;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
+use Modules\Language\App\Models\Language;
 use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Service;
 use Modules\TourBooking\App\Models\ServiceType;
@@ -32,10 +34,17 @@ function currency($amount)
 
     // currency information will be loaded from session value
 
-    $currency_icon = Session::get('currency_icon');
-    $currency_code = Session::get('currency_code');
-    $currency_rate = Session::get('currency_rate');
-    $currency_position = Session::get('currency_position');
+    $defaultCurrency = Currency::where('is_default', 'yes')->first();
+
+    // $currency_icon = Session::get('currency_icon');
+    // $currency_code = Session::get('currency_code');
+    // $currency_rate = Session::get('currency_rate');
+    // $currency_position = Session::get('currency_position');
+
+    $currency_icon = $defaultCurrency->currency_icon;
+    $currency_code = $defaultCurrency->currency_code;
+    $currency_rate = $defaultCurrency->currency_rate;
+    $currency_position = $defaultCurrency->currency_position;
 
     $amount = $amount * $currency_rate;
     $amount = number_format($amount, 2, '.', ',');
