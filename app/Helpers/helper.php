@@ -41,10 +41,10 @@ function currency($amount)
     // $currency_rate = Session::get('currency_rate');
     // $currency_position = Session::get('currency_position');
 
-    $currency_icon = $defaultCurrency->currency_icon;
-    $currency_code = $defaultCurrency->currency_code;
-    $currency_rate = $defaultCurrency->currency_rate;
-    $currency_position = $defaultCurrency->currency_position;
+    $currency_icon = $defaultCurrency?->currency_icon ?? Session::get('currency_icon');
+    $currency_code = $defaultCurrency?->currency_code ?? Session::get('currency_code');
+    $currency_rate = $defaultCurrency?->currency_rate ?? Session::get('currency_rate');
+    $currency_position = $defaultCurrency?->currency_position ?? Session::get('currency_position');
 
     $amount = $amount * $currency_rate;
     $amount = number_format($amount, 2, '.', ',');
