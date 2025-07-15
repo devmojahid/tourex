@@ -22,8 +22,8 @@
                                         class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
                                         <h4 class="crancy-product-card__title">{{ __('translate.All Services') }}</h4>
                                         <div class="d-flex align-items-center gap-2">
-                                            <a href="{{ route('agency.tourbooking.services.create') }}" class="crancy-btn"><i
-                                                    class="fa fa-plus"></i>
+                                            <a href="{{ route('agency.tourbooking.services.create') }}"
+                                                class="crancy-btn"><i class="fa fa-plus"></i>
                                                 {{ __('translate.Add New Service') }}</a>
                                         </div>
                                     </div>
@@ -70,18 +70,26 @@
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         {{ $service->location ?? 'N/A' }}</td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        @if ($service->discount_price)
-                                                            <span
-                                                                class="text-decoration-line-through">{{ $service->full_price }}</span>
-                                                            {{ $service->discount_price }}
-                                                        @elseif($service->full_price)
-                                                            {{ $service->full_price }}
-                                                        @elseif($service->price_per_person)
-                                                            {{ $service->price_per_person }}
-                                                            {{ __('translate.per person') }}
+
+                                                        @if ($service->price_display)
+                                                            {!! $service->price_display !!} ({{ __('translate.Full Price') }})
                                                         @else
-                                                            N/A
+                                                            {{ __('translate.N/A') }}
                                                         @endif
+
+                                                        <br>
+
+                                                        @if ($service->price_per_person)
+                                                            {{ currency($service->price_per_person) }}
+                                                            ({{ __('translate.Per Person') }})
+                                                            <br>
+                                                        @endif
+
+                                                        @if ($service->child_price)
+                                                            {{ currency($service->child_price) }}
+                                                            ({{ __('translate.Children Price') }})
+                                                        @endif
+
                                                     </td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($service->status)

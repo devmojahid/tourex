@@ -1661,4 +1661,7 @@
   'Itinerary added successfully' => 'Itinerary added successfully',
   'Itinerary deleted successfully' => 'Itinerary deleted successfully',
   'Itinerary updated successfully' => 'Itinerary updated successfully',
+  'Per Person' => 'Per Person',
+  'N/A' => 'N/A',
+  'Children Price' => 'Children Price',
 );

@@ -70,18 +70,26 @@
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         {{ $service->location ?? 'N/A' }}</td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        @if ($service->discount_price)
-                                                            <span
-                                                                class="text-decoration-line-through">{{ currency($service->full_price) }}</span>
-                                                            {{ currency($service->discount_price) }}
-                                                        @elseif($service->full_price)
-                                                            {{ currency($service->full_price) }}
-                                                        @elseif($service->price_per_person)
-                                                            {{ currency($service->price_per_person) }}
-                                                            {{ __('translate.per person') }}
+
+                                                        @if ($service->price_display)
+                                                            {!! $service->price_display !!} ({{ __('translate.Full Price') }})
                                                         @else
-                                                            N/A
+                                                            {{ __('translate.N/A') }}
                                                         @endif
+
+                                                        <br>
+
+                                                        @if ($service->price_per_person)
+                                                            {{ currency($service->price_per_person) }}
+                                                            ({{ __('translate.Per Person') }})
+                                                            <br>
+                                                        @endif
+
+                                                        @if ($service->child_price)
+                                                            {{ currency($service->child_price) }}
+                                                            ({{ __('translate.Children Price') }})
+                                                        @endif
+
                                                     </td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($service->status)
@@ -98,11 +106,6 @@
                                                                 class="fa fa-edit"></i>
                                                             {{ __('translate.Edit') }}
                                                         </a>
-
-                                                        {{-- <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal{{ $service->id }}"
-                                                            class="crancy-action__btn crancy-action__delete"><i
-                                                                class="fa fa-trash"></i></a> --}}
                                                         <a onclick="itemDeleteConfrimation({{ $service->id }})"
                                                             href="javascript:;" data-bs-toggle="modal"
                                                             data-bs-target="#exampleModal"
