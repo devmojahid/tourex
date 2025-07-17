@@ -38,7 +38,7 @@
                                                 <div class="card">
                                                     <div class="card-body text-center">
                                                         @if ($serviceType->image)
-                                                            <img src="{{ asset('storage/' . $serviceType->image) }}"
+                                                            <img src="{{ asset($serviceType->image) }}"
                                                                 alt="{{ $serviceType->translation->name ?? $serviceType->name }}"
                                                                 class="img-fluid mb-3" style="max-height: 150px;">
                                                         @elseif($serviceType->icon)
@@ -113,7 +113,7 @@
                                                                             <tr>
                                                                                 <td>
                                                                                     @if ($service->thumbnail && $service->thumbnail->file_path)
-                                                                                        <img src="{{ asset('storage/' . $service->thumbnail->file_path) }}"
+                                                                                        <img src="{{ asset($service->thumbnail->file_path) }}"
                                                                                             alt="{{ $service->translation->title ?? $service->title }}"
                                                                                             width="50">
                                                                                     @else

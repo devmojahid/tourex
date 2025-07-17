@@ -33,7 +33,7 @@
                                 <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
 
                                     <img class="tg-card-border w-100"
-                                        src="{{ asset('storage/' . $service?->thumbnail?->file_path) }}"
+                                        src="{{ asset($service?->thumbnail?->file_path) }}"
                                         alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
 
                                     @if ($service?->is_featured == 1)

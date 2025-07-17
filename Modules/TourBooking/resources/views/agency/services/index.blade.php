@@ -54,7 +54,7 @@
                                                 <tr class="odd">
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($service->thumbnail && $service->thumbnail->file_path)
-                                                            <img src="{{ asset('storage/' . $service->thumbnail->file_path) }}"
+                                                            <img src="{{ asset($service->thumbnail->file_path) }}"
                                                                 alt="{{ $service->translation->title ?? $service->title }}"
                                                                 width="80">
                                                         @else

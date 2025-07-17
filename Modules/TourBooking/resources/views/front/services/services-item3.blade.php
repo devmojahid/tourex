@@ -7,7 +7,7 @@
                         <div class="tg-listing-card-thumb tg-listing-2-card-thumb fix p-relative">
                             <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
                                 <img class="tg-card-border w-100"
-                                    src="{{ asset('storage/' . $service?->thumbnail?->file_path) }}"
+                                    src="{{ asset($service?->thumbnail?->file_path) }}"
                                     alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
 
                                 @if ($service?->discount_price)

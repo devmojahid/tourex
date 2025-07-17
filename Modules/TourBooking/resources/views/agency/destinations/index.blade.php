@@ -50,7 +50,7 @@
                                                         {{ $destination->id }}</td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($destination->image)
-                                                            <img src="{{ asset('storage/' . $destination->image) }}"
+                                                            <img src="{{ asset($destination->image) }}"
                                                                 alt="{{ $destination->name }}" class="img-thumbnail"
                                                                 width="50">
                                                         @else

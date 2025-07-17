@@ -99,7 +99,7 @@
                                                                         <a class="w-100"
                                                                             href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
                                                                             <img class="tg-card-border w-100"
-                                                                                src="{{ asset('storage/' . $service?->thumbnail?->file_path) }}"
+                                                                                src="{{ asset($service?->thumbnail?->file_path) }}"
                                                                                 alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
                                                                         </a>
                                                                         <div class="tg-listing-2-price">

@@ -76,7 +76,7 @@
                         <div class="tg-listing-card-thumb fix mb-15 p-relative">
                             <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
                                 <img class="tg-card-border w-100"
-                                    src="{{ asset('storage/' . $service?->thumbnail?->file_path) }}"
+                                    src="{{ asset($service?->thumbnail?->file_path) }}"
                                     alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
                                 @if ($service?->is_new == 1)
                                     <span class="tg-listing-item-price-discount shape"

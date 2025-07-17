@@ -80,8 +80,8 @@
                                     @if($destination->image)
                                         <div class="text-center">
                                             <h5 class="mb-3">Featured Image</h5>
-                                            <img src="{{ asset('storage/' . $destination->image) }}" 
-                                                alt="{{ $destination->name }}" 
+                                            <img src="{{ asset($destination->image) }}"
+                                                alt="{{ $destination->name }}"
                                                 class="img-fluid rounded" 
                                                 style="max-height: 300px;">
                                         </div>
@@ -194,4 +194,4 @@
         height: auto;
     }
 </style>
-@endpush 
+@endpush

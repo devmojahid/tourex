@@ -253,7 +253,7 @@
                                                                 <div class="row">
                                                                     @if ($itinerary->image)
                                                                         <div class="col-md-3">
-                                                                            <img src="{{ asset('storage/' . $itinerary->image) }}"
+                                                                            <img src="{{ asset($itinerary->image) }}"
                                                                                 alt="{{ $itinerary->title }}"
                                                                                 class="itinerary-image">
                                                                         </div>
@@ -356,7 +356,7 @@
                                                                                 class="crancy__item-label">{{ __('translate.Image') }}</label>
                                                                             @if ($itinerary->image)
                                                                                 <div class="mb-2">
-                                                                                    <img src="{{ asset('storage/' . $itinerary->image) }}"
+                                                                                    <img src="{{ asset($itinerary->image) }}"
                                                                                         alt="{{ $itinerary->title }}"
                                                                                         style="max-width: 150px; max-height: 100px;"
                                                                                         class="img-thumbnail">
