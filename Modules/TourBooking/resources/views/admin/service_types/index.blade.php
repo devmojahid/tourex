@@ -55,7 +55,7 @@
                                                 <tr class="odd">
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($serviceType->image)
-                                                            <img src="{{ asset('storage/' . $serviceType->image) }}"
+                                                            <img src="{{ asset($serviceType->image) }}"
                                                                 alt="{{ $serviceType->translation->name ?? $serviceType->name }}"
                                                                 width="60">
                                                         @elseif($serviceType->icon)

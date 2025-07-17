@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\TourBooking\App\Http\Controllers\Admin;
 
+use App\Helpers\FileUploadHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -56,13 +57,11 @@ final class ServiceTypeController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ])->validate();
 
-        // Handle image if present
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('service-types', 'public');
-            $validated['image'] = $imagePath;
+            $validated['image'] = FileUploadHelper::uploadImage($request->file('image'), 'destination');
         }
 
-        $serviceType = ServiceType::create($validated);
+        ServiceType::create($validated);
 
         return redirect()->route('admin.tourbooking.service-types.index')
             ->with('success', 'Service type created successfully.');
@@ -100,15 +99,14 @@ final class ServiceTypeController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Handle image if present
         if ($request->hasFile('image')) {
+
             // Delete old image if exists
-            if ($serviceType->image) {
-                @unlink(storage_path('app/public/' . $serviceType->image));
+            if ($serviceType?->image) {
+                FileUploadHelper::deleteImage($serviceType?->image);
             }
 
-            $imagePath = $request->file('image')->store('service-types', 'public');
-            $validated['image'] = $imagePath;
+            $validated['image'] = FileUploadHelper::uploadImage($request->file('image'), 'destination');
         }
 
         $validated['status'] = $request->has('status') ? true : false;
@@ -132,9 +130,9 @@ final class ServiceTypeController extends Controller
                 ->with('error', 'Cannot delete service type because it is being used by one or more services.');
         }
 
-        // Delete image if exists
-        if ($serviceType->image) {
-            @unlink(storage_path('app/public/' . $serviceType->image));
+        // Delete old image if exists
+        if ($serviceType?->image) {
+            FileUploadHelper::deleteImage($serviceType?->image);
         }
 
         $serviceType->delete();
@@ -142,6 +140,4 @@ final class ServiceTypeController extends Controller
         return redirect()->route('admin.tourbooking.service-types.index')
             ->with('success', 'Service type deleted successfully.');
     }
-
-
 }

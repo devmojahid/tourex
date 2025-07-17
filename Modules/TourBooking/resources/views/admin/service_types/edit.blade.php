@@ -70,10 +70,10 @@
                                                         <label class="crancy__item-label">{{ __('translate.Image') }}</label>
                                                         <input class="crancy__item-input" type="file" name="image" accept="image/*">
                                                         @error('image') <span class="text-danger">{{ $message }}</span> @enderror
-                                                        
+
                                                         @if($serviceType->image)
                                                         <div class="mt-2">
-                                                            <img src="{{ asset('storage/'.$serviceType->image) }}" alt="{{ $serviceType->name }}" style="max-width: 100px; max-height: 100px;">
+                                                            <img src="{{ asset($serviceType->image) }}" alt="{{ $serviceType->name }}" style="max-width: 100px; max-height: 100px;">
                                                         </div>
                                                         @endif
                                                     </div>
@@ -159,4 +159,4 @@
             });
         })(jQuery);
     </script>
-@endpush 
+@endpush
