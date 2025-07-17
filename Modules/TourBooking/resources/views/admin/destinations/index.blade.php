@@ -28,7 +28,6 @@
                                     </div>
                                 </div>
 
-
                                 <div id="crancy-table__main_wrapper" class=" dt-bootstrap5 no-footer">
                                     <table class="crancy-table__main crancy-table__main-v3  no-footer" id="dataTable">
                                         <thead class="crancy-table__head">
@@ -50,7 +49,7 @@
                                                         {{ $destination->id }}</td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($destination->image)
-                                                            <img src="{{ asset('storage/' . $destination->image) }}"
+                                                            <img src="{{ asset($destination->image) }}"
                                                                 alt="{{ $destination->name }}" class="img-thumbnail"
                                                                 width="50">
                                                         @else

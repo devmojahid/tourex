@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\TourBooking\App\Http\Controllers\Agency;
 
+use App\Helpers\FileUploadHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -57,16 +58,12 @@ final class DestinationController extends Controller
             'tags' => 'nullable|string|max:255',
         ]);
 
-        // Handle image if present
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('destinations', 'public');
-            $validated['image'] = $imagePath;
+            $validated['image'] = FileUploadHelper::uploadImage($request->file('image'), 'destination');
         }
 
-        // Handle image if present
         if ($request->hasFile('svg')) {
-            $imagePath = $request->file('svg')->store('destinations', 'public');
-            $validated['svg_image'] = $imagePath;
+            $validated['svg_image'] = FileUploadHelper::uploadImage($request->file('svg'), 'destination');
         }
 
         $validated['status'] = $request->has('status');
@@ -121,26 +118,20 @@ final class DestinationController extends Controller
             'tags' => 'nullable|string|max:255',
         ]);
 
-        // Handle image if present
         if ($request->hasFile('image')) {
             // Delete old image if exists
-            if ($destination->image) {
-                @unlink(storage_path('app/public/' . $destination->image));
+            if ($destination?->image !== null) {
+                FileUploadHelper::deleteImage($destination->image);
             }
-
-            $imagePath = $request->file('image')->store('destinations', 'public');
-            $validated['image'] = $imagePath;
+            $validated['image'] = FileUploadHelper::uploadImage($request->file('image'), 'destination');
         }
 
-        // Handle image if present
         if ($request->hasFile('svg')) {
             // Delete old image if exists
-            if ($destination->svg) {
-                @unlink(storage_path('app/public/' . $destination->svg_image));
+            if ($destination?->svg_image !== null) {
+                FileUploadHelper::deleteImage($destination->svg_image);
             }
-
-            $imagePath = $request->file('svg')->store('destinations', 'public');
-            $validated['svg_image'] = $imagePath;
+            $validated['svg_image'] = FileUploadHelper::uploadImage($request->file('svg'), 'destination');
         }
 
         $validated['status'] = $request->has('status');
@@ -166,8 +157,13 @@ final class DestinationController extends Controller
         }
 
         // Delete image if exists
-        if ($destination->image) {
-            @unlink(storage_path('app/public/' . $destination->image));
+        if ($destination?->image !== null) {
+            FileUploadHelper::deleteImage($destination->image);
+        }
+
+        // Delete image if exists
+        if ($destination?->svg_image !== null) {
+            FileUploadHelper::deleteImage($destination?->svg_image);
         }
 
         $destination->delete();

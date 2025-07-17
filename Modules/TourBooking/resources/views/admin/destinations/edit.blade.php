@@ -213,7 +213,7 @@
                                                                 onchange="previewImageSVG(event)">
                                                             <label class="crancy-image-video-upload__label" for="svg_img">
                                                                 <img id="view_img_svg"
-                                                                    src="{{ isset($destination) && $destination->svg_image ? asset('storage/' . $destination->svg_image) : asset($general_setting->placeholder_image) }}">
+                                                                    src="{{ isset($destination) && $destination->svg_image ? asset($destination->svg_image) : asset($general_setting->placeholder_image) }}">
                                                                 <h4 class="crancy-image-video-upload__title">
                                                                     {{ __('translate.Click here to') }}
                                                                     <span
@@ -238,7 +238,7 @@
                                                             <label class="crancy-image-video-upload__label"
                                                                 for="input-img1">
                                                                 <img id="view_img"
-                                                                    src="{{ isset($destination) && $destination->image ? asset('storage/' . $destination->image) : asset($general_setting->placeholder_image) }}">
+                                                                    src="{{ isset($destination) && $destination->image ? asset($destination->image) : asset($general_setting->placeholder_image) }}">
                                                                 <h4 class="crancy-image-video-upload__title">
                                                                     {{ __('translate.Click here to') }}
                                                                     <span
