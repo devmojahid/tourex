@@ -226,14 +226,14 @@
                                                                 @endif
 
                                                                 @if ($media->file_type == 'image')
-                                                                    <img src="{{ asset('storage/' . $media->file_path) }}"
+                                                                    <img src="{{ asset($media->file_path) }}"
                                                                         alt="{{ $media->caption ?? $media->file_name }}">
                                                                     <span
                                                                         class="media-type-badge image">{{ __('translate.Image') }}</span>
                                                                 @else
                                                                     <video controls muted>
                                                                         <source
-                                                                            src="{{ asset('storage/' . $media->file_path) }}"
+                                                                            src="{{ asset($media->file_path) }}"
                                                                             type="video/mp4">
                                                                         {{ __('translate.Your browser does not support the video tag.') }}
                                                                     </video>

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Modules\TourBooking\App\Http\Controllers\Agency;
 
 use App\Enums\Language as EnumsLanguage;
+use App\Helpers\FileUploadHelper;
 use App\Http\Controllers\Controller;
+use Faker\Core\File;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -304,7 +306,7 @@ final class ServiceController extends Controller
 
         // Delete all associated media files
         foreach ($service->media as $media) {
-            Storage::delete($media->file_path);
+           FileUploadHelper::deleteImage($media->file_path);
             $media->delete();
         }
 
@@ -330,19 +332,21 @@ final class ServiceController extends Controller
             'caption' => 'nullable|string|max:255',
         ]);
 
-        $file = $request->file('file');
-        $fileType = explode('/', $file->getMimeType())[0] === 'video' ? 'video' : 'image';
-        $fileName = $file->getClientOriginalName();
-        $filePath = $file->store('services/' . $service->id, 'public');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileType = explode('/', $file->getMimeType())[0] === 'video' ? 'video' : 'image';
+            $fileName = $file->getClientOriginalName();
+            $filePath = FileUploadHelper::uploadImage($file, $service->slug);
+        }
 
         // Check if this is the first media item, set it as thumbnail if so
         $isThumbnail = $service->media()->count() === 0;
 
         ServiceMedia::create([
             'service_id' => $service->id,
-            'file_path' => $filePath,
-            'file_type' => $fileType,
-            'file_name' => $fileName,
+            'file_path' => $filePath ?? null,
+            'file_type' => $fileType ?? null,
+            'file_name' => $fileName ?? null,
             'caption' => $request->caption,
             'is_featured' => $isThumbnail,
             'is_thumbnail' => $isThumbnail,
@@ -374,8 +378,9 @@ final class ServiceController extends Controller
             }
         }
 
-        // Delete the file from storage
-        Storage::delete($media->file_path);
+        if ($media?->file_path) {
+            FileUploadHelper::deleteImage($media->file_path);
+        }
 
         // Delete the record
         $media->delete();
@@ -452,8 +457,7 @@ final class ServiceController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('services/' . $service->id . '/itineraries', 'public');
-            $data['image'] = $imagePath;
+            $data['image'] = FileUploadHelper::uploadImage($request->file('image'), 'itinerary');
         }
 
         // Set display order if not provided
@@ -492,11 +496,9 @@ final class ServiceController extends Controller
         if ($request->hasFile('image')) {
             // Delete old image if exists
             if ($itinerary->image) {
-                Storage::delete($itinerary->image);
+                FileUploadHelper::deleteImage($itinerary?->image);
             }
-
-            $imagePath = $request->file('image')->store('services/' . $itinerary->service_id . '/itineraries', 'public');
-            $data['image'] = $imagePath;
+            $data['image'] = FileUploadHelper::uploadImage($request->file('image'), 'itinerary');
         }
 
         $itinerary->update($data);
@@ -513,8 +515,8 @@ final class ServiceController extends Controller
     public function deleteItinerary(TourItinerary $itinerary): RedirectResponse
     {
         // Delete image if exists
-        if ($itinerary->image) {
-            Storage::delete($itinerary->image);
+        if ($itinerary?->image) {
+            FileUploadHelper::deleteImage($itinerary?->image);
         }
 
         $itinerary->delete();
