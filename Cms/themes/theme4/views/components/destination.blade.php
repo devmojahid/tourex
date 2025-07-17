@@ -33,7 +33,7 @@
                             data-wow-delay=".{{$key + 3}}s" data-wow-duration=".9s">
                             <div class="tg-location-thumb tg-round-25">
                                 <img class="w-100 tg-round-25"
-                                    src="{{ asset('storage/' . $destination_item->image) }}"
+                                    src="{{ asset($destination_item->image) }}"
                                     alt="{{ $destination_item->name }}">
                             </div>
                             <div class="tg-location-content tg-location-su-content">

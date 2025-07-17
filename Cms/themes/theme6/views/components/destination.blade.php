@@ -58,7 +58,7 @@
                             <div class="tg-location-wrap p-relative mb-30">
                                 <div class="tg-location-thumb">
                                     <img class="w-100"
-                                        src="{{ asset('storage/' . $destination_item->image) }}"
+                                        src="{{ asset($destination_item->image) }}"
                                         alt="{{ $destination_item->name }}">
                                 </div>
                                 <div class="tg-location-content text-center">

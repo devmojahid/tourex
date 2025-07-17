@@ -41,7 +41,7 @@
                                         <div class="tg-location-5-thumb bg-white p-relative rounded-circale">
 
                                             <img class="w-100"
-                                                src="{{ asset('storage/' . $destination_item->image) }}"
+                                                src="{{ asset($destination_item->image) }}"
                                                 alt="{{ $destination_item->name }}">
 
                                             <span class="tg-location-5-bottom-bg"></span>
@@ -75,7 +75,7 @@
 @push('style_section')
     <style>
         .tg-location-5-thumb {
-            
+
             height: 270px;
             width: 270px;
         }
