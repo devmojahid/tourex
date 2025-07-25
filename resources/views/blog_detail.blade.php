@@ -64,7 +64,7 @@
                                 </div>
                                 <h2 class="tg-blog-standard-title"> {{ $blog?->title }}
                                 </h2>
-                                {!! clean($blog->description) !!}
+                                {!! $blog->description !!}
                             </div>
                         </div>
 
