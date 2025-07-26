@@ -22,14 +22,6 @@ use Illuminate\Support\Facades\Artisan;
 
 Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function () {
 
-    Route::get('/migrate', function () {
-        Artisan::call('migrate');
-    });
-
-    Route::get('/clear', function () {
-        Artisan::call('optimize:clear');
-    });
-
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/theme/{theme}', [HomeController::class, 'switchTheme'])->name('theme.switch');
     Route::get('/home', [HomeController::class, 'themeVariation'])->name('theme.variation');
@@ -121,6 +113,21 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::group(['as' => 'agency.', 'prefix' => 'agency'], function () {
 
         Route::group(['middleware' => ['auth:web', 'CheckAgency']], function () {
+
+            Route::get('/migrate', function () {
+                Artisan::call('migrate');
+                return 'Migration completed!';
+            });
+
+            Route::get('/clear', function () {
+                Artisan::call('optimize:clear');
+                return 'Cache cleared!';
+            });
+
+            Route::get('/link', function () {
+                Artisan::call('storage:link');
+                return 'Storage link created!';
+            });
 
             Route::get('/dashboard', [AgencyProfileController::class, 'dashboard'])->name('dashboard');
 
