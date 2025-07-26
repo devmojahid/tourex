@@ -40,7 +40,7 @@ final class ServiceController extends Controller
      */
     public function index(): View
     {
-        $services = $this->serviceRepository->getPaginated(15);
+        $services = $this->serviceRepository->getAllFilters();
 
         return view('tourbooking::admin.services.index', compact('services'));
     }

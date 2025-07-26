@@ -83,6 +83,57 @@ final class ServiceRepository
         return $query->get();
     }
 
+    public function getAllFilters(array $filters = [])
+    {
+        $query = Service::with(['translation', 'serviceType', 'thumbnail']);
+
+        // Apply filters
+
+         if (!empty($filters['user_id'])) {
+            $query->where('user_id', $filters['user_id']);
+        }
+
+        if (!empty($filters['type_id'])) {
+            $query->where('service_type_id', $filters['type_id']);
+        }
+
+        if (!empty($filters['location'])) {
+            $query->where('location', 'like', "%{$filters['location']}%");
+        }
+
+        if (!empty($filters['price_min']) && !empty($filters['price_max'])) {
+            $query->whereBetween('full_price', [$filters['price_min'], $filters['price_max']]);
+        }
+
+        if (isset($filters['status'])) {
+            $query->where('status', $filters['status']);
+        } else {
+            $query->where('status', true);
+        }
+
+        if (!empty($filters['featured'])) {
+            $query->where('is_featured', $filters['featured']);
+        }
+
+        if (!empty($filters['popular'])) {
+            $query->where('is_popular', $filters['popular']);
+        }
+
+        if (!empty($filters['user_id'])) {
+            $query->where('user_id', $filters['user_id']);
+        }
+
+        if (!empty($filters['search'])) {
+            $search = $filters['search'];
+            $query->whereHas('translation', function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        return $query->orderBy('id', 'desc')->get();
+    }
+
     /**
      * Get paginated services.
      */
