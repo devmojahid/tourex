@@ -104,7 +104,7 @@
                                 <div class="tg-tour-about-coast d-flex flex-wrap justify-content-between">
                                     <span class="tg-tour-about-sidebar-title d-inline-block">Sub total Cost:</span>
                                     <div class="text-right">
-                                        <h5 class="sub-total-price">{{ currency($data['total'], 2) }}</h5>
+                                        <h5 class="sub-total-price">{{ currency($data['subtotal'], 2) }}</h5>
                                         <span>(-) {{ currency($service->discount_price ?? 0, 2) }}</span>
                                     </div>
                                 </div>

@@ -75,6 +75,8 @@ final class FrontBookingController extends Controller
         $personPrice = $request->person * $service->price_per_person;
         $childPrice = $request->children * $service->child_price;
 
+        $subtotal = $personPrice + $childPrice + $totalExtraCharge;
+
         if ($service->discount_price) {
             $total = $personPrice + $childPrice + $totalExtraCharge - $service->discount_price;
         } else {
@@ -88,6 +90,7 @@ final class FrontBookingController extends Controller
             'service' => $service,
             'personPrice' => $personPrice,
             'childPrice' => $childPrice,
+            'subtotal' => $subtotal,
             'total' => $total,
         ];
 
