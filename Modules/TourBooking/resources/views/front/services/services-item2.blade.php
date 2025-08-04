@@ -6,8 +6,7 @@
                     <div class="tg-listing-card-item mb-30">
                         <div class="tg-listing-card-thumb fix mb-15 p-relative">
                             <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
-                                <img class="tg-card-border w-100"
-                                    src="{{ asset($service?->thumbnail?->file_path) }}"
+                                <img class="tg-card-border w-100" src="{{ asset($service?->thumbnail?->file_path) }}"
                                     alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
                                 @if ($service?->is_new == 1)
                                     <span class="tg-listing-item-price-discount shape"
@@ -92,9 +91,10 @@
                             <div class="tg-listing-card-price d-flex align-items-end justify-content-between">
                                 <div class="tg-listing-card-price-wrap price-bg d-flex align-items-center"
                                     style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape.png') }}')">
-                                    <span class="tg-listing-card-currency-amount mr-5">
-                                        {!! $service->price_display !!}
+                                    <span class="tg-listing-card-currency-amount">
+                                        {{ currency($service->price_per_person) }}
                                     </span>
+                                    <span class="tg-listing-card-activity-person">/Person</span>
                                 </div>
                                 <div class="tg-listing-card-review space">
                                     <span class="tg-listing-rating-icon"><i

@@ -119,12 +119,8 @@
                                         </span>
                                     </div>
                                 @endif
-                                <div class="tg-listing-card-price d-flex align-items-end justify-content-between">
-                                    <div>
-                                        <span class="tg-listing-card-currency-amount d-flex align-items-center">
-                                            {!! $service->price_display !!}
-                                        </span>
-                                    </div>
+                                <div class="tg-listing-card-price d-flex align-items-center justify-content-between">
+                                    @include('components.per-person')
                                     <div>
                                         <span class="tg-listing-rating-icon">
                                             <i

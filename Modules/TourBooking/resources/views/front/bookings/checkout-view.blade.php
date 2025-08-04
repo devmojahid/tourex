@@ -52,19 +52,6 @@
                             <div>
                                 <div>
                                     <div class="tg-tour-about-tickets-wrap mb-15">
-                                        <div class="tg-tour-about-tickets mb-10">
-                                            <div class="tg-tour-about-tickets-adult">
-                                                <div class="tg-tour-about-sidebar-title">Tour Price</div>
-                                            </div>
-                                            <div class="tg-tour-about-tickets-quantity">
-                                                {{ currency($service->full_price ?? $service->discount_price ?? $service->full_price) }}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tg-tour-about-border-doted mb-15"></div>
-
-                                    <div class="tg-tour-about-tickets-wrap mb-15">
                                         <span class="tg-tour-about-sidebar-title">Tickets:</span>
 
                                         <div class="tg-tour-about-tickets mb-10">
@@ -73,7 +60,8 @@
                                                 <p class="mb-0">(18+ years)</p>
                                             </div>
                                             <div class="tg-tour-about-tickets-quantity">
-                                                {{ $data['personCount'] }} x {{ currency_price($service->price_per_person) }} =
+                                                {{ $data['personCount'] }} x
+                                                {{ currency_price($service->price_per_person) }} =
                                                 {{ currency($data['personCount'] * $service->price_per_person, 2) }}
                                             </div>
                                         </div>
@@ -113,8 +101,15 @@
 
                                 </div>
                                 <div class="tg-tour-about-border-doted mb-15"></div>
-                                <div
-                                    class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between">
+                                <div class="tg-tour-about-coast d-flex flex-wrap justify-content-between">
+                                    <span class="tg-tour-about-sidebar-title d-inline-block">Sub total Cost:</span>
+                                    <div class="text-right">
+                                        <h5 class="sub-total-price">{{ currency($data['total'], 2) }}</h5>
+                                        <span>(-) {{ currency($service->discount_price ?? 0, 2) }}</span>
+                                    </div>
+                                </div>
+                                <div class="tg-tour-about-border-doted mb-15"></div>
+                                <div class="tg-tour-about-coast d-flex flex-wrap justify-content-between">
                                     <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
                                     <h5 class="total-price">{{ currency($data['total'], 2) }}</h5>
                                 </div>

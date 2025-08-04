@@ -84,7 +84,8 @@
 
                                         </a>
                                         <div class="tg-listing-2-price">
-                                            {!! $service->price_display !!}
+                                            {{ currency($service->price_per_person) }}
+                                            <span class="shift">/Person</span>
                                         </div>
                                     </div>
                                     <div class="tg-listing-card-content p-relative">

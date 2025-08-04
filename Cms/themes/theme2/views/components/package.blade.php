@@ -88,7 +88,7 @@
                             <div class="tg-listing-card-content p-relative">
                                 <div class="tg-listing-2-price-wrap text-center">
                                     <div class="tg-listing-2-price">
-                                        {!! $service->price_display !!}
+                                        {{ currency($service->price_per_person) }} <span class="shift">/ Person</span>
                                     </div>
                                 </div>
                                 <h4 class="tg-listing-card-title">

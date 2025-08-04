@@ -802,7 +802,7 @@
                     @endforeach
                 },
                 get totalCost() {
-                    let total = {{ $service?->discount_price ?? $service?->full_price }};
+                    let total = 0;
                     total += this.tickets.person * this.pricePerPerson;
                     total += this.tickets.children * this.pricePerChild;
                     for (let key in this.extras) {

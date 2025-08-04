@@ -6,8 +6,7 @@
                     <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
                         <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
                             <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
-                                <img class="tg-card-border w-100"
-                                    src="{{ asset($service?->thumbnail?->file_path) }}"
+                                <img class="tg-card-border w-100" src="{{ asset($service?->thumbnail?->file_path) }}"
                                     alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
 
                                 @if ($service?->is_new == 1)
@@ -31,11 +30,12 @@
 
                                 @if ($service?->discount_price)
                                     <span class="tg-listing-item-price-discount offer-btm shape-2"
-                                        style="background-image: url('{{ asset('frontend/assets/img/shape/offter.png') }}')">Sale Offer</span>
+                                        style="background-image: url('{{ asset('frontend/assets/img/shape/offter.png') }}')">Sale
+                                        Offer</span>
                                 @endif
                             </a>
                             <div class="tg-listing-2-price">
-                                {!! $service->price_display !!}
+                                {{ currency($service->price_per_person) }} <span class="shift">/ Person</span>
                             </div>
                         </div>
                         <div class="tg-listing-card-content p-relative">
@@ -60,7 +60,7 @@
                             </span>
                             @include('tourbooking::front.services.ratting', [
                                 'avgRating' => $service?->active_reviews_avg_rating ?? 0,
-                                'ratingCount' => $service?->active_reviews_count ?? 0
+                                'ratingCount' => $service?->active_reviews_count ?? 0,
                             ])
                             <div class="tg-listing-avai d-flex align-items-center justify-content-between">
                                 <a class="tg-listing-avai-btn"

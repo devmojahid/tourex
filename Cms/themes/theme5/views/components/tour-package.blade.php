@@ -91,7 +91,7 @@
 
                                 <div class="tg-listing-2-price"
                                     style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape2.png') }}')">
-                                    {!! $service->price_display !!}
+                                    {{ currency($service->price_per_person) }} <span class="shift">/ Person</span>
                                 </div>
                             </div>
                             <div class="tg-listing-card-content p-relative">

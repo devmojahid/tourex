@@ -71,14 +71,6 @@
                                                         {{ $service->location ?? 'N/A' }}</td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
 
-                                                        @if ($service->price_display)
-                                                            {!! $service->price_display !!} ({{ __('translate.Full Price') }})
-                                                        @else
-                                                            {{ __('translate.N/A') }}
-                                                        @endif
-
-                                                        <br>
-
                                                         @if ($service->price_per_person)
                                                             {{ currency($service->price_per_person) }}
                                                             ({{ __('translate.Per Person') }})

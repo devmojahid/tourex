@@ -299,6 +299,13 @@
                         </tr>
                     @endif
 
+                    <tr>
+                        <td>Discount Amount</td>
+                        <td></td>
+                        <td>{{ currency($booking->discount_amount) }}</td>
+                        <td class="text-right">{{ currency($booking->discount_amount) }}</td>
+                    </tr>
+
                 </tbody>
                 <tfoot>
                     @if ($booking->discount > 0)

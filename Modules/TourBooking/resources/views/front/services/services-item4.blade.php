@@ -120,7 +120,8 @@
                             @endif
                             <div class="tg-listing-avai d-flex align-items-center justify-content-between">
                                 <div class="tg-listing-2-price">
-                                    {!! $service->price_display !!}
+                                    {{ currency($service->price_per_person) }}
+                                    <span class="shift">/Person</span>
                                 </div>
                                 <a class="tg-listing-avai-btn"
                                     href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">Check

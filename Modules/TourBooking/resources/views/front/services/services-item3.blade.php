@@ -6,8 +6,7 @@
                     <div class="tg-listing-card-item tg-listing-2-card-item mb-25">
                         <div class="tg-listing-card-thumb tg-listing-2-card-thumb fix p-relative">
                             <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
-                                <img class="tg-card-border w-100"
-                                    src="{{ asset($service?->thumbnail?->file_path) }}"
+                                <img class="tg-card-border w-100" src="{{ asset($service?->thumbnail?->file_path) }}"
                                     alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
 
                                 @if ($service?->discount_price)
@@ -59,7 +58,8 @@
                         <div class="tg-listing-card-content p-relative">
                             <div class="tg-listing-2-price-wrap text-center">
                                 <div class="tg-listing-2-price">
-                                    {!! $service->price_display !!}
+                                        {{ currency($service->price_per_person) }}
+                                    <span class="shift">/Person</span>
                                 </div>
                             </div>
                             <h4 class="tg-listing-card-title">
@@ -70,7 +70,7 @@
                             @include('tourbooking::front.services.ratting', [
                                 'avgRating' => $service?->active_reviews_avg_rating ?? 0,
                                 'ratingCount' => $service?->active_reviews_count ?? 0,
-                                'ratingClass' => 'tg-listing-card-review mb-5'
+                                'ratingClass' => 'tg-listing-card-review mb-5',
                             ])
                             <div class="tg-listing-card-duration-tour">
 

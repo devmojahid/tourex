@@ -135,6 +135,7 @@ final class ServiceController extends Controller
      */
     public function edit(Request $request, Service $service): View
     {
+
         $lang_code = $request->lang_code ?? admin_lang();
 
         $service->load([

@@ -212,14 +212,6 @@
                                                                     <tbody>
 
                                                                         <tr>
-                                                                            <td>{{ __('translate.Service Price') }}</td>
-                                                                            <td class="text-right">
-                                                                                {{ currency($booking->service_price) }}
-                                                                            </td>
-                                                                        </tr>
-
-
-                                                                        <tr>
                                                                             <td>{{ __('translate.Adult Price') }}
                                                                                 ({{ $booking->adult_price }} X
                                                                                 {{ $booking->adults }}
@@ -243,6 +235,13 @@
                                                                             <td>{{ __('translate.Extra charges') }}</td>
                                                                             <td class="text-right">
                                                                                 {{ currency($booking->extra_charges) }}
+                                                                            </td>
+                                                                        </tr>
+
+                                                                         <tr>
+                                                                            <td>Discount Amount</td>
+                                                                            <td class="text-right">
+                                                                                {{ currency($booking->discount_amount) }}
                                                                             </td>
                                                                         </tr>
 

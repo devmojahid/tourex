@@ -124,6 +124,7 @@
                                                                     {{ currency($booking->paid_amount) }}
                                                                 </td>
                                                             </tr>
+
                                                             @if ($booking->due_amount > 0)
                                                                 <tr>
                                                                     <td>{{ __('translate.Due Amount') }} : </td>
@@ -164,14 +165,16 @@
                                                             @if ($booking->check_in_time)
                                                                 <tr>
                                                                     <td>{{ __('translate.Check in Time') }}:</td>
-                                                                    <td>{{ \Carbon\Carbon::parse($booking->check_in_time)->format('h:i A') }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($booking->check_in_time)->format('h:i A') }}
+                                                                    </td>
                                                                 </tr>
                                                             @endif
 
                                                             @if ($booking->check_out_time)
                                                                 <tr>
                                                                     <td>{{ __('translate.Check out Time') }}:</td>
-                                                                    <td>{{ \Carbon\Carbon::parse($booking->check_out_time)->format('h:i A') }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($booking->check_out_time)->format('h:i A') }}
+                                                                    </td>
                                                                 </tr>
                                                             @endif
 
@@ -243,6 +246,13 @@
                                                                             <td>{{ __('translate.Extra charges') }}</td>
                                                                             <td class="text-right">
                                                                                 {{ currency($booking->extra_charges) }}
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td>Discount Amount</td>
+                                                                            <td class="text-right">
+                                                                                {{ currency($booking->discount_amount) }}
                                                                             </td>
                                                                         </tr>
 

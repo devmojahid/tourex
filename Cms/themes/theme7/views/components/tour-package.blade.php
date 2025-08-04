@@ -134,9 +134,7 @@
                                                     href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
                                                     {{ __('translate.View Details') }}
                                                 </a>
-                                                <div class="tg-listing-card-price d-flex align-items-center">
-                                                    <span class="price">{{ currency($service?->full_price) }}</span>
-                                                </div>
+                                                @include('components.per-person')
                                             </div>
                                         </div>
                                     </div>

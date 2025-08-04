@@ -50,11 +50,11 @@ final class FrontBookingController extends Controller
         // Check if an availability_id was provided and verify spots
         if ($request->has('availability_id')) {
             $availability = Availability::find($request->availability_id);
-            
+
             if ($availability) {
                 // Calculate total guests
                 $totalGuests = $request->person + $request->children;
-                
+
                 // Check if there are enough spots available
                 if ($availability->available_spots !== null && $totalGuests > $availability->available_spots) {
                     $notify_message = trans('translate.Not enough available spots for the selected date');
@@ -76,9 +76,9 @@ final class FrontBookingController extends Controller
         $childPrice = $request->children * $service->child_price;
 
         if ($service->discount_price) {
-            $total = $personPrice + $childPrice + $totalExtraCharge + $service->discount_price;
+            $total = $personPrice + $childPrice + $totalExtraCharge - $service->discount_price;
         } else {
-            $total = $personPrice + $childPrice + $totalExtraCharge + $service->full_price;
+            $total = $personPrice + $childPrice + $totalExtraCharge;
         }
 
         $data = [
@@ -498,7 +498,7 @@ final class FrontBookingController extends Controller
             if (!$availability) {
                 throw new \Exception('The service is not available for the selected date.');
             }
-            
+
             // Check if there are enough spots available
             if ($availability->available_spots !== null) {
                 // Get number of existing bookings for this date
@@ -524,7 +524,7 @@ final class FrontBookingController extends Controller
                     ->orWhereBetween('check_out_date', [$checkInDate, $checkOutDate])
                     ->orWhere(function ($q) use ($checkInDate, $checkOutDate) {
                         $q->where('check_in_date', '<=', $checkInDate)
-                          ->where('check_out_date', '>=', $checkOutDate);
+                            ->where('check_out_date', '>=', $checkOutDate);
                     });
             })
             ->exists();

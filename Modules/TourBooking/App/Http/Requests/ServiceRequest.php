@@ -17,7 +17,7 @@ class ServiceRequest extends FormRequest
         return true;
     }
 
-       /**
+    /**
      * Prepare the data for validation.
      */
     protected function prepareForValidation()
@@ -34,7 +34,7 @@ class ServiceRequest extends FormRequest
         }
     }
 
-       /**
+    /**
      * Convert textarea content to array (one item per line)
      */
     private function convertTextareaToArray($text): array
@@ -46,7 +46,7 @@ class ServiceRequest extends FormRequest
         // Split by new lines, trim whitespace, and remove empty lines
         return array_filter(
             array_map('trim', preg_split('/\r\n|\r|\n/', $text)),
-            function($item) {
+            function ($item) {
                 return !empty($item);
             }
         );
@@ -68,9 +68,9 @@ class ServiceRequest extends FormRequest
             'longitude' => 'nullable|string|max:30',
             'service_type_id' => 'required|exists:service_types,id',
             'destination_id' => 'nullable',
-            'price_per_person' => 'nullable|numeric|min:0',
+            'price_per_person' => 'required|numeric|min:0',
             'full_price' => 'nullable|numeric|min:0',
-            'discount_price' => 'nullable|numeric|min:0|lte:full_price',
+            'discount_price' => 'nullable|numeric|min:0|lte:price_per_person',
             'child_price' => 'nullable|numeric|min:0',
             'infant_price' => 'nullable|numeric|min:0',
             'security_deposit' => 'nullable|numeric|min:0',
