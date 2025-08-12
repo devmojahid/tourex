@@ -72,6 +72,7 @@ final class Service extends Model
         'tour_plan_sub_title',
         'google_map_sub_title',
         'google_map_url',
+        'is_per_person'
     ];
 
     /**
@@ -102,6 +103,7 @@ final class Service extends Model
         'show_on_homepage' => 'boolean',
         'status' => 'boolean',
         'is_new' => 'boolean',
+        'is_per_person' => 'boolean'
     ];
 
     /**
@@ -327,11 +329,15 @@ final class Service extends Model
 
     public function getPriceDisplayAttribute()
     {
-        if ($this->discount_price) {
-            return '<del>' . currency($this->full_price) . '</del> ' . currency($this->discount_price);
+        if ($this->is_per_person) {
+            return $this->discount_price
+                ? '<del>' . currency($this->price_per_person) . '</del> ' . currency($this->discount_price)
+                : currency($this->price_per_person);
         }
 
-        return currency($this->full_price);
+        return $this->discount_price
+            ? '<del>' . currency($this->full_price) . '</del> ' . currency($this->discount_price)
+            : currency($this->full_price);
     }
 
     public function wishlists()
@@ -344,7 +350,8 @@ final class Service extends Model
         return $this->hasOne(Wishlist::class, 'wishable_id', 'id')->where('user_id', auth()->id());
     }
 
-    public function seller(){
+    public function seller()
+    {
         return $this->belongsTo(User::class, 'user_id')->select('id', 'name', 'email', 'image', 'username');
     }
 }

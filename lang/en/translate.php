@@ -1664,4 +1664,5 @@
   'Per Person' => 'Per Person',
   'N/A' => 'N/A',
   'Children Price' => 'Children Price',
+  'Show Per Person Price' => 'Show Per Person Price',
 );

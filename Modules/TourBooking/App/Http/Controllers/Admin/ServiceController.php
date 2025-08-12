@@ -79,7 +79,7 @@ final class ServiceController extends Controller
         }
 
         // Convert checkbox values
-        $booleanFields = ['deposit_required', 'is_featured', 'is_popular', 'show_on_homepage', 'status', 'is_new'];
+        $booleanFields = ['deposit_required', 'is_featured', 'is_popular', 'show_on_homepage', 'status', 'is_new', 'is_per_person'];
         foreach ($booleanFields as $field) {
             $data[$field] = isset($data[$field]) ? true : false;
         }
@@ -230,7 +230,7 @@ final class ServiceController extends Controller
             }
 
             // Convert checkbox values
-            $booleanFields = ['deposit_required', 'is_featured', 'is_popular', 'show_on_homepage', 'status', 'is_new'];
+            $booleanFields = ['deposit_required', 'is_featured', 'is_popular', 'show_on_homepage', 'status', 'is_new', 'is_per_person'];
             foreach ($booleanFields as $field) {
                 $data[$field] = isset($data[$field]) ? true : false;
             }

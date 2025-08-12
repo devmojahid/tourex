@@ -216,7 +216,7 @@ final class FrontServiceController extends Controller
         $isListView = $request->isListView;
         $style = $request->style;
 
-        $allServices = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration', 'group_size')
+        $allServices = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration', 'group_size', 'is_per_person', 'service_type_id')
             ->withExists('myWishlist')
             ->where('status', true)
             ->with(['thumbnail:id,service_id,caption,file_path', 'translation:id,service_id,locale,title,short_description'])
@@ -354,7 +354,7 @@ final class FrontServiceController extends Controller
             $serviceView = 'tourbooking::front.services.service-detail';
         } elseif ($requestView == 'tour_detail_two' || $selected_service_layout == 'tour_detail_two') {
             $serviceView = 'tourbooking::front.services.service-detail2';
-        }else {
+        } else {
             $serviceView = 'tourbooking::front.services.service-detail';
         }
 
@@ -377,10 +377,10 @@ final class FrontServiceController extends Controller
             ->withExists('myWishlist')
             ->firstOrFail();
 
-            // dd($service);
+        // dd($service);
 
         $amenities = [];
-        if ( is_array($service->amenities) && $service->amenities) {
+        if (is_array($service->amenities) && $service->amenities) {
             $amenities = AmenityTranslation::select('id', 'name')->whereIn('id', $service->amenities ?? [])->get();
         }
 

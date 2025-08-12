@@ -17,7 +17,7 @@ class ServiceRequest extends FormRequest
         return true;
     }
 
-       /**
+    /**
      * Prepare the data for validation.
      */
     protected function prepareForValidation()
@@ -34,7 +34,7 @@ class ServiceRequest extends FormRequest
         }
     }
 
-       /**
+    /**
      * Convert textarea content to array (one item per line)
      */
     private function convertTextareaToArray($text): array
@@ -46,7 +46,7 @@ class ServiceRequest extends FormRequest
         // Split by new lines, trim whitespace, and remove empty lines
         return array_filter(
             array_map('trim', preg_split('/\r\n|\r|\n/', $text)),
-            function($item) {
+            function ($item) {
                 return !empty($item);
             }
         );
@@ -59,6 +59,7 @@ class ServiceRequest extends FormRequest
      */
     public function rules(): array
     {
+
         $rules = [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -68,9 +69,32 @@ class ServiceRequest extends FormRequest
             'longitude' => 'nullable|string|max:30',
             'service_type_id' => 'required|exists:service_types,id',
             'destination_id' => 'nullable',
-            'price_per_person' => 'nullable|numeric|min:0',
-            'full_price' => 'nullable|numeric|min:0',
-            'discount_price' => 'nullable|numeric|min:0|lte:full_price',
+            'price_per_person' => [
+                $this->boolean('is_per_person') ? 'required' : 'nullable',
+                'numeric',
+                'min:0'
+            ],
+            'full_price' => [
+                $this->boolean('is_per_person') ? 'nullable' : 'required',
+                'numeric',
+                'min:0'
+            ],
+            'discount_price' => [
+                'nullable',
+                'numeric',
+                'min:0',
+                function ($attribute, $value, $fail) {
+                    if ($this->boolean('is_per_person')) {
+                        if ($value > $this->price_per_person) {
+                            $fail('The discount price cannot be greater than the price per person.');
+                        }
+                    } else {
+                        if ($value > $this->full_price) {
+                            $fail('The discount price cannot be greater than the full price.');
+                        }
+                    }
+                }
+            ],
             'child_price' => 'nullable|numeric|min:0',
             'infant_price' => 'nullable|numeric|min:0',
             'security_deposit' => 'nullable|numeric|min:0',
@@ -113,6 +137,7 @@ class ServiceRequest extends FormRequest
             'tour_plan_sub_title' => 'nullable|max:255',
             'google_map_sub_title' => 'nullable|max:255',
             'google_map_url' => 'nullable',
+            'is_per_person' => 'nullable',
         ];
 
         if ($this->isMethod('POST')) {

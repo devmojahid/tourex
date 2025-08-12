@@ -365,8 +365,24 @@
                                             <h4 class="crancy-product-card__title">{{ __('translate.Pricing Details') }}
                                             </h4>
 
-                                            <div class="row mg-top-30">
-                                                <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="col-12">
+                                                <div class="crancy__item-form--group mg-top-form-20">
+                                                    <label
+                                                        class="crancy__item-label">{{ __('translate.Show Per Person Price') }}</label>
+                                                    <div
+                                                        class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
+                                                        <label class="crancy__item-switch">
+                                                            <input name="is_per_person" id="show_per_person_price"
+                                                                type="checkbox" @checked($service->is_per_person == 1)>
+                                                            <span
+                                                                class="crancy__item-switch--slide crancy__item-switch--round"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-6 col-12 d-none per_person_price_div">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Price Per Person') }}</label>
@@ -384,7 +400,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6 col-12">
+                                                <div class="col-lg-4 col-md-6 col-12 full_price_div">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Full Price') }}</label>
@@ -420,7 +436,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6 col-12">
+                                                <div class="col-lg-4 col-md-6 col-12 d-none per_person_price_div">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Child Price') }}</label>
@@ -598,7 +614,7 @@
                                                             multiple>
                                                             @foreach ($amenities as $amenity)
                                                                 <option value="{{ $amenity->translation->id }}"
-                                                                    @selected(is_array($translation->amenities ?? null) && in_array($amenity->translation->id, ($translation->amenities ?? [])))>
+                                                                    @selected(is_array($translation->amenities ?? null) && in_array($amenity->translation->id, $translation->amenities ?? []))>
                                                                     {{ $amenity->translation->name }}
                                                                 </option>
                                                             @endforeach
@@ -900,6 +916,22 @@
                         },
                     ]
                 });
+
+                @if ($service->is_per_person == 1)
+                    $('.per_person_price_div').removeClass('d-none');
+                    $('.full_price_div').addClass('d-none');
+                @endif
+
+                $('#show_per_person_price').on('change', function() {
+                    if ($(this).is(':checked')) {
+                        $('.per_person_price_div').removeClass('d-none');
+                        $('.full_price_div').addClass('d-none');
+                    } else {
+                        $('.per_person_price_div').addClass('d-none');
+                        $('.full_price_div').removeClass('d-none');
+                    }
+                });
+
             });
         })(jQuery);
     </script>
