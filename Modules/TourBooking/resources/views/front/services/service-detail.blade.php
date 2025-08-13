@@ -156,8 +156,7 @@
                                 @if (isset($nonThumbnails[$i]))
                                     <div class="col-lg-6 col-md-6">
                                         <div class="tg-tour-details-video-thumb mb-15">
-                                            <img class="w-100"
-                                                src="{{ asset($nonThumbnails[$i]->file_path) }}"
+                                            <img class="w-100" src="{{ asset($nonThumbnails[$i]->file_path) }}"
                                                 alt="{{ $nonThumbnails[$i]->caption }}">
                                         </div>
                                     </div>
@@ -254,11 +253,18 @@
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <div class="tg-tour-details-video-feature-price mb-15">
-                                <p> {{ __('translate.From') }}
-                                    <span>{{ currency($service?->price_per_person) }}</span> /
-                                    {{ __('translate.Person') }}
-                                </p>
+                            <div class="tg-tour-details-video-feature-price mb-15 text-right">
+                                @if ($service?->is_per_person)
+                                    <p> {{ __('translate.From') }}
+                                        <span>{{ currency($service?->price_per_person) }}</span> /
+                                        {{ __('translate.Person') }}
+                                    </p>
+                                @else
+                                    <div class="service-price_display">
+                                        {!! $service->price_display !!}
+                                    </div>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -367,7 +373,10 @@
                                                                             class="itinerary-image">
                                                                     </div>
                                                                 @endif
-                                                                <div @class([ 'col-12 mb-5' => !$itinerary?->image , 'col-md-8 mb-5' => $itinerary?->image])>
+                                                                <div @class([
+                                                                    'col-12 mb-5' => !$itinerary?->image,
+                                                                    'col-md-8 mb-5' => $itinerary?->image,
+                                                                ])>
 
                                                                     @if ($itinerary?->description)
                                                                         <div>
@@ -584,98 +593,115 @@
                                     <div id="availability-info" class="mt-2" style="display: none;"></div>
                                 </div>
 
-                                <div class="tg-tour-about-time d-flex align-items-center mb-10">
-                                    <span class="time">Time:</span>
-                                    <div class="form-check mr-15">
-                                        <input type="hidden" name="check_in_time_hidden"
-                                            value="{{ $service->check_in_time }}">
-                                        <input class="form-check-input" name="check_in_time" type="radio"
-                                            id="time1">
-                                        <label class="form-check-label" for="time1">
-                                            {{ $service->check_in_time }}
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="hidden" name="check_out_time_hidden"
-                                            value="{{ $service->check_out_time }}">
-                                        <input class="form-check-input" name="check_out_time" type="radio"
-                                            id="time2">
-                                        <label class="form-check-label" for="time2">
-                                            {{ $service->check_out_time }}
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="tg-tour-about-border-doted mb-15"></div>
-
-                                <div class="tg-tour-about-tickets-wrap mb-15">
-                                    <span class="tg-tour-about-sidebar-title">Tickets:</span>
-
-                                    <div class="tg-tour-about-tickets mb-10">
-                                        <div class="tg-tour-about-tickets-adult">
-                                            <span>Person</span>
-                                            <p class="mb-0">(18+ years) <span>{{ currency($service->price_per_person) }}</span>
-                                            </p>
+                                @if ($service->is_per_person)
+                                    <div class="tg-tour-about-time d-flex align-items-center mb-10">
+                                        <span class="time">Time:</span>
+                                        <div class="form-check mr-15">
+                                            <input type="hidden" name="check_in_time_hidden"
+                                                value="{{ $service->check_in_time }}">
+                                            <input class="form-check-input" name="check_in_time" type="radio"
+                                                id="time1">
+                                            <label class="form-check-label" for="time1">
+                                                {{ $service->check_in_time }}
+                                            </label>
                                         </div>
-                                        <div class="tg-tour-about-tickets-quantity">
-                                            <select name="person" class="item-first custom-select"
-                                                x-model.number="tickets.person">
-                                                <template x-for="i in 8" :key="i">
-                                                    <option :value="i" x-text="i"></option>
-                                                </template>
-                                            </select>
+                                        <div class="form-check">
+                                            <input type="hidden" name="check_out_time_hidden"
+                                                value="{{ $service->check_out_time }}">
+                                            <input class="form-check-input" name="check_out_time" type="radio"
+                                                id="time2">
+                                            <label class="form-check-label" for="time2">
+                                                {{ $service->check_out_time }}
+                                            </label>
                                         </div>
                                     </div>
 
-                                    <div class="tg-tour-about-tickets mb-10">
-                                        <div class="tg-tour-about-tickets-adult">
-                                            <span>Children </span>
-                                            <p class="mb-0">(13-17 years) <span>{{ currency($service->child_price) }}</span></p>
-                                        </div>
-                                        <div class="tg-tour-about-tickets-quantity">
-                                            <select name="children" class="item-first custom-select"
-                                                x-model.number="tickets.children">
-                                                <template x-for="i in 8" :key="i">
-                                                    <option :value="i - 1" x-text="i - 1"></option>
-                                                </template>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="tg-tour-about-border-doted mb-15"></div>
+                                    <div class="tg-tour-about-border-doted mb-15"></div>
+                                    <div class="tg-tour-about-tickets-wrap mb-15">
+                                        <span class="tg-tour-about-sidebar-title">Tickets:</span>
 
-                                @if ($service->extraCharges->count() > 0)
-                                    <div class="tg-tour-about-extra mb-10">
-                                        <span class="tg-tour-about-sidebar-title mb-10 d-inline-block">Add Extra:</span>
-                                        <div class="tg-filter-list">
-                                            <ul>
-                                                @foreach ($service->extraCharges as $key => $extra)
-                                                    <li>
-                                                        <div class="checkbox d-flex">
-                                                            <input name="extras[]" value="{{ $extra->id }}"
-                                                                class="tg-checkbox" type="checkbox"
-                                                                x-model="extras.charge_{{ $key }}"
-                                                                id="charge_{{ $key }}">
-                                                            <label for="charge_{{ $key }}" class="tg-label">
-                                                                {{ $extra->name }}
-                                                            </label>
-                                                        </div>
-                                                        <span class="quantity">{{ currency($extra->price) }}</span>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
+                                        <div class="tg-tour-about-tickets mb-10">
+                                            <div class="tg-tour-about-tickets-adult">
+                                                <span>Person</span>
+                                                <p class="mb-0">(18+ years)
+                                                    <span>{{ currency($service->price_per_person) }}</span>
+                                                </p>
+                                            </div>
+                                            <div class="tg-tour-about-tickets-quantity">
+                                                <select name="person" class="item-first custom-select"
+                                                    x-model.number="tickets.person">
+                                                    <template x-for="i in 8" :key="i">
+                                                        <option :value="i" x-text="i"></option>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="tg-tour-about-tickets mb-10">
+                                            <div class="tg-tour-about-tickets-adult">
+                                                <span>Children </span>
+                                                <p class="mb-0">(13-17 years)
+                                                    <span>{{ currency($service->child_price) }}</span>
+                                                </p>
+                                            </div>
+                                            <div class="tg-tour-about-tickets-quantity">
+                                                <select name="children" class="item-first custom-select"
+                                                    x-model.number="tickets.children">
+                                                    <template x-for="i in 8" :key="i">
+                                                        <option :value="i - 1" x-text="i - 1"></option>
+                                                    </template>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tg-tour-about-border-doted mb-15"></div>
+
+                                    @if ($service->extraCharges->count() > 0)
+                                        <div class="tg-tour-about-extra mb-10">
+                                            <span class="tg-tour-about-sidebar-title mb-10 d-inline-block">Add
+                                                Extra:</span>
+                                            <div class="tg-filter-list">
+                                                <ul>
+                                                    @foreach ($service->extraCharges as $key => $extra)
+                                                        <li>
+                                                            <div class="checkbox d-flex">
+                                                                <input name="extras[]" value="{{ $extra->id }}"
+                                                                    class="tg-checkbox" type="checkbox"
+                                                                    x-model="extras.charge_{{ $key }}"
+                                                                    id="charge_{{ $key }}">
+                                                                <label for="charge_{{ $key }}" class="tg-label">
+                                                                    {{ $extra->name }}
+                                                                </label>
+                                                            </div>
+                                                            <span class="quantity">{{ currency($extra->price) }}</span>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tg-tour-about-border-doted mb-15"></div>
+                                    @endif
+
                                 @endif
 
-                                <div
-                                    class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
-                                    <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
-                                    <h5 class="total-price" x-text="`{{ default_currency()['currency_icon'] }}${ {{ default_currency()['currency_rate'] }} * totalCost}`"></h5>
+                                @if ($service->is_per_person)
+                                    <div
+                                        class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
+                                        <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
+                                        <h5 class="total-price"
+                                            x-text="`{{ default_currency()['currency_icon'] }}${ {{ default_currency()['currency_rate'] }} * totalCost}`">
+                                        </h5>
 
-                                </div>
+                                    </div>
+                                @else
+                                    <div
+                                        class="mt-4 tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
+                                        <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
+                                        <h5 class="total-price">
+                                            {{ currency($service->discount_price ?? $service->full_price) }}</h5>
+                                    </div>
+                                @endif
 
                                 <button type="submit" class="tg-btn tg-btn-switch-animation w-100">Book now</button>
                             </form>
@@ -772,7 +798,7 @@
 
                         if (info.special_price) {
                             html +=
-                            `<p class="mb-1"><strong>Special price:</strong> $${info.special_price}</p>`;
+                                `<p class="mb-1"><strong>Special price:</strong> $${info.special_price}</p>`;
                         }
 
                         if (info.notes) {
@@ -912,7 +938,7 @@
                     @endforeach
                 },
                 get totalCost() {
-                    let total = {{ $service?->discount_price ?? $service?->full_price ?? 0 }};
+                    let total = 0;
                     total += this.tickets.person * this.pricePerPerson;
                     total += this.tickets.children * this.pricePerChild;
                     for (let key in this.extras) {

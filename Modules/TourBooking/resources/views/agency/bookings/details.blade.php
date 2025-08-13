@@ -184,11 +184,6 @@
                                                                 <td>{{ __('translate.Children') }} : </td>
                                                                 <td> {{ $booking?->children }}</td>
                                                             </tr>
-
-                                                            <tr>
-                                                                <td>{{ __('translate.Infants') }} : </td>
-                                                                <td> {{ $booking?->infants }}</td>
-                                                            </tr>
                                                         </table>
                                                     </div>
                                                 </div>

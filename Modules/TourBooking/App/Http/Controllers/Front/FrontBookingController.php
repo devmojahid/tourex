@@ -50,11 +50,11 @@ final class FrontBookingController extends Controller
         // Check if an availability_id was provided and verify spots
         if ($request->has('availability_id')) {
             $availability = Availability::find($request->availability_id);
-            
+
             if ($availability) {
                 // Calculate total guests
                 $totalGuests = $request->person + $request->children;
-                
+
                 // Check if there are enough spots available
                 if ($availability->available_spots !== null && $totalGuests > $availability->available_spots) {
                     $notify_message = trans('translate.Not enough available spots for the selected date');
@@ -63,49 +63,70 @@ final class FrontBookingController extends Controller
             }
         }
 
-        $extraCharges = ExtraCharge::select('id', 'name', 'price', 'price_type')->whereIn('id', $request->extras ?? [])
-            ->where('status', true)
-            ->get();
+        if ($service->is_per_person) {
+            $extraCharges = ExtraCharge::select('id', 'name', 'price', 'price_type')->whereIn('id', $request->extras ?? [])
+                ->where('status', true)
+                ->get();
 
-        $totalExtraCharge = 0;
-        foreach ($extraCharges as $extraCharge) {
-            $totalExtraCharge += $extraCharge->price;
-        }
+            $totalExtraCharge = 0;
+            foreach ($extraCharges as $extraCharge) {
+                $totalExtraCharge += $extraCharge->price;
+            }
 
-        $personPrice = $request->person * $service->price_per_person;
-        $childPrice = $request->children * $service->child_price;
+            $personPrice = $request->person * $service->price_per_person;
+            $childPrice = $request->children * $service->child_price;
 
-        if ($service->discount_price) {
-            $total = $personPrice + $childPrice + $totalExtraCharge + $service->discount_price;
+            $total = $personPrice + $childPrice + $totalExtraCharge;
+
+            $data = [
+                'personCount' => $request->person,
+                'childCount' => $request->children,
+                'extras' => $extraCharges ?? [],
+                'service' => $service,
+                'personPrice' => $personPrice,
+                'childPrice' => $childPrice,
+                'total' => $total,
+            ];
+
+            session()->forget('payment_cart');
+
+            session()->put('payment_cart', [
+                'service_id' => $request->service_id,
+                'check_in_date' => $request->check_in_date,
+                'check_out_date' => $request->check_out_date,
+                'check_in_time' => $request->check_in_time == 'on' ? $request->check_in_time_hidden : null,
+                'check_out_time' => $request->check_out_time == 'on' ? $request->check_out_time_hidden : null,
+                'person_count' => $request->person,
+                'child_count' => $request->children,
+                'total' => $total,
+                'extra_charges' => $totalExtraCharge ?? 0,
+                'extra_services' => $request->extras ?? [],
+                'availability_id' => $request->availability_id ?? null,
+            ]);
         } else {
-            $total = $personPrice + $childPrice + $totalExtraCharge + $service->full_price;
+            $data = [
+                'service' => $service,
+                'total' => $service->discount_price ?? $service->full_price,
+            ];
+
+            $total = $service->discount_price ?? $service->full_price;
+
+            session()->forget('payment_cart');
+
+            session()->put('payment_cart', [
+                'service_id' => $request->service_id,
+                'check_in_date' => $request->check_in_date,
+                'check_out_date' => null,
+                'check_in_time' => null,
+                'check_out_time' => null,
+                'person_count' => 0,
+                'child_count' => 0,
+                'total' => $total,
+                'extra_charges' => 0,
+                'extra_services' => [],
+                'availability_id' => null,
+            ]);
         }
-
-        $data = [
-            'personCount' => $request->person,
-            'childCount' => $request->children,
-            'extras' => $extraCharges ?? [],
-            'service' => $service,
-            'personPrice' => $personPrice,
-            'childPrice' => $childPrice,
-            'total' => $total,
-        ];
-
-        session()->forget('payment_cart');
-
-        session()->put('payment_cart', [
-            'service_id' => $request->service_id,
-            'check_in_date' => $request->check_in_date,
-            'check_out_date' => $request->check_out_date,
-            'check_in_time' => $request->check_in_time == 'on' ? $request->check_in_time_hidden : null,
-            'check_out_time' => $request->check_out_time == 'on' ? $request->check_out_time_hidden : null,
-            'person_count' => $request->person,
-            'child_count' => $request->children,
-            'total' => $total,
-            'extra_charges' => $totalExtraCharge ?? 0,
-            'extra_services' => $request->extras ?? [],
-            'availability_id' => $request->availability_id ?? null,
-        ]);
 
         return view('tourbooking::front.bookings.checkout-view', [
             'service' => $service,
@@ -498,7 +519,7 @@ final class FrontBookingController extends Controller
             if (!$availability) {
                 throw new \Exception('The service is not available for the selected date.');
             }
-            
+
             // Check if there are enough spots available
             if ($availability->available_spots !== null) {
                 // Get number of existing bookings for this date
@@ -524,7 +545,7 @@ final class FrontBookingController extends Controller
                     ->orWhereBetween('check_out_date', [$checkInDate, $checkOutDate])
                     ->orWhere(function ($q) use ($checkInDate, $checkOutDate) {
                         $q->where('check_in_date', '<=', $checkInDate)
-                          ->where('check_out_date', '>=', $checkOutDate);
+                            ->where('check_out_date', '>=', $checkOutDate);
                     });
             })
             ->exists();

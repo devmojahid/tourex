@@ -60,6 +60,7 @@ final class Booking extends Model
         'completed_at',
         'is_reviewed',
         'meta_data',
+        'is_per_person',
     ];
 
     /**
@@ -93,6 +94,7 @@ final class Booking extends Model
         'cancelled_at' => 'datetime',
         'completed_at' => 'datetime',
         'is_reviewed' => 'boolean',
+        'is_per_person' => 'boolean',
     ];
 
     /**

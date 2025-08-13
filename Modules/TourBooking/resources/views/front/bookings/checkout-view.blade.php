@@ -48,82 +48,73 @@
                     <div class="tg-blog-sidebar top-sticky mb-30">
                         <div class="tg-blog-sidebar-box mb-30">
                             <h2 class="tg-checkout-form-title tg-checkout-form-title-3 mb-15">Your Order</h2>
-                            <div class="tg-tour-about-border-doted mb-15"></div>
                             <div>
-                                <div>
-                                    <div class="tg-tour-about-tickets-wrap mb-15">
-                                        <div class="tg-tour-about-tickets mb-10">
-                                            <div class="tg-tour-about-tickets-adult">
-                                                <div class="tg-tour-about-sidebar-title">Tour Price</div>
+                                @if ($service->is_per_person)
+                                    <div>
+                                        <div class="tg-tour-about-border-doted mb-15"></div>
+
+                                        <div class="tg-tour-about-tickets-wrap mb-15">
+                                            <span class="tg-tour-about-sidebar-title">Tickets:</span>
+
+                                            <div class="tg-tour-about-tickets mb-10">
+                                                <div class="tg-tour-about-tickets-adult">
+                                                    <span>Person</span>
+                                                    <p class="mb-0">(18+ years)</p>
+                                                </div>
+                                                <div class="tg-tour-about-tickets-quantity">
+                                                    {{ $data['personCount'] }} x
+                                                    {{ currency_price($service->price_per_person) }} =
+                                                    {{ currency($data['personCount'] * $service->price_per_person, 2) }}
+                                                </div>
                                             </div>
-                                            <div class="tg-tour-about-tickets-quantity">
-                                                {{ currency($service->full_price ?? $service->discount_price ?? $service->full_price) }}
+
+                                            <div class="tg-tour-about-tickets mb-10">
+                                                <div class="tg-tour-about-tickets-adult">
+                                                    <span>Children </span>
+                                                    <p class="mb-0">(13-17 years)</p>
+                                                </div>
+                                                <div class="tg-tour-about-tickets-quantity">
+                                                    {{ $data['childCount'] }} x
+                                                    {{ currency_price($service->child_price) }} =
+                                                    {{ currency($data['childCount'] * $service->child_price, 2) }}
+                                                </div>
                                             </div>
                                         </div>
+
+                                        @if (count($data['extras']) > 0)
+                                            <div class="tg-tour-about-extra mb-10">
+                                                <span class="tg-tour-about-sidebar-title mb-10 d-inline-block">Add
+                                                    Extra:</span>
+                                                <div class="tg-filter-list">
+                                                    <ul>
+                                                        @foreach ($data['extras'] as $key => $extra)
+                                                            <li>
+                                                                <div class="checkbox d-flex">
+                                                                    <label class="tg-label">
+                                                                        {{ $extra->name }}
+                                                                    </label>
+                                                                </div>
+                                                                <span class="quantity">{{ currency($extra->price) }}</span>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
+                                @endif
 
-                                    <div class="tg-tour-about-border-doted mb-15"></div>
-
-                                    <div class="tg-tour-about-tickets-wrap mb-15">
-                                        <span class="tg-tour-about-sidebar-title">Tickets:</span>
-
-                                        <div class="tg-tour-about-tickets mb-10">
-                                            <div class="tg-tour-about-tickets-adult">
-                                                <span>Person</span>
-                                                <p class="mb-0">(18+ years)</p>
-                                            </div>
-                                            <div class="tg-tour-about-tickets-quantity">
-                                                {{ $data['personCount'] }} x {{ currency_price($service->price_per_person) }} =
-                                                {{ currency($data['personCount'] * $service->price_per_person, 2) }}
-                                            </div>
-                                        </div>
-
-                                        <div class="tg-tour-about-tickets mb-10">
-                                            <div class="tg-tour-about-tickets-adult">
-                                                <span>Children </span>
-                                                <p class="mb-0">(13-17 years)</p>
-                                            </div>
-                                            <div class="tg-tour-about-tickets-quantity">
-                                                {{ $data['childCount'] }} x {{ currency_price($service->child_price) }} =
-                                                {{ currency($data['childCount'] * $service->child_price, 2) }}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    @if (count($data['extras']) > 0)
-                                        <div class="tg-tour-about-extra mb-10">
-                                            <span class="tg-tour-about-sidebar-title mb-10 d-inline-block">Add
-                                                Extra:</span>
-                                            <div class="tg-filter-list">
-                                                <ul>
-                                                    @foreach ($data['extras'] as $key => $extra)
-                                                        <li>
-                                                            <div class="checkbox d-flex">
-                                                                <label class="tg-label">
-                                                                    {{ $extra->name }}
-                                                                </label>
-                                                            </div>
-                                                            <span class="quantity">{{ currency($extra->price) }}</span>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                </div>
-                                <div class="tg-tour-about-border-doted mb-15"></div>
-                                <div
-                                    class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between">
-                                    <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
-                                    <h5 class="total-price">{{ currency($data['total'], 2) }}</h5>
-                                </div>
+                            <div class="tg-tour-about-border-doted mb-15"></div>
+                            <div class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between">
+                                <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
+                                <h5 class="total-price">{{ currency($data['total'], 2) }}</h5>
                             </div>
                         </div>
-                        @include('tourbooking::front.bookings.payment')
                     </div>
+                    @include('tourbooking::front.bookings.payment')
                 </div>
             </div>
+        </div>
         </div>
     </section>
     <!-- checkout area end-->

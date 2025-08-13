@@ -520,6 +520,19 @@ ul.tourex-tabs-menu li {
     font-weight: 600;
 }
 
+.service-price_display {
+    font-weight: 600;
+    margin-left: 5px;
+    font-size: 30px;
+    text-transform: capitalize;
+    color: var(--tg-theme-primary);
+}
+
+.service-price_display del {
+    font-size: 20px;
+    color: gray;
+}
+
 @media (max-width: 767px) {
     .payment_table .table tbody tr td .payment_box_item {
         min-width: 300px;

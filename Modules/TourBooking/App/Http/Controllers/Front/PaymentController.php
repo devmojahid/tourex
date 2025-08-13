@@ -557,6 +557,7 @@ class PaymentController extends Controller
         $service = Service::findOrFail($payment_cart['service_id']);
 
         $order = new Booking();
+        $order->is_per_person = $service->is_per_person ?? 0;
         $order->booking_code = uniqid();
         $order->service_id = $service->id;
         $order->user_id  = $user->id;
@@ -564,7 +565,7 @@ class PaymentController extends Controller
         $order->check_out_date  = $payment_cart['check_out_date'];
         $order->check_in_time  = $payment_cart['check_in_time'];
         $order->check_out_time  = $payment_cart['check_out_time'];
-        $order->adults  = $payment_cart['person_count'] ?? 1;
+        $order->adults  = $payment_cart['person_count'] ?? 0;
         $order->children  = $payment_cart['child_count'] ?? 0;
         $order->service_price  = $service->discount_price ?? $service->full_price;
         $order->adult_price  = $service->price_per_person;

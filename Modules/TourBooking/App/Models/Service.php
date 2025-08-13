@@ -330,9 +330,7 @@ final class Service extends Model
     public function getPriceDisplayAttribute()
     {
         if ($this->is_per_person) {
-            return $this->discount_price
-                ? '<del>' . currency($this->price_per_person) . '</del> ' . currency($this->discount_price)
-                : currency($this->price_per_person);
+            return currency($this->price_per_person);
         }
 
         return $this->discount_price

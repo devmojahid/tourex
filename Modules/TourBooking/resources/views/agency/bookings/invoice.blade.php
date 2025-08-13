@@ -292,7 +292,7 @@
                     @if ($booking->extra_charges > 0)
                         <tr>
                             <td>{{ __('translate.Extra Charges') }}</td>
-                            <td>1</td>
+                            <td></td>
                             <td>{{ currency($booking->extra_charges) }}</td>
                             <td class="text-right">{{ currency($booking->extra_charges) }}
                             </td>
