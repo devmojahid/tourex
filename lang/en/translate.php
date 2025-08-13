@@ -1665,4 +1665,5 @@
   'N/A' => 'N/A',
   'Children Price' => 'Children Price',
   'Show Per Person Price' => 'Show Per Person Price',
+  'Service has bookings. Cannot delete' => 'Service has bookings. Cannot delete',
 );

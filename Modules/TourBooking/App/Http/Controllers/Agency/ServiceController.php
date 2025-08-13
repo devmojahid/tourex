@@ -304,6 +304,10 @@ final class ServiceController extends Controller
             abort(404);
         }
 
+        if ($service->with('bookings')->count() > 0) {
+            return redirect()->back()->with('error', trans('translate.Service has bookings. Cannot delete'));
+        }
+
         // Delete all associated media files
         foreach ($service->media as $media) {
            FileUploadHelper::deleteImage($media->file_path);
