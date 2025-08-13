@@ -124,9 +124,11 @@
                                                                 <li><a class="dropdown-item"
                                                                         href="{{ route('admin.tourbooking.services.itineraries', $service->id) }}">{{ __('translate.Itineraries') }}</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="{{ route('admin.tourbooking.services.extra-charges', $service->id) }}">{{ __('translate.Extra Charges') }}</a>
-                                                                </li>
+                                                                @if ($service->is_per_person)
+                                                                    <li><a class="dropdown-item"
+                                                                            href="{{ route('admin.tourbooking.services.extra-charges', $service->id) }}">{{ __('translate.Extra Charges') }}</a>
+                                                                    </li>
+                                                                @endif
                                                                 <li><a class="dropdown-item"
                                                                         href="{{ route('admin.tourbooking.services.availability', $service->id) }}">{{ __('translate.Availability') }}</a>
                                                                 </li>
