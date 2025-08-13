@@ -372,7 +372,7 @@ function destinations()
 
 function popularServices($count = 8, $isPagination = false)
 {
-    $query = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration', 'group_size', 'service_type_id', 'destination_id')
+    $query = Service::select('id', 'price_per_person', 'slug', 'location', 'is_featured', 'full_price', 'discount_price', 'is_new', 'duration', 'group_size', 'service_type_id', 'destination_id', 'is_per_person')
         ->where('status', true)
         ->where('is_popular', true)
         ->where('show_on_homepage', true)
