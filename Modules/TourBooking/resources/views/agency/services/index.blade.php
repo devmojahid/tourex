@@ -71,23 +71,23 @@
                                                         {{ $service->location ?? 'N/A' }}</td>
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
 
-                                                        @if ($service->price_display)
-                                                            {!! $service->price_display !!} ({{ __('translate.Full Price') }})
+                                                        @if ($service->is_per_person)
+                                                            @if ($service->price_per_person)
+                                                                {{ currency($service->price_per_person) }}
+                                                                ({{ __('translate.Per Person') }})
+                                                                <br>
+                                                            @endif
+
+                                                            @if ($service->child_price)
+                                                                {{ currency($service->child_price) }}
+                                                                ({{ __('translate.Children Price') }})
+                                                            @endif
                                                         @else
-                                                            {{ __('translate.N/A') }}
-                                                        @endif
-
-                                                        <br>
-
-                                                        @if ($service->price_per_person)
-                                                            {{ currency($service->price_per_person) }}
-                                                            ({{ __('translate.Per Person') }})
-                                                            <br>
-                                                        @endif
-
-                                                        @if ($service->child_price)
-                                                            {{ currency($service->child_price) }}
-                                                            ({{ __('translate.Children Price') }})
+                                                            @if ($service->price_display)
+                                                                {!! $service->price_display !!} ({{ __('translate.Full Price') }})
+                                                            @else
+                                                                {{ __('translate.N/A') }}
+                                                            @endif
                                                         @endif
 
                                                     </td>
