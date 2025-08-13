@@ -84,14 +84,8 @@ class ServiceRequest extends FormRequest
                 'numeric',
                 'min:0',
                 function ($attribute, $value, $fail) {
-                    if ($this->boolean('is_per_person')) {
-                        if ($value > $this->price_per_person) {
-                            $fail('The discount price cannot be greater than the price per person.');
-                        }
-                    } else {
-                        if ($value > $this->full_price) {
-                            $fail('The discount price cannot be greater than the full price.');
-                        }
+                    if ($this->boolean('is_per_person') == false && $value > $this->full_price) {
+                        $fail('The discount price cannot be greater than the full price.');
                     }
                 }
             ],
