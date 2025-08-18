@@ -262,40 +262,51 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{{ __('translate.Adult Price') }}</td>
-                        <td>{{ $booking->adults }}</td>
-                        <td>{{ currency($booking->adult_price) }}</td>
-                        <td class="text-right">{{ currency($booking->adult_price * $booking->adults) }}</td>
-                    </tr>
 
-                    @if ($booking->children > 0 && $booking->child_price > 0)
+                    @if ($booking->is_per_person == 1)
+
                         <tr>
-                            <td>{{ __('translate.Child Price') }}</td>
-                            <td>{{ $booking->children }}</td>
-                            <td>{{ currency($booking->child_price) }}</td>
-                            <td class="text-right">{{ currency($booking->child_price * $booking->children) }}
-                            </td>
+                            <td>{{ __('translate.Adult Price') }}</td>
+                            <td>{{ $booking->adults }}</td>
+                            <td>{{ currency($booking->adult_price) }}</td>
+                            <td class="text-right">{{ currency($booking->adult_price * $booking->adults) }}</td>
                         </tr>
-                    @endif
 
-                    @if ($booking->infants > 0 && $booking->service->infant_price > 0)
-                        <tr>
-                            <td>{{ __('translate.Infant Price') }}</td>
-                            <td>{{ $booking->infants }}</td>
-                            <td>{{ currency($booking->infant_price) }}</td>
-                            <td class="text-right">{{ currency($booking->infant_price * $booking->infants) }}
-                            </td>
-                        </tr>
-                    @endif
+                        @if ($booking->children > 0 && $booking->child_price > 0)
+                            <tr>
+                                <td>{{ __('translate.Child Price') }}</td>
+                                <td>{{ $booking->children }}</td>
+                                <td>{{ currency($booking->child_price) }}</td>
+                                <td class="text-right">{{ currency($booking->child_price * $booking->children) }}
+                                </td>
+                            </tr>
+                        @endif
 
-                    @if ($booking->extra_charges > 0)
+                        @if ($booking->infants > 0 && $booking->service->infant_price > 0)
+                            <tr>
+                                <td>{{ __('translate.Infant Price') }}</td>
+                                <td>{{ $booking->infants }}</td>
+                                <td>{{ currency($booking->infant_price) }}</td>
+                                <td class="text-right">{{ currency($booking->infant_price * $booking->infants) }}
+                                </td>
+                            </tr>
+                        @endif
+
+                        @if ($booking->extra_charges > 0)
+                            <tr>
+                                <td>{{ __('translate.Extra Charges') }}</td>
+                                <td></td>
+                                <td>{{ currency($booking->extra_charges) }}</td>
+                                <td class="text-right">{{ currency($booking->extra_charges) }}
+                                </td>
+                            </tr>
+                        @endif
+                    @else
                         <tr>
-                            <td>{{ __('translate.Extra Charges') }}</td>
+                            <td>{{ __('translate.Service Price') }}</td>
                             <td></td>
-                            <td>{{ currency($booking->extra_charges) }}</td>
-                            <td class="text-right">{{ currency($booking->extra_charges) }}
-                            </td>
+                            <td>{{ currency($booking->service_price) }}</td>
+                            <td class="text-right">{{ currency($booking->service_price) }}</td>
                         </tr>
                     @endif
 
