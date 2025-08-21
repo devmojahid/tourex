@@ -567,7 +567,7 @@ class PaymentController extends Controller
         $order->check_out_time  = $payment_cart['check_out_time'];
         $order->adults  = $payment_cart['person_count'] ?? 0;
         $order->children  = $payment_cart['child_count'] ?? 0;
-        $order->service_price  = $service->discount_price ?? $service->full_price;
+        $order->service_price  = $service->discount_price ?? $service->full_price ?? 0;
         $order->adult_price  = $service->price_per_person ?? 0;
         $order->child_price  = $service->child_price ?? 0;
         $order->extra_charges  = $payment_cart['extra_charges'] ?? 0;
