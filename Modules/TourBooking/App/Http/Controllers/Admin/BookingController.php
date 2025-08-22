@@ -265,18 +265,10 @@ final class BookingController extends Controller
     public function updatePaymentStatus(Request $request, Booking $booking): RedirectResponse
     {
         $validated = $request->validate([
-            'payment_status' => 'required|in:pending,completed',
-            'paid_amount' => 'required|numeric|min:0',
-            'payment_method' => 'required|string',
-            'admin_notes' => 'nullable|string',
+            'payment_status' => 'required|in:pending,completed,confirmed,cancelled'
         ]);
 
-        // Calculate due amount
-        $validated['due_amount'] = $booking->total - $validated['paid_amount'];
-
         $booking->update($validated);
-
-        // Notification logic can be added here
 
         return back()->with('success', 'Payment status updated successfully.');
     }

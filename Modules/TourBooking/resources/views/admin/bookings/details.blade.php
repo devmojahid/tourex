@@ -33,6 +33,13 @@
                                                         <a href="{{ route('admin.tourbooking.bookings.index') }}"
                                                             class="crancy-btn"><i class="fa fa-arrow-left"></i>
                                                             {{ __('translate.Back') }}</a>
+
+                                                        <a href="#" class="crancy-btn crancy-btn__success"
+                                                            data-bs-toggle="modal" data-bs-target="#paymentStatusModal">
+                                                            <i class="fa fa-check"></i>
+                                                            Change payment status
+                                                        </a>
+
                                                         @if ($booking->booking_status == 'pending' || $booking->booking_status == 'success')
                                                             <a href="#" class="crancy-btn crancy-btn__success"
                                                                 data-bs-toggle="modal" data-bs-target="#confirmModal">
@@ -409,6 +416,40 @@
                         <button type="button" class="crancy-btn crancy-btn__default"
                             data-bs-dismiss="modal">{{ __('translate.Cancel') }}</button>
                         <button type="submit" class="crancy-btn">{{ __('translate.Add Note') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- paymentStatusModal -->
+    <div class="modal fade" id="paymentStatusModal" tabindex="-1" aria-labelledby="paymentStatusModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentStatusModalLabel">Change Payment Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('admin.tourbooking.bookings.payment-status', ['booking' => $booking]) }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Are you sure you want to change the payment status?</p>
+                        <div class="form-group">
+                            <label>Payment Status</label>
+                            <select class="form-control" name="payment_status" required>
+                                <option value="">Select Payment Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="crancy-btn crancy-btn__default"
+                            data-bs-dismiss="modal">{{ __('translate.Cancel') }}</button>
+                        <button type="submit" class="crancy-btn crancy-btn__success">Change Payment Status</button>
                     </div>
                 </form>
             </div>
