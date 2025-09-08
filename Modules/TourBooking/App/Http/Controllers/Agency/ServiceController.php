@@ -304,7 +304,7 @@ final class ServiceController extends Controller
             abort(404);
         }
 
-        if ($service->with('bookings')->count() > 0) {
+        if ($service->bookings()->count() > 0) {
             return redirect()->back()->with('error', trans('translate.Service has bookings. Cannot delete'));
         }
 

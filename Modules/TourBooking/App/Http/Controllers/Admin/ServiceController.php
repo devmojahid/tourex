@@ -293,7 +293,7 @@ final class ServiceController extends Controller
     public function destroy(Service $service): RedirectResponse
     {
 
-        if ($service->with('bookings')->count() > 0) {
+        if ($service->bookings()->count() > 0) {
             return redirect()->back()->with('error', trans('translate.Service has bookings. Cannot delete'));
         }
 
