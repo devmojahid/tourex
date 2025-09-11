@@ -124,16 +124,25 @@
                                                                                 <td>{{ $service->translation->title ?? $service->title }}
                                                                                 </td>
                                                                                 <td>
-                                                                                    @if ($service->discount_price)
-                                                                                        <span
-                                                                                            class="text-decoration-line-through">{{ $service->full_price }}</span>
-                                                                                        {{ $service->discount_price }}
-                                                                                    @elseif($service->full_price)
-                                                                                        {{ $service->full_price }}
-                                                                                    @elseif($service->price_per_person)
-                                                                                        {{ $service->price_per_person }}{{ __('translate./person') }}
+
+                                                                                    @if ($service->is_per_person)
+                                                                                        @if ($service->price_per_person)
+                                                                                            {{ currency($service->price_per_person) }}
+                                                                                            ({{ __('translate.Per Person') }})
+                                                                                            <br>
+                                                                                        @endif
+
+                                                                                        @if ($service->child_price)
+                                                                                            {{ currency($service->child_price) }}
+                                                                                            ({{ __('translate.Children Price') }})
+                                                                                        @endif
                                                                                     @else
-                                                                                        N/A
+                                                                                        @if ($service->price_display)
+                                                                                            {!! $service->price_display !!}
+                                                                                            ({{ __('translate.Full Price') }})
+                                                                                        @else
+                                                                                            {{ __('translate.N/A') }}
+                                                                                        @endif
                                                                                     @endif
                                                                                 </td>
                                                                                 <td>
@@ -145,7 +154,8 @@
                                                                                             class="crancy-badge crancy-badge-danger">{{ __('translate.Inactive') }}</span>
                                                                                     @endif
                                                                                 </td>
-                                                                                <td class="text-center d-flex justify-content-center gap-2">
+                                                                                <td
+                                                                                    class="text-center d-flex justify-content-center gap-2">
                                                                                     <a href="{{ route('admin.tourbooking.services.edit', $service->id) }}"
                                                                                         class="crancy-btn crancy-btn__primary crancy-btn__sm">
                                                                                         <i class="fa fa-edit"></i>
