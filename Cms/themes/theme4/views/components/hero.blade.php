@@ -308,6 +308,12 @@
                     selectDestination(destinationId, destinationName) {
                         this.destination_id = destinationId;
                         this.destination = destinationName;
+                       this.closeDestinationDropdown();
+                    },
+
+                    closeDestinationDropdown() {
+                        $('.tg-booking-quantity-toggle').removeClass('active');
+                        $('.tg-booking-quantity-active').removeClass('tg-list-open');
                     },
 
                     incrementRooms() {

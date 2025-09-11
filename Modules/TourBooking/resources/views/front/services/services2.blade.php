@@ -586,7 +586,14 @@
                 selectDestination(destinationId, destinationName) {
                     this.bookingForm.destination_id = destinationId;
                     this.bookingForm.destination = destinationName;
+                    this.closeDestinationDropdown();
                 },
+
+                closeDestinationDropdown() {
+                    $('.tg-booking-quantity-toggle').removeClass('active');
+                    $('.tg-booking-quantity-active').removeClass('tg-list-open');
+                },
+
                 filters: {
                     search: `{{ request('search', '') }}`,
                     service_type_ids: {!! json_encode(request('service_type_ids', [])) !!},

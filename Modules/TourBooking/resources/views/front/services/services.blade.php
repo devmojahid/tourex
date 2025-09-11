@@ -99,13 +99,15 @@
                                             <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
                                                 <div>
                                                     <!-- Show this when no values are selected -->
-                                                    <span x-show="!bookingForm.rooms && !bookingForm.adults && !bookingForm.children"
+                                                    <span
+                                                        x-show="!bookingForm.rooms && !bookingForm.adults && !bookingForm.children"
                                                         class="tg-booking-title-value">
                                                         {{ __('translate.+ Add Guests') }}
                                                     </span>
 
                                                     <!-- Show this when any value exists -->
-                                                    <span x-show="bookingForm.rooms || bookingForm.adults || bookingForm.children"
+                                                    <span
+                                                        x-show="bookingForm.rooms || bookingForm.adults || bookingForm.children"
                                                         class="tg-booking-title-value">
                                                         <template x-if="bookingForm.rooms">
                                                             <span x-text="bookingForm.rooms + ' Room'"></span>
@@ -602,7 +604,15 @@
                 selectDestination(destinationId, destinationName) {
                     this.bookingForm.destination_id = destinationId;
                     this.bookingForm.destination = destinationName;
+                    this.closeDestinationDropdown();
                 },
+
+                closeDestinationDropdown() {
+                    $('.tg-booking-quantity-toggle').removeClass('active');
+                    $('.tg-booking-quantity-active').removeClass('tg-list-open');
+                },
+
+
                 filters: {
                     search: `{{ request('search', '') }}`,
                     service_type_ids: {!! json_encode(request('service_type_ids', [])) !!},

@@ -26,7 +26,8 @@
                                 <div class="tg-booking-form-item pt-35 pb-25">
                                     <div class="tg-booking-form-input-group d-flex align-items-end justify-content-between">
                                         <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15">
-                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Destinations:') }}</span>
+                                            <span
+                                                class="tg-booking-form-title mb-5">{{ __('translate.Destinations:') }}</span>
                                             <div class="tg-booking-add-input-field tg-booking-quantity-toggle">
                                                 <span x-clock x-show="bookingForm.destination"
                                                     x-text="bookingForm.destination" class="tg-booking-title-value">
@@ -66,7 +67,8 @@
                                             <span class="tg-booking-form-title mb-5">{{ __('translate.Check in:') }}</span>
                                             <div class="tg-booking-add-input-date p-relative">
                                                 <input x-model="bookingForm.checkIn" class="input timepicker"
-                                                    name="check_in" type="text" placeholder="{{ __('translate.Check in') }}">
+                                                    name="check_in" type="text"
+                                                    placeholder="{{ __('translate.Check in') }}">
                                                 <span>
                                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -265,7 +267,8 @@
                                 </div>
                                 <div class="mt-5 ml-10">
                                     <a class="tg-filter-reset" x-show="isFilterChanged || isBookingFilterChanged"
-                                        @click="resetFilters()" href="javascript:void(0);">{{ __('translate.Reset All') }}</a>
+                                        @click="resetFilters()"
+                                        href="javascript:void(0);">{{ __('translate.Reset All') }}</a>
                                 </div>
                             </div>
                             <div class="tg-listing-map-filter-bottom mb-5">
@@ -397,7 +400,14 @@
                 selectDestination(destinationId, destinationName) {
                     this.bookingForm.destination_id = destinationId;
                     this.bookingForm.destination = destinationName;
+                    this.closeDestinationDropdown();
                 },
+
+                closeDestinationDropdown() {
+                    $('.tg-booking-quantity-toggle').removeClass('active');
+                    $('.tg-booking-quantity-active').removeClass('tg-list-open');
+                },
+
                 filters: {
                     search: `{{ request('search', '') }}`,
                     service_type_id: `{{ request('service_type_id', '') }}`,
