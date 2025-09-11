@@ -266,15 +266,6 @@ final class FrontServiceController extends Controller
             ->when($request->filled('checkOut'), function ($query) use ($request) {
                 return $query->whereTime('check_out_time', $request->checkOut);
             })
-            ->when($request->filled('rooms'), function ($query) use ($request) {
-                return $query->where('room_count', $request->rooms);
-            })
-            ->when($request->filled('adults'), function ($query) use ($request) {
-                return $query->where('adult_count', $request->adults);
-            })
-            ->when($request->filled('children'), function ($query) use ($request) {
-                return $query->where('children_count', $request->children);
-            })
             ->when($request->filled('destination_id'), function ($query) use ($request) {
                 return $query->where('destination_id', $request->destination_id);
             })
