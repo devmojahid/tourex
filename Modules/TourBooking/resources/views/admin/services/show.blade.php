@@ -400,30 +400,27 @@
                                             <h4>{{ __('translate.Pricing Details') }}</h4>
                                         </div>
                                         <div class="service-detail-body">
+
                                             @if ($service->is_per_person)
-                                                <div class="detail-item">
-                                                    <div class="detail-label">{{ __('translate.Price Per Person') }}</div>
-                                                    <div class="detail-value price-display">
-                                                        {{ currency($service->price_per_person) }}
-                                                    </div>
-                                                </div>
+                                                @if ($service->price_per_person)
+                                                    {{ currency($service->price_per_person) }}
+                                                    ({{ __('translate.Per Person') }})
+                                                    <br>
+                                                @endif
+
                                                 @if ($service->child_price)
-                                                    <div class="detail-item">
-                                                        <div class="detail-label">{{ __('translate.Child Price') }}</div>
-                                                        <div class="detail-value">
-                                                            {{ currency($service->child_price) }}
-                                                        </div>
-                                                    </div>
+                                                    {{ currency($service->child_price) }}
+                                                    ({{ __('translate.Children Price') }})
                                                 @endif
                                             @else
-                                                <div class="detail-item">
-                                                    <div class="detail-label">{{ __('translate.Full Price') }}</div>
-                                                    <div class="detail-value price-display">
-
-                                                        {{ currency($service->full_price) }}
-                                                    </div>
-                                                </div>
+                                                @if ($service->price_display)
+                                                    {!! $service->price_display !!}
+                                                    ({{ __('translate.Full Price') }})
+                                                @else
+                                                    {{ __('translate.N/A') }}
+                                                @endif
                                             @endif
+
                                         </div>
                                     </div>
 
@@ -437,8 +434,7 @@
                                                 <div class="media-preview">
                                                     @foreach ($service->media->take(6) as $media)
                                                         <div class="media-item">
-                                                            <img src="{{ asset($media->file_path) }}"
-                                                                alt="Service Image">
+                                                            <img src="{{ asset($media->file_path) }}" alt="Service Image">
                                                         </div>
                                                     @endforeach
                                                 </div>
