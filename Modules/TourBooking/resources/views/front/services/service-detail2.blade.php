@@ -1,10 +1,13 @@
 @extends('layout_inner_page2')
 
+
 @section('title')
-    <title>Services</title>
-    <meta name="title" content="Services">
-    <meta name="description" content="Services">
+    <title>{{ $service?->translation?->seo_title ?? $service?->title }}</title>
+    <meta name="title" content="{{ $service?->translation?->seo_title ?? $service?->title }}">
+    <meta name="description" content="{!! $service?->translation?->seo_description ?? $service?->short_description !!}">
+    <meta name="keyword" content="{!! $service?->translation?->seo_keywords ?? $service?->title !!}">
 @endsection
+
 
 @section('front-content')
     <!-- main-area -->
