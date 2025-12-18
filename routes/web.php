@@ -66,6 +66,10 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
         return redirect()->route('user.login');
     });
 
+    Route::get('/register', function () {
+        return redirect()->route('user.register');
+    });
+
     Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
         Route::controller(UserLoginController::class)->group(function () {
 
