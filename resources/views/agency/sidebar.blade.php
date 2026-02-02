@@ -203,13 +203,7 @@
                         </span>
                         <span class="menu-bar__name">{{ __('translate.Logout') }}</span></span></a>
             </li>
-
-
-
         </ul>
-    </div>
-    <div class="d-flex d-md-none justify-content-center pt-5">
-        <a href="{{ route('user.dashboard') }}" class="panel-switcher-btn">{{ __('translate.Student Panel') }}</a>
     </div>
     <!-- End Nav Menu -->
 </div>

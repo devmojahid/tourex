@@ -9,7 +9,7 @@
                                 <img src="{{ asset($general_setting->logo) }}" alt="Logo">
                             </a>
                             <a class="logo-2 d-none" href="{{ route('home') }}">
-                                <img src="{{ asset($general_setting->secondary_logo) }}" alt="Logo">  
+                                <img src="{{ asset($general_setting->secondary_logo) }}" alt="Logo">
                             </a>
                         </div>
                         <nav class="tgmenu__nav tgmenu-1-space ml-180">
@@ -39,7 +39,7 @@
                             <span class="tg-header-border"></span>
                             @include('components.cart')
                         </div>
-                        <div class="tg-header-btn ml-20 d-none d-sm-block">
+                        <div class="tg-header-btn ml-20">
                             @guest('web')
                             <a class="tg-btn-header" href="{{ route('user.login') }}">
                                 <span>

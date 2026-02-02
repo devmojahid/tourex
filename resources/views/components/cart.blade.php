@@ -1,5 +1,6 @@
 <button class="cart-button" id="cartButton">
-    <span>
+    <a class="cart-icon-link" href="{{ url('/cart/view') }}">
+        <span>
         <svg width="23" height="23" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_53_138)">
                 <path
@@ -14,6 +15,7 @@
         </svg>
     </span>
     <span class="tg-header-cart-count">{{ $cartCount }}</span>
+    </a>
 </button>
 <div class="minicart" id="minicartContent">
 
@@ -60,6 +62,15 @@
 
 
 <style>
+
+    .cart-icon-link{
+        color: #fff !important;
+    }
+
+    .header-sticky .cart-icon-link{
+        color: #000 !important;
+    }
+
     .cart-thumb img {
         width: 80px;
         height: 80px;
