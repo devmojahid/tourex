@@ -98,6 +98,8 @@
         color: #000000 !important;
     }
 
-
+    body.td_theme_1 .tg-header__area.tg-header-lg-space.tg-transparent.header-sticky .cart-icon-link{
+        color: #000000 !important;
+    }
 
 </style>
