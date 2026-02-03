@@ -110,10 +110,13 @@
                                 <a href="tel:{{ $footer->phone }}">{{ $footer->phone }}</a>
                             </div>
                         </div>
-                        <div class="tg-header-btn ml-30 d-none d-sm-block">
+                        <div class="tg-header-cart p-relative ps-3">
+                            @include('components.cart')
+                        </div>
+                        <div class="tg-header-btn ml-30">
                             @guest('web')
                                 <a class="tg-btn-header" href="{{ route('user.login') }}">
-                                    <span>
+                                    <span class="d-none">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -126,7 +129,7 @@
                             @else
                                 <a class="tg-btn-header"
                                     href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}">
-                                    <span>
+                                    <span class="d-none">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -165,3 +168,11 @@
     <!-- offCanvas-menu-end -->
 </header>
 <!-- header-area-end -->
+
+<style>
+    @media (max-width: 767px) {
+        .tg-header-btn.ml-30 {
+            margin-left: 23px;
+        }
+    }
+</style>

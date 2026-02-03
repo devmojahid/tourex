@@ -81,4 +81,23 @@
         overflow-y: scroll;
         padding-right: 10px;
     }
+
+    .tg-header__area.tg-header-lg-space.tg-grey-bg .cart-icon-link,
+    header.tg-header-height.tg-header-tu-2-wrap .cart-icon-link,
+    .theme6-header .cart-icon-link{
+        color: #000 !important;
+    }
+
+    .tg-header__area.tg-header-lg-space.tg-transparent.header-sticky .cart-icon-link{
+        color: #fff !important;
+    }
+
+    .td_theme_7 .tg-header__area.tg-header-lg-space.tg-transparent.header-sticky .cart-icon-link,
+     body.service_page .tg-header-height .cart-icon-link,
+     body.inner_page .tg-header-height .tg-transparent.header-sticky .cart-icon-link{
+        color: #000000 !important;
+    }
+
+
+
 </style>

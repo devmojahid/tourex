@@ -3,27 +3,27 @@
         <div class="tg-header__area tg-header-tu-menu tg-header-lg-space z-index-999 tg-transparent" id="header-sticky">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-xxl-9 col-xl-8 col-lg-8 col-5">
-                        <div class="tgmenu__wrap d-flex align-items-center">
-                            <div class="logo mr-25">
+                    <div class="col-xxl-8 col-xl-8 col-lg-8 col-5">
+                        <div class="tgmenu__wrap d-md-flex align-items-center">
+                            <div class="logo">
                                 <a class="logo-1" href="{{ route('home') }}"><img src="{{ asset($general_setting->logo) }}"
                                         alt="Logo"></a>
                                 <a class="logo-2 d-none" href="{{ route('home') }}"><img src="{{ asset($general_setting->secondary_logo) }}"
                                         alt="Logo"></a>
                             </div>
-                            <button class="tgmenu-offcanvas-open-btn menu-tigger d-none d-xl-block">
+                            <button class="tgmenu-offcanvas-open-btn menu-tigger d-none d-xl-block ms-4">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </button>
-                            <nav class="tgmenu__nav tgmenu-1-space ml-190">
+                            <nav class="tgmenu__nav tgmenu-1-space ms-5 ps-4">
                                 <div class="tgmenu__navbar-wrap tgmenu__main-menu d-none d-xl-flex">
                                     @include('components.common_navitems')
                                 </div>
                             </nav>
                         </div>
                     </div>
-                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-7">
+                    <div class="col-xxl-4 col-xl-4 col-lg-4 col-7">
                         <div class="tg-menu-right-action d-flex align-items-center justify-content-end">
                             <div class="tg-header-contact-info d-flex align-items-center">
                                 <span class="tg-header-contact-icon mr-10 d-none d-xl-block">
@@ -39,10 +39,13 @@
                                     <a href="tel:{{ $footer->phone }}">{{ $footer->phone }}</a>
                                 </div>
                             </div>
-                            <div class="tg-header-btn ml-20 d-none d-sm-block">
+                            <div class="tg-header-cart p-relative ps-3">
+                                @include('components.cart')
+                            </div>
+                            <div class="tg-header-btn ml-20 ps-2">
                                 @guest('web')
                                 <a class="tg-btn-header" href="{{ route('user.login') }}">
-                                    <span>
+                                    <span class="d-none d-md-inline-block">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -55,7 +58,7 @@
                                 @else
                                 <a class="tg-btn-header"
                                     href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}">
-                                    <span>
+                                    <span class="d-none d-md-inline-block">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path

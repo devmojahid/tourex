@@ -74,7 +74,7 @@
 
 </head>
 
-<body class="td_theme_2">
+<body class="td_theme_7">
     @if ($general_setting->preloader_status == 'enable')
         <!-- Start Preloader -->
         <div id="loading">

@@ -31,6 +31,13 @@
 
     @stack('style_section')
 
+    <style>
+        @media (max-width: 600px) {
+            .tg-header-menu-bar.lh-1.p-relative.ml-20.pl-20 {
+                padding-left: 0;
+            }
+        }
+    </style>
 
     @if ($general_setting->google_analytic_status == 1)
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ $general_setting->google_analytic_id }}"></script>
@@ -76,7 +83,7 @@
 
 </head>
 
-<body class="td_theme_2">
+<body class="inner_page">
 
     @if ($general_setting->preloader_status == 'enable')
         <!-- Start Preloader -->
@@ -126,14 +133,14 @@
                                     <a href="tel:{{ $footer->phone }}">{{ $footer->phone }}</a>
                                 </div>
                             </div>
-                            <div class="tg-header-cart p-relative ml-20 pl-20 d-none d-xl-block">
-                                <span class="tg-header-border"></span>
+                            <div class="tg-header-cart p-relative ml-20 pl-20">
+                                <span class="tg-header-border d-none d-xl-block"></span>
                                 @include('components.cart')
                             </div>
-                            <div class="tg-header-btn ml-20 d-none d-sm-block">
+                            <div class="tg-header-btn ml-20">
                                 @guest('web')
                                     <a class="tg-btn-header" href="{{ route('user.login') }}">
-                                        <span>
+                                        <span class="d-none d-md-inline-block">
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -146,7 +153,7 @@
                                 @else
                                     <a class="tg-btn-header"
                                         href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}">
-                                        <span>
+                                        <span class="d-none d-md-inline-block">
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
