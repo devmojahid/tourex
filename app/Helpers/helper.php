@@ -401,3 +401,67 @@ function popularDestinations($count = 4, $isPagination = false)
 
     return $isPagination ? $query->paginate($count) : $query->take($count)->get();
 }
+
+
+function updateEnv($data = [])
+    {
+        $path = base_path('.env');
+
+        if (file_exists($path)) {
+            // Read the current .env file into a string
+            $file_content = file_get_contents($path);
+
+            foreach ($data as $key => $value) {
+                // Handle values with spaces by wrapping in quotes
+                if (strpos($value, ' ') !== false && strpos($value, '"') === false) {
+                    $value = '"'.$value.'"';
+                }
+
+                // Check if the key exists in the file
+                if (strpos($file_content, $key.'=') !== false) {
+                    // Regex to find the key and replace the line
+                    // Looks for Key=ExistingValue and replaces with Key=NewValue
+                    $file_content = preg_replace(
+                        '/^'.preg_quote($key, '/').'=.*/m',
+                        $key.'='.$value,
+                        $file_content
+                    );
+                } else {
+                    // If key doesn't exist, append it to the end
+                    $file_content .= PHP_EOL.$key.'='.$value;
+                }
+            }
+
+            // Write the changes back to the file
+            file_put_contents($path, $file_content);
+        }
+}
+
+function getEnvValue(string $key, $default = null)
+{
+    $path = base_path('.env');
+
+    if (!file_exists($path)) {
+        return $default;
+    }
+
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lines as $line) {
+        // Skip comments
+        if (str_starts_with(trim($line), '#')) {
+            continue;
+        }
+
+        // Split key and value
+        [$envKey, $envValue] = array_pad(explode('=', $line, 2), 2, null);
+
+        if ($envKey === $key) {
+            // Remove quotes if exists
+            return trim($envValue, "\"'");
+        }
+    }
+
+    return $default;
+}
+

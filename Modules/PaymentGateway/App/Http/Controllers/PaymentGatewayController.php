@@ -5,6 +5,7 @@ namespace Modules\PaymentGateway\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Image;
 use Modules\PaymentGateway\App\Http\Requests\BankRequest;
 use Modules\PaymentGateway\App\Http\Requests\FlutterwaveRequest;
@@ -303,9 +304,12 @@ class PaymentGatewayController extends Controller
 
     public function update_cash_payment(Request $request)
     {
+        updateEnv([
+            'CASH_PAYMENT_BUTTON_TEXT' => $request?->cash_payment_button_text ?? 'Cash Payment',
+            'CASH_PAYMENT_STATUS' => $request->has('cash_payment_status') ? 1 : 0
+        ]);
 
-        PaymentGateway::where('key', 'cash_payment_button_text')->update(['value' => $request->cash_payment_button_text]);
-        PaymentGateway::where('key', 'cash_payment_status')->update(['value' => $request->has('cash_payment_status') ? 1 : 0]);
+        Artisan::call('cache:clear');
 
         return redirect()->back()->with([
             'message' => trans('translate.Updated successfully'),

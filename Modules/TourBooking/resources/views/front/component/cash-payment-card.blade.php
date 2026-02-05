@@ -4,7 +4,7 @@
         @csrf
         <button type="submit" form="cash_payment_form" class="text-center">
             <h4 class="mb-0">
-                {{ isset($payment_setting->cash_payment_button_text) ? $payment_setting?->cash_payment_button_text : 'Cash Payment' }}
+                {{ getEnvValue('CASH_PAYMENT_BUTTON_TEXT') ?? 'Cash Payment' }}
             </h4>
         </button>
     </form>

@@ -1323,7 +1323,7 @@
                                                                                                     <label
                                                                                                         class="crancy__item-switch">
                                                                                                         <input
-                                                                                                            {{ isset($payment_setting->cash_payment_status) && $payment_setting->cash_payment_status == 1 ? 'checked' : '' }}
+                                                                                                            {{ getEnvValue('CASH_PAYMENT_STATUS') == 1 ? 'checked' : '' }}
                                                                                                             name="cash_payment_status"
                                                                                                             type="checkbox">
                                                                                                         <span
@@ -1344,7 +1344,7 @@
                                                                                                     type="text"
                                                                                                     name="cash_payment_button_text"
                                                                                                     id="cash_payment_button_text"
-                                                                                                    value="{{ isset($payment_setting->cash_payment_button_text) ? $payment_setting->cash_payment_button_text : '' }}">
+                                                                                                    value="{{ getEnvValue('CASH_PAYMENT_BUTTON_TEXT') }}">
                                                                                             </div>
                                                                                         </div>
 

@@ -125,7 +125,7 @@
                                 </div>
                             @endif
 
-                            @if ($payment_setting->cash_payment_status == 1)
+                            @if (getEnvValue('CASH_PAYMENT_STATUS') == 1)
                                 <div class="mt-1" style="width: 100%">
                                     @include('tourbooking::front.component.cash-payment-card', ['payment_route' => route('ecommerce.cash-payment')])
                                 </div>
