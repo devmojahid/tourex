@@ -96,8 +96,6 @@
                 </div>
             @endif
 
-
-
             @if ($payment_setting->paypal_status == 1)
                 <div class="payment_select_item_box">
                     <form action="{{ route('payment.paypal') }}">
@@ -139,10 +137,6 @@
                 </form>
             @endif
 
-
-
-
-
             @if ($payment_setting->flutterwave_status == 1)
                 <div class="payment_select_item_box" id="payWithFlutterwave">
                     <a href="javascript:;">
@@ -164,8 +158,6 @@
                 </div>
             @endif
 
-
-
             @if ($payment_setting->mollie_status == 1)
                 <div class="payment_select_item_box">
                     <form action="{{ route('payment.mollie') }}">
@@ -179,7 +171,6 @@
                     </form>
                 </div>
             @endif
-
 
             @if ($payment_setting->instamojo_status == 1)
                 <div class="payment_select_item_box">
@@ -258,8 +249,13 @@
                 </div>
             @endif
 
-
         </div>
+
+        @if ($payment_setting->cash_payment_status == 1)
+            <div class="mt-3" style="width: 100%">
+                @include('tourbooking::front.component.cash-payment-card')
+          </div>
+        @endif
     </div>
 </div>
 

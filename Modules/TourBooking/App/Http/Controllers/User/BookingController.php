@@ -23,6 +23,7 @@ final class BookingController extends Controller
             ->where('user_id', auth()->user()->id)
             ->latest()
             ->get();
+
         return view('tourbooking::user.booking.index', compact('bookings'));
     }
 

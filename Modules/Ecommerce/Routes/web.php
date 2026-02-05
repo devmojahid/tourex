@@ -103,6 +103,7 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
         Route::get('/ecommerce/paystack', 'pay_via_payStack')->name('pay-via-paystack');
         Route::get('/pay-via-instamojo', 'pay_via_instamojo')->name('pay-via-instamojo');
         Route::get('/ecommerce/response-instamojo', 'instamojo_response')->name('response-instamojo');
+        Route::post('/pay-cash-payment', 'cash_payment')->name('cash-payment');
     });
 
 

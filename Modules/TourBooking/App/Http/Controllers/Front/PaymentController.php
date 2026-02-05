@@ -547,6 +547,20 @@ class PaymentController extends Controller
         return redirect()->route('user.bookings.index')->with($notify_message);
     }
 
+    public function cash_payment(Request $request)
+    {
+
+        $customerInfo = $this->customerInfo($request);
+
+        $auth_user = Auth::guard('web')->user();
+
+        $order = $this->create_order($auth_user, 'Cash Payment', 'pending', 'cash', $customerInfo);
+
+        $notify_message = trans('translate.Your payment has been made. please wait for admin payment approval');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        return redirect()->route('user.bookings.index')->with($notify_message);
+    }
+
     public function create_order($user, $payment_method, $payment_status, $transaction_id, $customerInfo = [])
     {
 

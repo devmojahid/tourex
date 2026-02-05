@@ -1667,4 +1667,8 @@ return [
     'Children Price' => 'Children Price',
     'Show Per Person Price' => 'Show Per Person Price',
     'Service has bookings. Cannot delete' => 'Service has bookings. Cannot delete',
+    "Delivery Fee" => "Delivery Fee",
+    "Cash Payment" => "Cash Payment",
+    "Cash Payment Configuration" => "Cash Payment Configuration",
+    "To" => "To"
 ];

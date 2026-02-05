@@ -196,6 +196,8 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
         Route::get('/instamojo', [PaymentController::class, 'instamojo_payment'])->name('instamojo');
         Route::get('/instamojo-callback', [PaymentController::class, 'instamojo_callback'])->name('instamojo-callback');
 
+        Route::post('/cash-payment', [PaymentController::class, 'cash_payment'])->name('cash_payment');
+
         Route::get('/wallet', [PaymentController::class, 'wallet_payment'])->name('wallet');
     });
 });

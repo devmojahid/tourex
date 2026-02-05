@@ -2,24 +2,22 @@
 
 namespace Modules\PaymentGateway\App\Http\Controllers;
 
-use Image, File, Str;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Modules\PaymentGateway\App\Models\PaymentGateway;
+use File;
+use Illuminate\Http\Request;
+use Image;
 use Modules\PaymentGateway\App\Http\Requests\BankRequest;
+use Modules\PaymentGateway\App\Http\Requests\FlutterwaveRequest;
+use Modules\PaymentGateway\App\Http\Requests\InstamojoRequest;
 use Modules\PaymentGateway\App\Http\Requests\MollieRequest;
 use Modules\PaymentGateway\App\Http\Requests\PaypalRequest;
-use Modules\PaymentGateway\App\Http\Requests\StripeRequest;
 use Modules\PaymentGateway\App\Http\Requests\PaystackRequest;
 use Modules\PaymentGateway\App\Http\Requests\RazorpayRequest;
-use Modules\PaymentGateway\App\Http\Requests\InstamojoRequest;
-use Modules\PaymentGateway\App\Http\Requests\FlutterwaveRequest;
+use Modules\PaymentGateway\App\Http\Requests\StripeRequest;
+use Modules\PaymentGateway\App\Models\PaymentGateway;
 
 class PaymentGatewayController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
@@ -27,15 +25,13 @@ class PaymentGatewayController extends Controller
     {
         $payment_data = PaymentGateway::all();
 
+        $payment_setting = [];
 
-        $payment_setting = array();
-
-        foreach($payment_data as $data_item){
+        foreach ($payment_data as $data_item) {
             $payment_setting[$data_item->key] = $data_item->value;
         }
 
         $payment_setting = (object) $payment_setting;
-
 
         return view('paymentgateway::index', ['payment_setting' => $payment_setting]);
     }
@@ -52,27 +48,28 @@ class PaymentGatewayController extends Controller
 
         $exist_image = PaymentGateway::where('key', 'stripe_image')->first();
 
-        if($request->image){
+        if ($request->image) {
             $old_image = $exist_image->value;
             $new_image = $request->image;
             $ext = $new_image->getClientOriginalExtension();
-            $image_name = 'stripe-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
+            $image_name = 'stripe-'.date('Y-m-d-h-i-s-').rand(999, 9999).'.'.$ext;
             $image_name = 'uploads/website-images/'.$image_name;
             Image::make($new_image)
-                    ->save(public_path().'/'.$image_name);
+                ->save(public_path().'/'.$image_name);
             $exist_image->value = $image_name;
             $exist_image->save();
-            if($old_image){
-                if(File::exists(public_path().'/'.$old_image))unlink(public_path().'/'.$old_image);
+            if ($old_image) {
+                if (File::exists(public_path().'/'.$old_image)) {
+                    unlink(public_path().'/'.$old_image);
+                }
             }
         }
 
-
         $notify_message = trans('translate.Updated successfully');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        $notify_message = ['message' => $notify_message, 'alert-type' => 'success'];
+
         return redirect()->back()->with($notify_message);
     }
-
 
     public function update_paypal(PaypalRequest $request)
     {
@@ -84,24 +81,26 @@ class PaymentGatewayController extends Controller
 
         $exist_image = PaymentGateway::where('key', 'paypal_image')->first();
 
-        if($request->image){
+        if ($request->image) {
             $old_image = $exist_image->value;
             $new_image = $request->image;
             $ext = $new_image->getClientOriginalExtension();
-            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
+            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999, 9999).'.'.$ext;
             $image_name = 'uploads/website-images/'.$image_name;
             Image::make($new_image)
-                    ->save(public_path().'/'.$image_name);
+                ->save(public_path().'/'.$image_name);
             $exist_image->value = $image_name;
             $exist_image->save();
-            if($old_image){
-                if(File::exists(public_path().'/'.$old_image))unlink(public_path().'/'.$old_image);
+            if ($old_image) {
+                if (File::exists(public_path().'/'.$old_image)) {
+                    unlink(public_path().'/'.$old_image);
+                }
             }
         }
 
-
         $notify_message = trans('translate.Updated successfully');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        $notify_message = ['message' => $notify_message, 'alert-type' => 'success'];
+
         return redirect()->back()->with($notify_message);
     }
 
@@ -118,24 +117,26 @@ class PaymentGatewayController extends Controller
 
         $exist_image = PaymentGateway::where('key', 'razorpay_image')->first();
 
-        if($request->image){
+        if ($request->image) {
             $old_image = $exist_image->value;
             $new_image = $request->image;
             $ext = $new_image->getClientOriginalExtension();
-            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
+            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999, 9999).'.'.$ext;
             $image_name = 'uploads/website-images/'.$image_name;
             Image::make($new_image)
-                    ->save(public_path().'/'.$image_name);
+                ->save(public_path().'/'.$image_name);
             $exist_image->value = $image_name;
             $exist_image->save();
-            if($old_image){
-                if(File::exists(public_path().'/'.$old_image))unlink(public_path().'/'.$old_image);
+            if ($old_image) {
+                if (File::exists(public_path().'/'.$old_image)) {
+                    unlink(public_path().'/'.$old_image);
+                }
             }
         }
 
-
         $notify_message = trans('translate.Updated successfully');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        $notify_message = ['message' => $notify_message, 'alert-type' => 'success'];
+
         return redirect()->back()->with($notify_message);
     }
 
@@ -150,24 +151,26 @@ class PaymentGatewayController extends Controller
 
         $exist_image = PaymentGateway::where('key', 'flutterwave_logo')->first();
 
-        if($request->image){
+        if ($request->image) {
             $old_image = $exist_image->value;
             $new_image = $request->image;
             $ext = $new_image->getClientOriginalExtension();
-            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
+            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999, 9999).'.'.$ext;
             $image_name = 'uploads/website-images/'.$image_name;
             Image::make($new_image)
-                    ->save(public_path().'/'.$image_name);
+                ->save(public_path().'/'.$image_name);
             $exist_image->value = $image_name;
             $exist_image->save();
-            if($old_image){
-                if(File::exists(public_path().'/'.$old_image))unlink(public_path().'/'.$old_image);
+            if ($old_image) {
+                if (File::exists(public_path().'/'.$old_image)) {
+                    unlink(public_path().'/'.$old_image);
+                }
             }
         }
 
-
         $notify_message = trans('translate.Updated successfully');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        $notify_message = ['message' => $notify_message, 'alert-type' => 'success'];
+
         return redirect()->back()->with($notify_message);
     }
 
@@ -179,27 +182,28 @@ class PaymentGatewayController extends Controller
 
         $exist_image = PaymentGateway::where('key', 'mollie_image')->first();
 
-        if($request->image){
+        if ($request->image) {
             $old_image = $exist_image->value;
             $new_image = $request->image;
             $ext = $new_image->getClientOriginalExtension();
-            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
+            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999, 9999).'.'.$ext;
             $image_name = 'uploads/website-images/'.$image_name;
             Image::make($new_image)
-                    ->save(public_path().'/'.$image_name);
+                ->save(public_path().'/'.$image_name);
             $exist_image->value = $image_name;
             $exist_image->save();
-            if($old_image){
-                if(File::exists(public_path().'/'.$old_image))unlink(public_path().'/'.$old_image);
+            if ($old_image) {
+                if (File::exists(public_path().'/'.$old_image)) {
+                    unlink(public_path().'/'.$old_image);
+                }
             }
         }
 
-
         $notify_message = trans('translate.Updated successfully');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        $notify_message = ['message' => $notify_message, 'alert-type' => 'success'];
+
         return redirect()->back()->with($notify_message);
     }
-
 
     public function update_paystack(PaystackRequest $request)
     {
@@ -210,24 +214,26 @@ class PaymentGatewayController extends Controller
 
         $exist_image = PaymentGateway::where('key', 'paystack_image')->first();
 
-        if($request->image){
+        if ($request->image) {
             $old_image = $exist_image->value;
             $new_image = $request->image;
             $ext = $new_image->getClientOriginalExtension();
-            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
+            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999, 9999).'.'.$ext;
             $image_name = 'uploads/website-images/'.$image_name;
             Image::make($new_image)
-                    ->save(public_path().'/'.$image_name);
+                ->save(public_path().'/'.$image_name);
             $exist_image->value = $image_name;
             $exist_image->save();
-            if($old_image){
-                if(File::exists(public_path().'/'.$old_image))unlink(public_path().'/'.$old_image);
+            if ($old_image) {
+                if (File::exists(public_path().'/'.$old_image)) {
+                    unlink(public_path().'/'.$old_image);
+                }
             }
         }
 
-
         $notify_message = trans('translate.Updated successfully');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        $notify_message = ['message' => $notify_message, 'alert-type' => 'success'];
+
         return redirect()->back()->with($notify_message);
     }
 
@@ -242,24 +248,26 @@ class PaymentGatewayController extends Controller
 
         $exist_image = PaymentGateway::where('key', 'instamojo_image')->first();
 
-        if($request->image){
+        if ($request->image) {
             $old_image = $exist_image->value;
             $new_image = $request->image;
             $ext = $new_image->getClientOriginalExtension();
-            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
+            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999, 9999).'.'.$ext;
             $image_name = 'uploads/website-images/'.$image_name;
             Image::make($new_image)
-                    ->save(public_path().'/'.$image_name);
+                ->save(public_path().'/'.$image_name);
             $exist_image->value = $image_name;
             $exist_image->save();
-            if($old_image){
-                if(File::exists(public_path().'/'.$old_image))unlink(public_path().'/'.$old_image);
+            if ($old_image) {
+                if (File::exists(public_path().'/'.$old_image)) {
+                    unlink(public_path().'/'.$old_image);
+                }
             }
         }
 
-
         $notify_message = trans('translate.Updated successfully');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        $notify_message = ['message' => $notify_message, 'alert-type' => 'success'];
+
         return redirect()->back()->with($notify_message);
     }
 
@@ -270,30 +278,38 @@ class PaymentGatewayController extends Controller
 
         $exist_image = PaymentGateway::where('key', 'bank_image')->first();
 
-        if($request->image){
+        if ($request->image) {
             $old_image = $exist_image->value;
             $new_image = $request->image;
             $ext = $new_image->getClientOriginalExtension();
-            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
+            $image_name = 'paypal-'.date('Y-m-d-h-i-s-').rand(999, 9999).'.'.$ext;
             $image_name = 'uploads/website-images/'.$image_name;
             Image::make($new_image)
-                    ->save(public_path().'/'.$image_name);
+                ->save(public_path().'/'.$image_name);
             $exist_image->value = $image_name;
             $exist_image->save();
-            if($old_image){
-                if(File::exists(public_path().'/'.$old_image))unlink(public_path().'/'.$old_image);
+            if ($old_image) {
+                if (File::exists(public_path().'/'.$old_image)) {
+                    unlink(public_path().'/'.$old_image);
+                }
             }
         }
 
-
         $notify_message = trans('translate.Updated successfully');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        $notify_message = ['message' => $notify_message, 'alert-type' => 'success'];
+
         return redirect()->back()->with($notify_message);
     }
 
+    public function update_cash_payment(Request $request)
+    {
 
+        PaymentGateway::where('key', 'cash_payment_button_text')->update(['value' => $request->cash_payment_button_text]);
+        PaymentGateway::where('key', 'cash_payment_status')->update(['value' => $request->has('cash_payment_status') ? 1 : 0]);
 
-
-
-
+        return redirect()->back()->with([
+            'message' => trans('translate.Updated successfully'),
+            'alert-type' => 'success',
+        ]);
+    }
 }

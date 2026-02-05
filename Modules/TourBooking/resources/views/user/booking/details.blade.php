@@ -90,13 +90,13 @@
                                                             <tr>
                                                                 <td>{{ __('translate.Payment Method') }} : </td>
                                                                 <td>
-                                                                    {{ currency($booking->total) }}
+                                                                    {{ ucfirst($booking->payment_method) }}
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Total Amount') }} : </td>
                                                                 <td>
-                                                                    {{ ucfirst($booking->payment_method) }}
+                                                                    {{ currency($booking->total) }}
                                                                 </td>
                                                             </tr>
                                                             <tr>

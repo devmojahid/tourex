@@ -470,6 +470,29 @@ class EcommercePaymentController extends Controller
     }
 
 
+    public function cash_payment(Request $request)
+    {
+
+        if (env('APP_MODE') == 'DEMO') {
+            $notification = trans('translate.This Is Demo Version. You Can Not Change Anything');
+            $notification = array('messege' => $notification, 'alert-type' => 'error');
+            return redirect()->back()->with($notification);
+        }
+
+        $user = Auth::guard('web')->user();
+
+        $orderData = session()->get('orderData');
+
+        $total = $orderData['total'];
+
+        $unique_id = time() . randomNumber(5);
+
+        $order = $this->create_order($user, $orderData,'Cash_Payment',Status::PENDING, $unique_id);
+
+        $notification = trans('translate.Your payment has been made. please wait for admin payment approval');
+        $notification = array('messege' => $notification, 'alert-type' => 'success');
+        return redirect()->route('user.orders')->with($notification);
+    }
 
 
 

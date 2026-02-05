@@ -27,4 +27,5 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin
     Route::put('update-paystack', [PaymentGatewayController::class, 'update_paystack'])->name('update-paystack');
     Route::put('update-instamojo', [PaymentGatewayController::class, 'update_instamojo'])->name('update-instamojo');
     Route::put('update-bank', [PaymentGatewayController::class, 'update_bank'])->name('update-bank');
+    Route::put('update-cash-payment', [PaymentGatewayController::class, 'update_cash_payment'])->name('update-cash-payment');
 });
