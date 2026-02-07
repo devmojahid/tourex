@@ -1,64 +1,5 @@
-/*============================================
 
-   Theme Name: Tourex - Tour & Travel Booking html5 Template
-   Author : Theme_Dox
-   Support: https://themedox.ticksy.com
-   Description: Tourex - Tour & Travel Booking html5 Template
-   Version: 1.0.0
 
-==============================================*/
-/* CSS Index
-==============================================
-
-	// components
-
-	01. Animation
-	02. background
-	03. Breadcrumb
-	04. Button
-	05. minicart
-	06. Mobile Menu
-	07. Nice Select
-	08. OffCanvas
-	09. pagenation
-	10. Preloader
-	11. Scroll Top
-	12. Search
-	13. Section Title
-	14. spacing default responsive
-
-	// layout
-
-    01. about
-	02. ads
-	03. banner
-	04. blog
-	05. booking
-	06. brand
-	07. chose
-	08. contact
-	09. counter
-	10. cta
-	11. destination
-	12. error
-	13. faq
-	14. filter
-	15. flatpicker
-	16. foods
-	17. footer
-	18. Header
-	19. hero
-	20. listing
-	23. location
-	24. map
-	25. shop
-	26. shop
-	27. team
-	28. testimonial
-	29. listing
-	30. login
-
-==============================================*/
 /*============================================
 /*  01. Theme Default CSS
 ==============================================*/
@@ -9811,4 +9752,3 @@ textarea {
   color: var(--tg-common-black);
 }
 
-/*# sourceMappingURL=main.css.map */

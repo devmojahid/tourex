@@ -79,6 +79,7 @@ use Modules\TourBooking\App\Models\Service;
 use Modules\TourBooking\App\Models\ServiceMedia;
 use Modules\TourBooking\App\Models\ServiceTranslation;
 use Modules\TourBooking\App\Models\ServiceType;
+use Illuminate\Support\Facades\Artisan as ArtisanCommand;
 
 class GlobalSettingController extends Controller
 {
@@ -105,6 +106,25 @@ class GlobalSettingController extends Controller
         GlobalSetting::where('key', 'preloader_status')->update(['value' => $request->preloader_status]);
 
         $this->set_cache_setting();
+
+        $notify_message = trans('translate.Updated successfully');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        return redirect()->back()->with($notify_message);
+    }
+
+    public function update_color_setting(Request $request)
+    {
+
+        updateEnv([
+            'PRIMARY_COLOR' => $request->primary_color,
+            'SECONDARY_COLOR' => $request->secondary_color,
+            'WHITE_COLOR' => $request->white_color,
+            'BLACK_COLOR' => $request->black_color,
+            'BLACK_COLOR_2' => $request->black_color_2,
+            'YELLOW_COLOR' => $request->yellow_color
+        ]);
+
+        ArtisanCommand::call('cache:clear');
 
         $notify_message = trans('translate.Updated successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');

@@ -1670,5 +1670,6 @@ return [
     "Delivery Fee" => "Delivery Fee",
     "Cash Payment" => "Cash Payment",
     "Cash Payment Configuration" => "Cash Payment Configuration",
-    "To" => "To"
+    "To" => "To",
+    "Color Setting" => "Color Setting"
 ];

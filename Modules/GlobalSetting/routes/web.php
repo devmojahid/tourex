@@ -21,6 +21,7 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin
 
             Route::get('general-setting', 'general_setting')->name('general-setting');
             Route::put('update-general-setting', 'update_general_setting')->name('update-general-setting');
+            Route::put('update-color-setting', 'update_color_setting')->name('update-color-setting');
             Route::put('update-logo-favicon', 'update_logo_favicon')->name('update-logo-favicon');
             Route::put('update-google-captcha', 'update_google_captcha')->name('update-google-captcha');
             Route::put('update-tawk-chat', 'update_tawk_chat')->name('update-tawk-chat');
