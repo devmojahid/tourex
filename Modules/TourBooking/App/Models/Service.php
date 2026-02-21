@@ -196,10 +196,20 @@ final class Service extends Model
     /**
      * Get the translation for current locale.
      */
+    // public function translation(): HasOne
+    // {
+    //     return $this->hasOne(ServiceTranslation::class)
+    //         ->where('locale', app()->getLocale())
+    //         ->withDefault();
+    // }
+
     public function translation(): HasOne
     {
+        $locale = app()->getLocale();
+
         return $this->hasOne(ServiceTranslation::class)
-            ->where('locale', app()->getLocale())
+            ->whereIn('locale', [$locale, 'en'])
+            ->orderByRaw("locale = ? DESC", [$locale]) // current locale first
             ->withDefault();
     }
 

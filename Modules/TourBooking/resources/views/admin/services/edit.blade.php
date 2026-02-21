@@ -613,9 +613,9 @@
                                                         <select class="crancy__item-input select2" name="amenities[]"
                                                             multiple>
                                                             @foreach ($amenities as $amenity)
-                                                                <option value="{{ $amenity->translation->id }}"
-                                                                    @selected(is_array($translation->amenities ?? null) && in_array($amenity->translation->id, $translation->amenities ?? []))>
-                                                                    {{ $amenity->translation->name }}
+                                                                <option value="{{ $amenity?->translation?->id }}"
+                                                                    @selected(is_array($translation->amenities ?? null) && in_array($amenity?->translation->id, $translation?->amenities ?? []))>
+                                                                    {{ $amenity?->translation?->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>

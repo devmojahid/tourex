@@ -38,8 +38,13 @@ final class Amenity extends Model
      */
     public function translation(): HasOne
     {
+        $locale = app()->getLocale();
+        $fallback = config('app.fallback_locale'); // usually 'en'
+
         return $this->hasOne(AmenityTranslation::class)
-            ->where('lang_code', app()->getLocale());
+            ->whereIn('lang_code', [$locale, $fallback])
+            ->orderByRaw("lang_code = ? DESC", [$locale])
+            ->withDefault();
     }
 
 

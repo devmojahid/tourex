@@ -25,7 +25,7 @@ final class AmenitiesController extends Controller
     {
         $amenities = Amenity::with('translation')
             ->latest()
-            ->paginate(15);
+            ->get();
 
         return view('tourbooking::admin.amenity.index', compact('amenities'));
     }
