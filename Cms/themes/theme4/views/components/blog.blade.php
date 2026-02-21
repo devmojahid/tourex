@@ -3,7 +3,7 @@
     use Illuminate\Support\Str;
 
     $theme4_blog = getContent('theme4_blog.content', true);
-    $blogs = Blog::with('translate:id,blog_id,lang_code,title,reading_time,description')
+    $blogs = Blog::with('front_translate:id,blog_id,lang_code,title,reading_time,description')
         ->where('status', true)
         ->latest()
         ->take(3)
@@ -49,22 +49,22 @@
                             <div class="tg-blog-thumb p-relative fix mb-25">
                                 <a href="{{ route('blog', ['slug' => $blog->slug]) }}">
                                     <img class="w-100" src="{{ asset($blog->image) }}"
-                                        alt="{{ $blog?->translate?->title }}">
+                                        alt="{{ $blog?->front_translate?->title }}">
                                 </a>
                                 <span class="tg-blog-tag p-absolute">{{ $blog?->category?->name }}</span>
                             </div>
                             <div class="tg-blog-content  p-relative">
                                 <h3 class="tg-blog-title mb-15">
                                     <a href="{{ route('blog', ['slug' => $blog->slug]) }}">
-                                        {{ $blog?->translate?->title }}
+                                        {{ $blog?->front_translate?->title }}
                                     </a>
                                 </h3>
                                 <div class="tg-blog-date">
                                     <span class="mr-20"><i class="fa-light fa-calendar"></i>
                                         {{ $blog->created_at->format('jS M, Y') }}</span>
-                                    @if ($blog?->translate?->reading_time)
+                                    @if ($blog?->front_translate?->reading_time)
                                         <span><i class="fa-regular fa-clock"></i>
-                                            {{ $blog?->translate?->reading_time }}</span>
+                                            {{ $blog?->front_translate?->reading_time }}</span>
                                     @endif
                                 </div>
                             </div>

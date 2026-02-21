@@ -3,7 +3,7 @@
     use Illuminate\Support\Str;
 
     $theme7_blog = getContent('theme7_blog.content', true);
-    $blogs = Blog::with('translate:id,blog_id,lang_code,title,reading_time,description')
+    $blogs = Blog::with('front_translate:id,blog_id,lang_code,title,reading_time,description')
         ->where('status', true)
         ->latest()
         ->take(3)
@@ -39,14 +39,14 @@
                         <div class="tg-blog-thumb fix left-side-img">
                             <a href="{{ route('blog', ['slug' => $firstBlog->slug]) }}">
                                 <img class="w-100" src="{{ asset($firstBlog->image) }}"
-                                    alt="{{ $firstBlog?->translate?->title }}">
+                                    alt="{{ $firstBlog?->front_translate?->title }}">
                             </a>
                         </div>
                         <div class="tg-blog-content  p-relative">
                             <span class="tg-blog-tag p-absolute">{{ $firstBlog?->category?->name }}</span>
                             <h3 class="tg-blog-title">
                                 <a href="{{ route('blog', ['slug' => $firstBlog->slug]) }}">
-                                    {{ $firstBlog?->translate?->title }}
+                                    {{ $firstBlog?->front_translate?->title }}
                                 </a>
                             </h3>
                             <div class="tg-blog-date">
@@ -54,9 +54,9 @@
                                     <i class="fa-light fa-calendar"></i>
                                     {{ $firstBlog->created_at->format('jS M, Y') }}
                                 </span>
-                                @if ($firstBlog?->translate?->reading_time)
+                                @if ($firstBlog?->front_translate?->reading_time)
                                     <span><i class="fa-regular fa-clock"></i>
-                                        {{ $firstBlog?->translate?->reading_time }} </span>
+                                        {{ $firstBlog?->front_translate?->reading_time }} </span>
                                 @endif
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                             <div class="tg-blog-thumb fix right-side-img">
                                                 <a href="{{ route('blog', ['slug' => $blog->slug]) }}"><img
                                                         class="w-100" src="{{ asset($blog->image) }}"
-                                                        alt="{{ $blog?->translate?->title }}"></a>
+                                                        alt="{{ $blog?->front_translate?->title }}"></a>
                                             </div>
                                         </div>
                                         <div class="col-lg-7">
@@ -83,16 +83,16 @@
                                                 </span>
                                                 <h3 class="tg-blog-title title-2 mb-0">
                                                     <a href="{{ route('blog', ['slug' => $blog->slug]) }}">
-                                                        {{ $blog?->translate?->title }}
+                                                        {{ $blog?->front_translate?->title }}
                                                     </a>
                                                 </h3>
                                                 <div class="tg-blog-date">
                                                     <span class="mr-20"><i class="fa-light fa-calendar"></i>
                                                         {{ $blog->created_at->format('jS M, Y') }}
                                                     </span>
-                                                    @if ($blog?->translate?->reading_time)
+                                                    @if ($blog?->front_translate?->reading_time)
                                                         <span><i class="fa-regular fa-clock"></i>
-                                                            {{ $blog?->translate?->reading_time }} </span>
+                                                            {{ $blog?->front_translate?->reading_time }} </span>
                                                     @endif
                                                 </div>
                                             </div>
