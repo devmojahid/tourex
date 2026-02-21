@@ -18,7 +18,12 @@ function admin_lang()
 
 function front_lang()
 {
-    return Session::get('front_lang');
+    return default_lang()?->lang_code ?? 'en';
+}
+
+function default_lang()
+{
+    return Language::where('is_default', 'Yes')->where('status', 1)->first();
 }
 
 function html_decode($text)
