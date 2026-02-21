@@ -120,7 +120,7 @@ class HomeController extends Controller
             }
         }
 
-        $blogs = Blog::with('author')->where('status', 1);
+        $blogs = Blog::with('author')->with('front_translate')->where('status', 1);
 
         if ($request->category) {
             $blogs = $blogs->where('blog_category_id', $request->category);

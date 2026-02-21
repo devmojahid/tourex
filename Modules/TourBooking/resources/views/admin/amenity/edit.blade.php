@@ -183,7 +183,7 @@
                                                             *</label>
                                                         <input class="crancy__item-input" type="text" name="name"
                                                             id="name"
-                                                            value="{{ old('name', $amenity->translation->name) }}"
+                                                            value="{{ old('name', $amenity?->translation?->name) }}"
                                                             required>
                                                         @error('name')
                                                             <span class="text-danger">{{ $message }}</span>
@@ -210,7 +210,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.Description') }}</label>
-                                                        <textarea class="crancy__item-input summernote" name="description" rows="6">{{ old('description', $amenity->translation->description) }}</textarea>
+                                                        <textarea class="crancy__item-input summernote" name="description" rows="6">{{ old('description', $amenity?->translation?->description) }}</textarea>
                                                         @error('description')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -278,7 +278,7 @@
                                                             class="crancy__item-label">{{ __('translate.SEO Title') }}</label>
                                                         <input class="crancy__item-input" type="text"
                                                             name="meta_title"
-                                                            value="{{ old('meta_title', $amenity->translation->meta_title) }}">
+                                                            value="{{ old('meta_title', $amenity?->translation?->meta_title) }}">
                                                         @error('meta_title')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -291,7 +291,7 @@
                                                             class="crancy__item-label">{{ __('translate.SEO keywords') }}</label>
                                                         <input class="crancy__item-input" type="text"
                                                             name="meta_keywords"
-                                                            value="{{ old('meta_keywords', $amenity->translation->meta_keywords) }}">
+                                                            value="{{ old('meta_keywords', $amenity?->translation?->meta_keywords) }}">
                                                         @error('meta_keywords')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -302,7 +302,7 @@
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label
                                                             class="crancy__item-label">{{ __('translate.SEO Description') }}</label>
-                                                        <textarea class="crancy__item-input summernote" name="meta_description" rows="3">{{ old('meta_description', $amenity->translation->meta_description) }}</textarea>
+                                                        <textarea class="crancy__item-input summernote" name="meta_description" rows="3">{{ old('meta_description', $amenity?->translation?->meta_description) }}</textarea>
                                                         @error('meta_description')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror

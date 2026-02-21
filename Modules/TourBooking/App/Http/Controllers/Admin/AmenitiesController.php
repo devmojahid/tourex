@@ -132,6 +132,19 @@ final class AmenitiesController extends Controller
         } else {
 
             $sub_translation = AmenityTranslation::where('amenity_id', $amenity->id)->where('lang_code', $request->lang_code)->first();
+
+            if ($sub_translation == null) {
+                $sub_translation = new AmenityTranslation();
+                $sub_translation->amenity_id = $amenity->id;
+                $sub_translation->lang_code = $request->lang_code;
+                $sub_translation->name = $request->name;
+                $sub_translation->description = $request->description;
+                $sub_translation->meta_title = $request->meta_title;
+                $sub_translation->meta_keywords = $request->meta_keywords;
+                $sub_translation->meta_description = $request->meta_description;
+                $sub_translation->save();
+            }
+
             $sub_translation->amenity_id = $amenity->id;
             $sub_translation->lang_code = $request->lang_code;
             $sub_translation->name = $request->name;

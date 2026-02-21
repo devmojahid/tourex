@@ -11,7 +11,7 @@ use Modules\FAQ\App\Models\FaqTranslation;
 use Modules\Page\App\Models\PrivacyPolicy;
 use Modules\Blog\App\Models\BlogTranslation;
 use Modules\Page\App\Models\TermAndCondition;
-use Modules\Page\App\Models\FooterTranslation;  
+use Modules\Page\App\Models\FooterTranslation;
 use Modules\Category\Entities\CategoryTranslation;
 use Modules\Page\App\Models\CustomPageTranslation;
 use Modules\FAQ\App\Http\Controllers\FAQController;
@@ -29,6 +29,7 @@ use Modules\Page\App\Http\Controllers\FooterContrllerController;
 use Modules\Page\App\Http\Controllers\TermsConditiondController;
 use Modules\CourseLevel\App\Http\Controllers\CourseLevelController;
 use Modules\Testimonial\App\Http\Controllers\TestimonialController;
+use Illuminate\Support\Facades\Session;
 
 class LanguageController extends Controller
 {
@@ -122,6 +123,12 @@ class LanguageController extends Controller
             }
         }
 
+        if($language->is_default == 'Yes'){
+            Session::put('front_lang', $language->lang_code);
+            Session::put('front_lang_name', $language->lang_name);
+            Session::put('lang_dir', $language->lang_direction);
+            app()->setLocale($request->lang_code);
+        }
 
 
         $notify_message = trans('translate.Created successfully');
@@ -154,6 +161,13 @@ class LanguageController extends Controller
 
         if($language->is_default == 'Yes'){
             DB::table('languages')->where('id', 1)->update(['is_default' => 'Yes']);
+
+            Session::put('front_lang', $language->lang_code);
+            Session::put('front_lang_name', $language->lang_name);
+            Session::put('lang_dir', $language->lang_direction);
+
+            app()->setLocale($request->lang_code);
+
         }
 
         $language->lang_name = $request->lang_name;
@@ -256,7 +270,7 @@ class LanguageController extends Controller
         if(File::exists($langPath)) {
             $existingTranslations = include($langPath);
         }
-        
+
         // Merge existing translations with updated ones
         // Only update the submitted keys, preserve all others
         $dataArray = $existingTranslations;
@@ -270,7 +284,7 @@ class LanguageController extends Controller
             if ($handle) {
                 // Write the PHP opening tag and array opening
                 fwrite($handle, "<?php\n return array (\n");
-                
+
                 // Write each key-value pair
                 foreach ($dataArray as $key => $value) {
                     // Properly escape the key and value for PHP
@@ -278,11 +292,11 @@ class LanguageController extends Controller
                     $escapedValue = addslashes($value);
                     fwrite($handle, "  '{$escapedKey}' => '{$escapedValue}',\n");
                 }
-                
+
                 // Close the array and PHP tag
                 fwrite($handle, ");\n");
                 fclose($handle);
-                
+
                 $notify_message = trans('translate.Updated successfully');
                 $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
             } else {
@@ -293,7 +307,7 @@ class LanguageController extends Controller
         } catch (\Exception $e) {
             // Log the error
             \Log::error('Translation update error: ' . $e->getMessage());
-            
+
             $notify_message = trans('translate.Failed to update translations') . ' - ' . $e->getMessage();
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
         }

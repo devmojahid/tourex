@@ -20,12 +20,12 @@
                                         <div class="tg-blog-standard-thumb mb-15">
                                             <a href="{{ route('blog', $blog->slug) }}"><img class="w-100"
                                                     src="{{ asset($blog->image) }}"
-                                                    alt="{{ $blog?->translate?->title }}"></a>
+                                                    alt="{{ $blog?->front_translate?->title }}"></a>
                                         </div>
                                         <div class="tg-blog-standard-content">
                                             <h2 class="tg-blog-standard-title">
                                                 <a
-                                                    href="{{ route('blog', $blog->slug) }}">{{ $blog?->translate?->title }}</a>
+                                                    href="{{ route('blog', $blog->slug) }}">{{ $blog?->front_translate?->title }}</a>
                                             </h2>
                                             <div class="tg-blog-standard-date mb-10">
                                                 <span>
@@ -47,7 +47,7 @@
                                                     </svg>
                                                     {{ $blog->created_at->format('d-m-Y') }}
                                                 </span>
-                                                @if ($blog->translate?->reading_time)
+                                                @if ($blog->front_translate?->reading_time)
                                                     <span>
                                                         <svg width="16" height="16" viewBox="0 0 16 16"
                                                             fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -56,12 +56,12 @@
                                                                 stroke="#560CE3" stroke-width="1.06667"
                                                                 stroke-linecap="round" stroke-linejoin="round" />
                                                         </svg>
-                                                        {{ $blog->translate?->reading_time }}
+                                                        {{ $blog->front_translate?->reading_time }}
                                                     </span>
                                                 @endif
                                             </div>
                                             <p class="mb-20 tg-blog-standard-para">
-                                                {{ $blog?->translate?->short_description }}
+                                                {{ $blog?->front_translate?->short_description }}
                                             </p>
                                             <div class="tg-blog-sidebar-btn">
                                                 <a href="{{ route('blog', $blog->slug) }}"

@@ -21,13 +21,11 @@ function front_lang()
     return Session::get('front_lang');
 }
 
-
 function html_decode($text)
 {
     $decode_text = htmlspecialchars_decode($text, ENT_QUOTES);
     return $decode_text;
 }
-
 
 function currency($amount)
 {
