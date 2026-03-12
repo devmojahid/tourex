@@ -20,6 +20,28 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/fontawesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/flatpicker.css') }}">
+    <style>
+        /* Flatpickr: selected date uses theme primary color */
+        .flatpickr-day.selected,
+        .flatpickr-day.selected:hover,
+        .flatpickr-day.selected:focus,
+        .flatpickr-day.selected.inRange {
+            background: var(--tg-theme-primary) !important;
+            border-color: var(--tg-theme-primary) !important;
+            color: #fff !important;
+        }
+        /* Flatpickr: today highlight is subtle (just a bottom border) when a date is already chosen */
+        .flatpickr-calendar.fp-has-value .flatpickr-day.today:not(.selected) {
+            background: transparent !important;
+            color: #393939 !important;
+            border-color: transparent !important;
+            border-bottom: 2px solid var(--tg-theme-primary) !important;
+        }
+        .flatpickr-calendar.fp-has-value .flatpickr-day.today:not(.selected):hover {
+            background: #e6e6e6 !important;
+            color: #393939 !important;
+        }
+    </style>
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/odometer.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/default.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/main.css') }}">

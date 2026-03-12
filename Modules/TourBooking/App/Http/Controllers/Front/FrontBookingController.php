@@ -47,16 +47,24 @@ final class FrontBookingController extends Controller
             ->where('status', true)
             ->firstOrFail();
 
-        // Check if an availability_id was provided and verify spots
-        if ($request->has('availability_id')) {
+        // Check if an availability_id was provided and verify remaining spots
+        if ($request->has('availability_id') && $request->availability_id) {
             $availability = Availability::find($request->availability_id);
 
-            if ($availability) {
-                // Calculate total guests
-                $totalGuests = $request->person + $request->children;
+            if ($availability && $availability->available_spots !== null) {
+                // Total guests in this request
+                $totalGuests = (int) $request->person + (int) $request->children;
 
-                // Check if there are enough spots available
-                if ($availability->available_spots !== null && $totalGuests > $availability->available_spots) {
+                // Already booked guests for this date
+                $bookedGuests = Booking::where('service_id', $service->id)
+                    ->where('booking_status', '!=', 'cancelled')
+                    ->whereDate('check_in_date', $availability->date->format('Y-m-d'))
+                    ->selectRaw('COALESCE(SUM(adults), 0) + COALESCE(SUM(children), 0) as total')
+                    ->value('total') ?? 0;
+
+                $remainingSpots = max(0, $availability->available_spots - (int) $bookedGuests);
+
+                if ($totalGuests > $remainingSpots) {
                     $notify_message = trans('translate.Not enough available spots for the selected date');
                     return redirect()->back()->with(['message' => $notify_message, 'alert-type' => 'error']);
                 }
@@ -304,6 +312,48 @@ final class FrontBookingController extends Controller
     }
 
     /**
+     * Return availability data with remaining spots for the frontend calendar.
+     */
+    public function getAvailabilityData(Service $service): JsonResponse
+    {
+        $availabilities = $service->availabilities()
+            ->where('date', '>=', now()->toDateString())
+            ->get(['id', 'date', 'is_available', 'available_spots', 'special_price', 'notes', 'start_time', 'end_time']);
+
+        // Get booked guests per date in one query
+        $bookedByDate = Booking::where('service_id', $service->id)
+            ->where('booking_status', '!=', 'cancelled')
+            ->where('check_in_date', '>=', now()->toDateString())
+            ->selectRaw('DATE(check_in_date) as booking_date, COALESCE(SUM(adults), 0) + COALESCE(SUM(children), 0) as total_booked')
+            ->groupBy('booking_date')
+            ->pluck('total_booked', 'booking_date')
+            ->map(fn($v) => (int) $v)
+            ->toArray();
+
+        $result = $availabilities->map(function ($a) use ($bookedByDate) {
+            $dateKey = $a->date->format('Y-m-d');
+            $booked = $bookedByDate[$dateKey] ?? 0;
+            $remaining = $a->available_spots !== null
+                ? max(0, $a->available_spots - $booked)
+                : null;
+
+            return [
+                'id'               => $a->id,
+                'date'             => $dateKey,
+                'is_available'     => $a->is_available,
+                'available_spots'  => $a->available_spots,
+                'remaining_spots'  => $remaining,
+                'special_price'    => $a->special_price,
+                'notes'            => $a->notes,
+                'start_time'       => $a->start_time ? $a->start_time->format('H:i') : null,
+                'end_time'         => $a->end_time ? $a->end_time->format('H:i') : null,
+            ];
+        });
+
+        return response()->json(['availabilities' => $result]);
+    }
+
+    /**
      * Validate a coupon code.
      */
     public function validateCoupon(Request $request): JsonResponse
@@ -506,52 +556,56 @@ final class FrontBookingController extends Controller
         $checkInDate = \Carbon\Carbon::parse($checkInDate);
         $checkOutDate = $checkOutDate ? \Carbon\Carbon::parse($checkOutDate) : $checkInDate;
 
-        // Check if service has specific availabilities
+        // Check if service has specific availability records configured
         $hasAvailabilityRecords = $service->availabilities()->exists();
 
         if ($hasAvailabilityRecords) {
-            // Check if the specific date is available
+            // Check if the specific date is marked as available
             $availability = $service->availabilities()
                 ->where('date', $checkInDate->format('Y-m-d'))
                 ->where('is_available', true)
                 ->first();
 
             if (!$availability) {
-                throw new \Exception('The service is not available for the selected date.');
+                throw new \Exception(trans('translate.The service is not available for the selected date.'));
             }
 
-            // Check if there are enough spots available
+            // Check remaining spots against total booked guests for that date
             if ($availability->available_spots !== null) {
-                // Get number of existing bookings for this date
-                $existingBookingsCount = Booking::where('service_id', $service->id)
+                $bookedGuests = Booking::where('service_id', $service->id)
                     ->where('booking_status', '!=', 'cancelled')
-                    ->whereDate('check_in_date', $checkInDate)
-                    ->sum('adults') + Booking::where('service_id', $service->id)
-                    ->where('booking_status', '!=', 'cancelled')
-                    ->whereDate('check_in_date', $checkInDate)
-                    ->sum('children');
+                    ->whereDate('check_in_date', $checkInDate->format('Y-m-d'))
+                    ->selectRaw('COALESCE(SUM(adults), 0) + COALESCE(SUM(children), 0) as total')
+                    ->value('total') ?? 0;
 
-                if ($existingBookingsCount >= $availability->available_spots) {
-                    throw new \Exception('Not enough spots available for the selected date.');
+                if ((int) $bookedGuests >= $availability->available_spots) {
+                    throw new \Exception(trans('translate.Not enough spots available for the selected date.'));
                 }
             }
+
+            // Spot-based availability handled — no further conflict check needed
+            return true;
         }
 
-        // Check existing bookings to avoid conflicts
-        $conflictingBookings = Booking::where('service_id', $service->id)
-            ->where('booking_status', '!=', 'cancelled')
-            ->where(function ($query) use ($checkInDate, $checkOutDate) {
-                $query->whereBetween('check_in_date', [$checkInDate, $checkOutDate])
-                    ->orWhereBetween('check_out_date', [$checkInDate, $checkOutDate])
-                    ->orWhere(function ($q) use ($checkInDate, $checkOutDate) {
-                        $q->where('check_in_date', '<=', $checkInDate)
-                            ->where('check_out_date', '>=', $checkOutDate);
-                    });
-            })
-            ->exists();
+        // No availability records configured:
+        // For per-person services (group tours, activities), allow multiple bookings freely
+        // For non-per-person services (exclusive packages, private rooms), check for conflicts
+        if (!$service->is_per_person) {
+            $conflictingBookings = Booking::where('service_id', $service->id)
+                ->where('booking_status', '!=', 'cancelled')
+                ->where(function ($query) use ($checkInDate, $checkOutDate) {
+                    $query->whereBetween('check_in_date', [$checkInDate, $checkOutDate])
+                        ->orWhereBetween('check_out_date', [$checkInDate, $checkOutDate])
+                        ->orWhere(function ($q) use ($checkInDate, $checkOutDate) {
+                            $q->where('check_in_date', '<=', $checkInDate)
+                                ->where('check_out_date', '>=', $checkOutDate);
+                        });
+                })
+                ->exists();
 
-        if ($conflictingBookings) {
-            throw new \Exception('The service is already booked for the selected dates.');
+            if ($conflictingBookings) {
+                throw new \Exception(trans('translate.The service is already booked for the selected dates.'));
+            }
         }
 
         return true;

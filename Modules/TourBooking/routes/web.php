@@ -235,6 +235,9 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middlew
     // Availability Check
     Route::post('/check-availability', [FrontBookingController::class, 'checkAvailability'])->name('check-availability');
 
+    // Service Availability Calendar Data (for frontend date picker)
+    Route::get('/services/{service}/availability-data', [FrontBookingController::class, 'getAvailabilityData'])->name('services.availability-data');
+
     // Coupons
     Route::post('/validate-coupon', [FrontBookingController::class, 'validateCoupon'])->name('validate-coupon');
 

@@ -57,10 +57,10 @@
                                         </div>
                                     </div>
                                     <div class="tg-booking-form-parent-inner mr-15 mb-15">
-                                        <span class="tg-booking-form-title mb-5">Check in:</span>
+                                        <span class="tg-booking-form-title mb-5">{{ __('translate.Arrival:') }}</span>
                                         <div class="tg-booking-add-input-date p-relative">
-                                            <input x-model="bookingForm.checkIn" class="input timepicker" name="check_in"
-                                                type="text" placeholder="Check in">
+                                            <input x-model="bookingForm.checkIn" class="input" id="svc2_check_in" name="checkIn"
+                                                type="text" placeholder="{{ __('translate.Select date') }}">
                                             <span>
                                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -73,10 +73,10 @@
                                         </div>
                                     </div>
                                     <div class="tg-booking-form-parent-inner mr-15 mb-15">
-                                        <span class="tg-booking-form-title mb-5">Check Out:</span>
+                                        <span class="tg-booking-form-title mb-5">{{ __('translate.Departure:') }}</span>
                                         <div class="tg-booking-add-input-date p-relative">
-                                            <input x-model="bookingForm.checkOut" class="input timepicker" name="check_out"
-                                                type="text" placeholder="Check Out">
+                                            <input x-model="bookingForm.checkOut" class="input" id="svc2_check_out" name="checkOut"
+                                                type="text" placeholder="{{ __('translate.Select date') }}">
                                             <span>
                                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -520,12 +520,31 @@
             "use strict"
             $(document).ready(function() {
 
-                // Initialize timepicker
-                $(".timepicker").flatpickr({
-                    enableTime: true,
-                    noCalendar: true,
-                    dateFormat: "H:i",
-                    time_24hr: true
+                const urlCheckIn2  = `{{ request('checkIn', '') }}`;
+                const urlCheckOut2 = `{{ request('checkOut', '') }}`;
+                const svc2InPicker = flatpickr("#svc2_check_in", {
+                    dateFormat: "Y-m-d", minDate: "today", disableMobile: true,
+                    defaultDate: urlCheckIn2 || null,
+                    onReady: function(sel, ds, inst) { if (sel.length) inst.calendarContainer.classList.add('fp-has-value'); },
+                    onChange: function(d, ds, inst) {
+                        inst.input.dispatchEvent(new Event('input', { bubbles: true }));
+                        d.length ? inst.calendarContainer.classList.add('fp-has-value') : inst.calendarContainer.classList.remove('fp-has-value');
+                        if (d[0]) svc2OutPicker.set('minDate', d[0]);
+                    }
+                });
+                const svc2OutPicker = flatpickr("#svc2_check_out", {
+                    dateFormat: "Y-m-d", minDate: urlCheckIn2 || "today", disableMobile: true,
+                    defaultDate: urlCheckOut2 || null,
+                    onReady: function(sel, ds, inst) { if (sel.length) inst.calendarContainer.classList.add('fp-has-value'); },
+                    onChange: function(d, ds, inst) {
+                        inst.input.dispatchEvent(new Event('input', { bubbles: true }));
+                        d.length ? inst.calendarContainer.classList.add('fp-has-value') : inst.calendarContainer.classList.remove('fp-has-value');
+                    }
+                });
+
+                document.addEventListener('alpine:initialized', function() {
+                    if (urlCheckIn2)  svc2InPicker.setDate(urlCheckIn2,  true);
+                    if (urlCheckOut2) svc2OutPicker.setDate(urlCheckOut2, true);
                 });
             });
         })(jQuery);

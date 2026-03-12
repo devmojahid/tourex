@@ -261,10 +261,25 @@ final class FrontServiceController extends Controller
                 return $query->where('destination_id', $request->destination_id);
             })
             ->when($request->filled('checkIn'), function ($query) use ($request) {
-                return $query->whereTime('check_in_time', $request->checkIn);
+                $checkIn = $request->checkIn;
+                // If value is a date (Y-m-d), filter by availability; if time, use legacy time filter
+                if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $checkIn)) {
+                    $query->where(function ($q) use ($checkIn) {
+                        // Services with no availability record for this date (open for all dates)
+                        $q->whereDoesntHave('availabilities', fn($q2) => $q2->whereDate('date', $checkIn))
+                          // OR services that have an available record for this date
+                          ->orWhereHas('availabilities', fn($q2) => $q2->where('date', $checkIn)->where('is_available', true));
+                    });
+                } else {
+                    $query->whereTime('check_in_time', $checkIn); // legacy time filter
+                }
             })
-            ->when($request->filled('checkOut'), function ($query) use ($request) {
-                return $query->whereTime('check_out_time', $request->checkOut);
+            ->when($request->filled('checkOut') && preg_match('/^\d{4}-\d{2}-\d{2}$/', $request->checkOut), function ($query) use ($request) {
+                // Return date: services available between checkIn and checkOut range
+                $query->where(function ($q) use ($request) {
+                    $q->whereDoesntHave('availabilities', fn($q2) => $q2->whereDate('date', $request->checkOut))
+                      ->orWhereHas('availabilities', fn($q2) => $q2->where('date', $request->checkOut)->where('is_available', true));
+                });
             })
             ->when($request->filled('destination_id'), function ($query) use ($request) {
                 return $query->where('destination_id', $request->destination_id);

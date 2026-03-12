@@ -1671,5 +1671,34 @@ return [
     "Cash Payment" => "Cash Payment",
     "Cash Payment Configuration" => "Cash Payment Configuration",
     "To" => "To",
-    "Color Setting" => "Color Setting"
+    "Color Setting" => "Color Setting",
+
+    // Hero Search & Services Filter
+    'Arrival:' => 'Arrival:',
+    'Departure:' => 'Departure:',
+    'Select date' => 'Select date',
+    'Arrival' => 'Arrival',
+    'Departure' => 'Departure',
+
+    // Availability Frontend Info
+    'Sold Out' => 'Sold Out',
+    'No spots available for this date' => 'No spots available for this date',
+    'Available for booking' => 'Available for booking',
+
+    // Admin: Tour Booking & Availability Settings
+    'Tour Booking & Availability Settings' => 'Tour Booking & Availability Settings',
+    'When No Availability Is Configured' => 'When No Availability Is Configured',
+    'Open — Allow all future dates' => 'Open — Allow all future dates',
+    'Closed — Block all dates until availability is set' => 'Closed — Block all dates until availability is set',
+    'Controls what happens in the booking calendar when no availability records are configured for a service.' => 'Controls what happens in the booking calendar when no availability records are configured for a service.',
+    'Show Remaining Spots in Booking Calendar' => 'Show Remaining Spots in Booking Calendar',
+    'Enabled' => 'Enabled',
+    'Show the number of available spots when a date is selected in the booking form.' => 'Show the number of available spots when a date is selected in the booking form.',
+    'Show Special Price in Booking Calendar' => 'Show Special Price in Booking Calendar',
+    'Show special pricing when a date with a special price is selected.' => 'Show special pricing when a date with a special price is selected.',
+    'Require Departure & Return Dates in Hero Search' => 'Require Arrival & Departure Dates in Hero Search',
+    'When enabled, departure and return date fields in the homepage search form are required.' => 'When enabled, arrival and departure date fields in the homepage search form are required.',
+    'The service is not available for the selected date.' => 'The service is not available for the selected date.',
+    'Not enough spots available for the selected date.' => 'Not enough spots available for the selected date.',
+    'The service is already booked for the selected dates.' => 'The service is already booked for the selected dates.',
 ];

@@ -733,15 +733,58 @@
                     time_24hr: true
                 });
 
-                // Extract available dates from PHP data
-                const availabilities = @json($service?->availabilities ?? []);
-                const availableDates = availabilities.map(item => item.date);
+                @php
+                    // Pre-format all availability data server-side to avoid timezone and cast issues
+                    $bookedByDate = [];
+                    if ($service->availabilities->isNotEmpty()) {
+                        $bookedByDate = \Modules\TourBooking\App\Models\Booking::where('service_id', $service->id)
+                            ->where('booking_status', '!=', 'cancelled')
+                            ->selectRaw('DATE(check_in_date) as booking_date, COALESCE(SUM(adults), 0) + COALESCE(SUM(children), 0) as total_booked')
+                            ->groupBy('booking_date')
+                            ->pluck('total_booked', 'booking_date')
+                            ->map(fn($v) => (int) $v)
+                            ->toArray();
+                    }
+
+                    $availabilityData = $service->availabilities->map(fn($a) => [
+                        'id'             => $a->id,
+                        'date'           => $a->date->format('Y-m-d'),
+                        'is_available'   => (bool) $a->is_available,
+                        'available_spots'=> $a->available_spots,
+                        'special_price'  => $a->special_price,
+                        'notes'          => $a->notes,
+                        'start_time'     => $a->start_time instanceof \Carbon\Carbon ? $a->start_time->format('H:i') : (is_string($a->start_time) ? \Illuminate\Support\Str::substr($a->start_time, 0, 5) : null),
+                        'end_time'       => $a->end_time instanceof \Carbon\Carbon ? $a->end_time->format('H:i') : (is_string($a->end_time) ? \Illuminate\Support\Str::substr($a->end_time, 0, 5) : null),
+                    ]);
+
+                    $showSpots   = ($general_setting->availability_show_spots ?? '1') === '1';
+                    $showPrice   = ($general_setting->availability_show_special_price ?? '1') === '1';
+                    $noDataBehavior = $general_setting->availability_no_data_behavior ?? 'open';
+                @endphp
+
+                const availabilities = @json($availabilityData);
+                const bookedByDate   = @json($bookedByDate);
+                const noDataBehavior = '{{ $noDataBehavior }}';
+                const showSpots      = {{ $showSpots ? 'true' : 'false' }};
+                const showSpecialPrice = {{ $showPrice ? 'true' : 'false' }};
+
+                const availableDates = [];
                 const availabilityMap = {};
 
-                // Create a map of date -> availability details for quick lookup
                 availabilities.forEach(item => {
-                    availabilityMap[item.date] = {
-                        spots: item.available_spots,
+                    const dateKey = item.date; // Already Y-m-d, formatted server-side
+                    const booked = bookedByDate[dateKey] ?? 0;
+                    const remainingSpots = item.available_spots !== null
+                        ? Math.max(0, item.available_spots - booked)
+                        : null;
+
+                    if (item.is_available && (remainingSpots === null || remainingSpots > 0)) {
+                        availableDates.push(dateKey);
+                    }
+
+                    availabilityMap[dateKey] = {
+                        id: item.id,
+                        spots: remainingSpots,
                         special_price: item.special_price,
                         notes: item.notes,
                         start_time: item.start_time,
@@ -750,18 +793,36 @@
                     };
                 });
 
-                // Initialize date picker with available dates only
-                const datePicker = flatpickr("input[name='check_in_date']", {
+                // Build flatpickr config
+                const datePickerOptions = {
                     dateFormat: "Y-m-d",
                     disableMobile: "true",
                     minDate: "today",
-                    enable: availableDates,
                     onChange: function(selectedDates, dateStr) {
                         updateAvailabilityInfo(dateStr);
                     }
-                });
+                };
 
-                // Function to update availability information when a date is selected
+                // Respect no-data-behavior setting
+                if (availableDates.length > 0) {
+                    datePickerOptions.enable = availableDates;
+                } else if (noDataBehavior === 'closed' && availabilities.length === 0) {
+                    datePickerOptions.disable = [function() { return true; }]; // block all
+                }
+
+                const datePicker = flatpickr("input[name='check_in_date']", datePickerOptions);
+
+                // Pre-rendered translations (resolved server-side, no literal key issues)
+                const tr = {
+                    soldOut:        '{!! addslashes(__('translate.Sold Out')) !!}',
+                    noSpots:        '{!! addslashes(__('translate.No spots available for this date')) !!}',
+                    availableSpots: '{!! addslashes(__('translate.Available Spots')) !!}',
+                    openBooking:    '{!! addslashes(__('translate.Available for booking')) !!}',
+                    time:           '{!! addslashes(__('translate.Time')) !!}',
+                    specialPrice:   '{!! addslashes(__('translate.Special Price')) !!}',
+                    notes:          '{!! addslashes(__('translate.Notes')) !!}',
+                };
+
                 function updateAvailabilityInfo(dateStr) {
                     const availInfo = $('#availability-info');
                     const bookBtn = $('button[type="submit"]');
@@ -769,41 +830,39 @@
 
                     if (dateStr && availabilityMap[dateStr]) {
                         const info = availabilityMap[dateStr];
-                        const availId = availabilities.find(a => a.date === dateStr)?.id;
 
-                        // Store the selected availability ID
-                        availabilityInput.val(availId || '');
+                        availabilityInput.val(info.id || '');
 
-                        // Create information display
-                        let html = '<div class="alert alert-info mt-2 mb-0">';
+                        let html = '<div class="alert alert-info mt-2 mb-0 p-2">';
 
-                        if (info.spots !== null) {
-                            html += `<p class="mb-1"><strong>Available spots:</strong> ${info.spots}</p>`;
-
-                            // Disable booking if no spots available
+                        if (showSpots && info.spots !== null) {
                             if (info.spots <= 0) {
-                                html += '<p class="text-danger mb-0">No spots available for this date!</p>';
+                                html += `<p class="mb-1 text-danger"><strong>${tr.soldOut}</strong> — ${tr.noSpots}</p>`;
                                 bookBtn.prop('disabled', true);
                             } else {
+                                html += `<p class="mb-1"><strong>${tr.availableSpots}:</strong> ${info.spots}</p>`;
                                 bookBtn.prop('disabled', false);
                             }
                         } else {
-                            html += '<p class="mb-1">Spots available for booking</p>';
-                            bookBtn.prop('disabled', false);
+                            if (!info.is_available) {
+                                html += `<p class="mb-1 text-danger"><strong>${tr.soldOut}</strong></p>`;
+                                bookBtn.prop('disabled', true);
+                            } else {
+                                html += `<p class="mb-1">${tr.openBooking}</p>`;
+                                bookBtn.prop('disabled', false);
+                            }
                         }
 
                         if (info.start_time && info.end_time) {
-                            html +=
-                                `<p class="mb-1"><strong>Time:</strong> ${info.start_time.substring(0,5)} - ${info.end_time.substring(0,5)}</p>`;
+                            html += `<p class="mb-1"><strong>${tr.time}:</strong> ${info.start_time} – ${info.end_time}</p>`;
                         }
 
-                        if (info.special_price) {
-                            html +=
-                                `<p class="mb-1"><strong>Special price:</strong> $${info.special_price}</p>`;
+                        if (showSpecialPrice && info.special_price) {
+                            html += `<p class="mb-1"><strong>${tr.specialPrice}:</strong> {!! currency(1) !== '' ? '' : '' !!}${info.special_price}</p>`;
                         }
 
                         if (info.notes) {
-                            html += `<p class="mb-0"><strong>Notes:</strong> ${info.notes}</p>`;
+                            html += `<p class="mb-0"><strong>${tr.notes}:</strong> ${info.notes}</p>`;
                         }
 
                         html += '</div>';
@@ -815,7 +874,6 @@
                     }
                 }
 
-                // Initial call in case a date is pre-selected
                 const initialDate = $('input[name="check_in_date"]').val();
                 if (initialDate) {
                     updateAvailabilityInfo(initialDate);

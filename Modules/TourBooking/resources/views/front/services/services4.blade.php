@@ -64,11 +64,11 @@
                                             </div>
                                         </div>
                                         <div class="tg-booking-form-parent-inner mr-15 mb-15">
-                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Check in:') }}</span>
+                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Arrival:') }}</span>
                                             <div class="tg-booking-add-input-date p-relative">
-                                                <input x-model="bookingForm.checkIn" class="input timepicker"
-                                                    name="check_in" type="text"
-                                                    placeholder="{{ __('translate.Check in') }}">
+                                                <input x-model="bookingForm.checkIn" class="input"
+                                                    id="svc4_check_in" name="checkIn" type="text"
+                                                    placeholder="{{ __('translate.Select date') }}">
                                                 <span>
                                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -334,12 +334,20 @@
             "use strict"
             $(document).ready(function() {
 
-                // Initialize timepicker
-                $(".timepicker").flatpickr({
-                    enableTime: true,
-                    noCalendar: true,
-                    dateFormat: "H:i",
-                    time_24hr: true
+                const urlCheckIn4  = `{{ request('checkIn', '') }}`;
+                const urlCheckOut4 = `{{ request('checkOut', '') }}`;
+                const svc4InPicker = flatpickr("#svc4_check_in", {
+                    dateFormat: "Y-m-d", minDate: "today", disableMobile: true,
+                    defaultDate: urlCheckIn4 || null,
+                    onReady: function(sel, ds, inst) { if (sel.length) inst.calendarContainer.classList.add('fp-has-value'); },
+                    onChange: function(d, ds, inst) {
+                        inst.input.dispatchEvent(new Event('input', { bubbles: true }));
+                        d.length ? inst.calendarContainer.classList.add('fp-has-value') : inst.calendarContainer.classList.remove('fp-has-value');
+                    }
+                });
+
+                document.addEventListener('alpine:initialized', function() {
+                    if (urlCheckIn4) svc4InPicker.setDate(urlCheckIn4, true);
                 });
             });
         })(jQuery);

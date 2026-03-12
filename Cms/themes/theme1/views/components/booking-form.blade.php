@@ -85,10 +85,12 @@
                                                 </div>
                                                 <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                                     <span
-                                                        class="tg-booking-form-title mb-5">{{ __('translate.Check in:') }}</span>
+                                                        class="tg-booking-form-title mb-5">{{ __('translate.Arrival:') }}</span>
                                                     <div class="tg-booking-add-input-date p-relative">
-                                                        <input x-model="check_in" class="input timepicker"
-                                                            name="datetime-local" type="text" placeholder="12.00">
+                                                        <input x-model="check_in" class="input hero-datepicker"
+                                                            id="hero_check_in" name="check_in" type="text"
+                                                            placeholder="{{ __('translate.Select date') }}"
+                                                            {{ ($general_setting->availability_require_search_dates ?? '0') === '1' ? 'required' : '' }}>
                                                         <span>
                                                             <svg width="14" height="14" viewBox="0 0 14 14"
                                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -102,10 +104,12 @@
                                                 </div>
                                                 <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                                     <span
-                                                        class="tg-booking-form-title mb-5">{{ __('translate.Check Out:') }}</span>
+                                                        class="tg-booking-form-title mb-5">{{ __('translate.Departure:') }}</span>
                                                     <div class="tg-booking-add-input-date p-relative">
-                                                        <input x-model="check_out" class="input timepicker"
-                                                            name="datetime-local" type="text" placeholder="12.10">
+                                                        <input x-model="check_out" class="input hero-datepicker"
+                                                            id="hero_check_out" name="check_out" type="text"
+                                                            placeholder="{{ __('translate.Select date') }}"
+                                                            {{ ($general_setting->availability_require_search_dates ?? '0') === '1' ? 'required' : '' }}>
                                                         <span>
                                                             <svg width="14" height="14" viewBox="0 0 14 14"
                                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -313,12 +317,27 @@
                 "use strict"
                 $(document).ready(function() {
 
-                    // Initialize timepicker
-                    $(".timepicker").flatpickr({
-                        enableTime: true,
-                        noCalendar: true,
-                        dateFormat: "H:i",
-                        time_24hr: true
+                    // Hero search date pickers (Arrival & Departure)
+                    // Must dispatch 'input' event so Alpine.js x-model detects flatpickr's value change
+                    const checkInPicker = flatpickr("#hero_check_in", {
+                        dateFormat: "Y-m-d",
+                        minDate: "today",
+                        disableMobile: true,
+                        onChange: function(selectedDates, dateStr, instance) {
+                            instance.input.dispatchEvent(new Event('input', { bubbles: true }));
+                            if (selectedDates[0]) {
+                                checkOutPicker.set('minDate', selectedDates[0]);
+                            }
+                        }
+                    });
+
+                    const checkOutPicker = flatpickr("#hero_check_out", {
+                        dateFormat: "Y-m-d",
+                        minDate: "today",
+                        disableMobile: true,
+                        onChange: function(selectedDates, dateStr, instance) {
+                            instance.input.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
                     });
                 });
             })(jQuery);
@@ -377,8 +396,8 @@
                         const params = new URLSearchParams({
                             destination: this.destination,
                             destination_id: this.destination_id,
-                            check_in: this.check_in,
-                            check_out: this.check_out,
+                            checkIn: this.check_in,
+                            checkOut: this.check_out,
                             rooms: this.rooms,
                             adults: this.adults,
                             children: this.children

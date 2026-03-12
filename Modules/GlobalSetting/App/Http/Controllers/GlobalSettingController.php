@@ -105,6 +105,12 @@ class GlobalSettingController extends Controller
         GlobalSetting::where('key', 'commission_per_sale')->update(['value' => $request->commission_per_sale]);
         GlobalSetting::where('key', 'preloader_status')->update(['value' => $request->preloader_status]);
 
+        // Availability / Tour Booking settings
+        GlobalSetting::where('key', 'availability_no_data_behavior')->update(['value' => $request->availability_no_data_behavior ?? 'open']);
+        GlobalSetting::where('key', 'availability_show_spots')->update(['value' => $request->has('availability_show_spots') ? '1' : '0']);
+        GlobalSetting::where('key', 'availability_show_special_price')->update(['value' => $request->has('availability_show_special_price') ? '1' : '0']);
+        GlobalSetting::where('key', 'availability_require_search_dates')->update(['value' => $request->has('availability_require_search_dates') ? '1' : '0']);
+
         $this->set_cache_setting();
 
         $notify_message = trans('translate.Updated successfully');
