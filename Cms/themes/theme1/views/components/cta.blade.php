@@ -4,7 +4,7 @@
 
 @if (!empty($theme1_cta))
     <!-- tg-cta-area-start -->
-    <div class="tg-cta-area-area tg-cta-space z-index-9 p-relative">
+    <div class="tg-cta-area-area tg-cta-space z-index-9 p-relative d-none">
         <div class="container">
             <div class="row">
                 <div class="col-12">

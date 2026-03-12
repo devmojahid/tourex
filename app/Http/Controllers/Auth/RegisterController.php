@@ -48,7 +48,8 @@ class RegisterController extends Controller
         $this->middleware('guest:web');
     }
 
-    public function custom_register_page(){
+    public function custom_register_page()
+    {
 
         $breadcrumb_title = trans('translate.Sign Up');
 
@@ -58,15 +59,16 @@ class RegisterController extends Controller
     }
 
 
-    public function store_register(Request $request){
+    public function store_register(Request $request)
+    {
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', 'min:4', 'max:100'],
-            'g-recaptcha-response'=>new Captcha()
+            'g-recaptcha-response' => new Captcha()
 
-        ],[
+        ], [
             'name.required' => trans('translate.Name is required'),
             'email.required' => trans('translate.Email is required'),
             'email.unique' => trans('translate.Email already exist'),
@@ -78,7 +80,7 @@ class RegisterController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'username' => Str::slug($request->name).'-'.date('Ymdhis'),
+            'username' => Str::slug($request->name) . '-' . date('Ymdhis'),
             'status' => 'enable',
             'is_banned' => 'no',
             'password' => Hash::make($request->password),
@@ -87,33 +89,33 @@ class RegisterController extends Controller
 
         EmailHelper::mail_setup();
 
-        $verification_link = route('user.register-verification').'?verification_link='.$user->verification_token.'&email='.$user->email;
-        $verification_link = '<a href="'.$verification_link.'">'.$verification_link.'</a>';
+        $verification_link = route('user.register-verification') . '?verification_link=' . $user->verification_token . '&email=' . $user->email;
+        $verification_link = '<a href="' . $verification_link . '">' . $verification_link . '</a>';
 
-        try{
-            $template=EmailTemplate::where('id',4)->first();
-            $subject=$template->subject;
-            $message=$template->description;
-            $message = str_replace('{{user_name}}',$request->name,$message);
-            $message = str_replace('{{varification_link}}',$verification_link,$message);
+        try {
+            $template = EmailTemplate::where('id', 4)->first();
+            $subject = $template->subject;
+            $message = $template->description;
+            $message = str_replace('{{user_name}}', $request->name, $message);
+            $message = str_replace('{{varification_link}}', $verification_link, $message);
 
-            Mail::to($user->email)->send(new UserRegistration($message,$subject,$user));
-        }catch(Exception $ex){
-            Log::info('Register mail : '. $ex->getMessage());
+            Mail::to($user->email)->send(new UserRegistration($message, $subject, $user));
+        } catch (Exception $ex) {
+            Log::info('Register mail : ' . $ex->getMessage());
         }
 
 
         $notify_message = trans('translate.Account created successful, a verification link has been send to your mail, please verify it');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         return redirect()->back()->with($notify_message);
-
     }
 
-    public function register_verification(Request $request){
-        $user = User::where('verification_token',$request->verification_link)->where('email', $request->email)->first();
-        if($user){
+    public function register_verification(Request $request)
+    {
+        $user = User::where('verification_token', $request->verification_link)->where('email', $request->email)->first();
+        if ($user) {
 
-            if($user->email_verified_at != null){
+            if ($user->email_verified_at != null) {
 
                 $notify_message = trans('translate.Email already verified');
                 $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
@@ -127,7 +129,7 @@ class RegisterController extends Controller
             $notify_message = trans('translate.Verification Successfully');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
             return redirect()->route('user.login')->with($notify_message);
-        }else{
+        } else {
 
             $notify_message = trans('translate.Invalid token or email');
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');

@@ -314,28 +314,25 @@ class EcommercePaymentController extends Controller
 
     public function pay_via_instamojo(Request $request)
     {
-
-
         if (env('APP_MODE') == 'DEMO') {
             $notification = trans('translate.This Is Demo Version. You Can Not Change Anything');
-            $notification = array('messege' => $notification, 'alert-type' => 'error');
-            return redirect()->back()->with($notification);
+            return redirect()->back()->with([
+                'messege' => $notification,
+                'alert-type' => 'error'
+            ]);
         }
 
         $user = Auth::guard('web')->user();
-
         $orderData = session()->get('orderData');
-
         $total = $orderData['total'];
 
         try {
             $instamojo_currency = Currency::findOrFail($this->payment_setting->instamojo_currency_id);
-            $price = $total * $instamojo_currency->currency_rate;
-            $price = round($price, 2);
+            $price = round($total * $instamojo_currency->currency_rate, 2);
 
             $environment = $this->payment_setting->instamojo_account_mode;
-            $api_key = $this->payment_setting->instamojo_api_key;
-            $auth_token = $this->payment_setting->instamojo_auth_token;
+            $api_key     = $this->payment_setting->instamojo_api_key;
+            $auth_token  = $this->payment_setting->instamojo_auth_token;
 
             // Validate credentials
             if (empty($api_key) || empty($auth_token)) {
@@ -346,49 +343,60 @@ class EcommercePaymentController extends Controller
                 ? 'https://test.instamojo.com/api/1.1/'
                 : 'https://www.instamojo.com/api/1.1/';
 
+            $payload = [
+                'purpose' => env("APP_NAME"),
+                'amount' => $price,
+                'phone' => '918160651749',
+                'buyer_name' => $user->name,
+                'redirect_url' => route('ecommerce.response-instamojo'),
+                'send_email' => true,
+                'email' => $user->email,
+                'allow_repeated_payments' => false
+            ];
+
+            // Log outgoing payload
+            \Log::info('Instamojo payment: Sending payload', $payload);
+
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url.'payment-requests/');
-            curl_setopt($ch, CURLOPT_HEADER, FALSE);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+            curl_setopt($ch, CURLOPT_URL, $url . 'payment-requests/');
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "X-Api-Key: $api_key",
                 "X-Auth-Token: $auth_token",
                 "Content-Type: application/x-www-form-urlencoded"
             ]);
-
-            $payload = [
-                'purpose' => env("APP_NAME"),
-                'amount' => $price,
-                'phone' => '918160651749',
-                'buyer_name' => Auth::user()->name,
-                'redirect_url' => route('ecommerce.response-instamojo'),
-                'send_email' => true,
-                'email' => Auth::user()->email,
-                'allow_repeated_payments' => false
-            ];
-
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
 
             $response = curl_exec($ch);
 
             if (curl_errno($ch)) {
-                throw new \Exception('Curl error: ' . curl_error($ch));
+                $errorMsg = 'Curl error: ' . curl_error($ch);
+                \Log::error('Instamojo payment: ' . $errorMsg);
+                throw new \Exception($errorMsg);
             }
 
             $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
+            // Log raw response and status
+            \Log::info('Instamojo payment: Raw response', [
+                'http_status' => $http_status,
+                'response' => $response
+            ]);
+
             if ($http_status !== 200) {
-                \Log::error('Instamojo API Error. Status: ' . $http_status . ', Response: ' . $response);
                 throw new \Exception('Invalid API response (Status: ' . $http_status . ')');
             }
 
             $response_data = json_decode($response);
 
+            // Log decoded response
+            \Log::info('Instamojo payment: Decoded response', (array) $response_data);
+
             if (!$response_data || !isset($response_data->payment_request)) {
-                \Log::error('Invalid Instamojo response: ' . $response);
                 throw new \Exception('Invalid API response format');
             }
 
@@ -401,72 +409,64 @@ class EcommercePaymentController extends Controller
                 'alert-type' => 'error'
             ]);
         }
-
     }
 
     public function instamojo_response(Request $request)
     {
-
         $input = $request->all();
-        $instamojoPayment = InstamojoPayment::first();
-        $environment = $instamojoPayment->account_mode;
-        $api_key = $instamojoPayment->api_key;
-        $auth_token = $instamojoPayment->auth_token;
+        \Log::info('Instamojo response: Incoming request', $input);
 
         $environment = $this->payment_setting->instamojo_account_mode;
-        $api_key = $this->payment_setting->instamojo_api_key;
-        $auth_token = $this->payment_setting->instamojo_auth_token;
+        $api_key     = $this->payment_setting->instamojo_api_key;
+        $auth_token  = $this->payment_setting->instamojo_auth_token;
 
-        if ($environment == 'Sandbox') {
-            $url = 'https://test.instamojo.com/api/1.1/';
-        } else {
-            $url = 'https://www.instamojo.com/api/1.1/';
-        }
+        $url = ($environment == 'Sandbox')
+            ? 'https://test.instamojo.com/api/1.1/'
+            : 'https://www.instamojo.com/api/1.1/';
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url . 'payments/' . $request->get('payment_id'));
-        curl_setopt($ch, CURLOPT_HEADER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-        curl_setopt(
-            $ch,
-            CURLOPT_HTTPHEADER,
-            array(
-                "X-Api-Key:$api_key",
-                "X-Auth-Token:$auth_token"
-            )
-        );
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "X-Api-Key:$api_key",
+            "X-Auth-Token:$auth_token"
+        ]);
+
         $response = curl_exec($ch);
         $err = curl_error($ch);
         curl_close($ch);
 
         if ($err) {
-
-            $notification = trans('translate.Something went wrong, please try again');
-            $notification = array('messege' => $notification, 'alert-type' => 'error');
-            return redirect()->back()->with($notification);
-        } else {
-            $data = json_decode($response);
+            \Log::error('Instamojo response: Curl error', ['error' => $err]);
+            return redirect()->back()->with([
+                'messege' => trans('translate.Something went wrong, please try again'),
+                'alert-type' => 'error'
+            ]);
         }
 
-        if ($data->success == true) {
-            if ($data->payment->status == 'Credit') {
+        \Log::info('Instamojo response: Raw response', ['response' => $response]);
 
+        $data = json_decode($response);
+        \Log::info('Instamojo response: Decoded response', (array) $data);
 
-                $user = Auth::guard('web')->user();
+        if ($data->success == true && isset($data->payment) && $data->payment->status == 'Credit') {
+            $user = Auth::guard('web')->user();
+            $orderData = session()->get('orderData');
 
-                $orderData = session()->get('orderData');
-                $order = $this->create_order($user, $orderData, 'Instamojo', Status::APPROVED);
+            $order = $this->create_order($user, $orderData, 'Instamojo', Status::APPROVED);
 
-                $notification = trans('translate.Your payment has been made successful. Thanks for your new purchase');
-                $notification = array('messege' => $notification, 'alert-type' => 'success');
-                return redirect()->route('user.orders')->with($notification);
-            }
-        } else {
-            $notification = trans('translate.Something went wrong, please try again');
-            $notification = array('messege' => $notification, 'alert-type' => 'error');
-            return redirect()->back()->with($notification);
+            return redirect()->route('user.orders')->with([
+                'messege' => trans('translate.Your payment has been made successful. Thanks for your new purchase'),
+                'alert-type' => 'success'
+            ]);
         }
+
+        return redirect()->back()->with([
+            'messege' => trans('translate.Something went wrong, please try again'),
+            'alert-type' => 'error'
+        ]);
     }
 
 
@@ -493,7 +493,6 @@ class EcommercePaymentController extends Controller
         $notification = array('messege' => $notification, 'alert-type' => 'success');
         return redirect()->route('user.orders')->with($notification);
     }
-
 
 
     protected function create_order($user, array $orderData, $payment_method, $payment_status, $tnx_info = null)
