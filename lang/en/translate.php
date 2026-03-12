@@ -1701,4 +1701,6 @@ return [
     'The service is not available for the selected date.' => 'The service is not available for the selected date.',
     'Not enough spots available for the selected date.' => 'Not enough spots available for the selected date.',
     'The service is already booked for the selected dates.' => 'The service is already booked for the selected dates.',
+    'Filter Hero Search Dates by Availability' => 'Filter Hero Search Dates by Availability',
+    'When enabled, the hero search date pickers will disable dates where no service of the selected type is available.' => 'When enabled, the hero search date pickers will disable dates where no service of the selected type is available.',
 ];

@@ -15,6 +15,7 @@ return new class extends Migration
             'availability_show_spots'           => '1',     // '1' = show remaining spots, '0' = hide
             'availability_show_special_price'   => '1',     // '1' = show special price, '0' = hide
             'availability_require_search_dates' => '0',     // '1' = require dates in hero search
+            'availability_hero_filter_dates'    => '0',     // '1' = filter hero search dates by service type availability
         ];
 
         foreach ($defaults as $key => $value) {
@@ -31,6 +32,7 @@ return new class extends Migration
             'availability_show_spots',
             'availability_show_special_price',
             'availability_require_search_dates',
+            'availability_hero_filter_dates',
         ];
 
         GlobalSetting::whereIn('key', $keys)->delete();

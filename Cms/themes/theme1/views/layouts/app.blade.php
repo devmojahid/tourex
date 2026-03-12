@@ -18,6 +18,36 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/fontawesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/flatpicker.css') }}">
+    <style>
+        /* Flatpickr: selected date uses theme primary color */
+        .flatpickr-day.selected,
+        .flatpickr-day.selected:hover,
+        .flatpickr-day.selected:focus,
+        .flatpickr-day.selected.inRange,
+        .flatpickr-day.startRange,
+        .flatpickr-day.endRange {
+            background: var(--tg-theme-primary) !important;
+            border-color: var(--tg-theme-primary) !important;
+            color: #fff !important;
+        }
+        /* Flatpickr: today highlight subtle when another date is selected */
+        .flatpickr-calendar.fp-has-value .flatpickr-day.today:not(.selected) {
+            background: transparent !important;
+            color: #393939 !important;
+            border-color: transparent !important;
+            border-bottom: 2px solid var(--tg-theme-primary) !important;
+        }
+        .flatpickr-calendar.fp-has-value .flatpickr-day.today:not(.selected):hover {
+            background: #e6e6e6 !important;
+            color: #393939 !important;
+        }
+        /* Flatpickr: disabled dates look greyed out */
+        .flatpickr-day.flatpickr-disabled,
+        .flatpickr-day.flatpickr-disabled:hover {
+            color: #d1d1d1 !important;
+            cursor: not-allowed !important;
+        }
+    </style>
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/odometer.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/default.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/main.css') }}">

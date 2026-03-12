@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Cache;
 use Modules\TourBooking\App\Models\Availability;
 use Modules\TourBooking\App\Models\Booking;
 use Modules\TourBooking\App\Models\Coupon;
@@ -351,6 +352,58 @@ final class FrontBookingController extends Controller
         });
 
         return response()->json(['availabilities' => $result]);
+    }
+
+    /**
+     * Return aggregated available dates for all services of a given service type.
+     * Used by the hero search to disable dates where NO service of the type is available.
+     *
+     * Logic:
+     *  - Only dates with explicit availability records (is_available=true, spots>0 or null) count.
+     *  - Services with NO availability records configured contribute NO dates to the hero calendar
+     *    (regardless of the no_data_behavior setting — that setting only applies on service detail pages).
+     *  - A date is enabled if at least ONE service of the type has an available record for it.
+     *  - If no services exist for this type, or no services have any available dates, all dates are blocked.
+     */
+    public function getServiceTypeHeroDates(int $serviceTypeId): JsonResponse
+    {
+        $setting = Cache::get('setting');
+        $heroFilterEnabled = ($setting->availability_hero_filter_dates ?? '0') === '1';
+
+        // If the feature is disabled in settings, return no restrictions
+        if (!$heroFilterEnabled) {
+            return response()->json(['restrict_dates' => false, 'available_dates' => []]);
+        }
+
+        // Get all active services of this type
+        $serviceIds = Service::where('service_type_id', $serviceTypeId)
+            ->where('status', true)
+            ->pluck('id');
+
+        // No active services of this type → block all dates
+        if ($serviceIds->isEmpty()) {
+            return response()->json(['restrict_dates' => true, 'available_dates' => []]);
+        }
+
+        // Query: all future availability records for these services that are available
+        // with spots > 0 or unlimited (null)
+        $availableDates = Availability::whereIn('service_id', $serviceIds)
+            ->where('date', '>=', now()->toDateString())
+            ->where('is_available', true)
+            ->where(function ($q) {
+                $q->whereNull('available_spots')
+                  ->orWhere('available_spots', '>', 0);
+            })
+            ->pluck('date')
+            ->map(fn($d) => $d->format('Y-m-d'))
+            ->unique()
+            ->sort()
+            ->values();
+
+        return response()->json([
+            'restrict_dates' => true,
+            'available_dates' => $availableDates,
+        ]);
     }
 
     /**

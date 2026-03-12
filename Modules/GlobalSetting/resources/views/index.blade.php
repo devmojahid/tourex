@@ -486,7 +486,7 @@
                                                                                             </div>
                                                                                         </div>
 
-                                                                                        <div class="col-12">
+                                                                                        <div class="col-md-6">
                                                                                             <div class="crancy__item-form--group mg-top-form-20">
                                                                                                 <label class="crancy__item-label">{{ __('translate.Require Departure & Return Dates in Hero Search') }}</label>
                                                                                                 <div class="form-check form-switch mt-2">
@@ -495,6 +495,18 @@
                                                                                                     <label class="form-check-label" for="availability_require_search_dates">{{ __('translate.Enabled') }}</label>
                                                                                                 </div>
                                                                                                 <small class="text-muted">{{ __('translate.When enabled, departure and return date fields in the homepage search form are required.') }}</small>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <label class="crancy__item-label">{{ __('translate.Filter Hero Search Dates by Availability') }}</label>
+                                                                                                <div class="form-check form-switch mt-2">
+                                                                                                    <input class="form-check-input" type="checkbox" name="availability_hero_filter_dates" id="availability_hero_filter_dates" value="1"
+                                                                                                        {{ ($general_setting->availability_hero_filter_dates ?? '0') === '1' ? 'checked' : '' }}>
+                                                                                                    <label class="form-check-label" for="availability_hero_filter_dates">{{ __('translate.Enabled') }}</label>
+                                                                                                </div>
+                                                                                                <small class="text-muted">{{ __('translate.When enabled, the hero search date pickers will disable dates where no service of the selected type is available.') }}</small>
                                                                                             </div>
                                                                                         </div>
                                                                                         {{-- End Tour / Availability Settings --}}

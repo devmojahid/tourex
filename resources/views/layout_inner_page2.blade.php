@@ -25,7 +25,9 @@
         .flatpickr-day.selected,
         .flatpickr-day.selected:hover,
         .flatpickr-day.selected:focus,
-        .flatpickr-day.selected.inRange {
+        .flatpickr-day.selected.inRange,
+        .flatpickr-day.startRange,
+        .flatpickr-day.endRange {
             background: var(--tg-theme-primary) !important;
             border-color: var(--tg-theme-primary) !important;
             color: #fff !important;
@@ -40,6 +42,12 @@
         .flatpickr-calendar.fp-has-value .flatpickr-day.today:not(.selected):hover {
             background: #e6e6e6 !important;
             color: #393939 !important;
+        }
+        /* Flatpickr: disabled dates look greyed out */
+        .flatpickr-day.flatpickr-disabled,
+        .flatpickr-day.flatpickr-disabled:hover {
+            color: #d1d1d1 !important;
+            cursor: not-allowed !important;
         }
     </style>
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/odometer.css') }}">

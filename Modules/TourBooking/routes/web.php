@@ -238,6 +238,9 @@ Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middlew
     // Service Availability Calendar Data (for frontend date picker)
     Route::get('/services/{service}/availability-data', [FrontBookingController::class, 'getAvailabilityData'])->name('services.availability-data');
 
+    // Hero Search: aggregated available dates by service type
+    Route::get('/service-type/{serviceTypeId}/hero-dates', [FrontBookingController::class, 'getServiceTypeHeroDates'])->name('service-type.hero-dates');
+
     // Coupons
     Route::post('/validate-coupon', [FrontBookingController::class, 'validateCoupon'])->name('validate-coupon');
 

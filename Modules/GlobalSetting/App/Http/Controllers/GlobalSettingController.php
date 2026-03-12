@@ -110,6 +110,7 @@ class GlobalSettingController extends Controller
         GlobalSetting::where('key', 'availability_show_spots')->update(['value' => $request->has('availability_show_spots') ? '1' : '0']);
         GlobalSetting::where('key', 'availability_show_special_price')->update(['value' => $request->has('availability_show_special_price') ? '1' : '0']);
         GlobalSetting::where('key', 'availability_require_search_dates')->update(['value' => $request->has('availability_require_search_dates') ? '1' : '0']);
+        GlobalSetting::where('key', 'availability_hero_filter_dates')->update(['value' => $request->has('availability_hero_filter_dates') ? '1' : '0']);
 
         $this->set_cache_setting();
 
