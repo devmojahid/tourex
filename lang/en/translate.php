@@ -1685,6 +1685,13 @@ return [
     'No spots available for this date' => 'No spots available for this date',
     'Available for booking' => 'Available for booking',
 
+    // Admin: Currency & Price Display Settings
+    'Currency & Price Display Settings' => 'Currency & Price Display Settings',
+    'Price Abbreviation' => 'Price Abbreviation',
+    'None — Show full number (e.g. 11,000.00fcfa)' => 'None — Show full number (e.g. 11,000.00fcfa)',
+    'Abbreviate — K for thousands, M for millions (e.g. 11Kfcfa, 1.5Mfcfa)' => 'Abbreviate — K for thousands, M for millions (e.g. 11Kfcfa, 1.5Mfcfa)',
+    'Choose how large prices are displayed. Abbreviation is useful for high-rate currencies like FCFA, IDR, etc.' => 'Choose how large prices are displayed. Abbreviation is useful for high-rate currencies like FCFA, IDR, etc.',
+
     // Admin: Tour Booking & Availability Settings
     'Tour Booking & Availability Settings' => 'Tour Booking & Availability Settings',
     'When No Availability Is Configured' => 'When No Availability Is Configured',

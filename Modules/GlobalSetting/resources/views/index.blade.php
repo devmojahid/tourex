@@ -439,6 +439,30 @@
                                                                                             </div>
                                                                                         </div>
 
+                                                                                        {{-- Currency Display Settings --}}
+                                                                                        <div class="col-12">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <hr>
+                                                                                                <h5 class="mb-15">{{ __('translate.Currency & Price Display Settings') }}</h5>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-12">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <label class="crancy__item-label">{{ __('translate.Price Abbreviation') }}</label>
+                                                                                                <select class="form-select crancy__item-input" name="price_abbreviation">
+                                                                                                    <option value="none" {{ ($general_setting->price_abbreviation ?? 'none') == 'none' ? 'selected' : '' }}>
+                                                                                                        {{ __('translate.None — Show full number (e.g. 11,000.00fcfa)') }}
+                                                                                                    </option>
+                                                                                                    <option value="k" {{ ($general_setting->price_abbreviation ?? '') == 'k' ? 'selected' : '' }}>
+                                                                                                        {{ __('translate.Abbreviate — K for thousands, M for millions (e.g. 11Kfcfa, 1.5Mfcfa)') }}
+                                                                                                    </option>
+                                                                                                </select>
+                                                                                                <small class="text-muted">{{ __('translate.Choose how large prices are displayed. Abbreviation is useful for high-rate currencies like FCFA, IDR, etc.') }}</small>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        {{-- End Currency Display Settings --}}
+
                                                                                         {{-- Tour / Availability Settings --}}
                                                                                         <div class="col-12">
                                                                                             <div class="crancy__item-form--group mg-top-form-20">

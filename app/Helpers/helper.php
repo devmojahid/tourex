@@ -32,6 +32,32 @@ function html_decode($text)
     return $decode_text;
 }
 
+function abbreviate_price_amount(float $raw_amount): ?string
+{
+    $setting = \Illuminate\Support\Facades\Cache::get('setting');
+    $mode = $setting->price_abbreviation ?? 'none';
+
+    if ($mode === 'none') {
+        return null;
+    }
+
+    // Abbreviate millions
+    if ($raw_amount >= 1000000) {
+        $val = $raw_amount / 1000000;
+        $formatted = ($val == floor($val)) ? number_format((int) $val, 0) : number_format($val, 1);
+        return $formatted . 'M';
+    }
+
+    // Abbreviate thousands
+    if ($raw_amount >= 1000) {
+        $val = $raw_amount / 1000;
+        $formatted = ($val == floor($val)) ? number_format((int) $val, 0) : number_format($val, 1);
+        return $formatted . 'K';
+    }
+
+    return null;
+}
+
 function currency($amount)
 {
 
@@ -44,19 +70,22 @@ function currency($amount)
     $currency_rate = $defaultCurrency?->currency_rate ?? Session::get('currency_rate', 1);
     $currency_position = $defaultCurrency?->currency_position ?? Session::get('currency_position', 'before_price');
 
-    $amount = $amount * $currency_rate;
-    $amount = number_format($amount, 2, '.', ',');
+    $raw_amount = $amount * $currency_rate;
+
+    // Apply abbreviation (K/M) if enabled in settings, otherwise full number
+    $abbreviated = abbreviate_price_amount($raw_amount);
+    $formatted = $abbreviated ?? number_format($raw_amount, 2, '.', ',');
 
     if ($currency_position == 'before_price') {
-        $amount = $currency_icon . $amount;
+        $amount = $currency_icon . $formatted;
     } elseif ($currency_position == 'before_price_with_space') {
-        $amount = $currency_icon . ' ' . $amount;
+        $amount = $currency_icon . ' ' . $formatted;
     } elseif ($currency_position == 'after_price') {
-        $amount = $amount . $currency_icon;
+        $amount = $formatted . $currency_icon;
     } elseif ($currency_position == 'after_price_with_space') {
-        $amount = $amount . ' ' . $currency_icon;
+        $amount = $formatted . ' ' . $currency_icon;
     } else {
-        $amount = $currency_icon . $amount;
+        $amount = $currency_icon . $formatted;
     }
 
     return $amount;

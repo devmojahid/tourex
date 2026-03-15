@@ -105,6 +105,9 @@ class GlobalSettingController extends Controller
         GlobalSetting::where('key', 'commission_per_sale')->update(['value' => $request->commission_per_sale]);
         GlobalSetting::where('key', 'preloader_status')->update(['value' => $request->preloader_status]);
 
+        // Currency display settings
+        GlobalSetting::updateOrInsert(['key' => 'price_abbreviation'], ['value' => $request->price_abbreviation ?? 'none', 'updated_at' => now()]);
+
         // Availability / Tour Booking settings
         GlobalSetting::where('key', 'availability_no_data_behavior')->update(['value' => $request->availability_no_data_behavior ?? 'open']);
         GlobalSetting::where('key', 'availability_show_spots')->update(['value' => $request->has('availability_show_spots') ? '1' : '0']);
