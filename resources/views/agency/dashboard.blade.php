@@ -476,7 +476,7 @@
                         ticks: {
                             color: '#6440FBFF',
                             callback: function(value, index, values) {
-                                return (value / 10) * 10 + '$';
+                                return (value / 10) * 10 + '{{ addslashes(default_currency()['currency_icon']) }}';
                             }
                         },
                         grid: {
