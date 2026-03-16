@@ -80,6 +80,8 @@ class EmailSettingController extends Controller
             return view('emailsetting::enrollment_payment_approved', ['template_item' => $template_item]);
         }elseif($template_item->id == 10){
             return view('emailsetting::enrollment_payment_rejected', ['template_item' => $template_item]);
+        }elseif($template_item->id >= 11 && $template_item->id <= 18){
+            return view('emailsetting::booking_template_edit', ['template_item' => $template_item]);
         }else{
             abort(404);
         }

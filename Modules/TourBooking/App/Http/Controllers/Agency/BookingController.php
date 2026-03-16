@@ -12,6 +12,9 @@ use Modules\TourBooking\App\Models\Booking;
 use Modules\TourBooking\App\Models\Service;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Modules\TourBooking\App\Models\ExtraCharge;
+use App\Helper\EmailHelper;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 final class BookingController extends Controller
 {
@@ -158,6 +161,10 @@ final class BookingController extends Controller
         // Calculate due amount
         $validated['due_amount'] = $validated['total'] - ($validated['paid_amount'] ?? 0);
 
+        // Capture old statuses before update for email comparison
+        $oldBookingStatus = $booking->booking_status;
+        $oldPaymentStatus = $booking->payment_status;
+
         // Set timestamps for status changes
         if ($booking->booking_status !== $validated['booking_status']) {
             switch ($validated['booking_status']) {
@@ -174,6 +181,58 @@ final class BookingController extends Controller
         }
 
         $booking->update($validated);
+
+        // Send email if booking status changed
+        if ($oldBookingStatus !== $validated['booking_status']) {
+            $booking->load(['service.user']);
+            $siteName = Cache::get('setting')->app_name ?? config('app.name');
+            $keywords = [
+                'user_name'           => $booking->customer_name,
+                'booking_code'        => $booking->booking_code,
+                'service_name'        => $booking->service->translation->title ?? $booking->service->title ?? '',
+                'check_in_date'       => $booking->check_in_date ? Carbon::parse($booking->check_in_date)->format('d M Y') : '',
+                'check_out_date'      => $booking->check_out_date ? Carbon::parse($booking->check_out_date)->format('d M Y') : '',
+                'adults'              => $booking->adults ?? 0,
+                'children'            => $booking->children ?? 0,
+                'total_amount'        => number_format((float) $booking->total, 2),
+                'payment_method'      => $booking->payment_method ?? '',
+                'payment_status'      => $booking->payment_status ?? '',
+                'booking_status'      => $validated['booking_status'],
+                'admin_notes'         => $validated['admin_notes'] ?? '',
+                'cancellation_reason' => $validated['admin_notes'] ?? '',
+                'site_name'           => $siteName,
+            ];
+            switch ($validated['booking_status']) {
+                case 'confirmed':
+                    EmailHelper::sendBookingEmail($booking->customer_email, 12, $keywords);
+                    break;
+                case 'cancelled':
+                    EmailHelper::sendBookingEmail($booking->customer_email, 13, $keywords);
+                    break;
+                case 'completed':
+                    EmailHelper::sendBookingEmail($booking->customer_email, 14, $keywords);
+                    break;
+            }
+        }
+
+        // Send payment confirmed email if payment status changed to completed
+        if ($oldPaymentStatus !== $validated['payment_status'] && $validated['payment_status'] === 'completed') {
+            $booking->load(['service.user']);
+            $siteName = Cache::get('setting')->app_name ?? config('app.name');
+            $keywords = [
+                'user_name'      => $booking->customer_name,
+                'booking_code'   => $booking->booking_code,
+                'service_name'   => $booking->service->translation->title ?? $booking->service->title ?? '',
+                'check_in_date'  => $booking->check_in_date ? Carbon::parse($booking->check_in_date)->format('d M Y') : '',
+                'check_out_date' => $booking->check_out_date ? Carbon::parse($booking->check_out_date)->format('d M Y') : '',
+                'adults'         => $booking->adults ?? 0,
+                'children'       => $booking->children ?? 0,
+                'total_amount'   => number_format((float) $booking->total, 2),
+                'payment_method' => $booking->payment_method ?? '',
+                'site_name'      => $siteName,
+            ];
+            EmailHelper::sendBookingEmail($booking->customer_email, 18, $keywords);
+        }
 
         return redirect()->route('agency.tourbooking.bookings.show', $booking)
             ->with('success', 'Booking updated successfully.');
@@ -262,9 +321,42 @@ final class BookingController extends Controller
             }
         }
 
+        $oldBookingStatus = $booking->booking_status;
+
         $booking->update($validated);
 
-        // Notification logic can be added here
+        // Send email notification based on new status
+        if ($oldBookingStatus !== $validated['booking_status']) {
+            $booking->load(['service.user']);
+            $siteName = Cache::get('setting')->app_name ?? config('app.name');
+            $keywords = [
+                'user_name'           => $booking->customer_name,
+                'booking_code'        => $booking->booking_code,
+                'service_name'        => $booking->service->translation->title ?? $booking->service->title ?? '',
+                'check_in_date'       => $booking->check_in_date ? Carbon::parse($booking->check_in_date)->format('d M Y') : '',
+                'check_out_date'      => $booking->check_out_date ? Carbon::parse($booking->check_out_date)->format('d M Y') : '',
+                'adults'              => $booking->adults ?? 0,
+                'children'            => $booking->children ?? 0,
+                'total_amount'        => number_format((float) $booking->total, 2),
+                'payment_method'      => $booking->payment_method ?? '',
+                'payment_status'      => $booking->payment_status ?? '',
+                'booking_status'      => $validated['booking_status'],
+                'admin_notes'         => $validated['admin_notes'] ?? '',
+                'cancellation_reason' => $validated['admin_notes'] ?? '',
+                'site_name'           => $siteName,
+            ];
+            switch ($validated['booking_status']) {
+                case 'confirmed':
+                    EmailHelper::sendBookingEmail($booking->customer_email, 12, $keywords);
+                    break;
+                case 'cancelled':
+                    EmailHelper::sendBookingEmail($booking->customer_email, 13, $keywords);
+                    break;
+                case 'completed':
+                    EmailHelper::sendBookingEmail($booking->customer_email, 14, $keywords);
+                    break;
+            }
+        }
 
         return back()->with('success', 'Booking status updated successfully.');
     }
@@ -278,7 +370,28 @@ final class BookingController extends Controller
             'payment_status' => 'required|in:pending,completed,confirmed,cancelled'
         ]);
 
+        $oldPaymentStatus = $booking->payment_status;
+
         $booking->update($validated);
+
+        // Send payment confirmed email when payment status changes to completed
+        if ($oldPaymentStatus !== $validated['payment_status'] && $validated['payment_status'] === 'completed') {
+            $booking->load(['service.user']);
+            $siteName = Cache::get('setting')->app_name ?? config('app.name');
+            $keywords = [
+                'user_name'      => $booking->customer_name,
+                'booking_code'   => $booking->booking_code,
+                'service_name'   => $booking->service->translation->title ?? $booking->service->title ?? '',
+                'check_in_date'  => $booking->check_in_date ? Carbon::parse($booking->check_in_date)->format('d M Y') : '',
+                'check_out_date' => $booking->check_out_date ? Carbon::parse($booking->check_out_date)->format('d M Y') : '',
+                'adults'         => $booking->adults ?? 0,
+                'children'       => $booking->children ?? 0,
+                'total_amount'   => number_format((float) $booking->total, 2),
+                'payment_method' => $booking->payment_method ?? '',
+                'site_name'      => $siteName,
+            ];
+            EmailHelper::sendBookingEmail($booking->customer_email, 18, $keywords);
+        }
 
         return back()->with('success', 'Payment status updated successfully.');
     }
@@ -317,16 +430,35 @@ final class BookingController extends Controller
 
     public function bookingConfirm(Request $request)
     {
-
         $bookingId = $request->input('id');
 
         $booking = Booking::find($bookingId);
+        $booking->load(['service.user']);
 
         $booking->update([
             'booking_status' => 'confirmed',
-            'confirmed_at' => now(),
-            'admin_notes' => $request->input('confirmation_message') ?? null,
+            'confirmed_at'   => now(),
+            'admin_notes'    => $request->input('confirmation_message') ?? null,
         ]);
+
+        // Send confirmation email to customer
+        $siteName = Cache::get('setting')->app_name ?? config('app.name');
+        $keywords = [
+            'user_name'      => $booking->customer_name,
+            'booking_code'   => $booking->booking_code,
+            'service_name'   => $booking->service->translation->title ?? $booking->service->title ?? '',
+            'check_in_date'  => $booking->check_in_date ? Carbon::parse($booking->check_in_date)->format('d M Y') : '',
+            'check_out_date' => $booking->check_out_date ? Carbon::parse($booking->check_out_date)->format('d M Y') : '',
+            'adults'         => $booking->adults ?? 0,
+            'children'       => $booking->children ?? 0,
+            'total_amount'   => number_format((float) $booking->total, 2),
+            'payment_method' => $booking->payment_method ?? '',
+            'payment_status' => $booking->payment_status ?? '',
+            'booking_status' => 'confirmed',
+            'admin_notes'    => $request->input('confirmation_message') ?? '',
+            'site_name'      => $siteName,
+        ];
+        EmailHelper::sendBookingEmail($booking->customer_email, 12, $keywords);
 
         $notify_message = trans('translate.Booking Confirmed Successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
@@ -338,12 +470,26 @@ final class BookingController extends Controller
         $bookingId = $request->input('id');
 
         $booking = Booking::find($bookingId);
+        $booking->load(['service.user']);
 
         $booking->update([
-            'booking_status' => 'cancelled',
-            'cancelled_at' => now(),
+            'booking_status'      => 'cancelled',
+            'cancelled_at'        => now(),
             'cancellation_reason' => $request->input('cancellation_reason') ?? null,
         ]);
+
+        // Send cancellation email to customer
+        $siteName = Cache::get('setting')->app_name ?? config('app.name');
+        $keywords = [
+            'user_name'           => $booking->customer_name,
+            'booking_code'        => $booking->booking_code,
+            'service_name'        => $booking->service->translation->title ?? $booking->service->title ?? '',
+            'check_in_date'       => $booking->check_in_date ? Carbon::parse($booking->check_in_date)->format('d M Y') : '',
+            'check_out_date'      => $booking->check_out_date ? Carbon::parse($booking->check_out_date)->format('d M Y') : '',
+            'cancellation_reason' => $request->input('cancellation_reason') ?? '',
+            'site_name'           => $siteName,
+        ];
+        EmailHelper::sendBookingEmail($booking->customer_email, 13, $keywords);
 
         $notify_message = trans('translate.Booking Cancelled Successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
