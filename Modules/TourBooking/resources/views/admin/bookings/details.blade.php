@@ -71,11 +71,11 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Phone') }}:</td>
-                                                                <td>{{ $booking?->customer_email }}</td>
+                                                                <td>{{ $booking?->customer_phone }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Email') }}:</td>
-                                                                <td>{{ $booking?->customer_phone }}</td>
+                                                                <td>{{ $booking?->customer_email }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Address') }} : </td>
@@ -168,6 +168,16 @@
                                                                 </tr>
                                                             @endif
 
+                                                            @php
+                                                                $nights = $booking->duration_in_days;
+                                                            @endphp
+                                                            @if ($nights > 1)
+                                                                <tr>
+                                                                    <td>{{ __('translate.Number of Nights') }}:</td>
+                                                                    <td>{{ $nights }} {{ __('translate.Nights') }}</td>
+                                                                </tr>
+                                                            @endif
+
                                                             @if ($booking->check_in_time)
                                                                 <tr>
                                                                     <td>{{ __('translate.Check in Time') }}:</td>
@@ -218,24 +228,27 @@
                                                                         @if ($booking->is_per_person == 1)
                                                                             <tr>
                                                                                 <td>{{ __('translate.Adult Price') }}
-                                                                                    ({{ $booking->adult_price }} X
+                                                                                    ({{ currency($booking->adult_price) }} X
                                                                                     {{ $booking->adults }}
-                                                                                    {{ __('translate.Adults') }})</td>
+                                                                                    {{ __('translate.Adults') }}@if ($nights > 1) X {{ $nights }} {{ __('translate.Nights') }}@endif)</td>
                                                                                 <td class="text-right">
-                                                                                    {{ currency($booking->adult_price * $booking->adults) }}
+                                                                                    {{ currency($booking->adult_price * $booking->adults * $nights) }}
                                                                                 </td>
                                                                             </tr>
 
+                                                                            @if ($booking->children > 0 && $booking->child_price > 0)
                                                                             <tr>
                                                                                 <td>{{ __('translate.Child Price') }}
-                                                                                    ({{ $booking->child_price }} X
+                                                                                    ({{ currency($booking->child_price) }} X
                                                                                     {{ $booking->children }}
-                                                                                    {{ __('translate.Child') }})</td>
+                                                                                    {{ __('translate.Child') }}@if ($nights > 1) X {{ $nights }} {{ __('translate.Nights') }}@endif)</td>
                                                                                 <td class="text-right">
-                                                                                    {{ currency($booking->child_price * $booking->children) }}
+                                                                                    {{ currency($booking->child_price * $booking->children * $nights) }}
                                                                                 </td>
                                                                             </tr>
+                                                                            @endif
 
+                                                                            @if ($booking->extra_charges > 0)
                                                                             <tr>
                                                                                 <td>{{ __('translate.Extra charges') }}
                                                                                 </td>
@@ -243,12 +256,14 @@
                                                                                     {{ currency($booking->extra_charges) }}
                                                                                 </td>
                                                                             </tr>
+                                                                            @endif
                                                                         @else
                                                                             <tr>
                                                                                 <td>{{ __('translate.Service Price') }}
+                                                                                    @if ($nights > 1)({{ currency($booking->service_price) }} X {{ $nights }} {{ __('translate.Nights') }})@endif
                                                                                 </td>
                                                                                 <td class="text-right">
-                                                                                    {{ currency($booking->service_price) }}
+                                                                                    {{ currency($booking->service_price * $nights) }}
                                                                                 </td>
                                                                             </tr>
                                                                         @endif
@@ -257,9 +272,9 @@
                                                                             <tr>
                                                                                 <td>{{ __('translate.Infant Price') }} x
                                                                                     {{ $booking->infants }}
-                                                                                    {{ __('translate.Infants') }}</td>
+                                                                                    {{ __('translate.Infants') }}@if ($nights > 1) X {{ $nights }} {{ __('translate.Nights') }}@endif</td>
                                                                                 <td class="text-right">
-                                                                                    {{ currency($booking->service->infant_price * $booking->infants) }}
+                                                                                    {{ currency($booking->service->infant_price * $booking->infants * $nights) }}
                                                                                 </td>
                                                                             </tr>
                                                                         @endif

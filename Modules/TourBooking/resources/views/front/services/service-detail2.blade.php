@@ -470,15 +470,31 @@
                                 <input type="hidden" name="service_id" value="{{ $service->id }}">
 
                                 <div class="tg-booking-form-parent-inner mb-10">
+                                    <div class="tg-tour-about-date p-relative mb-10">
+                                        <label class="small text-muted mb-1">{{ __('translate.Check in Date') }}</label>
+                                        <input required class="input" id="booking_check_in" name="check_in_date" type="text"
+                                            placeholder="{{ __('translate.Check in Date') }}" value="{{ now()->format('Y-m-d') }}" readonly>
+                                        <span class="calender">
+                                            <!-- calendar icon -->
+                                        </span>
+                                        <span class="angle"><i class="fa-sharp fa-solid fa-angle-down"></i></span>
+                                    </div>
                                     <div class="tg-tour-about-date p-relative">
-                                        <input required class="input" name="check_in_date" type="text"
-                                            placeholder="When (Date)" value="{{ now()->format('Y-m-d') }}">
+                                        <label class="small text-muted mb-1">{{ __('translate.Check out Date') }}</label>
+                                        <input required class="input" id="booking_check_out" name="check_out_date" type="text"
+                                            placeholder="{{ __('translate.Check out Date') }}" readonly>
                                         <span class="calender">
                                             <!-- calendar icon -->
                                         </span>
                                         <span class="angle"><i class="fa-sharp fa-solid fa-angle-down"></i></span>
                                         <input type="hidden" name="availability_id" id="selected-availability-id">
                                     </div>
+                                    <!-- Nights count display -->
+                                    <div id="nights-info" class="mt-2 mb-2" style="display: none;">
+                                        <span class="badge bg-primary" id="nights-badge"></span>
+                                    </div>
+                                    <!-- Availability information will be displayed here -->
+                                    <div id="availability-info" class="mt-2" style="display: none;"></div>
                                 </div>
 
                                 @if ($service->is_per_person)
@@ -575,17 +591,24 @@
 
                                     <div
                                         class="tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
-                                        <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
+                                        <span class="tg-tour-about-sidebar-title d-inline-block">{{ __('translate.Total Cost') }}:</span>
                                         <h5 class="total-price"
-                                            x-text="`{{ default_currency()['currency_icon'] }}${ {{ default_currency()['currency_rate'] }} * totalCost}`">
+                                            x-text="`{{ default_currency()['currency_icon'] }}${ ({{ default_currency()['currency_rate'] }} * totalCost).toFixed(2) }`">
                                         </h5>
+                                    </div>
+                                    <div x-show="nights > 1" class="mb-10" style="display:none;">
+                                        <small class="text-muted" x-text="nights + ' {{ __('translate.Nights') }}'"></small>
                                     </div>
                                 @else
                                     <div
                                         class="mt-4 tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
-                                        <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
-                                        <h5 class="total-price">
-                                            {{ currency($service->discount_price ?? $service->full_price) }}</h5>
+                                        <span class="tg-tour-about-sidebar-title d-inline-block">{{ __('translate.Total Cost') }}:</span>
+                                        <h5 class="total-price"
+                                            x-text="`{{ default_currency()['currency_icon'] }}${ ({{ default_currency()['currency_rate'] }} * totalCost).toFixed(2) }`">
+                                        </h5>
+                                    </div>
+                                    <div x-show="nights > 1" class="mb-10" style="display:none;">
+                                        <small class="text-muted" x-text="nights + ' {{ __('translate.Nights') }}'"></small>
                                     </div>
                                 @endif
 
@@ -681,22 +704,52 @@
                     };
                 });
 
-                const datePickerOptions = {
+                const basePricePerNight = {{ $service->is_per_person ? ($service->price_per_person ?? 0) : ($service->discount_price ?? $service->full_price ?? 0) }};
+                const currencyIcon = '{{ default_currency()['currency_icon'] }}';
+                const currencyRate = {{ default_currency()['currency_rate'] }};
+
+                const checkInOptions = {
                     dateFormat: "Y-m-d",
-                    disableMobile: "true",
+                    disableMobile: true,
                     minDate: "today",
                     onChange: function(selectedDates, dateStr) {
-                        updateAvailabilityInfo(dateStr);
+                        if (dateStr) {
+                            const nextDay = new Date(selectedDates[0]);
+                            nextDay.setDate(nextDay.getDate() + 1);
+                            checkOutPicker.set('minDate', nextDay);
+                            const currentCheckOut = $('#booking_check_out').val();
+                            if (currentCheckOut && currentCheckOut <= dateStr) {
+                                checkOutPicker.clear();
+                            }
+                        }
+                        updateBookingInfo();
                     }
                 };
 
+                const checkOutOptions = {
+                    dateFormat: "Y-m-d",
+                    disableMobile: true,
+                    minDate: "today",
+                    onChange: function() { updateBookingInfo(); }
+                };
+
                 if (availableDates.length > 0) {
-                    datePickerOptions.enable = availableDates;
+                    checkInOptions.enable = availableDates;
+                    const checkOutDates = [...availableDates];
+                    availableDates.forEach(d => {
+                        const next = new Date(d);
+                        next.setDate(next.getDate() + 1);
+                        const nextStr = next.toISOString().split('T')[0];
+                        if (!checkOutDates.includes(nextStr)) checkOutDates.push(nextStr);
+                    });
+                    checkOutOptions.enable = checkOutDates;
                 } else if (noDataBehavior === 'closed' && availabilities.length === 0) {
-                    datePickerOptions.disable = [function() { return true; }];
+                    checkInOptions.disable = [function() { return true; }];
+                    checkOutOptions.disable = [function() { return true; }];
                 }
 
-                const datePicker = flatpickr("input[name='check_in_date']", datePickerOptions);
+                const checkInPicker = flatpickr("#booking_check_in", checkInOptions);
+                const checkOutPicker = flatpickr("#booking_check_out", checkOutOptions);
 
                 const tr = {
                     soldOut:        '{!! addslashes(__('translate.Sold Out')) !!}',
@@ -706,19 +759,63 @@
                     time:           '{!! addslashes(__('translate.Time')) !!}',
                     specialPrice:   '{!! addslashes(__('translate.Special Price')) !!}',
                     notes:          '{!! addslashes(__('translate.Notes')) !!}',
+                    nights:         '{!! addslashes(__('translate.Nights')) !!}',
+                    night:          '{!! addslashes(__('translate.Night')) !!}',
+                    perNight:       '{!! addslashes(__('translate.per night')) !!}',
                 };
 
-                function updateAvailabilityInfo(dateStr) {
+                function calculateNights(checkIn, checkOut) {
+                    if (!checkIn || !checkOut) return 1;
+                    const diff = Math.round((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24));
+                    return Math.max(1, diff);
+                }
+
+                function getNightlyTotal(checkIn, checkOut) {
+                    const nights = calculateNights(checkIn, checkOut);
+                    let total = 0;
+                    const d = new Date(checkIn);
+                    for (let i = 0; i < nights; i++) {
+                        const dateStr = d.toISOString().split('T')[0];
+                        if (availabilityMap[dateStr] && availabilityMap[dateStr].special_price) {
+                            total += parseFloat(availabilityMap[dateStr].special_price);
+                        } else {
+                            total += basePricePerNight;
+                        }
+                        d.setDate(d.getDate() + 1);
+                    }
+                    return { total, nights };
+                }
+
+                function updateBookingInfo() {
+                    const checkIn = $('#booking_check_in').val();
+                    const checkOut = $('#booking_check_out').val();
                     const availInfo = $('#availability-info');
+                    const nightsInfo = $('#nights-info');
                     const bookBtn = $('button[type="submit"]');
                     const availabilityInput = $('#selected-availability-id');
 
-                    if (dateStr && availabilityMap[dateStr]) {
-                        const info = availabilityMap[dateStr];
+                    if (checkIn && checkOut) {
+                        const nights = calculateNights(checkIn, checkOut);
+                        const nightLabel = nights === 1 ? tr.night : tr.nights;
+                        $('#nights-badge').text(nights + ' ' + nightLabel);
+                        nightsInfo.show();
+
+                        const priceData = getNightlyTotal(checkIn, checkOut);
+                        window.dispatchEvent(new CustomEvent('nights-updated', {
+                            detail: { nights: priceData.nights, nightlyTotal: priceData.total }
+                        }));
+                    } else {
+                        nightsInfo.hide();
+                        window.dispatchEvent(new CustomEvent('nights-updated', {
+                            detail: { nights: 1, nightlyTotal: basePricePerNight }
+                        }));
+                    }
+
+                    if (checkIn && availabilityMap[checkIn]) {
+                        const info = availabilityMap[checkIn];
                         availabilityInput.val(info.id || '');
 
                         let html = '<div class="alert alert-info mt-2 mb-0 p-2">';
-
                         if (showSpots && info.spots !== null) {
                             if (info.spots <= 0) {
                                 html += `<p class="mb-1 text-danger"><strong>${tr.soldOut}</strong> — ${tr.noSpots}</p>`;
@@ -736,19 +833,15 @@
                                 bookBtn.prop('disabled', false);
                             }
                         }
-
                         if (info.start_time && info.end_time) {
                             html += `<p class="mb-1"><strong>${tr.time}:</strong> ${info.start_time} – ${info.end_time}</p>`;
                         }
-
                         if (showSpecialPrice && info.special_price) {
-                            html += `<p class="mb-1"><strong>${tr.specialPrice}:</strong> ${info.special_price}</p>`;
+                            html += `<p class="mb-1"><strong>${tr.specialPrice}:</strong> ${currencyIcon}${(parseFloat(info.special_price) * currencyRate).toFixed(2)} ${tr.perNight}</p>`;
                         }
-
                         if (info.notes) {
                             html += `<p class="mb-0"><strong>${tr.notes}:</strong> ${info.notes}</p>`;
                         }
-
                         html += '</div>';
                         availInfo.html(html).show();
                     } else {
@@ -758,10 +851,7 @@
                     }
                 }
 
-                const initialDate = $('input[name="check_in_date"]').val();
-                if (initialDate) {
-                    updateAvailabilityInfo(initialDate);
-                }
+                updateBookingInfo();
 
             });
         })(jQuery);
@@ -868,8 +958,12 @@
                     person: 1,
                     children: 0
                 },
-                pricePerPerson: {{ $service->price_per_person }},
-                pricePerChild: {{ $service->child_price }},
+                nights: 1,
+                nightlyTotal: {{ $service->is_per_person ? ($service->price_per_person ?? 0) : ($service->discount_price ?? $service->full_price ?? 0) }},
+                pricePerPerson: {{ $service->price_per_person ?? 0 }},
+                pricePerChild: {{ $service->child_price ?? 0 }},
+                baseFlatPrice: {{ $service->discount_price ?? $service->full_price ?? 0 }},
+                isPerPerson: {{ $service->is_per_person ? 'true' : 'false' }},
                 extras: {
                     @foreach ($service->extraCharges as $key => $extra)
                         charge_{{ $key }}: false,
@@ -877,13 +971,23 @@
                 },
                 extrasPrice: {
                     @foreach ($service->extraCharges as $key => $extra)
-                        charge_{{ $key }}: {{ $extra->price }},
+                        charge_{{ $key }}: {{ $extra->price ?? 0 }},
                     @endforeach
+                },
+                init() {
+                    window.addEventListener('nights-updated', (e) => {
+                        this.nights = e.detail.nights;
+                        this.nightlyTotal = e.detail.nightlyTotal;
+                    });
                 },
                 get totalCost() {
                     let total = 0;
-                    total += this.tickets.person * this.pricePerPerson;
-                    total += this.tickets.children * this.pricePerChild;
+                    if (this.isPerPerson) {
+                        total += this.tickets.person * this.nightlyTotal;
+                        total += this.tickets.children * this.pricePerChild * this.nights;
+                    } else {
+                        total = this.nightlyTotal;
+                    }
                     for (let key in this.extras) {
                         if (this.extras[key]) {
                             total += this.extrasPrice[key];

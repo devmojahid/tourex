@@ -200,6 +200,7 @@ final class BookingController extends Controller
                 'booking_status'      => $validated['booking_status'],
                 'admin_notes'         => $validated['admin_notes'] ?? '',
                 'cancellation_reason' => $validated['admin_notes'] ?? '',
+                'number_of_nights'    => $booking->duration_in_days ?? 1,
                 'site_name'           => $siteName,
             ];
             switch ($validated['booking_status']) {
@@ -229,6 +230,7 @@ final class BookingController extends Controller
                 'children'       => $booking->children ?? 0,
                 'total_amount'   => number_format((float) $booking->total, 2),
                 'payment_method' => $booking->payment_method ?? '',
+                'number_of_nights' => $booking->duration_in_days ?? 1,
                 'site_name'      => $siteName,
             ];
             EmailHelper::sendBookingEmail($booking->customer_email, 18, $keywords);
@@ -343,6 +345,7 @@ final class BookingController extends Controller
                 'booking_status'      => $validated['booking_status'],
                 'admin_notes'         => $validated['admin_notes'] ?? '',
                 'cancellation_reason' => $validated['admin_notes'] ?? '',
+                'number_of_nights'    => $booking->duration_in_days ?? 1,
                 'site_name'           => $siteName,
             ];
             switch ($validated['booking_status']) {
@@ -388,6 +391,7 @@ final class BookingController extends Controller
                 'children'       => $booking->children ?? 0,
                 'total_amount'   => number_format((float) $booking->total, 2),
                 'payment_method' => $booking->payment_method ?? '',
+                'number_of_nights' => $booking->duration_in_days ?? 1,
                 'site_name'      => $siteName,
             ];
             EmailHelper::sendBookingEmail($booking->customer_email, 18, $keywords);
@@ -456,6 +460,7 @@ final class BookingController extends Controller
             'payment_status' => $booking->payment_status ?? '',
             'booking_status' => 'confirmed',
             'admin_notes'    => $request->input('confirmation_message') ?? '',
+            'number_of_nights' => $booking->duration_in_days ?? 1,
             'site_name'      => $siteName,
         ];
         EmailHelper::sendBookingEmail($booking->customer_email, 12, $keywords);
@@ -487,6 +492,7 @@ final class BookingController extends Controller
             'check_in_date'       => $booking->check_in_date ? Carbon::parse($booking->check_in_date)->format('d M Y') : '',
             'check_out_date'      => $booking->check_out_date ? Carbon::parse($booking->check_out_date)->format('d M Y') : '',
             'cancellation_reason' => $request->input('cancellation_reason') ?? '',
+            'number_of_nights'    => $booking->duration_in_days ?? 1,
             'site_name'           => $siteName,
         ];
         EmailHelper::sendBookingEmail($booking->customer_email, 13, $keywords);

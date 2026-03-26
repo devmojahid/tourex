@@ -364,6 +364,8 @@
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting">
                                                     {{ __('translate.Location') }}</th>
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting">
+                                                    {{ __('translate.Dates') }}</th>
+                                                <th class="crancy-table__column-2 crancy-table__h2 sorting">
                                                     {{ __('translate.Status') }}</th>
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting">
                                                     {{ __('translate.Action') }}</th>
@@ -385,6 +387,16 @@
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         {{ $booking?->service?->location ?? 'N/A' }}
+                                                    </td>
+
+                                                    <td class="crancy-table__column-2 crancy-table__data-2">
+                                                        {{ date('d M Y', strtotime($booking->check_in_date)) }}
+                                                        @if ($booking->check_out_date)
+                                                            <br><small class="text-muted">{{ __('translate.to') }} {{ date('d M Y', strtotime($booking->check_out_date)) }}</small>
+                                                            @if ($booking->duration_in_days > 1)
+                                                                <br><small class="text-muted">({{ $booking->duration_in_days }} {{ __('translate.Nights') }})</small>
+                                                            @endif
+                                                        @endif
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">

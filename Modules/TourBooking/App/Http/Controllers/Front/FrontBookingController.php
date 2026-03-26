@@ -72,6 +72,17 @@ final class FrontBookingController extends Controller
             }
         }
 
+        // Calculate number of nights
+        $checkInDate = $request->check_in_date;
+        $checkOutDate = $request->check_out_date;
+        $nights = 1;
+        if ($checkInDate && $checkOutDate) {
+            $nights = max(1, \Carbon\Carbon::parse($checkInDate)->diffInDays(\Carbon\Carbon::parse($checkOutDate)));
+        }
+
+        // Get nightly prices (with special price support)
+        $nightlyPrices = $this->getNightlyPrices($service, $checkInDate, $checkOutDate, $nights);
+
         if ($service->is_per_person) {
             $extraCharges = ExtraCharge::select('id', 'name', 'price', 'price_type')->whereIn('id', $request->extras ?? [])
                 ->where('status', true)
@@ -82,8 +93,13 @@ final class FrontBookingController extends Controller
                 $totalExtraCharge += $extraCharge->price;
             }
 
-            $personPrice = $request->person * $service->price_per_person;
-            $childPrice = $request->children * $service->child_price;
+            // Multi-night per-person: sum each night's (person * price + children * child_price)
+            $personPrice = 0;
+            $childPrice = 0;
+            foreach ($nightlyPrices as $nightPrice) {
+                $personPrice += $request->person * $nightPrice;
+                $childPrice += $request->children * ($service->child_price ?? 0);
+            }
 
             $total = $personPrice + $childPrice + $totalExtraCharge;
 
@@ -95,14 +111,18 @@ final class FrontBookingController extends Controller
                 'personPrice' => $personPrice,
                 'childPrice' => $childPrice,
                 'total' => $total,
+                'nights' => $nights,
+                'nightly_prices' => $nightlyPrices,
+                'check_in_date' => $checkInDate,
+                'check_out_date' => $checkOutDate,
             ];
 
             session()->forget('payment_cart');
 
             session()->put('payment_cart', [
                 'service_id' => $request->service_id,
-                'check_in_date' => $request->check_in_date,
-                'check_out_date' => $request->check_out_date,
+                'check_in_date' => $checkInDate,
+                'check_out_date' => $checkOutDate,
                 'check_in_time' => $request->check_in_time == 'on' ? $request->check_in_time_hidden : null,
                 'check_out_time' => $request->check_out_time == 'on' ? $request->check_out_time_hidden : null,
                 'person_count' => $request->person,
@@ -111,21 +131,27 @@ final class FrontBookingController extends Controller
                 'extra_charges' => $totalExtraCharge ?? 0,
                 'extra_services' => $request->extras ?? [],
                 'availability_id' => $request->availability_id ?? null,
+                'nights' => $nights,
             ]);
         } else {
+            // Non-per-person: flat rate × nights (with special prices per night)
+            $total = array_sum($nightlyPrices);
+
             $data = [
                 'service' => $service,
-                'total' => $service->discount_price ?? $service->full_price,
+                'total' => $total,
+                'nights' => $nights,
+                'nightly_prices' => $nightlyPrices,
+                'check_in_date' => $checkInDate,
+                'check_out_date' => $checkOutDate,
             ];
-
-            $total = $service->discount_price ?? $service->full_price;
 
             session()->forget('payment_cart');
 
             session()->put('payment_cart', [
                 'service_id' => $request->service_id,
-                'check_in_date' => $request->check_in_date,
-                'check_out_date' => null,
+                'check_in_date' => $checkInDate,
+                'check_out_date' => $checkOutDate,
                 'check_in_time' => null,
                 'check_out_time' => null,
                 'person_count' => 0,
@@ -134,6 +160,7 @@ final class FrontBookingController extends Controller
                 'extra_charges' => 0,
                 'extra_services' => [],
                 'availability_id' => null,
+                'nights' => $nights,
             ]);
         }
 
@@ -176,14 +203,16 @@ final class FrontBookingController extends Controller
         // Verify availability
         $this->verifyServiceAvailability($service, $validated['check_in_date'], $validated['check_out_date'] ?? null);
 
-        // Calculate prices
+        // Calculate prices with multi-night support
         $priceDetails = $this->calculateBookingPrice(
             $service,
             (int) $validated['adults'],
             (int) ($validated['children'] ?? 0),
             (int) ($validated['infants'] ?? 0),
             $validated['extra_services'] ?? [],
-            $validated['coupon_code'] ?? null
+            $validated['coupon_code'] ?? null,
+            $validated['check_in_date'],
+            $validated['check_out_date'] ?? null
         );
 
         // Create booking data
@@ -291,12 +320,16 @@ final class FrontBookingController extends Controller
         try {
             $this->verifyServiceAvailability($service, $validated['check_in_date'], $validated['check_out_date'] ?? null);
 
-            // Calculate pricing
+            // Calculate pricing with multi-night support
             $priceDetails = $this->calculateBookingPrice(
                 $service,
                 (int) $validated['adults'],
                 (int) ($validated['children'] ?? 0),
-                (int) ($validated['infants'] ?? 0)
+                (int) ($validated['infants'] ?? 0),
+                [],
+                null,
+                $validated['check_in_date'],
+                $validated['check_out_date'] ?? null
             );
 
             return response()->json([
@@ -602,7 +635,8 @@ final class FrontBookingController extends Controller
     }
 
     /**
-     * Verify service availability for the selected date.
+     * Verify service availability for the selected date range.
+     * Checks ALL dates in the range (check-in to check-out - 1) for availability and spots.
      */
     private function verifyServiceAvailability(Service $service, string $checkInDate, ?string $checkOutDate = null): bool
     {
@@ -613,30 +647,52 @@ final class FrontBookingController extends Controller
         $hasAvailabilityRecords = $service->availabilities()->exists();
 
         if ($hasAvailabilityRecords) {
-            // Check if the specific date is marked as available
-            $availability = $service->availabilities()
-                ->where('date', $checkInDate->format('Y-m-d'))
-                ->where('is_available', true)
-                ->first();
-
-            if (!$availability) {
-                throw new \Exception(trans('translate.The service is not available for the selected date.'));
+            // For multi-day bookings, verify EACH date in the range
+            $currentDate = $checkInDate->copy();
+            // If check-out is different from check-in, we check dates from check-in to (check-out - 1)
+            // because check-out date is the departure day
+            $lastNight = $checkOutDate->copy();
+            if ($checkOutDate->gt($checkInDate)) {
+                $lastNight = $checkOutDate->copy()->subDay();
             }
 
-            // Check remaining spots against total booked guests for that date
-            if ($availability->available_spots !== null) {
-                $bookedGuests = Booking::where('service_id', $service->id)
-                    ->where('booking_status', '!=', 'cancelled')
-                    ->whereDate('check_in_date', $checkInDate->format('Y-m-d'))
-                    ->selectRaw('COALESCE(SUM(adults), 0) + COALESCE(SUM(children), 0) as total')
-                    ->value('total') ?? 0;
+            while ($currentDate->lte($lastNight)) {
+                $dateStr = $currentDate->format('Y-m-d');
 
-                if ((int) $bookedGuests >= $availability->available_spots) {
-                    throw new \Exception(trans('translate.Not enough spots available for the selected date.'));
+                $availability = $service->availabilities()
+                    ->where('date', $dateStr)
+                    ->where('is_available', true)
+                    ->first();
+
+                if (!$availability) {
+                    throw new \Exception(trans('translate.The service is not available for') . ' ' . $currentDate->format('d M Y'));
                 }
+
+                // Check remaining spots against total booked guests for that date
+                if ($availability->available_spots !== null) {
+                    $bookedGuests = Booking::where('service_id', $service->id)
+                        ->where('booking_status', '!=', 'cancelled')
+                        ->where(function ($q) use ($dateStr) {
+                            // Count bookings whose stay covers this date
+                            $q->where(function ($q2) use ($dateStr) {
+                                $q2->where('check_in_date', '<=', $dateStr)
+                                    ->where(function ($q3) use ($dateStr) {
+                                        $q3->where('check_out_date', '>', $dateStr)
+                                            ->orWhereNull('check_out_date');
+                                    });
+                            });
+                        })
+                        ->selectRaw('COALESCE(SUM(adults), 0) + COALESCE(SUM(children), 0) as total')
+                        ->value('total') ?? 0;
+
+                    if ((int) $bookedGuests >= $availability->available_spots) {
+                        throw new \Exception(trans('translate.Not enough spots available for') . ' ' . $currentDate->format('d M Y'));
+                    }
+                }
+
+                $currentDate->addDay();
             }
 
-            // Spot-based availability handled — no further conflict check needed
             return true;
         }
 
@@ -665,7 +721,8 @@ final class FrontBookingController extends Controller
     }
 
     /**
-     * Calculate booking price details.
+     * Calculate booking price details with multi-night support.
+     * Sums each night's price (using special_price from availability if available).
      */
     private function calculateBookingPrice(
         Service $service,
@@ -673,30 +730,47 @@ final class FrontBookingController extends Controller
         int $children = 0,
         int $infants = 0,
         array $extraServices = [],
-        ?string $couponCode = null
+        ?string $couponCode = null,
+        ?string $checkInDate = null,
+        ?string $checkOutDate = null
     ): array {
+        // Calculate number of nights
+        $nights = 1;
+        if ($checkInDate && $checkOutDate) {
+            $in = \Carbon\Carbon::parse($checkInDate);
+            $out = \Carbon\Carbon::parse($checkOutDate);
+            $nights = max(1, $in->diffInDays($out));
+        }
+
+        // Get per-night prices (handles special pricing per date from availability records)
+        $nightlyPrices = $this->getNightlyPrices($service, $checkInDate, $checkOutDate, $nights);
+
         // Base price calculation
         $basePrice = 0;
 
-        if ($service->price_per_person) {
-            $basePrice = ($adults * $service->discounted_price)
-                + ($children * ($service->child_price ?? 0))
-                + ($infants * ($service->infant_price ?? 0));
+        if ($service->is_per_person) {
+            // Per-person: (adults * price + children * child_price + infants * infant_price) for each night
+            foreach ($nightlyPrices as $nightPrice) {
+                $basePrice += ($adults * $nightPrice)
+                    + ($children * ($service->child_price ?? 0))
+                    + ($infants * ($service->infant_price ?? 0));
+            }
         } else {
-            $basePrice = $service->discounted_price;
+            // Flat rate: sum each night's price
+            $basePrice = array_sum($nightlyPrices);
         }
 
-        // Extra charges
+        // Extra charges (kept flat — not multiplied by nights per user preference)
         $extraChargesAmount = 0;
 
         if (!empty($extraServices)) {
-            $extraChargesIds = array_keys($extraServices);
+            $extraChargesIds = is_array($extraServices) ? (isset($extraServices[0]) ? $extraServices : array_keys($extraServices)) : [];
             $extraCharges = ExtraCharge::whereIn('id', $extraChargesIds)
                 ->where('service_id', $service->id)
                 ->get();
 
             foreach ($extraCharges as $charge) {
-                $quantity = $extraServices[$charge->id] ?? 1;
+                $quantity = is_array($extraServices) && isset($extraServices[$charge->id]) ? $extraServices[$charge->id] : 1;
                 $extraChargesAmount += $charge->price * $quantity;
             }
         }
@@ -719,14 +793,12 @@ final class FrontBookingController extends Controller
                 if ($coupon->discount_type == 'percentage') {
                     $discountAmount = $subtotal * ($coupon->discount_value / 100);
 
-                    // Apply max discount if set
                     if ($coupon->max_discount_amount && $discountAmount > $coupon->max_discount_amount) {
                         $discountAmount = $coupon->max_discount_amount;
                     }
                 } else {
                     $discountAmount = $coupon->discount_value;
 
-                    // Discount cannot be greater than subtotal
                     if ($discountAmount > $subtotal) {
                         $discountAmount = $subtotal;
                     }
@@ -752,6 +824,62 @@ final class FrontBookingController extends Controller
             'discount_amount' => $discountAmount,
             'tax_amount' => $taxAmount,
             'total' => $total,
+            'nights' => $nights,
+            'nightly_prices' => $nightlyPrices,
         ];
+    }
+
+    /**
+     * Get per-night prices for a date range.
+     * Uses special_price from availability records where available, otherwise base price.
+     */
+    private function getNightlyPrices(Service $service, ?string $checkInDate, ?string $checkOutDate, int $nights): array
+    {
+        $basePrice = $service->is_per_person
+            ? ($service->discountedPrice ?? $service->price_per_person ?? 0)
+            : ($service->discount_price ?? $service->full_price ?? 0);
+
+        if ($nights <= 1 || !$checkInDate) {
+            // Single night — check if that specific date has a special price
+            if ($checkInDate) {
+                $availability = $service->availabilities()
+                    ->where('date', $checkInDate)
+                    ->where('is_available', true)
+                    ->first();
+
+                if ($availability && $availability->special_price !== null) {
+                    return [$service->is_per_person ? (float) $availability->special_price : (float) $availability->special_price];
+                }
+            }
+            return [(float) $basePrice];
+        }
+
+        // Multi-night: get availability records for the date range
+        $in = \Carbon\Carbon::parse($checkInDate);
+        $out = \Carbon\Carbon::parse($checkOutDate);
+        $lastNight = $out->copy()->subDay();
+
+        $availabilities = $service->availabilities()
+            ->whereBetween('date', [$in->format('Y-m-d'), $lastNight->format('Y-m-d')])
+            ->pluck('special_price', 'date')
+            ->mapWithKeys(function ($price, $date) {
+                $dateKey = $date instanceof \Carbon\Carbon ? $date->format('Y-m-d') : (string) $date;
+                return [$dateKey => $price];
+            })
+            ->toArray();
+
+        $prices = [];
+        $current = $in->copy();
+        while ($current->lte($lastNight)) {
+            $dateKey = $current->format('Y-m-d');
+            if (isset($availabilities[$dateKey]) && $availabilities[$dateKey] !== null) {
+                $prices[] = (float) $availabilities[$dateKey];
+            } else {
+                $prices[] = (float) $basePrice;
+            }
+            $current->addDay();
+        }
+
+        return $prices;
     }
 }

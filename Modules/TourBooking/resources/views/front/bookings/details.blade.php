@@ -58,6 +58,13 @@
                                     <p><strong>{{ __('translate.Check-out Date') }}:</strong>
                                         {{ date('d M Y', strtotime($booking->check_out_date)) }}</p>
                                 @endif
+                                @php
+                                    $nights = $booking->duration_in_days;
+                                @endphp
+                                @if ($nights > 1)
+                                    <p><strong>{{ __('translate.Number of Nights') }}:</strong>
+                                        {{ $nights }} {{ __('translate.Nights') }}</p>
+                                @endif
                                 <p><strong>{{ __('translate.Adults') }}:</strong> {{ $booking->adults }}</p>
                                 @if ($booking->children > 0)
                                     <p><strong>{{ __('translate.Children') }}:</strong> {{ $booking->children }}</p>

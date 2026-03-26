@@ -1080,4 +1080,14 @@
   'The service is already booked for the selected dates.' => 'নির্বাচিত তারিখগুলিতে সেবা বুক হয়ে গেছে।',
   'Filter Hero Search Dates by Availability' => 'উপলব্ধতা অনুযায়ী হিরো সার্চে তারিখ ফিল্টার করুন',
   'When enabled, the hero search date pickers will disable dates where no service of the selected type is available.' => 'সক্রিয় হলে, হিরো সার্চে তারিখ পিকারে নির্বাচিত ধরনের কোনো সেবা না থাকলে তারিখ নিষ্ক্রিয় হবে।',
+
+  // Multi-day/night booking
+  'Number of Nights' => 'রাতের সংখ্যা',
+  'Nights' => 'রাত',
+  'Night' => 'রাত',
+  'per night' => 'প্রতি রাত',
+  'Dates' => 'তারিখ',
+  'to' => 'থেকে',
+  'Check in Date' => 'চেক ইন তারিখ',
+  'Check out Date' => 'চেক আউট তারিখ',
 );

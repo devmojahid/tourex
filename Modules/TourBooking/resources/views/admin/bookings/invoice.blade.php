@@ -205,8 +205,14 @@
     <div class="invoice-container">
         <div class="invoice-header">
             <div class="logo-container">
-                <img src="{{ asset($general_setting->logo ?? 'uploads/default.png') }}" alt="Company Logo">
-                <p style="margin-top: 10px;">{{ $general_setting?->app_name }}</p>
+                @php
+                    $logoPath = $general_setting->logo ?? null;
+                    $logoUrl = $logoPath ? asset($logoPath) : null;
+                @endphp
+                @if ($logoUrl)
+                    <img src="{{ $logoUrl }}" alt="{{ $general_setting->app_name ?? 'Company' }}">
+                @endif
+                <p style="margin-top: 10px;">{{ $general_setting->app_name ?? '' }}</p>
             </div>
             <div class="invoice-title">
                 <h1>{{ __('translate.INVOICE') }}</h1>
@@ -223,8 +229,8 @@
         <div class="invoice-info">
             <div class="invoice-info-section">
                 <h2>{{ __('translate.From') }}:</h2>
-                <p>{{ $general_setting?->app_name }}</p>
-                <p>{{ $general_setting?->contact_message_mail }}</p>
+                <p>{{ $general_setting->app_name ?? '' }}</p>
+                <p>{{ $general_setting->contact_message_mail ?? '' }}</p>
             </div>
             <div class="invoice-info-section">
                 <h2>{{ __('translate.To') }}:</h2>
@@ -232,8 +238,7 @@
                 <p>{{ $booking->customer_email }}</p>
                 <p>{{ $booking->customer_phone }}</p>
                 @if ($booking->customer_address)
-                    <p>{{ $booking->customer_address }}, {{ $booking->customer_city ?? '' }}</p>
-                    <p>{{ $booking->customer_country ?? '' }}</p>
+                    <p>{{ $booking->customer_address }}</p>
                 @endif
             </div>
         </div>
@@ -246,10 +251,17 @@
                 <p>{{ __('translate.Location') }}: {{ $booking->service->location }}</p>
                 <p>{{ __('translate.Check in Date') }}: {{ date('d M Y', strtotime($booking->check_in_date)) }}</p>
                 @if ($booking->check_out_date)
-                    <p>{{ __('translate.Check out Date') }}: {{ date('d M Y', strtotime($booking->check_out_date)) }}
-                    </p>
+                    <p>{{ __('translate.Check out Date') }}: {{ date('d M Y', strtotime($booking->check_out_date)) }}</p>
                 @endif
-                <p>{{ __('translate.Duration') }}: {{ $booking->service->duration }}</p>
+                @php
+                    $nights = $booking->duration_in_days;
+                @endphp
+                @if ($nights > 1)
+                    <p>{{ __('translate.Number of Nights') }}: {{ $nights }} {{ __('translate.Nights') }}</p>
+                @endif
+                @if ($booking->service->duration)
+                    <p>{{ __('translate.Duration') }}: {{ $booking->service->duration }}</p>
+                @endif
             </div>
 
             <table class="table">
@@ -258,6 +270,9 @@
                         <th>{{ __('translate.Description') }}</th>
                         <th>{{ __('translate.Quantity') }}</th>
                         <th>{{ __('translate.Unit Price') }}</th>
+                        @if ($nights > 1)
+                            <th>{{ __('translate.Nights') }}</th>
+                        @endif
                         <th class="text-right">{{ __('translate.Amount') }}</th>
                     </tr>
                 </thead>
@@ -269,7 +284,10 @@
                             <td>{{ __('translate.Adult Price') }}</td>
                             <td>{{ $booking->adults }}</td>
                             <td>{{ currency($booking->adult_price) }}</td>
-                            <td class="text-right">{{ currency($booking->adult_price * $booking->adults) }}</td>
+                            @if ($nights > 1)
+                                <td>{{ $nights }}</td>
+                            @endif
+                            <td class="text-right">{{ currency($booking->adult_price * $booking->adults * $nights) }}</td>
                         </tr>
 
                         @if ($booking->children > 0 && $booking->child_price > 0)
@@ -277,8 +295,10 @@
                                 <td>{{ __('translate.Child Price') }}</td>
                                 <td>{{ $booking->children }}</td>
                                 <td>{{ currency($booking->child_price) }}</td>
-                                <td class="text-right">{{ currency($booking->child_price * $booking->children) }}
-                                </td>
+                                @if ($nights > 1)
+                                    <td>{{ $nights }}</td>
+                                @endif
+                                <td class="text-right">{{ currency($booking->child_price * $booking->children * $nights) }}</td>
                             </tr>
                         @endif
 
@@ -287,8 +307,10 @@
                                 <td>{{ __('translate.Infant Price') }}</td>
                                 <td>{{ $booking->infants }}</td>
                                 <td>{{ currency($booking->infant_price) }}</td>
-                                <td class="text-right">{{ currency($booking->infant_price * $booking->infants) }}
-                                </td>
+                                @if ($nights > 1)
+                                    <td>{{ $nights }}</td>
+                                @endif
+                                <td class="text-right">{{ currency($booking->infant_price * $booking->infants * $nights) }}</td>
                             </tr>
                         @endif
 
@@ -297,42 +319,46 @@
                                 <td>{{ __('translate.Extra Charges') }}</td>
                                 <td></td>
                                 <td>{{ currency($booking->extra_charges) }}</td>
-                                <td class="text-right">{{ currency($booking->extra_charges) }}
-                                </td>
+                                @if ($nights > 1)
+                                    <td>-</td>
+                                @endif
+                                <td class="text-right">{{ currency($booking->extra_charges) }}</td>
                             </tr>
                         @endif
                     @else
                         <tr>
                             <td>{{ __('translate.Service Price') }}</td>
-                            <td></td>
+                            <td>{{ $nights > 1 ? '1' : '' }}</td>
                             <td>{{ currency($booking->service_price) }}</td>
-                            <td class="text-right">{{ currency($booking->service_price) }}</td>
+                            @if ($nights > 1)
+                                <td>{{ $nights }}</td>
+                            @endif
+                            <td class="text-right">{{ currency($booking->service_price * $nights) }}</td>
                         </tr>
                     @endif
 
                 </tbody>
                 <tfoot>
-                    @if ($booking->discount > 0)
+                    @if ($booking->discount_amount > 0)
                         <tr>
-                            <td colspan="3">{{ __('translate.Subtotal') }}</td>
-                            <td class="text-right">
-                                {{ currency($booking->total_amount + $booking->discount - $booking->tax) }}</td>
+                            <td colspan="{{ $nights > 1 ? 4 : 3 }}">{{ __('translate.Subtotal') }}</td>
+                            <td class="text-right">{{ currency($booking->subtotal) }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">{{ __('translate.Discount') }}</td>
-                            <td class="text-right">-{{ currency($booking->discount) }}</td>
+                            <td colspan="{{ $nights > 1 ? 4 : 3 }}">{{ __('translate.Discount') }}</td>
+                            <td class="text-right">-{{ currency($booking->discount_amount) }}</td>
                         </tr>
                     @endif
 
-                    @if ($booking->tax > 0)
+                    @if ($booking->tax_amount > 0)
                         <tr>
-                            <td colspan="3">{{ __('translate.Tax') }} ({{ $booking->tax_percentage }}%)</td>
-                            <td class="text-right">{{ currency($booking->tax) }}</td>
+                            <td colspan="{{ $nights > 1 ? 4 : 3 }}">{{ __('translate.Tax') }} ({{ config('tourbooking.tax_percentage', 0) }}%)</td>
+                            <td class="text-right">{{ currency($booking->tax_amount) }}</td>
                         </tr>
                     @endif
 
                     <tr>
-                        <th colspan="3">{{ __('translate.Total') }}</th>
+                        <th colspan="{{ $nights > 1 ? 4 : 3 }}">{{ __('translate.Total') }}</th>
                         <th class="text-right">{{ currency($booking->total) }}</th>
                     </tr>
                 </tfoot>
@@ -342,15 +368,21 @@
                 <h4>{{ __('translate.Payment Information') }}</h4>
                 <p><strong>{{ __('translate.Payment Method') }}:</strong> {{ ucfirst($booking->payment_method) }}</p>
                 <p><strong>{{ __('translate.Payment Status') }}:</strong>
-                    {{ $booking->payment_status }}
+                    {{ ucfirst($booking->payment_status) }}
                 </p>
+                @if ($booking->paid_amount > 0)
+                    <p><strong>{{ __('translate.Paid Amount') }}:</strong> {{ currency($booking->paid_amount) }}</p>
+                @endif
+                @if ($booking->due_amount > 0)
+                    <p><strong>{{ __('translate.Due Amount') }}:</strong> {{ currency($booking->due_amount) }}</p>
+                @endif
             </div>
 
-            @if (!empty($booking->special_requirements))
+            @if (!empty($booking->customer_notes))
                 <div class="additional-info"
                     style="margin-top: 20px; padding: 15px; border: 1px dashed #ddd; border-radius: 3px;">
                     <h4>{{ __('translate.Special Requirements') }}</h4>
-                    <p>{{ $booking->special_requirements }}</p>
+                    <p>{{ $booking->customer_notes }}</p>
                 </div>
             @endif
         </div>

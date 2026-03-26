@@ -1736,4 +1736,14 @@ return [
     'Admin Notes' => 'Admin Notes',
     'This is an automated email, please do not reply' => 'This is an automated email, please do not reply',
     'All rights reserved' => 'All rights reserved',
+
+    // Multi-day/night booking
+    'Number of Nights' => 'Number of Nights',
+    'Nights' => 'Nights',
+    'Night' => 'Night',
+    'per night' => 'per night',
+    'Dates' => 'Dates',
+    'to' => 'to',
+    'Check in Date' => 'Check in Date',
+    'Check out Date' => 'Check out Date',
 ];

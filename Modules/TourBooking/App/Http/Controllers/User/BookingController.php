@@ -72,6 +72,7 @@ final class BookingController extends Controller
             'customer_email'      => $booking->customer_email,
             'customer_phone'      => $booking->customer_phone,
             'cancellation_reason' => $validated['cancellation_reason'],
+            'number_of_nights'    => $booking->duration_in_days ?? 1,
             'site_name'           => $siteName,
         ];
 

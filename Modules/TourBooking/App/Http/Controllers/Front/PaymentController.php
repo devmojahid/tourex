@@ -606,22 +606,24 @@ class PaymentController extends Controller
         // Send booking notification emails
         $service->load('user');
         $siteName = \Illuminate\Support\Facades\Cache::get('setting')->app_name ?? config('app.name');
+        $numberOfNights = $order->duration_in_days ?? 1;
         $emailKeywords = [
-            'user_name'      => $order->customer_name,
-            'booking_code'   => $order->booking_code,
-            'service_name'   => $service->title ?? '',
-            'check_in_date'  => $order->check_in_date ? Carbon::parse($order->check_in_date)->format('d M Y') : '',
-            'check_out_date' => $order->check_out_date ? Carbon::parse($order->check_out_date)->format('d M Y') : '',
-            'adults'         => $order->adults ?? 0,
-            'children'       => $order->children ?? 0,
-            'total_amount'   => number_format((float) $order->total, 2),
-            'payment_method' => $order->payment_method,
-            'payment_status' => $order->payment_status,
-            'booking_status' => $order->booking_status,
-            'customer_email' => $order->customer_email,
-            'customer_phone' => $order->customer_phone,
-            'agency_name'    => $service->user->name ?? '',
-            'site_name'      => $siteName,
+            'user_name'        => $order->customer_name,
+            'booking_code'     => $order->booking_code,
+            'service_name'     => $service->title ?? '',
+            'check_in_date'    => $order->check_in_date ? Carbon::parse($order->check_in_date)->format('d M Y') : '',
+            'check_out_date'   => $order->check_out_date ? Carbon::parse($order->check_out_date)->format('d M Y') : '',
+            'number_of_nights' => $numberOfNights,
+            'adults'           => $order->adults ?? 0,
+            'children'         => $order->children ?? 0,
+            'total_amount'     => number_format((float) $order->total, 2),
+            'payment_method'   => $order->payment_method,
+            'payment_status'   => $order->payment_status,
+            'booking_status'   => $order->booking_status,
+            'customer_email'   => $order->customer_email,
+            'customer_phone'   => $order->customer_phone,
+            'agency_name'      => $service->user->name ?? '',
+            'site_name'        => $siteName,
         ];
 
         // Notify customer
