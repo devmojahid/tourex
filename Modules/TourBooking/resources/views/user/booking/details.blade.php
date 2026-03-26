@@ -45,11 +45,11 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Phone') }}:</td>
-                                                                <td>{{ $booking?->customer_email }}</td>
+                                                                <td>{{ $booking?->customer_phone }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Email') }}:</td>
-                                                                <td>{{ $booking?->customer_phone }}</td>
+                                                                <td>{{ $booking?->customer_email }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>{{ __('translate.Address') }} : </td>
@@ -139,6 +139,16 @@
                                                                     <td>{{ __('translate.Check out Date') }}:</td>
                                                                     <td>{{ date('d M Y', strtotime($booking->check_out_date)) }}
                                                                     </td>
+                                                                </tr>
+                                                            @endif
+
+                                                            @php
+                                                                $nights = $booking->duration_in_days;
+                                                            @endphp
+                                                            @if ($nights > 1)
+                                                                <tr>
+                                                                    <td>{{ __('translate.Number of Nights') }}:</td>
+                                                                    <td>{{ $nights }} {{ __('translate.Nights') }}</td>
                                                                 </tr>
                                                             @endif
 

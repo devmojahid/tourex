@@ -439,6 +439,102 @@
                                                                                             </div>
                                                                                         </div>
 
+                                                                                        {{-- Currency Display Settings --}}
+                                                                                        <div class="col-12">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <hr>
+                                                                                                <h5 class="mb-15">{{ __('translate.Currency & Price Display Settings') }}</h5>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-12">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <label class="crancy__item-label">{{ __('translate.Price Abbreviation') }}</label>
+                                                                                                <select class="form-select crancy__item-input" name="price_abbreviation">
+                                                                                                    <option value="none" {{ ($general_setting->price_abbreviation ?? 'none') == 'none' ? 'selected' : '' }}>
+                                                                                                        {{ __('translate.None — Show full number (e.g. 11,000.00fcfa)') }}
+                                                                                                    </option>
+                                                                                                    <option value="k" {{ ($general_setting->price_abbreviation ?? '') == 'k' ? 'selected' : '' }}>
+                                                                                                        {{ __('translate.Abbreviate — K for thousands, M for millions (e.g. 11Kfcfa, 1.5Mfcfa)') }}
+                                                                                                    </option>
+                                                                                                </select>
+                                                                                                <small class="text-muted">{{ __('translate.Choose how large prices are displayed. Abbreviation is useful for high-rate currencies like FCFA, IDR, etc.') }}</small>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        {{-- End Currency Display Settings --}}
+
+                                                                                        {{-- Tour / Availability Settings --}}
+                                                                                        <div class="col-12">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <hr>
+                                                                                                <h5 class="mb-15">{{ __('translate.Tour Booking & Availability Settings') }}</h5>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-12">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <label class="crancy__item-label">{{ __('translate.When No Availability Is Configured') }}</label>
+                                                                                                <select class="form-select crancy__item-input" name="availability_no_data_behavior">
+                                                                                                    <option value="open" {{ ($general_setting->availability_no_data_behavior ?? 'open') == 'open' ? 'selected' : '' }}>
+                                                                                                        {{ __('translate.Open — Allow all future dates') }}
+                                                                                                    </option>
+                                                                                                    <option value="closed" {{ ($general_setting->availability_no_data_behavior ?? '') == 'closed' ? 'selected' : '' }}>
+                                                                                                        {{ __('translate.Closed — Block all dates until availability is set') }}
+                                                                                                    </option>
+                                                                                                </select>
+                                                                                                <small class="text-muted">{{ __('translate.Controls what happens in the booking calendar when no availability records are configured for a service.') }}</small>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <label class="crancy__item-label">{{ __('translate.Show Remaining Spots in Booking Calendar') }}</label>
+                                                                                                <div class="form-check form-switch mt-2">
+                                                                                                    <input class="form-check-input" type="checkbox" name="availability_show_spots" id="availability_show_spots" value="1"
+                                                                                                        {{ ($general_setting->availability_show_spots ?? '1') === '1' ? 'checked' : '' }}>
+                                                                                                    <label class="form-check-label" for="availability_show_spots">{{ __('translate.Enabled') }}</label>
+                                                                                                </div>
+                                                                                                <small class="text-muted">{{ __('translate.Show the number of available spots when a date is selected in the booking form.') }}</small>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <label class="crancy__item-label">{{ __('translate.Show Special Price in Booking Calendar') }}</label>
+                                                                                                <div class="form-check form-switch mt-2">
+                                                                                                    <input class="form-check-input" type="checkbox" name="availability_show_special_price" id="availability_show_special_price" value="1"
+                                                                                                        {{ ($general_setting->availability_show_special_price ?? '1') === '1' ? 'checked' : '' }}>
+                                                                                                    <label class="form-check-label" for="availability_show_special_price">{{ __('translate.Enabled') }}</label>
+                                                                                                </div>
+                                                                                                <small class="text-muted">{{ __('translate.Show special pricing when a date with a special price is selected.') }}</small>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <label class="crancy__item-label">{{ __('translate.Require Departure & Return Dates in Hero Search') }}</label>
+                                                                                                <div class="form-check form-switch mt-2">
+                                                                                                    <input class="form-check-input" type="checkbox" name="availability_require_search_dates" id="availability_require_search_dates" value="1"
+                                                                                                        {{ ($general_setting->availability_require_search_dates ?? '0') === '1' ? 'checked' : '' }}>
+                                                                                                    <label class="form-check-label" for="availability_require_search_dates">{{ __('translate.Enabled') }}</label>
+                                                                                                </div>
+                                                                                                <small class="text-muted">{{ __('translate.When enabled, departure and return date fields in the homepage search form are required.') }}</small>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                                <label class="crancy__item-label">{{ __('translate.Filter Hero Search Dates by Availability') }}</label>
+                                                                                                <div class="form-check form-switch mt-2">
+                                                                                                    <input class="form-check-input" type="checkbox" name="availability_hero_filter_dates" id="availability_hero_filter_dates" value="1"
+                                                                                                        {{ ($general_setting->availability_hero_filter_dates ?? '0') === '1' ? 'checked' : '' }}>
+                                                                                                    <label class="form-check-label" for="availability_hero_filter_dates">{{ __('translate.Enabled') }}</label>
+                                                                                                </div>
+                                                                                                <small class="text-muted">{{ __('translate.When enabled, the hero search date pickers will disable dates where no service of the selected type is available.') }}</small>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        {{-- End Tour / Availability Settings --}}
+
                                                                                         <div class="col-12">
                                                                                             <div
                                                                                                 class="crancy__item-form--group mg-top-form-20">

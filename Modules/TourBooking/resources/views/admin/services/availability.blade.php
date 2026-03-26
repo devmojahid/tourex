@@ -441,7 +441,8 @@
                     <div class="modal-body">
                         <div class="form-group mb-3">
                             <label>{{ __('translate.Date') }}</label>
-                            <input type="text" id="edit_date" class="crancy__item-input datepicker" disabled>
+                            <input type="text" id="edit_date_display" class="crancy__item-input" readonly>
+                            <input type="hidden" name="date" id="edit_date">
                         </div>
                         <div class="form-group mb-3">
                             <label>{{ __('translate.Start Time') }}</label>
@@ -708,6 +709,7 @@
                     const notes = $(this).data('notes');
 
                     $('#edit_date').val(date);
+                    $('#edit_date_display').val(date);
                     $('#edit_start_time').val(startTime);
                     $('#edit_end_time').val(endTime);
                     $('#edit_available_spots').val(availableSpots);
@@ -743,13 +745,11 @@
                     events: [
                         @foreach($service->availabilities as $availability)
                         {
-                            title: '{{ $availability->is_available ? 
-                                ($availability->available_spots !== null ? $availability->available_spots." spots" : "Available") : 
-                                "Not Available" }}',
+                            title: '{{ !$availability->is_available ? "Not Available" :
+                                ($availability->available_spots !== null ? ($availability->available_spots > 0 ? $availability->available_spots." spots" : "Full") : "Available") }}',
                             start: '{{ $availability->date }}',
-                            color: '{{ $availability->is_available ? 
-                                ($availability->available_spots !== null && $availability->available_spots > 0 ? "#ff9800" : "#4caf50") : 
-                                "#f44336" }}',
+                            color: '{{ !$availability->is_available || ($availability->available_spots !== null && $availability->available_spots <= 0) ? "#f44336" :
+                                ($availability->available_spots !== null ? "#ff9800" : "#4caf50") }}',
                             extendedProps: {
                                 availabilityId: {{ $availability->id }},
                                 isAvailable: {{ $availability->is_available ? 'true' : 'false' }},

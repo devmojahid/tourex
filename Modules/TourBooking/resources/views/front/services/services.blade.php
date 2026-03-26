@@ -62,10 +62,11 @@
                                             </div>
                                         </div>
                                         <div class="tg-booking-form-parent-inner mr-15 mb-15">
-                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Check in:') }}</span>
+                                            <span class="tg-booking-form-title mb-5">{{ __('translate.Arrival:') }}</span>
                                             <div class="tg-booking-add-input-date p-relative">
-                                                <input x-model="bookingForm.checkIn" class="input timepicker"
-                                                    name="check_in" type="text" placeholder="Check in">
+                                                <input x-model="bookingForm.checkIn" class="input svc-checkin-picker"
+                                                    id="svc_check_in" name="checkIn" type="text"
+                                                    placeholder="{{ __('translate.Select date') }}">
                                                 <span>
                                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -79,10 +80,11 @@
                                         </div>
                                         <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                             <span
-                                                class="tg-booking-form-title mb-5">{{ __('translate.Check Out:') }}</span>
+                                                class="tg-booking-form-title mb-5">{{ __('translate.Departure:') }}</span>
                                             <div class="tg-booking-add-input-date p-relative">
-                                                <input x-model="bookingForm.checkOut" class="input timepicker"
-                                                    name="check_out" type="text" placeholder="Check Out">
+                                                <input x-model="bookingForm.checkOut" class="input svc-checkout-picker"
+                                                    id="svc_check_out" name="checkOut" type="text"
+                                                    placeholder="{{ __('translate.Select date') }}">
                                                 <span>
                                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -538,12 +540,49 @@
             "use strict"
             $(document).ready(function() {
 
-                // Initialize timepicker
-                $(".timepicker").flatpickr({
-                    enableTime: true,
-                    noCalendar: true,
-                    dateFormat: "H:i",
-                    time_24hr: true
+                // Departure / Return date pickers — pre-fill from URL params
+                const urlCheckIn  = `{{ request('checkIn', '') }}`;
+                const urlCheckOut = `{{ request('checkOut', '') }}`;
+
+                const svcCheckInPicker = flatpickr("#svc_check_in", {
+                    dateFormat: "Y-m-d",
+                    minDate: "today",
+                    disableMobile: true,
+                    defaultDate: urlCheckIn || null,
+                    onReady: function(sel, ds, inst) {
+                        if (sel.length) inst.calendarContainer.classList.add('fp-has-value');
+                    },
+                    onChange: function(selectedDates, dateStr, instance) {
+                        instance.input.dispatchEvent(new Event('input', { bubbles: true }));
+                        selectedDates.length
+                            ? instance.calendarContainer.classList.add('fp-has-value')
+                            : instance.calendarContainer.classList.remove('fp-has-value');
+                        if (selectedDates[0]) {
+                            svcCheckOutPicker.set('minDate', selectedDates[0]);
+                        }
+                    }
+                });
+                const svcCheckOutPicker = flatpickr("#svc_check_out", {
+                    dateFormat: "Y-m-d",
+                    minDate: urlCheckIn || "today",
+                    disableMobile: true,
+                    defaultDate: urlCheckOut || null,
+                    onReady: function(sel, ds, inst) {
+                        if (sel.length) inst.calendarContainer.classList.add('fp-has-value');
+                    },
+                    onChange: function(selectedDates, dateStr, instance) {
+                        instance.input.dispatchEvent(new Event('input', { bubbles: true }));
+                        selectedDates.length
+                            ? instance.calendarContainer.classList.add('fp-has-value')
+                            : instance.calendarContainer.classList.remove('fp-has-value');
+                    }
+                });
+
+                // After Alpine.js initializes it may clear flatpickr's internal selection via x-model.
+                // Re-assert the selected dates so the calendar highlights them correctly.
+                document.addEventListener('alpine:initialized', function() {
+                    if (urlCheckIn)  svcCheckInPicker.setDate(urlCheckIn,  true);
+                    if (urlCheckOut) svcCheckOutPicker.setDate(urlCheckOut, true);
                 });
             });
         })(jQuery);

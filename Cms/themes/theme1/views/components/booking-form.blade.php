@@ -20,7 +20,8 @@
                                         id="service_type-{{ $service_type->id }}-tab" data-bs-toggle="tab"
                                         data-bs-target="#service_type-{{ $service_type->id }}" type="button"
                                         role="tab" aria-controls="service_type-{{ $service_type->id }}"
-                                        aria-selected="false">
+                                        aria-selected="false"
+                                        data-service-type-id="{{ $service_type->id }}">
                                         <span class="borders"></span>
                                         <span class="icon">
                                             @if ($service_type->image)
@@ -42,7 +43,7 @@
                                     role="tabpanel" aria-labelledby="service_type-{{ $service_type->id }}-tab"
                                     tabindex="0">
                                     <div class="tg-booking-form-item">
-                                        <form x-data="bookingForm()" @submit.prevent="submitForm">
+                                        <form x-data="bookingForm({{ $service_type->id }})" @submit.prevent="submitForm">
                                             <div
                                                 class="tg-booking-form-input-group d-flex align-items-end justify-content-between">
                                                 <div
@@ -85,10 +86,13 @@
                                                 </div>
                                                 <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                                     <span
-                                                        class="tg-booking-form-title mb-5">{{ __('translate.Check in:') }}</span>
+                                                        class="tg-booking-form-title mb-5">{{ __('translate.Arrival:') }}</span>
                                                     <div class="tg-booking-add-input-date p-relative">
-                                                        <input x-model="check_in" class="input timepicker"
-                                                            name="datetime-local" type="text" placeholder="12.00">
+                                                        <input x-model="check_in" class="input hero-datepicker hero-check-in"
+                                                            data-picker-id="hero_check_in_{{ $service_type->id }}"
+                                                            name="check_in" type="text"
+                                                            placeholder="{{ __('translate.Select date') }}"
+                                                            {{ ($general_setting->availability_require_search_dates ?? '0') === '1' ? 'required' : '' }}>
                                                         <span>
                                                             <svg width="14" height="14" viewBox="0 0 14 14"
                                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -102,10 +106,13 @@
                                                 </div>
                                                 <div class="tg-booking-form-parent-inner mr-15 mb-15">
                                                     <span
-                                                        class="tg-booking-form-title mb-5">{{ __('translate.Check Out:') }}</span>
+                                                        class="tg-booking-form-title mb-5">{{ __('translate.Departure:') }}</span>
                                                     <div class="tg-booking-add-input-date p-relative">
-                                                        <input x-model="check_out" class="input timepicker"
-                                                            name="datetime-local" type="text" placeholder="12.10">
+                                                        <input x-model="check_out" class="input hero-datepicker hero-check-out"
+                                                            data-picker-id="hero_check_out_{{ $service_type->id }}"
+                                                            name="check_out" type="text"
+                                                            placeholder="{{ __('translate.Select date') }}"
+                                                            {{ ($general_setting->availability_require_search_dates ?? '0') === '1' ? 'required' : '' }}>
                                                         <span>
                                                             <svg width="14" height="14" viewBox="0 0 14 14"
                                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -313,13 +320,147 @@
                 "use strict"
                 $(document).ready(function() {
 
-                    // Initialize timepicker
-                    $(".timepicker").flatpickr({
-                        enableTime: true,
-                        noCalendar: true,
-                        dateFormat: "H:i",
-                        time_24hr: true
+                    // ── Hero search date pickers — one pair per service-type tab ──
+                    // Store flatpickr instances keyed by service type ID
+                    var heroPickers = {};
+                    // Cache fetched availability data per service type to avoid redundant API calls
+                    var heroDateCache = {};
+                    // Hero dates API base URL
+                    var heroDateBaseUrl = "{{ url('tour-booking/service-type') }}";
+
+                    /**
+                     * Initialize (or re-initialize) flatpickr for a service type tab.
+                     * @param {number} typeId    - The service_type_id
+                     * @param {Array|null} enableDates - Array of 'Y-m-d' strings to enable (null = all dates)
+                     */
+                    function initHeroPickers(typeId, enableDates) {
+                        var tabPane = document.getElementById('service_type-' + typeId);
+                        if (!tabPane) return;
+
+                        var checkInEl  = tabPane.querySelector('.hero-check-in');
+                        var checkOutEl = tabPane.querySelector('.hero-check-out');
+                        if (!checkInEl || !checkOutEl) return;
+
+                        // Destroy existing instances if any
+                        if (heroPickers[typeId]) {
+                            if (heroPickers[typeId].checkIn) heroPickers[typeId].checkIn.destroy();
+                            if (heroPickers[typeId].checkOut) heroPickers[typeId].checkOut.destroy();
+                        }
+
+                        // Base config shared between check-in and check-out
+                        var baseConfig = {
+                            dateFormat: "Y-m-d",
+                            minDate: "today",
+                            disableMobile: true,
+                        };
+
+                        // enableDates meanings:
+                        //   null       → no restrictions, all future dates enabled
+                        //   []         → restrict_dates=true but nothing available → block ALL dates
+                        //   ['Y-m-d'] → only these specific dates are enabled
+                        if (Array.isArray(enableDates)) {
+                            baseConfig.enable = enableDates;
+                        }
+
+                        var checkInPicker = flatpickr(checkInEl, Object.assign({}, baseConfig, {
+                            onReady: function(selectedDates, dateStr, instance) {
+                                if (dateStr) instance.calendarContainer.classList.add('fp-has-value');
+                            },
+                            onChange: function(selectedDates, dateStr, instance) {
+                                // Sync with Alpine.js x-model
+                                instance.input.dispatchEvent(new Event('input', { bubbles: true }));
+                                // Manage fp-has-value for today highlight suppression
+                                if (dateStr) {
+                                    instance.calendarContainer.classList.add('fp-has-value');
+                                } else {
+                                    instance.calendarContainer.classList.remove('fp-has-value');
+                                }
+                                // Set check-out min date
+                                if (selectedDates[0] && heroPickers[typeId] && heroPickers[typeId].checkOut) {
+                                    heroPickers[typeId].checkOut.set('minDate', selectedDates[0]);
+                                }
+                            }
+                        }));
+
+                        var checkOutPicker = flatpickr(checkOutEl, Object.assign({}, baseConfig, {
+                            onReady: function(selectedDates, dateStr, instance) {
+                                if (dateStr) instance.calendarContainer.classList.add('fp-has-value');
+                            },
+                            onChange: function(selectedDates, dateStr, instance) {
+                                instance.input.dispatchEvent(new Event('input', { bubbles: true }));
+                                if (dateStr) {
+                                    instance.calendarContainer.classList.add('fp-has-value');
+                                } else {
+                                    instance.calendarContainer.classList.remove('fp-has-value');
+                                }
+                            }
+                        }));
+
+                        heroPickers[typeId] = { checkIn: checkInPicker, checkOut: checkOutPicker };
+                    }
+
+                    /**
+                     * Fetch available dates for a service type and configure the pickers.
+                     */
+                    function loadHeroDates(typeId) {
+                        // Check cache first
+                        if (heroDateCache.hasOwnProperty(typeId)) {
+                            applyHeroDates(typeId, heroDateCache[typeId]);
+                            return;
+                        }
+
+                        // Fetch from API
+                        $.ajax({
+                            url: heroDateBaseUrl + '/' + typeId + '/hero-dates',
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(response) {
+                                heroDateCache[typeId] = response;
+                                applyHeroDates(typeId, response);
+                            },
+                            error: function() {
+                                // On error, initialize without restrictions
+                                initHeroPickers(typeId, null);
+                            }
+                        });
+                    }
+
+                    /**
+                     * Apply the fetched availability data to the pickers.
+                     */
+                    function applyHeroDates(typeId, data) {
+                        if (!data.restrict_dates) {
+                            // Feature disabled or no restrictions — all future dates enabled
+                            initHeroPickers(typeId, null);
+                        } else {
+                            // Only allow the returned dates (empty array = all dates blocked)
+                            initHeroPickers(typeId, data.available_dates || []);
+                        }
+                    }
+
+                    // ── Initialize the first (active) tab ──
+                    var firstTypeId = {{ $theme1_service_type->first()->id }};
+                    @if (($general_setting->availability_hero_filter_dates ?? '0') === '1')
+                        loadHeroDates(firstTypeId);
+                    @else
+                        initHeroPickers(firstTypeId, null);
+                    @endif
+
+                    // ── On tab switch, initialize pickers for the newly shown tab ──
+                    $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
+                        var typeId = $(e.target).data('service-type-id');
+                        if (!typeId) return;
+
+                        @if (($general_setting->availability_hero_filter_dates ?? '0') === '1')
+                            loadHeroDates(typeId);
+                        @else
+                            // Only init if not already initialized
+                            if (!heroPickers[typeId]) {
+                                initHeroPickers(typeId, null);
+                            }
+                        @endif
                     });
+
                 });
             })(jQuery);
         </script>
@@ -327,8 +468,9 @@
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
         <script>
-            function bookingForm() {
+            function bookingForm(serviceTypeId) {
                 return {
+                    service_type_id: serviceTypeId,
                     destination: '',
                     destination_id: '',
                     check_in: '',
@@ -377,8 +519,8 @@
                         const params = new URLSearchParams({
                             destination: this.destination,
                             destination_id: this.destination_id,
-                            check_in: this.check_in,
-                            check_out: this.check_out,
+                            checkIn: this.check_in,
+                            checkOut: this.check_out,
                             rooms: this.rooms,
                             adults: this.adults,
                             children: this.children

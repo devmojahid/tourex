@@ -61,10 +61,10 @@
                                     </div>
                                 </div>
                                 <div class="tg-booking-form-parent-inner mb-5">
-                                    <span class="tg-booking-form-title">Check in:</span>
+                                    <span class="tg-booking-form-title">{{ __('translate.Arrival:') }}</span>
                                     <div class="tg-booking-add-input-date p-relative">
-                                        <input x-model="bookingForm.checkIn" class="input timepicker" name="check_in"
-                                            type="text" placeholder="Check in">
+                                        <input x-model="bookingForm.checkIn" class="input" id="svc3_check_in" name="checkIn"
+                                            type="text" placeholder="{{ __('translate.Select date') }}">
                                         <span>
                                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -77,10 +77,10 @@
                                     </div>
                                 </div>
                                 <div class="tg-booking-form-parent-inner mb-5">
-                                    <span class="tg-booking-form-title">Check Out:</span>
+                                    <span class="tg-booking-form-title">{{ __('translate.Departure:') }}</span>
                                     <div class="tg-booking-add-input-date p-relative">
-                                        <input x-model="bookingForm.checkOut" class="input timepicker" name="check_out"
-                                            type="text" placeholder="Check Out">
+                                        <input x-model="bookingForm.checkOut" class="input" id="svc3_check_out" name="checkOut"
+                                            type="text" placeholder="{{ __('translate.Select date') }}">
                                         <span>
                                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -472,12 +472,31 @@
             "use strict"
             $(document).ready(function() {
 
-                // Initialize timepicker
-                $(".timepicker").flatpickr({
-                    enableTime: true,
-                    noCalendar: true,
-                    dateFormat: "H:i",
-                    time_24hr: true
+                const urlCheckIn3  = `{{ request('checkIn', '') }}`;
+                const urlCheckOut3 = `{{ request('checkOut', '') }}`;
+                const svc3InPicker = flatpickr("#svc3_check_in", {
+                    dateFormat: "Y-m-d", minDate: "today", disableMobile: true,
+                    defaultDate: urlCheckIn3 || null,
+                    onReady: function(sel, ds, inst) { if (sel.length) inst.calendarContainer.classList.add('fp-has-value'); },
+                    onChange: function(d, ds, inst) {
+                        inst.input.dispatchEvent(new Event('input', { bubbles: true }));
+                        d.length ? inst.calendarContainer.classList.add('fp-has-value') : inst.calendarContainer.classList.remove('fp-has-value');
+                        if (d[0]) svc3OutPicker.set('minDate', d[0]);
+                    }
+                });
+                const svc3OutPicker = flatpickr("#svc3_check_out", {
+                    dateFormat: "Y-m-d", minDate: urlCheckIn3 || "today", disableMobile: true,
+                    defaultDate: urlCheckOut3 || null,
+                    onReady: function(sel, ds, inst) { if (sel.length) inst.calendarContainer.classList.add('fp-has-value'); },
+                    onChange: function(d, ds, inst) {
+                        inst.input.dispatchEvent(new Event('input', { bubbles: true }));
+                        d.length ? inst.calendarContainer.classList.add('fp-has-value') : inst.calendarContainer.classList.remove('fp-has-value');
+                    }
+                });
+
+                document.addEventListener('alpine:initialized', function() {
+                    if (urlCheckIn3)  svc3InPicker.setDate(urlCheckIn3,  true);
+                    if (urlCheckOut3) svc3OutPicker.setDate(urlCheckOut3, true);
                 });
             });
         })(jQuery);
