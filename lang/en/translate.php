@@ -1746,4 +1746,5 @@ return [
     'to' => 'to',
     'Check in Date' => 'Check in Date',
     'Check out Date' => 'Check out Date',
+    'Total Cost' => 'Total Cost',
 ];
