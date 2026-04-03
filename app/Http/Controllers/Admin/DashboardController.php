@@ -12,9 +12,9 @@ class DashboardController extends Controller
     public function dashboard()
     {
 
-        $booking = Booking::where('payment_status', 'success');
+        $booking = Booking::where('payment_status', 'completed')->where('booking_status', 'confirmed');
         $total_income = $booking->sum('total');
-        $total_booking = Booking::where('payment_status', 'success')->count();
+        $total_booking = Booking::where('booking_status', 'confirmed')->count();
 
         $commission_type = GlobalSetting::where('key', 'commission_type')->value('value');
         $commission_per_sale = GlobalSetting::where('key', 'commission_per_sale')->value('value');
