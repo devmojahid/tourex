@@ -59,6 +59,8 @@
 
     <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
 
+    @include('colors')
+
     @stack('style_section')
 
 
