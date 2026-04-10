@@ -206,13 +206,12 @@
         <div class="invoice-header">
             <div class="logo-container">
                 @php
-                    $logoPath = $general_setting->logo ?? null;
+                    $logoPath = $general_setting?->secondary_logo ?? $general_setting?->logo;
                     $logoUrl = $logoPath ? asset($logoPath) : null;
                 @endphp
                 @if ($logoUrl)
-                    <img src="{{ $logoUrl }}" alt="{{ $general_setting->app_name ?? 'Company' }}">
+                    <img src="{{ $logoUrl }}">
                 @endif
-                <p style="margin-top: 10px;">{{ $general_setting->app_name ?? '' }}</p>
             </div>
             <div class="invoice-title">
                 <h1>{{ __('translate.INVOICE') }}</h1>

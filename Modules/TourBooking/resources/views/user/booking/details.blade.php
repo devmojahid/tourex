@@ -26,7 +26,7 @@
                                             <div class="ed-invoice-page">
                                                 <div class="ed-inv-logo-area">
                                                     <div class="ed-main-logo">
-                                                        <img src="{{ asset($general_setting->logo) }}" alt="logo"
+                                                        <img src="{{ asset($general_setting?->secondary_logo ?? $general_setting?->logo) }}" alt="logo"
                                                             class="ed-logo">
                                                     </div>
                                                     <div>
