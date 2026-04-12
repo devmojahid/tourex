@@ -37,7 +37,10 @@ class ProfileController extends Controller
             ->get();
 
         $total_income = 0;
-        $total_income = Booking::whereIn('service_id', $servicesIds)->where('payment_status', 'success')->sum('total');
+        $total_income = Booking::whereIn('service_id', $servicesIds)
+            ->where('payment_status', 'completed')
+            ->where('booking_status', 'confirmed')
+            ->sum('total');
 
         $confirm_booking  = Booking::whereIn('service_id', $servicesIds)->where('booking_status', 'confirmed')->count();
         $total_services = Service::where('user_id', $user->id)->count();

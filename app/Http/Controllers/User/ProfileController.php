@@ -39,7 +39,8 @@ class ProfileController extends Controller
 
         $total_booking = $booking->count();
         $total_transaction = Booking::where('user_id', auth()->user()->id)
-            ->where('payment_status', 'success')
+            ->where('payment_status', 'completed')
+            ->where('booking_status', 'confirmed')
             ->sum('total');
 
 
