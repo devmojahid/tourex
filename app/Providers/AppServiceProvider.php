@@ -44,7 +44,9 @@ class AppServiceProvider extends ServiceProvider
                     $setting[$data_item->key] = $data_item->value;
                 }
 
-                $setting = (object) $setting;
+                // Use Fluent so missing keys return null instead of throwing
+                // "Undefined property" when a setting row (e.g. favicon) is absent.
+                $setting = new \Illuminate\Support\Fluent($setting);
 
                 return $setting;
             });
